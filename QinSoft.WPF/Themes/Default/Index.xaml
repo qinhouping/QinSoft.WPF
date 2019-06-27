@@ -1,0 +1,21 @@
+﻿<!--Default 主题入口-->
+<!--默认主题采用Material Design 设计风格-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:QinSoft.WPF.Theme.Default">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
+
+        <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Text.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Card.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="List.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Tooltip.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

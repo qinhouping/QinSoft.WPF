@@ -1,0 +1,1093 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="FontAwesome" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="Font/#FontAwesome"></Setter>
+    </Style>
+    
+    <Style x:Key="IconGlass" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf000;"></Setter>
+    </Style>
+    <Style x:Key="IconMusic" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf001;"></Setter>
+    </Style>
+    <Style x:Key="IconSearch" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf002;"></Setter>
+    </Style>
+    <Style x:Key="IconEnvelopeAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf003;"></Setter>
+    </Style>
+    <Style x:Key="IconHeart" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf004;"></Setter>
+    </Style>
+    <Style x:Key="IconStar" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf005;"></Setter>
+    </Style>
+    <Style x:Key="IconStarEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf006;"></Setter>
+    </Style>
+    <Style x:Key="IconUser" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf007;"></Setter>
+    </Style>
+    <Style x:Key="IconFilm" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf008;"></Setter>
+    </Style>
+    <Style x:Key="IconThLarge" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf009;"></Setter>
+    </Style>
+    <Style x:Key="IconTh" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf00a;"></Setter>
+    </Style>
+    <Style x:Key="IconThList" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf00b;"></Setter>
+    </Style>
+    <Style x:Key="IconOk" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf00c;"></Setter>
+    </Style>
+    <Style x:Key="IconRemove" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf00d;"></Setter>
+    </Style>
+    <Style x:Key="IconZoomIn" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf00e;"></Setter>
+    </Style>
+    <Style x:Key="IconZoomOut" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf010;"></Setter>
+    </Style>
+    <Style x:Key="IconOff" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf011;"></Setter>
+    </Style>
+
+    <Style x:Key="IconSignal" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf012;"></Setter>
+    </Style>
+    <Style x:Key="IconCog" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf013;"></Setter>
+    </Style>
+    <Style x:Key="IconTrash" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf014;"></Setter>
+    </Style>
+    <Style x:Key="IconHome" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf015;"></Setter>
+    </Style>
+    <Style x:Key="IconFileAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf016;"></Setter>
+    </Style>
+    <Style x:Key="IconTime" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf017;"></Setter>
+    </Style>
+    <Style x:Key="IconRoad" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf018;"></Setter>
+    </Style>
+    <Style x:Key="IconDownloadAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf019;"></Setter>
+    </Style>
+    <Style x:Key="IconDownload" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf01a;"></Setter>
+    </Style>
+    <Style x:Key="IconUpload" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf01b;"></Setter>
+    </Style>
+    <Style x:Key="IconInbox" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf01c;"></Setter>
+    </Style>
+    <Style x:Key="IconPlayCircle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf01d;"></Setter>
+    </Style>
+    <Style x:Key="IconRepeat" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf01e;"></Setter>
+    </Style>
+    <Style x:Key="IconRefresh" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf021;"></Setter>
+    </Style>
+    <Style x:Key="IconListAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf022;"></Setter>
+    </Style>
+    <Style x:Key="IconLock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf023;"></Setter>
+    </Style>
+    <Style x:Key="IconFlag" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf024;"></Setter>
+    </Style>
+    <Style x:Key="IconHeadphones" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf025;"></Setter>
+    </Style>
+    <Style x:Key="IconVolumeOff" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf026;"></Setter>
+    </Style>
+    <Style x:Key="IconVolumeDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf027;"></Setter>
+    </Style>
+    <Style x:Key="IconVolumeUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf028;"></Setter>
+    </Style>
+    <Style x:Key="IconQrcode" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf029;"></Setter>
+    </Style>
+    <Style x:Key="IconBarcode" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02a;"></Setter>
+    </Style>
+    <Style x:Key="IconTag" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02b;"></Setter>
+    </Style>
+    <Style x:Key="IconTags" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02c;"></Setter>
+    </Style>
+    <Style x:Key="IconBook" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02d;"></Setter>
+    </Style>
+    <Style x:Key="IconBookmark" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02e;"></Setter>
+    </Style>
+    <Style x:Key="IconPrint" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf02f;"></Setter>
+    </Style>
+    <Style x:Key="IconCamera" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf030;"></Setter>
+    </Style>
+    <Style x:Key="IconFont" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf031;"></Setter>
+    </Style>
+    <Style x:Key="IconBold" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf032;"></Setter>
+    </Style>
+    <Style x:Key="IconItalic" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf033;"></Setter>
+    </Style>
+    <Style x:Key="IconTextHeight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf034;"></Setter>
+    </Style>
+    <Style x:Key="IconTextWidth" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf035;"></Setter>
+    </Style>
+    <Style x:Key="IconAlignLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf036;"></Setter>
+    </Style>
+    <Style x:Key="IconAlignCenter" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf037;"></Setter>
+    </Style>
+    <Style x:Key="IconAlignRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf038;"></Setter>
+    </Style>
+    <Style x:Key="IconAlignJustify" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf039;"></Setter>
+    </Style>
+    <Style x:Key="IconList" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf03a;"></Setter>
+    </Style>
+    <Style x:Key="IconIndentLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf03b;"></Setter>
+    </Style>
+    <Style x:Key="IconIndentRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf03c;"></Setter>
+    </Style>
+    <Style x:Key="IconFacetimeVideo" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf03d;"></Setter>
+    </Style>
+    <Style x:Key="IconPicture" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf03e;"></Setter>
+    </Style>
+    <Style x:Key="IconPencil" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf040;"></Setter>
+    </Style>
+    <Style x:Key="IconMapMarker" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf041;"></Setter>
+    </Style>
+    <Style x:Key="IconAdjust" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf042;"></Setter>
+    </Style>
+    <Style x:Key="IconTint" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf043;"></Setter>
+    </Style>
+    <Style x:Key="IconEdit" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf044;"></Setter>
+    </Style>
+    <Style x:Key="IconShare" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf045;"></Setter>
+    </Style>
+    <Style x:Key="IconCheck" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf046;"></Setter>
+    </Style>
+    <Style x:Key="IconMove" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf047;"></Setter>
+    </Style>
+    <Style x:Key="IconStepBackward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf048;"></Setter>
+    </Style>
+    <Style x:Key="IconFastBackward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf049;"></Setter>
+    </Style>
+    <Style x:Key="IconBackward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf04a;"></Setter>
+    </Style>
+    <Style x:Key="IconPlay" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf04b;"></Setter>
+    </Style>
+    <Style x:Key="IconPause" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf04c;"></Setter>
+    </Style>
+    <Style x:Key="IconStop" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf04d;"></Setter>
+    </Style>
+    <Style x:Key="IconForward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf04e;"></Setter>
+    </Style>
+    <Style x:Key="IconFastForward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf050;"></Setter>
+    </Style>
+    <Style x:Key="IconStepForward" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf051;"></Setter>
+    </Style>
+    <Style x:Key="IconEject" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf052;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf053;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf054;"></Setter>
+    </Style>
+    <Style x:Key="IconPlusSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf055;"></Setter>
+    </Style>
+    <Style x:Key="IconMinusSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf056;"></Setter>
+    </Style>
+    <Style x:Key="IconRemoveSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf057;"></Setter>
+    </Style>
+    <Style x:Key="IconOkSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf058;"></Setter>
+    </Style>
+    <Style x:Key="IconQuestionSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf059;"></Setter>
+    </Style>
+    <Style x:Key="IconInfoSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf05a;"></Setter>
+    </Style>
+    <Style x:Key="IconScreenshot" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf05b;"></Setter>
+    </Style>
+    <Style x:Key="IconRemoveCircle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf05c;"></Setter>
+    </Style>
+    <Style x:Key="IconOkCircle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf05d;"></Setter>
+    </Style>
+    <Style x:Key="IconBanCircle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf05e;"></Setter>
+    </Style>
+    <Style x:Key="IconArrowLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf060;"></Setter>
+    </Style>
+    <Style x:Key="IconArrowRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf061;"></Setter>
+    </Style>
+    <Style x:Key="IconArrowUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf062;"></Setter>
+    </Style>
+    <Style x:Key="IconArrowDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf063;"></Setter>
+    </Style>
+    <Style x:Key="IconShareAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf064;"></Setter>
+    </Style>
+    <Style x:Key="IconResizeFull" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf065;"></Setter>
+    </Style>
+    <Style x:Key="IconResizeSmall" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf066;"></Setter>
+    </Style>
+    <Style x:Key="IconPlus" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf067;"></Setter>
+    </Style>
+    <Style x:Key="IconMinus" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf068;"></Setter>
+    </Style>
+    <Style x:Key="IconAsterisk" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf069;"></Setter>
+    </Style>
+    <Style x:Key="IconExclamationSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf06a;"></Setter>
+    </Style>
+    <Style x:Key="IconGift" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf06b;"></Setter>
+    </Style>
+    <Style x:Key="IconLeaf" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf06c;"></Setter>
+    </Style>
+    <Style x:Key="IconFire" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf06d;"></Setter>
+    </Style>
+    <Style x:Key="IconEyeOpen" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf06e;"></Setter>
+    </Style>
+    <Style x:Key="IconEyeClose" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf070;"></Setter>
+    </Style>
+    <Style x:Key="IconWarningSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf071;"></Setter>
+    </Style>
+    <Style x:Key="IconPlane" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf072;"></Setter>
+    </Style>
+    <Style x:Key="IconCalendar" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf073;"></Setter>
+    </Style>
+    <Style x:Key="IconRandom" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf074;"></Setter>
+    </Style>
+    <Style x:Key="IconComment" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf075;"></Setter>
+    </Style>
+    <Style x:Key="IconMagnet" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf076;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf077;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf078;"></Setter>
+    </Style>
+    <Style x:Key="IconRetweet" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf079;"></Setter>
+    </Style>
+    <Style x:Key="IconShoppingCart" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf07a;"></Setter>
+    </Style>
+    <Style x:Key="IconFolderClose" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf07b;"></Setter>
+    </Style>
+    <Style x:Key="IconFolderOpen" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf07c;"></Setter>
+    </Style>
+    <Style x:Key="IconResizeVertical" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf07d;"></Setter>
+    </Style>
+    <Style x:Key="IconResizeHorizontal" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf07e;"></Setter>
+    </Style>
+    <Style x:Key="IconBarChart" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf080;"></Setter>
+    </Style>
+    <Style x:Key="IconTwitterSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf081;"></Setter>
+    </Style>
+    <Style x:Key="IconFacebookSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf082;"></Setter>
+    </Style>
+    <Style x:Key="IconCameraRetro" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf083;"></Setter>
+    </Style>
+    <Style x:Key="IconKey" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf084;"></Setter>
+    </Style>
+    <Style x:Key="IconCogs" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf085;"></Setter>
+    </Style>
+    <Style x:Key="IconComments" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf086;"></Setter>
+    </Style>
+    <Style x:Key="IconThumbsUpAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf087;"></Setter>
+    </Style>
+    <Style x:Key="IconThumbsDownAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf088;"></Setter>
+    </Style>
+    <Style x:Key="IconStarHalf" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf089;"></Setter>
+    </Style>
+    <Style x:Key="IconHeartEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf08a;"></Setter>
+    </Style>
+    <Style x:Key="IconSignout" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf08b;"></Setter>
+    </Style>
+    <Style x:Key="IconLinkedinSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf08c;"></Setter>
+    </Style>
+    <Style x:Key="IconPushpin" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf08d;"></Setter>
+    </Style>
+    <Style x:Key="IconExternalLink" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf08e;"></Setter>
+    </Style>
+    <Style x:Key="IconSignin" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf090;"></Setter>
+    </Style>
+    <Style x:Key="IconTrophy" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf091;"></Setter>
+    </Style>
+    <Style x:Key="IconGithubSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf092;"></Setter>
+    </Style>
+    <Style x:Key="IconUploadAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf093;"></Setter>
+    </Style>
+    <Style x:Key="IconLemon" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf094;"></Setter>
+    </Style>
+    <Style x:Key="IconPhone" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf095;"></Setter>
+    </Style>
+    <Style x:Key="IconCheckEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf096;"></Setter>
+    </Style>
+    <Style x:Key="IconBookmarkEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf097;"></Setter>
+    </Style>
+    <Style x:Key="IconPhoneSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf098;"></Setter>
+    </Style>
+    <Style x:Key="IconTwitter" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf099;"></Setter>
+    </Style>
+    <Style x:Key="IconFacebook" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf09a;"></Setter>
+    </Style>
+    <Style x:Key="IconGithub" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf09b;"></Setter>
+    </Style>
+    <Style x:Key="IconUnlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf09c;"></Setter>
+    </Style>
+    <Style x:Key="IconCreditCard" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf09d;"></Setter>
+    </Style>
+    <Style x:Key="IconRss" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf09e;"></Setter>
+    </Style>
+    <Style x:Key="IconHdd" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a0;"></Setter>
+    </Style>
+    <Style x:Key="IconBullhorn" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a1;"></Setter>
+    </Style>
+    <Style x:Key="IconBell" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a2;"></Setter>
+    </Style>
+    <Style x:Key="IconCertificate" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a3;"></Setter>
+    </Style>
+    <Style x:Key="IconHandRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a4;"></Setter>
+    </Style>
+    <Style x:Key="IconHandLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a5;"></Setter>
+    </Style>
+    <Style x:Key="IconHandUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a6;"></Setter>
+    </Style>
+    <Style x:Key="IconHandDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a7;"></Setter>
+    </Style>
+    <Style x:Key="IconCircleArrowLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a8;"></Setter>
+    </Style>
+    <Style x:Key="IconCircleArrowRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0a9;"></Setter>
+    </Style>
+    <Style x:Key="IconCircleArrowUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0aa;"></Setter>
+    </Style>
+    <Style x:Key="IconCircleArrowDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ab;"></Setter>
+    </Style>
+    <Style x:Key="IconGlobe" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ac;"></Setter>
+    </Style>
+    <Style x:Key="IconWrench" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ad;"></Setter>
+    </Style>
+    <Style x:Key="IconTasks" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ae;"></Setter>
+    </Style>
+    <Style x:Key="IconFilter" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0b0;"></Setter>
+    </Style>
+    <Style x:Key="IconBriefcase" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0b1;"></Setter>
+    </Style>
+    <Style x:Key="IconFullscreen" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0b2;"></Setter>
+    </Style>
+    <Style x:Key="IconGroup" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c0;"></Setter>
+    </Style>
+    <Style x:Key="IconLink" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c1;"></Setter>
+    </Style>
+    <Style x:Key="IconCloud" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c2;"></Setter>
+    </Style>
+    <Style x:Key="IconBeaker" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c3;"></Setter>
+    </Style>
+    <Style x:Key="IconCut" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c4;"></Setter>
+    </Style>
+    <Style x:Key="IconCopy" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c5;"></Setter>
+    </Style>
+    <Style x:Key="IconPaperClip" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c6;"></Setter>
+    </Style>
+    <Style x:Key="IconSave" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c7;"></Setter>
+    </Style>
+    <Style x:Key="IconSignBlank" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c8;"></Setter>
+    </Style>
+    <Style x:Key="IconReorder" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0c9;"></Setter>
+    </Style>
+    <Style x:Key="IconListUl" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ca;"></Setter>
+    </Style>
+    <Style x:Key="IconListOl" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0cb;"></Setter>
+    </Style>
+    <Style x:Key="IconStrikethrough" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0cc;"></Setter>
+    </Style>
+    <Style x:Key="IconUnderline" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0cd;"></Setter>
+    </Style>
+    <Style x:Key="IconTable" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ce;"></Setter>
+    </Style>
+    <Style x:Key="IconMagic" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d0;"></Setter>
+    </Style>
+    <Style x:Key="IconTruck" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d1;"></Setter>
+    </Style>
+    <Style x:Key="IconPinterest" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d2;"></Setter>
+    </Style>
+    <Style x:Key="IconPinterestSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d3;"></Setter>
+    </Style>
+    <Style x:Key="IconGooglePlusSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d4;"></Setter>
+    </Style>
+    <Style x:Key="IconGooglePlus" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d5;"></Setter>
+    </Style>
+    <Style x:Key="IconMoney" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d6;"></Setter>
+    </Style>
+    <Style x:Key="IconCaretDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d7;"></Setter>
+    </Style>
+    <Style x:Key="IconCaretUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d8;"></Setter>
+    </Style>
+    <Style x:Key="IconCaretLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0d9;"></Setter>
+    </Style>
+    <Style x:Key="IconCaretRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0da;"></Setter>
+    </Style>
+    <Style x:Key="IconColumns" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0db;"></Setter>
+    </Style>
+    <Style x:Key="IconSort" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0dc;"></Setter>
+    </Style>
+    <Style x:Key="IconSortDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0dd;"></Setter>
+    </Style>
+    <Style x:Key="IconSortUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0de;"></Setter>
+    </Style>
+    <Style x:Key="IconEnvelope" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e0;"></Setter>
+    </Style>
+    <Style x:Key="IconLinkedin" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e1;"></Setter>
+    </Style>
+    <Style x:Key="IconUndo" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e2;"></Setter>
+    </Style>
+    <Style x:Key="IconLegal" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e3;"></Setter>
+    </Style>
+    <Style x:Key="IconDashboard" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e4;"></Setter>
+    </Style>
+    <Style x:Key="IconCommentAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e5;"></Setter>
+    </Style>
+    <Style x:Key="IconCommentsAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e6;"></Setter>
+    </Style>
+    <Style x:Key="IconBolt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e7;"></Setter>
+    </Style>
+    <Style x:Key="IconSitemap" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e8;"></Setter>
+    </Style>
+    <Style x:Key="IconUmbrella" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0e9;"></Setter>
+    </Style>
+    <Style x:Key="IconPaste" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ea;"></Setter>
+    </Style>
+    <Style x:Key="IconLightbulb" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0eb;"></Setter>
+    </Style>
+    <Style x:Key="IconExchange" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ec;"></Setter>
+    </Style>
+    <Style x:Key="IconCloudDownload" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ed;"></Setter>
+    </Style>
+    <Style x:Key="IconCloudUpload" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0ee;"></Setter>
+    </Style>
+    <Style x:Key="IconUserMd" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f0;"></Setter>
+    </Style>
+    <Style x:Key="IconStethoscope" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f1;"></Setter>
+    </Style>
+    <Style x:Key="IconSuitcase" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f2;"></Setter>
+    </Style>
+    <Style x:Key="IconBellAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f3;"></Setter>
+    </Style>
+    <Style x:Key="IconCoffee" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f4;"></Setter>
+    </Style>
+    <Style x:Key="IconFood" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f5;"></Setter>
+    </Style>
+    <Style x:Key="IconFileTextAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f6;"></Setter>
+    </Style>
+    <Style x:Key="IconBuilding" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f7;"></Setter>
+    </Style>
+    <Style x:Key="IconHospital" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f8;"></Setter>
+    </Style>
+    <Style x:Key="IconAmbulance" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0f9;"></Setter>
+    </Style>
+    <Style x:Key="IconMedkit" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0fa;"></Setter>
+    </Style>
+    <Style x:Key="IconFighterJet" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0fb;"></Setter>
+    </Style>
+    <Style x:Key="IconBeer" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0fc;"></Setter>
+    </Style>
+    <Style x:Key="IconHSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0fd;"></Setter>
+    </Style>
+    <Style x:Key="IconPlusSignAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf0fe;"></Setter>
+    </Style>
+    <Style x:Key="IconDoubleAngleLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf100;"></Setter>
+    </Style>
+    <Style x:Key="IconDoubleAngleRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf101;"></Setter>
+    </Style>
+    <Style x:Key="IconDoubleAngleUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf102;"></Setter>
+    </Style>
+    <Style x:Key="IconDoubleAngleDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf103;"></Setter>
+    </Style>
+    <Style x:Key="IconAngleLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf104;"></Setter>
+    </Style>
+    <Style x:Key="IconAngleRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf105;"></Setter>
+    </Style>
+    <Style x:Key="IconAngleUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf106;"></Setter>
+    </Style>
+    <Style x:Key="IconAngleDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf107;"></Setter>
+    </Style>
+    <Style x:Key="IconDesktop" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf108;"></Setter>
+    </Style>
+    <Style x:Key="IconLaptop" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf109;"></Setter>
+    </Style>
+    <Style x:Key="IconTablet" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf10a;"></Setter>
+    </Style>
+    <Style x:Key="IconMobilePhone" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf10b;"></Setter>
+    </Style>
+    <Style x:Key="IconCircleBlank" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf10c;"></Setter>
+    </Style>
+    <Style x:Key="IconQuoteLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf10d;"></Setter>
+    </Style>
+    <Style x:Key="IconQuoteRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf10e;"></Setter>
+    </Style>
+    <Style x:Key="IconSpinner" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf110;"></Setter>
+    </Style>
+    <Style x:Key="IconCircle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf111;"></Setter>
+    </Style>
+    <Style x:Key="IconReply" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf112;"></Setter>
+    </Style>
+    <Style x:Key="IconGithubAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf113;"></Setter>
+    </Style>
+    <Style x:Key="IconFolderCloseAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf114;"></Setter>
+    </Style>
+    <Style x:Key="IconFolderOpenAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf115;"></Setter>
+    </Style>
+    <Style x:Key="IconExpandAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf116;"></Setter>
+    </Style>
+    <Style x:Key="IconCollapseAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf117;"></Setter>
+    </Style>
+    <Style x:Key="IconSmile" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf118;"></Setter>
+    </Style>
+    <Style x:Key="IconFrown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf119;"></Setter>
+    </Style>
+    <Style x:Key="IconMeh" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf11a;"></Setter>
+    </Style>
+    <Style x:Key="IconGamepad" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf11b;"></Setter>
+    </Style>
+    <Style x:Key="IconKeyboard" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf11c;"></Setter>
+    </Style>
+    <Style x:Key="IconFlagAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf11d;"></Setter>
+    </Style>
+    <Style x:Key="IconFlagCheckered" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf11e;"></Setter>
+    </Style>
+    <Style x:Key="IconTerminal" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf120;"></Setter>
+    </Style>
+    <Style x:Key="IconCode" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf121;"></Setter>
+    </Style>
+    <Style x:Key="IconReplyAll" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf122;"></Setter>
+    </Style>
+    <Style x:Key="IconMailReplyAll" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf122;"></Setter>
+    </Style>
+    <Style x:Key="IconStarHalfEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf123;"></Setter>
+    </Style>
+    <Style x:Key="IconLocationArrow" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf124;"></Setter>
+    </Style>
+    <Style x:Key="IconCrop" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf125;"></Setter>
+    </Style>
+    <Style x:Key="IconCodeFork" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf126;"></Setter>
+    </Style>
+    <Style x:Key="IconUnlink" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf127;"></Setter>
+    </Style>
+    <Style x:Key="IconQuestion" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf128;"></Setter>
+    </Style>
+    <Style x:Key="IconInfo" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf129;"></Setter>
+    </Style>
+    <Style x:Key="IconExclamation" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf12a;"></Setter>
+    </Style>
+    <Style x:Key="IconSuperscript" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf12b;"></Setter>
+    </Style>
+    <Style x:Key="IconSubscript" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf12c;"></Setter>
+    </Style>
+    <Style x:Key="IconEraser" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf12d;"></Setter>
+    </Style>
+    <Style x:Key="IconPuzzlePiece" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf12e;"></Setter>
+    </Style>
+    <Style x:Key="IconMicrophone" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf130;"></Setter>
+    </Style>
+    <Style x:Key="IconMicrophoneOff" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf131;"></Setter>
+    </Style>
+    <Style x:Key="IconShield" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf132;"></Setter>
+    </Style>
+    <Style x:Key="IconCalendarEmpty" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf133;"></Setter>
+    </Style>
+    <Style x:Key="IconFireExtinguisher" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf134;"></Setter>
+    </Style>
+    <Style x:Key="IconRocket" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf135;"></Setter>
+    </Style>
+    <Style x:Key="IconMaxcdn" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf136;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronSignLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf137;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronSignRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf138;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronSignUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf139;"></Setter>
+    </Style>
+    <Style x:Key="IconChevronSignDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf13a;"></Setter>
+    </Style>
+    <Style x:Key="IconHtml5" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf13b;"></Setter>
+    </Style>
+    <Style x:Key="IconCss3" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf13c;"></Setter>
+    </Style>
+    <Style x:Key="IconAnchor" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf13d;"></Setter>
+    </Style>
+    <Style x:Key="IconUnlockAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf13e;"></Setter>
+    </Style>
+    <Style x:Key="IconBullseye" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf140;"></Setter>
+    </Style>
+    <Style x:Key="IconEllipsisHorizontal" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf141;"></Setter>
+    </Style>
+    <Style x:Key="IconEllipsisVertical" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf142;"></Setter>
+    </Style>
+    <Style x:Key="IconRssSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf143;"></Setter>
+    </Style>
+    <Style x:Key="IconPlaySign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf144;"></Setter>
+    </Style>
+    <Style x:Key="IconTicket" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf145;"></Setter>
+    </Style>
+    <Style x:Key="IconMinusSignAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf146;"></Setter>
+    </Style>
+    <Style x:Key="IconCheckMinus" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf147;"></Setter>
+    </Style>
+    <Style x:Key="IconLevelUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf148;"></Setter>
+    </Style>
+    <Style x:Key="IconLevelDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf149;"></Setter>
+    </Style>
+    <Style x:Key="IconCheckSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf14a;"></Setter>
+    </Style>
+    <Style x:Key="IconEditSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf14b;"></Setter>
+    </Style>
+    <Style x:Key="IconExternalLinkSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf14c;"></Setter>
+    </Style>
+    <Style x:Key="IconShareSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf14d;"></Setter>
+    </Style>
+    <Style x:Key="IconCompass" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf14e;"></Setter>
+    </Style>
+    <Style x:Key="IconCollapse" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf150;"></Setter>
+    </Style>
+    <Style x:Key="IconCollapseTop" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf151;"></Setter>
+    </Style>
+    <Style x:Key="IconExpand" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf152;"></Setter>
+    </Style>
+    <Style x:Key="IconEur" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf153;"></Setter>
+    </Style>
+    <Style x:Key="IconGbp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf154;"></Setter>
+    </Style>
+    <Style x:Key="IconUsd" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf155;"></Setter>
+    </Style>
+    <Style x:Key="IconInr" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf156;"></Setter>
+    </Style>
+    <Style x:Key="IconJpy" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf157;"></Setter>
+    </Style>
+    <Style x:Key="IconCny" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf158;"></Setter>
+    </Style>
+    <Style x:Key="IconKrw" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf159;"></Setter>
+    </Style>
+    <Style x:Key="IconBtc" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf15a;"></Setter>
+    </Style>
+    <Style x:Key="IconFile" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf15b;"></Setter>
+    </Style>
+    <Style x:Key="IconFileText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf15c;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByAlphabet" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf15d;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByAlphabetAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf15e;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByAttributes" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf160;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByAttributesAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf161;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByOrder" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf162;"></Setter>
+    </Style>
+    <Style x:Key="IconSortByOrderAlt" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf163;"></Setter>
+    </Style>
+    <Style x:Key="IconThumbsUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf164;"></Setter>
+    </Style>
+    <Style x:Key="IconThumbsDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf165;"></Setter>
+    </Style>
+    <Style x:Key="IconYoutubeSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf166;"></Setter>
+    </Style>
+    <Style x:Key="IconYoutube" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf167;"></Setter>
+    </Style>
+    <Style x:Key="IconXing" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf168;"></Setter>
+    </Style>
+    <Style x:Key="IconXingSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf169;"></Setter>
+    </Style>
+    <Style x:Key="IconYoutubePlay" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf16a;"></Setter>
+    </Style>
+    <Style x:Key="IconDropbox" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf16b;"></Setter>
+    </Style>
+    <Style x:Key="IconStackexchange" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf16c;"></Setter>
+    </Style>
+    <Style x:Key="IconInstagram" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf16d;"></Setter>
+    </Style>
+    <Style x:Key="IconFlickr" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf16e;"></Setter>
+    </Style>
+    <Style x:Key="IconAdn" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf170;"></Setter>
+    </Style>
+    <Style x:Key="IconBitbucket" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf171;"></Setter>
+    </Style>
+    <Style x:Key="IconBitbucketSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf172;"></Setter>
+    </Style>
+    <Style x:Key="IconTumblr" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf173;"></Setter>
+    </Style>
+    <Style x:Key="IconTumblrSign" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf174;"></Setter>
+    </Style>
+    <Style x:Key="IconLongArrowDown" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf175;"></Setter>
+    </Style>
+    <Style x:Key="IconLongArrowUp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf176;"></Setter>
+    </Style>
+    <Style x:Key="IconLongArrowLeft" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf177;"></Setter>
+    </Style>
+    <Style x:Key="IconLongArrowRight" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf178;"></Setter>
+    </Style>
+    <Style x:Key="IconApple" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf179;"></Setter>
+    </Style>
+    <Style x:Key="IconWindows" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf17a;"></Setter>
+    </Style>
+    <Style x:Key="IconAndroid" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf17b;"></Setter>
+    </Style>
+    <Style x:Key="IconLinux" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf17c;"></Setter>
+    </Style>
+    <Style x:Key="IconDribbble" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf17d;"></Setter>
+    </Style>
+    <Style x:Key="IconSkype" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf17e;"></Setter>
+    </Style>
+    <Style x:Key="IconFoursquare" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf180;"></Setter>
+    </Style>
+    <Style x:Key="IconTrello" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf181;"></Setter>
+    </Style>
+    <Style x:Key="IconFemale" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf182;"></Setter>
+    </Style>
+    <Style x:Key="IconMale" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf183;"></Setter>
+    </Style>
+    <Style x:Key="IconGittip" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf184;"></Setter>
+    </Style>
+    <Style x:Key="IconSun" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf185;"></Setter>
+    </Style>
+    <Style x:Key="IconMoon" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf186;"></Setter>
+    </Style>
+    <Style x:Key="IconArchive" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf187;"></Setter>
+    </Style>
+    <Style x:Key="IconBug" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf188;"></Setter>
+    </Style>
+    <Style x:Key="IconVk" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf189;"></Setter>
+    </Style>
+    <Style x:Key="IconWeibo" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf18a;"></Setter>
+    </Style>
+    <Style x:Key="IconRenren" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource FontAwesome}">
+        <Setter Property="Text" Value="&#xf18b;"></Setter>
+    </Style>
+
+</ResourceDictionary>
