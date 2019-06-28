@@ -11,7 +11,7 @@
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Text.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Card.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
         <ResourceDictionary Source="List.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>

@@ -4,45 +4,34 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseTabControl" TargetType="{x:Type TabControl}">
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
                     <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <DockPanel>
-                            <Grid x:Name="_tabs" DockPanel.Dock="Top">
-                                <StackPanel IsItemsHost="True" Orientation="Horizontal"></StackPanel>
-                            </Grid>
-                            <Grid x:Name="_body">
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,0,0">
-                                    <ContentPresenter x:Name="PART_SelectedContentHost"></ContentPresenter>
-                                </Border>
+                            <Border DockPanel.Dock="Top" BorderThickness="0" BorderBrush="{StaticResource GreyBrush}">
+                                <ContentControl Style="{StaticResource Card }" Margin="0">
+                                    <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Horizontal"></StackPanel>
+                                </ContentControl>
+                            </Border>
+                            <Grid>
+                                <ContentPresenter Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
                             </Grid>
                         </DockPanel>
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="Tab-Light" TargetType="{x:Type TabControl}" BasedOn="{StaticResource BaseTabControl}">
-        <Setter Property="Background" Value="White"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-    </Style>
-
-    <Style x:Key="Tab-Dark" TargetType="{x:Type TabControl}" BasedOn="{StaticResource BaseTabControl}">
-        <Setter Property="Background" Value="Black"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+    <Style x:Key="Tab" TargetType="{x:Type TabControl}" BasedOn="{StaticResource BaseTabControl}">
     </Style>
 
     <Style x:Key="BaseTabItem" TargetType="{x:Type TabItem}">
@@ -51,18 +40,50 @@
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
-        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="Height" Value="30"></Setter>
         <Setter Property="MinWidth" Value="60"></Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Border BorderBrush="{TemplateBinding  BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-                        <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
-                    </Border>
+                    <Grid>
+                        <Border x:Name="PART_Border"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+
+                        </Border>
+                        <Border ClipToBounds="True">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Border>
+                        <ContentPresenter x:Name="PART_Content" Margin="5,2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{StaticResource DefaultForegroundBrush}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Content" Property="TextBlock.Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Ellipse"  Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" AutoReverse="True">
+                                            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"></LinearDoubleKeyFrame>
+                                            <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
+                                            <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -70,44 +91,22 @@
 
 
     <Style x:Key="TabItem" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource CyanBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource CyanBrush}"></Setter>
-    </Style>
-
-    <Style x:Key="TabItem-Primary" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource GreyBrush}"></Setter>
     </Style>
 
     <Style x:Key="TabItem-Success" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
         <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
-    <Style x:Key="TabItem-Danger" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
+    <Style x:Key="TabItem-Primary" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
-    
+
     <Style x:Key="TabItem-Warning" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
         <Setter Property="Foreground" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
-    <Style x:Key="TabItem-Dark" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
-        <Setter Property="BorderBrush" Value="{StaticResource YellowBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
-        <Setter Property="Background" Value="Black"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource YellowBrush}"></Setter>
+    <Style x:Key="TabItem-Danger" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 </ResourceDictionary>

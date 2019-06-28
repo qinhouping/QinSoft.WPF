@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl Style="{StaticResource Tab}" ItemContainerStyle="{StaticResource TabItem-Primary}">
             <TabItem Header="FontAwesome">
                 <ContentControl Style="{StaticResource Card}">
                     <ScrollViewer>
@@ -60,9 +60,14 @@
                             <TextBox Width="100" Style="{StaticResource InputText-Danger}"></TextBox>
                             <TextBox Width="100" Style="{StaticResource InputText-Danger}" IsEnabled="False"></TextBox>
 
+
+                            <TextBlock>
+                                <Hyperlink NavigateUri="http://www.qq.com">www.baidu.com</Hyperlink>
+                            </TextBlock>
                         </WrapPanel>
                     </ScrollViewer>
                 </ContentControl>
+
 
             </TabItem>
             <TabItem Header="Panel">
@@ -76,5 +81,6 @@
                 </GroupBox>
             </TabItem>
         </TabControl>
+
     </Grid>
 </Window>

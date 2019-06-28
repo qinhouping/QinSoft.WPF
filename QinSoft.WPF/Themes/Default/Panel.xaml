@@ -46,28 +46,34 @@
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="VerticalAlignment" Value="Top"></Setter>
         <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
                     <ContentControl Style="{StaticResource Card}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter x:Name="PART_Header" Margin="2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
-                                <ToggleButton x:Name="PART_Toggle" Grid.Column="1" Style="{StaticResource ToggleButtonBase}" Height="30" Width="30">
-                                    <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
-                                </ToggleButton>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="PART_Header" Margin="2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
+                                    <ToggleButton x:Name="PART_Toggle" Grid.Column="1" Style="{StaticResource ToggleButtonBase}" Height="30" Width="30">
+                                        <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
+                                    </ToggleButton>
+                                </Grid>
+                                <ContentPresenter Visibility="Collapsed" x:Name="PART_Content" Grid.Row="1"  Margin="2" ContentSource="Content"></ContentPresenter>
                             </Grid>
-                            <ContentPresenter Visibility="Collapsed" x:Name="PART_Content" Grid.Row="1"  Margin="2" ContentSource="Content"></ContentPresenter>
-                        </Grid>
+                        </Border>
                     </ContentControl>
+                    
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsChecked,ElementName=PART_Toggle}" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"></Setter>
