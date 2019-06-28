@@ -10,38 +10,70 @@
     <Grid>
         <TabControl>
             <TabItem Header="FontAwesome">
-                <WrapPanel>
-                    <Button Content="Click" Style="{StaticResource FlatButton}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FlatButton-Success}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FlatButton-Primary}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FlatButton-Warning}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60" IsEnabled="False"></Button>
+                <ContentControl Style="{StaticResource Card}">
+                    <ScrollViewer>
+                        <WrapPanel>
+                            <Button Content="Click" Style="{StaticResource FlatButton}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FlatButton-Success}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FlatButton-Primary}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FlatButton-Warning}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60" IsEnabled="False"></Button>
 
-                    <Button Content="Click" Style="{StaticResource RaisedButton}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource RaisedButton-Success}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource RaisedButton-Primary}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource RaisedButton-Warning}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60" IsEnabled="False"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton-Success}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton-Primary}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton-Warning}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60" IsEnabled="False"></Button>
 
-                    <Button Content="Click" Style="{StaticResource FloatingButton}" Width="60" Height="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FloatingButton-Success}" Width="60" Height="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FloatingButton-Primary}" Width="60" Height="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FloatingButton-Warning}" Width="60" Height="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60"></Button>
-                    <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton}" Width="60" Height="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton-Success}" Width="60" Height="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton-Primary}" Width="60" Height="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton-Warning}" Width="60" Height="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60"></Button>
+                            <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False"></Button>
 
-                    <Button Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False">
-                        <TextBlock Style="{StaticResource IconTrash}" FontSize="20"></TextBlock>
-                    </Button>
+                            <Button Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False">
+                                <TextBlock Style="{StaticResource IconTrash}" FontSize="20"></TextBlock>
+                            </Button>
 
-                    <RadioButton Content="RadioButton" Style="{StaticResource InputRadio}" IsChecked="True"></RadioButton>
-                    <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Success}"></RadioButton>
-                    <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Danger}"></RadioButton>
-                    <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Warning}" IsChecked="True"></RadioButton>
-                    <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Danger}"></RadioButton>
-                </WrapPanel>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio}"></RadioButton>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Success}"></RadioButton>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Danger}"></RadioButton>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Warning}" IsChecked="True"></RadioButton>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Danger}"></RadioButton>
+                            <RadioButton Content="RadioButton" Style="{StaticResource InputRadio-Danger}" IsEnabled="False" IsChecked="True"></RadioButton>
+
+
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck}"></CheckBox>
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck-Success}"></CheckBox>
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck-Danger}"></CheckBox>
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck-Warning}" IsChecked="True"></CheckBox>
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck-Danger}"></CheckBox>
+                            <CheckBox Content="RadioButton" Style="{StaticResource InputCheck-Danger}" IsEnabled="False" IsChecked="True"></CheckBox>
+
+                            <TextBox Width="100" Style="{StaticResource InputText}"></TextBox>
+                            <TextBox Width="100" Style="{StaticResource InputText-Success}" Background="{StaticResource GreyBrush}" Foreground="White"></TextBox>
+                            <TextBox Width="100" Style="{StaticResource InputText-Primary}"></TextBox>
+                            <TextBox Width="100" Style="{StaticResource InputText-Warning}"></TextBox>
+                            <TextBox Width="100" Style="{StaticResource InputText-Danger}"></TextBox>
+                            <TextBox Width="100" Style="{StaticResource InputText-Danger}" IsEnabled="False"></TextBox>
+
+                        </WrapPanel>
+                    </ScrollViewer>
+                </ContentControl>
+
+            </TabItem>
+            <TabItem Header="Panel">
+                <GroupBox Style="{StaticResource Group}">
+                    <GroupBox.Header>
+                        <TextBlock Text="标题"></TextBlock>
+                    </GroupBox.Header>
+                    <Grid>
+                        <TextBlock Text="Body" Margin="10,20"></TextBlock>
+                    </Grid>
+                </GroupBox>
             </TabItem>
         </TabControl>
     </Grid>

@@ -3,14 +3,16 @@
                     xmlns:local="clr-namespace:QinSoft.WPF.Theme.Default">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
-    <!--面板-->
     <Style x:Key="Card" TargetType="{x:Type ContentControl}">
-        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-        <Setter Property="Margin" Value="12"></Setter>
+        <Setter Property="Background" Value="{StaticResource DefaultCardBackgroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="Margin" Value="8"></Setter>
+        <Setter Property="Padding" Value="4"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
 
         <Setter Property="Template">
@@ -22,17 +24,104 @@
                                 <DropShadowEffect BlurRadius="4" Opacity="1" ShadowDepth="1" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
                             </Border.Effect>
                         </Border>
-                        <ContentPresenter x:Name="PART_Content" Content="{TemplateBinding Content}"></ContentPresenter>
+                        <ContentPresenter Margin="{TemplateBinding Padding}" x:Name="PART_Content" Content="{TemplateBinding Content}"></ContentPresenter>
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Border" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect BlurRadius="10" Opacity="1" ShadowDepth="1" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
+                                    <DropShadowEffect BlurRadius="8" Opacity="1" ShadowDepth="1" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
                                 </Setter.Value>
                             </Setter>
-                        </Trigger>
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Group" TargetType="{x:Type GroupBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <ContentControl Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Name="PART_Header" Margin="2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
+                                <ToggleButton x:Name="PART_Toggle" Grid.Column="1" Style="{StaticResource ToggleButtonBase}" Height="30" Width="30">
+                                    <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
+                                </ToggleButton>
+                            </Grid>
+                            <ContentPresenter Visibility="Collapsed" x:Name="PART_Content" Grid.Row="1"  Margin="2" ContentSource="Content"></ContentPresenter>
+                        </Grid>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked,ElementName=PART_Toggle}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"></Setter>
+                            <!--<DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames  Storyboard.TargetProperty="Visibility" BeginTime="0:0:0" Duration="0:0:4">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:1" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:2" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Hidden</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:3" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>-->
+                            <!--<DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames  Storyboard.TargetProperty="Visibility" Duration="0:0:4">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:1" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:2" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Hidden</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:3" >
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>-->
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

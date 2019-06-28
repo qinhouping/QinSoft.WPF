@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <!--文本输入框-->
@@ -11,14 +12,14 @@
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
-        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
-        <Setter Property="FontSize" Value="16"></Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="CaretBrush" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="SelectionBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
     </Style>
     <Style x:Key="InputText" TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseTextBox}">
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
@@ -26,23 +27,74 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Grid>
-                        <Border Margin="5,2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"></Border>
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="5" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
+                    <Grid >
+                        <Border x:Name="PART_Border"  BorderBrush="{TemplateBinding Foreground}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="PART_Rectangle" Grid.Column="2" Opacity="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,3" Margin="-1" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform> 
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost"  Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
                     </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    <Style x:Key="InputText-Empty" TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseTextBox}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Grid>
-                        <Border Margin="5,2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"></Border>
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="5" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
-                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0" Duration="0:0:0.1" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.2" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="5" To="1" Duration="0:0:0.2" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.2" Duration="0:0:0.1" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <DrawingBrush>
+                                        <DrawingBrush.Drawing>
+                                            <GeometryDrawing>
+                                                <GeometryDrawing.Pen>
+                                                    <Pen Brush="{Binding Foreground ,RelativeSource={RelativeSource Mode=TemplatedParent}}" Thickness="{Binding BorderThickness ,RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                        <Pen.DashStyle>
+                                                            <DashStyle Dashes="0,0,0,3"/>
+                                                        </Pen.DashStyle>
+                                                    </Pen>
+                                                </GeometryDrawing.Pen>
+                                                <GeometryDrawing.Geometry>
+                                                    <RectangleGeometry Rect="0,0,90,30" RadiusX="3" RadiusY="3"/>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingBrush.Drawing>
+                                    </DrawingBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -50,22 +102,18 @@
 
     <Style x:Key="InputText-Primary" TargetType="{x:Type TextBox}" BasedOn="{StaticResource InputText}">
         <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
-        <Setter Property="CaretBrush" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputText-Danger" TargetType="{x:Type TextBox}" BasedOn="{StaticResource InputText}">
         <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
-        <Setter Property="CaretBrush"  Value="{StaticResource RedBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputText-Success" TargetType="{x:Type TextBox}" BasedOn="{StaticResource InputText}">
         <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
-        <Setter Property="CaretBrush" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
-    <Style x:Key="InputText-Waring" TargetType="{x:Type TextBox}" BasedOn="{StaticResource InputText}">
+    <Style x:Key="InputText-Warning" TargetType="{x:Type TextBox}" BasedOn="{StaticResource InputText}">
         <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
-        <Setter Property="CaretBrush" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
     <!--单选-->
@@ -78,6 +126,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -165,8 +214,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="True"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="True"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -176,6 +225,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Cursor" Value="No"></Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="InputRadio" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource BaseRadioButton}">
@@ -205,8 +259,9 @@
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
-        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -216,36 +271,71 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid>
-                            <Path x:Name="_path" Margin="5" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Path.Data>
-                                    <RectangleGeometry  Rect="0,0,16,16"></RectangleGeometry>
-                                </Path.Data>
-                            </Path>
+                            <Rectangle x:Name="PART_Rectangle" Height="16" Width="16" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2">
+                            </Rectangle>
+                            <TextBlock x:Name="PART_Text" Style="{StaticResource IconOk}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" Foreground="White"></TextBlock>
 
-                            <Path x:Name="_path2" Margin="5" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Path.Data>
-                                    <RectangleGeometry  Rect="0,0,8,8"></RectangleGeometry>
-                                </Path.Data>
-                            </Path>
+                            <Ellipse x:Name="PART_Ellipse_3" Opacity="0" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+
+
+                            <Ellipse x:Name="PART_Ellipse_4" Opacity="0" Height="10" Width="10" RenderTransformOrigin="0.5,0.5" Fill="White">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+
                         </Grid>
-                        <ContentPresenter Grid.Column="1" Margin="2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                        <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="_path" Property="Stroke" Value="{Binding Path=Background, RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-                            <!--<Setter TargetName="_path" Property="Fill" Value="{Binding Path=Background, RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>-->
-
-                            <Setter TargetName="_path2" Property="Stroke" Value="{Binding Path=Background, RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-                            <Setter TargetName="_path2" Property="Fill" Value="{Binding Path=Background, RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Setter TargetName="PART_Rectangle" Property="StrokeThickness" Value="0"></Setter>
+                            <Setter TargetName="PART_Rectangle" Property="Fill" Value="{Binding Background ,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Text" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1" AutoReverse="False"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Text" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" AutoReverse="False"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="_path" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="1" Color="{Binding Path=Background, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={x:Static local:Converts.SolidColorBrushColorConverter}}"></DropShadowEffect>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter TargetName="PART_Ellipse_3" Property="Opacity" Value="0.2"></Setter>
                         </Trigger>
+
+                        <EventTrigger RoutedEvent="Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Ellipse_4"  Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" AutoReverse="True">
+                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"></LinearDoubleKeyFrame>
+                                        <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
+                                        <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -272,7 +362,7 @@
         <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
-    <Style x:Key="InputCheck-Waring" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
+    <Style x:Key="InputCheck-Warning" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
         <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
