@@ -10,36 +10,11 @@
     <Style x:Key="BaseListBox" TargetType="{x:Type ListBox}">
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"></Setter>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"></Setter>
     </Style>
 
-    <Style x:Key="BaseListBoxItem" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="BorderBrush" Value="Transparent"></Setter>
-        <Setter Property="BorderThickness" Value="0"></Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
-        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
-        <Setter Property="FontSize" Value="16"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <!--<Border.Effect>
-                                <DropShadowEffect BlurRadius="2" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
-                            </Border.Effect>-->
-                        </Border>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--ListBox-->
     <Style x:Key="Lists" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
-        
+
     </Style>
 
     <Style x:Key="Lists-Primary" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
@@ -61,60 +36,64 @@
         <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
-    
-    <!--ListBoxItem-->
+
+   
+
+    <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <Style x:Key="BaseListBoxItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+    </Style>
+
     <Style x:Key="ListsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-            </Trigger>
-        </Style.Triggers>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <!--<Border.Effect>
+                                <DropShadowEffect BlurRadius="2" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
+                            </Border.Effect>-->
+                        </Border>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+                            <Setter Property="Foreground" Value="White"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <Style x:Key="ListsItem-Primary" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+    <Style x:Key="ListsItem-Primary" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="ListsItem-Danger" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+    <Style x:Key="ListsItem-Danger" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="ListsItem-Warning" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+    <Style x:Key="ListsItem-Warning" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="ListsItem-Success" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+    <Style x:Key="ListsItem-Success" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
+
 </ResourceDictionary>

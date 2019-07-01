@@ -47,4 +47,5 @@
     <Style TargetType="{x:Type ProgressBar}" x:Key="LineProgress-Danger" BasedOn="{StaticResource LineProgress}">
         <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
+
 </ResourceDictionary>
