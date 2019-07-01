@@ -41,7 +41,7 @@
                                     <Border.RenderTransform> 
                                         <TransformGroup>
                                             <ScaleTransform ScaleX="1" ScaleY="1" />
-                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                            <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                             <TranslateTransform X="0" Y="0"/>
                                         </TransformGroup>
                                     </Border.RenderTransform>
@@ -140,7 +140,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -150,7 +150,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -161,7 +161,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -172,7 +172,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -279,7 +279,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -290,7 +290,7 @@
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>

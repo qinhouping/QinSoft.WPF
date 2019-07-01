@@ -3,6 +3,8 @@
                     xmlns:local="clr-namespace:QinSoft.WPF.Theme.Default">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseThumb" TargetType="{x:Type Thumb}">
@@ -14,22 +16,6 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid>
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4"></Border>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="BaseRepeatButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Grid>
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -51,10 +37,10 @@
                         <Border x:Name="PART_Border" CornerRadius="4" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"></Border>
                         <Track x:Name="PART_Track" IsDirectionReversed="True">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton x:Name="PART_DecreaseRepeatButton" Style="{StaticResource BaseRepeatButton}" Command="{x:Static ScrollBar.PageUpCommand}"/>
+                                <RepeatButton x:Name="PART_DecreaseRepeatButton" Style="{StaticResource LineRepeatButton}" Command="{x:Static ScrollBar.PageUpCommand}"/>
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton x:Name="PART_IncreaseRepeatButton" Style="{StaticResource BaseRepeatButton}" Command="{x:Static ScrollBar.PageDownCommand}"/>
+                                <RepeatButton x:Name="PART_IncreaseRepeatButton" Style="{StaticResource LineRepeatButton}" Command="{x:Static ScrollBar.PageDownCommand}"/>
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
                                 <Thumb Style="{StaticResource BaseThumb}" Background="{TemplateBinding Foreground}">
@@ -83,6 +69,7 @@
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="Height" Value="8"></Setter>
                             <Setter Property="MinHeight" Value="8"></Setter>
+                            <Setter Property="Width" Value="Auto"></Setter>
                             <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"></Setter>
                             <Setter TargetName="PART_DecreaseRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageLeftCommand}"></Setter>
                             <Setter TargetName="PART_IncreaseRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageRightCommand}"></Setter>
@@ -113,11 +100,30 @@
         <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 
+    <Style x:Key="TabScrollBar" TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource BaseScrollBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
     <Style x:Key="BaseScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -147,8 +153,43 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TabScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RepeatButton Style="{StaticResource SimpleRepeatButton}" Command="{x:Static ScrollBar.PageLeftCommand}">
+                                <TextBlock Style="{StaticResource IconAngleLeft}" FontSize="20"></TextBlock>
+                            </RepeatButton>
+                            <ScrollContentPresenter  Grid.Column="1" Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            <RepeatButton Grid.Column="2" Style="{StaticResource SimpleRepeatButton}" Command="{x:Static ScrollBar.PageRightCommand}">
+                                <TextBlock Style="{StaticResource IconAngleRight}" FontSize="20"></TextBlock>
+                            </RepeatButton>
 
+                            <!--<ScrollBar x:Name="PART_HorizontalScrollBar" Visibility="Visible"
+                                       Maximum="{TemplateBinding ScrollableWidth}"
+                                       Orientation="Horizontal"
+                                       Style="{StaticResource ScrollBar-Primary}"
+                                       VerticalAlignment="Bottom"
+                                       Value="{TemplateBinding HorizontalOffset}"
+                                       ViewportSize="{TemplateBinding ViewportWidth}"/>-->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--默认-->
     <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource BaseScrollViewer}"></Style>
 
     <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource ScrollBar-Primary}"></Style>
+
 </ResourceDictionary>

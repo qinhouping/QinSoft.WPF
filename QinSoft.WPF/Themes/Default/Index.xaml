@@ -16,6 +16,8 @@
         <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Slider.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Progress.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tooltip.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 

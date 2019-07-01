@@ -2,39 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type RepeatButton}" x:Key="BaseRepeatButton">
-        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+    <Style TargetType="{x:Type Thumb}" x:Key="BaseSliderThumb">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
-        <Setter Property="BorderBrush" Value="Transparent"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
-                    <Border x:Name="PART_Border" CornerRadius="2" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ></Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Command" Value="Slider.DecreaseLarge">
-                            <Setter TargetName="PART_Border" Property="CornerRadius" Value="2,0,0,2"></Setter>
-                        </Trigger>
-                        <Trigger Property="Command" Value="Slider.IncreaseLarge">
-                            <Setter TargetName="PART_Border" Property="CornerRadius" Value="0,2,2,0"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Border" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect BlurRadius="4" Opacity="1" ShadowDepth="1" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type Thumb}" x:Key="BaseThumb">
-        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource PurpleBrush}"></Setter>
         <Setter Property="Height" Value="14"></Setter>
         <Setter Property="Width" Value="14"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
@@ -42,19 +17,46 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid>
-                        <Ellipse x:Name="PART_InsideEllipse" Fill="{TemplateBinding Background}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Ellipse>
-                        <Ellipse Visibility="Hidden" x:Name="PART_OutsideEllipse" Opacity="0.3" StrokeThickness="1" Stroke="Transparent" Fill="{TemplateBinding Background}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                        <Ellipse x:Name="PART_InsideEllipse" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}"  RenderTransformOrigin="0.5,0.5">
                             <Ellipse.RenderTransform>
-                                <ScaleTransform ScaleX="2.5" ScaleY="2.5" CenterX="7" CenterY="7"></ScaleTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                    <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                    <TranslateTransform X="0" Y="0"/>
+                                </TransformGroup>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <Ellipse x:Name="PART_OutsideEllipse" Opacity="0" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                                    <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                    <TranslateTransform X="0" Y="0"/>
+                                </TransformGroup>
                             </Ellipse.RenderTransform>
                         </Ellipse>
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_OutsideEllipse"></Setter>
-                            <Setter TargetName="PART_InsideEllipse" Property="Fill" Value="{Binding Foreground ,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-                            <Setter TargetName="PART_OutsideEllipse" Property="Fill" Value="{Binding Foreground ,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_InsideEllipse" Property="Fill" Value="{Binding Foreground,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Setter TargetName="PART_InsideEllipse" Property="Stroke" Value="Transparent"></Setter>
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_OutsideEllipse" Storyboard.TargetProperty="Opacity" From="0" To="0.3" Duration="0:0:0.3" AutoReverse="False"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_OutsideEllipse" Storyboard.TargetProperty="Opacity" From="0.3" To="0" Duration="0:0:0.3" AutoReverse="False"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -63,34 +65,53 @@
     </Style>
 
     <Style TargetType="{x:Type Slider}" x:Key="BaseSlider">
-        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+        <Setter Property="Background" Value="White"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">
                     <Border>
                         <Track Name="PART_Track">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Height="6" Command="Slider.DecreaseLarge" x:Name="decrease" Style="{StaticResource BaseRepeatButton}" Background="{TemplateBinding Foreground}"></RepeatButton>
+                                <RepeatButton Height="6" Command="Slider.DecreaseLarge" x:Name="PART_Decrease" Style="{StaticResource LineRepeatButton}" Background="{TemplateBinding Foreground}"></RepeatButton>
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Height="6" Command="Slider.IncreaseLarge" x:Name="increase" Style="{StaticResource BaseRepeatButton}"/>
+                                <RepeatButton Height="6" Command="Slider.IncreaseLarge" x:Name="PART_Increase" Style="{StaticResource LineRepeatButton}"/>
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
-                                <Thumb x:Name="thumb" Style="{StaticResource BaseThumb}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"></Thumb>
+                                <Thumb x:Name="PART_Thumb" Style="{StaticResource BaseSliderThumb}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" ></Thumb>
                             </Track.Thumb>
                         </Track>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter TargetName="decrease" Property="Width" Value="6"></Setter>
-                            <Setter TargetName="decrease" Property="Height" Value="auto"></Setter>
-                            <Setter TargetName="increase" Property="Width" Value="6"></Setter>
-                            <Setter TargetName="increase" Property="Height" Value="auto"></Setter>
+                            <Setter TargetName="PART_Decrease" Property="Width" Value="6"></Setter>
+                            <Setter TargetName="PART_Decrease" Property="Height" Value="auto"></Setter>
+                            <Setter TargetName="PART_Increase" Property="Width" Value="6"></Setter>
+                            <Setter TargetName="PART_Increase" Property="Height" Value="auto"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Slider}" x:Key="Slider" BasedOn="{StaticResource BaseSlider}">
+    </Style>
+
+    <Style TargetType="{x:Type Slider}" x:Key="Slider-Success" BasedOn="{StaticResource Slider}">
+        <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Slider}" x:Key="Slider-Primary" BasedOn="{StaticResource Slider}">
+        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Slider}" x:Key="Slider-Warning" BasedOn="{StaticResource Slider}">
+        <Setter Property="Foreground" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Slider}" x:Key="Slider-Danger" BasedOn="{StaticResource Slider}">
+        <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 </ResourceDictionary>

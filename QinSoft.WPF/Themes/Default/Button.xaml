@@ -5,6 +5,7 @@
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
+
     <!--按钮基础Style-->
     <Style x:Key="BaseButton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
@@ -78,7 +79,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style x:Key="FlatButton-Success" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
         <Setter Property="Foreground" Value="White"></Setter>
@@ -262,13 +262,18 @@
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
-
-    <!--开关按钮-->
+    <!--/////////////////////////////////////////////////////////////////分割线////////////////////////////////////////////////////////////////-->
+    <!--ToggleButton-->
     <Style x:Key="ToggleButtonBase" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+
+    <Style x:Key="RotateToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonBase}">
+        <Setter Property="Height" Value="30"></Setter>
+        <Setter Property="Width" Value="30"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -333,5 +338,236 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="RotateToggleButton-Success" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
+        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="RotateToggleButton-Primary" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="RotateToggleButton-Warning" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
+        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="RotateToggleButton-Danger" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
+        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SwitchToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonBase}">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="PART_Border" Background="{TemplateBinding Background}" Opacity="0.5" CornerRadius="8" Height="16" Width="32"></Border>
+                        <Grid x:Name="PART_Grid">
+                            <Grid.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                    <TranslateTransform X="-8" Y="0"/>
+                                </TransformGroup>
+                            </Grid.RenderTransform>
+                            <Ellipse x:Name="PART_Ellipse" Height="{Binding Height,ElementName=PART_Border}" Width="{Binding Height,ElementName=PART_Border}" Fill="White" Stroke="{StaticResource GreyBrush}" StrokeThickness="1" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+
+                            <Ellipse x:Name="PART_Ellipse2" Height="{Binding Height,ElementName=PART_Border}" Width="{Binding Height,ElementName=PART_Border}" Opacity="0" Fill="{TemplateBinding BorderBrush}" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Grid>
+                        <ContentPresenter Margin="2,0" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="{Binding BorderBrush,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.X)" From="-8" To="8" Duration="0:0:0.3" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.X)" From="8" To="-8" Duration="0:0:0.3" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Ellipse" Property="Fill" Value="{Binding BorderBrush,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Setter TargetName="PART_Ellipse" Property="Stroke" Value="Transparent"></Setter>
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse2" Storyboard.TargetProperty="Opacity" From="0" To="0.3" Duration="0:0:0.3" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse2" Storyboard.TargetProperty="Opacity" From="0.3" To="0" Duration="0:0:0.3" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SwitchToggleButton-Success" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource SwitchToggleButton}">
+        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SwitchToggleButton-Primary" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource SwitchToggleButton}">
+        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SwitchToggleButton-Warning" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource SwitchToggleButton}">
+        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SwitchToggleButton-Danger" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource SwitchToggleButton}">
+        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+    </Style>
+
+    <!--/////////////////////////////////////////////////////////////////分割线////////////////////////////////////////////////////////////////-->
+    <!--RepeatButton-->
+    <Style x:Key="BaseRepeatButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="IsTabStop" Value="false"/>
+       
+    </Style>
+
+    <Style x:Key="LineRepeatButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource BaseRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SimpleRepeatButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource BaseRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Opacity" Value="1"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                            <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" >
+                            </Border>
+                        </Border>
+                        <Border ClipToBounds="True">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="White" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Border>
+                        <ContentPresenter Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Ellipse"  Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" AutoReverse="True">
+                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"></LinearDoubleKeyFrame>
+                                        <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
+                                        <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" From="0" To="0.2" BeginTime="0:0:0" Duration="0:0:0.1" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" From="0.2" To="0.0" BeginTime="0:0:0" Duration="0:0:0.1" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SimpleRepeatButton-Success" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SimpleRepeatButton-Primary" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SimpleRepeatButton-Warning" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="SimpleRepeatButton-Danger" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
+        <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 </ResourceDictionary>
