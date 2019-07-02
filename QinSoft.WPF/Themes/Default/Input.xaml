@@ -157,10 +157,10 @@
                             </Ellipse>
 
 
-                            <Ellipse x:Name="PART_Ellipse_3" Opacity="0" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
+                            <Ellipse x:Name="PART_Ellipse_3" Opacity="0" Height="16" Width="16" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
                                         <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
@@ -168,7 +168,7 @@
                             </Ellipse>
 
 
-                            <Ellipse x:Name="PART_Ellipse_4" Opacity="0" Height="10" Width="10" RenderTransformOrigin="0.5,0.5" Fill="White">
+                            <Ellipse x:Name="PART_Ellipse_4" Opacity="0" Height="16" Width="16" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
@@ -214,8 +214,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="2" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="2" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -275,10 +275,10 @@
                             </Rectangle>
                             <TextBlock x:Name="PART_Text" Style="{StaticResource IconOk}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" Foreground="White"></TextBlock>
 
-                            <Ellipse x:Name="PART_Ellipse_3" Opacity="0" Height="40" Width="40" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
+                            <Ellipse x:Name="PART_Ellipse_3" Opacity="0" Height="16" Width="16" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
                                         <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
@@ -286,7 +286,7 @@
                             </Ellipse>
 
 
-                            <Ellipse x:Name="PART_Ellipse_4" Opacity="0" Height="10" Width="10" RenderTransformOrigin="0.5,0.5" Fill="White">
+                            <Ellipse x:Name="PART_Ellipse_4" Opacity="0" Height="16" Width="16" RenderTransformOrigin="0.5,0.5" Fill="White">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1" />
@@ -331,8 +331,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="2" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse_4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="2" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -343,27 +343,22 @@
     </Style>
 
     <Style x:Key="InputCheck" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputCheck-Primary" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputCheck-Danger" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
-        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputCheck-Success" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
-        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
     <Style x:Key="InputCheck-Warning" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource BaseCheckbox}">
-        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 

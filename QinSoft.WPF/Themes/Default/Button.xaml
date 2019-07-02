@@ -31,19 +31,20 @@
                     <Grid>
                         <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                             <Border.Effect>
-                                <DropShadowEffect Color="{StaticResource Grey}" Direction="0" ShadowDepth="1" BlurRadius="4"></DropShadowEffect>
+                                <DropShadowEffect Color="{StaticResource Grey}" Direction="270" ShadowDepth="0" BlurRadius="4"></DropShadowEffect>
                             </Border.Effect>
-                            <Border ClipToBounds="True">
-                                <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="White" RenderTransformOrigin="0.5,0.5">
-                                    <Ellipse.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
-                                            <TranslateTransform X="0" Y="0"/>
-                                        </TransformGroup>
-                                    </Ellipse.RenderTransform>
-                                </Ellipse>
-                            </Border>
+                        </Border>
+                        <!--动画层-->
+                        <Border ClipToBounds="True">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0"  Height="{Binding ActualHeight,ElementName=PART_Border}" Width="{Binding ActualWidth,ElementName=PART_Border}" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
                         </Border>
                         <ContentPresenter x:Name="PART_Content" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
                     </Grid>
@@ -51,28 +52,20 @@
                         <EventTrigger RoutedEvent="Click">
                             <BeginStoryboard>
                                 <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)" From="4" To="12" BeginTime="0:0:0" Duration="0:0:0.2" AutoReverse="True"/>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Ellipse"  Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" AutoReverse="True">
                                         <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-                            <Setter Property="Foreground" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
-                        </Trigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Border" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect Color="{StaticResource Grey}" Direction="0" ShadowDepth="1" BlurRadius="8"></DropShadowEffect>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter TargetName="PART_Border" Property="Effect" Value="{x:Null}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -102,22 +95,18 @@
 
     <!--浮动按钮(Raised button)-->
     <Style x:Key="RaisedButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
-        <Setter Property="Background" Value="{StaticResource DefaultForegroundBrush}"></Setter>
-        <Setter Property="Opacity" Value="1"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-                            <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" >
-                            </Border>
-                        </Border>
+                        <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></Border>
                         <Border ClipToBounds="True">
-                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="White" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="{Binding ActualHeight,ElementName=PART_Border}" Width="{Binding ActualWidth,ElementName=PART_Border}" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -135,8 +124,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -187,19 +176,17 @@
 
     <!--扁平按钮(Flat button)-->
     <Style x:Key="FloatingButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                        <Ellipse x:Name="PART_Border" StrokeThickness="0.5" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" ClipToBounds="True">
-                            <Ellipse.Effect>
-                                <DropShadowEffect BlurRadius="4" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="0"></DropShadowEffect>
-                            </Ellipse.Effect>
+                        <Ellipse x:Name="PART_Border" Opacity="0.8" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}">
                         </Ellipse>
-                        <Ellipse x:Name="PART_Ellipse" Opacity="0" Fill="White" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse x:Name="PART_Ellipse" Opacity="0" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
                             <Ellipse.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
                                     <RotateTransform Angle="0" CenterX="0.25" CenterY="0.25"/>
                                     <TranslateTransform X="0" Y="0"/>
                                 </TransformGroup>
@@ -217,23 +204,14 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.25" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.25" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
 
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-                            <Setter Property="Foreground" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
-                        </Trigger>
-
-
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Border" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect Color="{StaticResource Grey}" Direction="0" ShadowDepth="1" BlurRadius="8"></DropShadowEffect>
-                                </Setter.Value>
+                            <Setter TargetName="PART_Border" Property="Opacity" Value="1">
                             </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -265,28 +243,25 @@
     <!--/////////////////////////////////////////////////////////////////分割线////////////////////////////////////////////////////////////////-->
     <!--ToggleButton-->
     <Style x:Key="ToggleButtonBase" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
     </Style>
 
     <Style x:Key="RotateToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonBase}">
-        <Setter Property="Height" Value="30"></Setter>
-        <Setter Property="Width" Value="30"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                        <Ellipse x:Name="PART_Border" Fill="{TemplateBinding Background}">
-                            <Ellipse.Effect>
-                                <DropShadowEffect BlurRadius="4" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="0"></DropShadowEffect>
-                            </Ellipse.Effect>
+                        <Ellipse x:Name="PART_Border" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}">
                         </Ellipse>
-                        <Ellipse x:Name="PART_Ellipse" Opacity="0" Fill="{TemplateBinding BorderBrush}" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse x:Name="PART_Ellipse" Opacity="0" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
                             <Ellipse.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
+                                    <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
                                     <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                     <TranslateTransform X="0" Y="0"/>
                                 </TransformGroup>
@@ -312,8 +287,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.25" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.25" To="1" BeginTime="0:0:0.15" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -341,19 +316,23 @@
     </Style>
 
     <Style x:Key="RotateToggleButton-Success" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
-        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
     <Style x:Key="RotateToggleButton-Primary" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
 
     <Style x:Key="RotateToggleButton-Warning" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
-        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
     <Style x:Key="RotateToggleButton-Danger" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource RotateToggleButton}">
-        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 
     <Style x:Key="SwitchToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonBase}">
@@ -377,7 +356,7 @@
                                     <TranslateTransform X="-8" Y="0"/>
                                 </TransformGroup>
                             </Grid.RenderTransform>
-                            <Ellipse x:Name="PART_Ellipse" Height="{Binding Height,ElementName=PART_Border}" Width="{Binding Height,ElementName=PART_Border}" Fill="White" Stroke="{StaticResource GreyBrush}" StrokeThickness="1" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse x:Name="PART_Ellipse" Height="{Binding Height,ElementName=PART_Border}" Width="{Binding Height,ElementName=PART_Border}" Fill="{StaticResource DefaultCardBackgroundBrush}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" RenderTransformOrigin="0.5,0.5">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
@@ -471,7 +450,7 @@
         <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
         <Setter Property="Focusable" Value="false"/>
         <Setter Property="IsTabStop" Value="false"/>
-       
+
     </Style>
 
     <Style x:Key="LineRepeatButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource BaseRepeatButton}">
@@ -479,7 +458,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -488,23 +467,20 @@
     <Style x:Key="SimpleRepeatButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource BaseRepeatButton}">
         <Setter Property="Background" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="Opacity" Value="1"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-                            <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" >
-                            </Border>
-                        </Border>
+                        <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></Border>
                         <Border ClipToBounds="True">
-                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="White" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="{Binding ActualHeight,ElementName=PART_Border}" Width="{Binding ActualWidth,ElementName=PART_Border}" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
@@ -512,6 +488,7 @@
                         </Border>
                         <ContentPresenter Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
                     </Grid>
+
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Click">
                             <BeginStoryboard>
@@ -521,8 +498,8 @@
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                         <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -541,10 +518,6 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -553,21 +526,21 @@
 
     <Style x:Key="SimpleRepeatButton-Success" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
         <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
     </Style>
 
     <Style x:Key="SimpleRepeatButton-Primary" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
         <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
     </Style>
 
     <Style x:Key="SimpleRepeatButton-Warning" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource OrangeBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
     </Style>
 
     <Style x:Key="SimpleRepeatButton-Danger" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SimpleRepeatButton}">
         <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
     </Style>
 </ResourceDictionary>

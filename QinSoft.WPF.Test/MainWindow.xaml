@@ -7,33 +7,54 @@
         xmlns:lib="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel>
+        <ContentControl Style="{StaticResource AppPanel}" DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource RaisedButton}" Margin="10,5">
+                        <TextBlock Style="{StaticResource IconReorder}" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </Button>
+                    <TextBlock Text="QinSoft.WPF" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Style="{StaticResource RaisedButton-Danger}" Width="30" Height="30" VerticalAlignment="Top">
+                        <TextBlock Style="{StaticResource IconRemove}" VerticalAlignment="Center" ></TextBlock>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </ContentControl>
         <TabControl Style="{StaticResource Tab}" ItemContainerStyle="{StaticResource TabItem-Primary}">
             <TabItem Header="Base">
                 <ContentControl Style="{StaticResource CardPanel}">
                     <WrapPanel>
-                        <Button Content="Click" Style="{StaticResource FlatButton}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Success}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Primary}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Warning}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Danger}" Width="60" IsEnabled="False"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton}" Width="100" Margin="2"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Success}"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Primary}"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Warning}"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Danger}"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Danger}" IsEnabled="False"></Button>
 
-                        <Button Content="Click" Style="{StaticResource RaisedButton}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource RaisedButton-Success}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource RaisedButton-Primary}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource RaisedButton-Warning}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="60" IsEnabled="False"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton}" Width="30"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton-Success}" Width="30"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton-Primary}" Width="30"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton-Warning}" Width="30"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="30"></Button>
+                        <Button Content="Click" Style="{StaticResource RaisedButton-Danger}" Width="30" IsEnabled="False"></Button>
 
-                        <Button Content="Click" Style="{StaticResource FloatingButton}" Width="60" Height="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FloatingButton-Success}" Width="60" Height="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FloatingButton-Primary}" Width="60" Height="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FloatingButton-Warning}" Width="60" Height="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60"></Button>
-                        <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton}" Width="30" Height="30"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton-Success}" Width="30" Height="30"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton-Primary}" Width="30" Height="30"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton-Warning}" Width="30" Height="30"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="30" Height="30"></Button>
+                        <Button Content="Click" Style="{StaticResource FloatingButton-Danger}" Width="30" Height="30" IsEnabled="False"></Button>
 
-                        <Button Style="{StaticResource FloatingButton-Danger}" Width="60" Height="60" IsEnabled="False">
+                        <Button Style="{StaticResource FloatingButton-Danger}" Width="30" Height="30" IsEnabled="False">
                             <TextBlock Style="{StaticResource IconTrash}" FontSize="20"></TextBlock>
                         </Button>
 
@@ -104,11 +125,28 @@
                             </ScrollViewer>
                         </Grid>
                     </GroupBox>
+
+                    <ContentControl Style="{StaticResource CardPanel}">
+                        <ListBox Style="{StaticResource Lists}" SelectionMode="Single" ItemContainerStyle="{StaticResource RadioListsItem}">
+                            <ListBoxItem>学生1</ListBoxItem>
+                            <ListBoxItem>学生2</ListBoxItem>
+                            <ListBoxItem>学生3</ListBoxItem>
+                        </ListBox>
+                    </ContentControl>
+
+                    <ContentControl Style="{StaticResource CardPanel}">
+                        <ListBox Style="{StaticResource Lists}" SelectionMode="Multiple" ItemContainerStyle="{StaticResource CheckListsItem}">
+                            <ListBoxItem>学生1</ListBoxItem>
+                            <ListBoxItem>学生2</ListBoxItem>
+                            <ListBoxItem>学生3</ListBoxItem>
+                        </ListBox>
+                    </ContentControl>
+
                 </StackPanel>
                 
                 
             </TabItem>
         </TabControl>
 
-    </Grid>
+    </DockPanel>
 </Window>

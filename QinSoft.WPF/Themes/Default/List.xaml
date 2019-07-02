@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <!--ListBox基础Style-->
@@ -14,61 +15,63 @@
     </Style>
 
     <Style x:Key="Lists" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
-
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0.5"></Setter>
     </Style>
 
     <Style x:Key="Lists-Primary" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
         <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderThickness" Value="0.5"></Setter>
     </Style>
 
     <Style x:Key="Lists-Danger" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
         <Setter Property="BorderBrush" Value="{StaticResource RedBrush }"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderThickness" Value="0.5"></Setter>
     </Style>
 
     <Style x:Key="Lists-Warning" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
         <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderThickness" Value="0.5"></Setter>
     </Style>
 
     <Style x:Key="Lists-Success" TargetType="{x:Type ListBox}" BasedOn="{StaticResource BaseListBox}">
         <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderThickness" Value="0.5"></Setter>
     </Style>
 
-   
+
 
     <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
     <Style x:Key="BaseListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
-        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource DefaultCardBackgroundBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
     </Style>
 
     <Style x:Key="ListsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
-        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="MinHeight" Value="30"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
                             <!--<Border.Effect>
                                 <DropShadowEffect BlurRadius="2" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
                             </Border.Effect>-->
                         </Border>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                        <ContentPresenter x:Name="PART_Content" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
-                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -76,24 +79,79 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ListsItem-Primary" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
-        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+    <Style x:Key="CheckListsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="MinHeight" Value="30"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid>
+                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <!--<Border.Effect>
+                                <DropShadowEffect BlurRadius="2" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
+                            </Border.Effect>-->
+                        </Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Style="{StaticResource InputCheck-Success}" IsChecked="{Binding IsSelected,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}" Margin="10,2"></CheckBox>
+                            <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                        </Grid>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <Style x:Key="ListsItem-Danger" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
-        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+    <Style x:Key="RadioListsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource BaseListBoxItem}">
+        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-    </Style>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="MinHeight" Value="30"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid>
+                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <!--<Border.Effect>
+                                <DropShadowEffect BlurRadius="2" Opacity="1" ShadowDepth="0" Color="{StaticResource Grey}" Direction="270"></DropShadowEffect>
+                            </Border.Effect>-->
+                        </Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Style="{StaticResource InputRadio-Success}" IsChecked="{Binding IsSelected,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}" Margin="10,2"></RadioButton>
+                            <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                        </Grid>
 
-    <Style x:Key="ListsItem-Warning" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
-        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-
-    <Style x:Key="ListsItem-Success" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListsItem}">
-        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-    </Style>
-
 </ResourceDictionary>

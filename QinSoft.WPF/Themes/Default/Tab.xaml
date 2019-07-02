@@ -41,7 +41,7 @@
         <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
-        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
@@ -53,20 +53,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid>
-                        <Border x:Name="PART_Border"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"></Border>
+                        <Border x:Name="PART_Border" Opacity="0" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"></Border>
                         <Border ClipToBounds="True">
-                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="30" Width="30" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse x:Name="PART_Ellipse" Opacity="0" Height="{Binding ActualHeight,ElementName=PART_Border}" Width="{Binding ActualWidth,ElementName=PART_Border}" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                                        <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
+                                        <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
+                                        <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
                                         <TranslateTransform X="0" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                         </Border>
-                        <ContentPresenter x:Name="PART_Content" Margin="5,2" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{StaticResource DefaultForegroundBrush}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                        <ContentPresenter Margin="5,2" x:Name="PART_Content" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{StaticResource DefaultForegroundBrush}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
                     </Grid>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_Content" Property="TextBlock.Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
@@ -78,15 +79,30 @@
                                             <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.1"></LinearDoubleKeyFrame>
                                             <LinearDoubleKeyFrame Value="0.3" KeyTime="0:0:0.4"></LinearDoubleKeyFrame>
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
-                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0.1" To="1.4" BeginTime="0:0:0.1" Duration="0:0:0.3" AutoReverse="False"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                         </Trigger>
 
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" From="0" To="0.2" BeginTime="0:0:0" Duration="0:0:0.1" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Opacity" From="0.2" To="0.0" BeginTime="0:0:0" Duration="0:0:0.1" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Content" Property="TextBlock.Foreground" Value="{StaticResource GreyBrush}"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -96,22 +112,27 @@
 
 
     <Style x:Key="TabItem" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Background" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource GreyBrush}"></Setter>
     </Style>
 
     <Style x:Key="TabItem-Success" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Background" Value="{StaticResource GreenBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
 
     <Style x:Key="TabItem-Primary" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
 
     <Style x:Key="TabItem-Warning" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
     <Style x:Key="TabItem-Danger" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 </ResourceDictionary>
