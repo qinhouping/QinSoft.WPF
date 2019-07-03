@@ -24,9 +24,10 @@
                                     </ScrollViewer>
                                 </ContentControl>
                             </Border>
-                            <Grid>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
                                 <ContentPresenter Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                            </Grid>
+                            </ScrollViewer>
                         </DockPanel>
                     </Border>
                 </ControlTemplate>

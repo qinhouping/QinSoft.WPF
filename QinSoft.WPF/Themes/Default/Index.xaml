@@ -18,6 +18,7 @@
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Slider.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Progress.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Menu.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tooltip.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 

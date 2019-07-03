@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QinSoft.WPF.Test"
         xmlns:lib="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="850" Width="800">
     <DockPanel>
         <ContentControl Style="{StaticResource AppPanel}" DockPanel.Dock="Top">
             <Grid>
@@ -16,9 +16,25 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal">
-                    <Button Style="{StaticResource RaisedButton}" Margin="10,5">
-                        <TextBlock Style="{StaticResource IconReorder}" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                    </Button>
+                    <ToggleButton x:Name="PART_MenuToggle"  IsChecked="True" Style="{StaticResource SwitchToggleButton-Success}" Margin="10,5" Width="50" Height="30">
+                        <!--<TextBlock Style="{StaticResource IconReorder}" Foreground="White" VerticalAlignment="Center"></TextBlock>-->
+                        <!--<ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_MenuCard" Storyboard.TargetProperty="Width" From="0" To="150" Duration="0:0:0.3"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_MenuCard" Storyboard.TargetProperty="Width" From="150" To="0" Duration="0:0:0.3"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>-->
+                    </ToggleButton>
                     <TextBlock Text="QinSoft.WPF" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
 
@@ -28,6 +44,62 @@
                     </Button>
                 </StackPanel>
             </Grid>
+        </ContentControl>
+        <ContentControl x:Name="PART_MenuCard"  Margin="0,0,1,0" Padding="2" DockPanel.Dock="Left">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl" BasedOn="{StaticResource CardPanel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked,ElementName=PART_MenuToggle}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="150" Duration="0:0:0.3"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" From="150" To="0" Duration="0:0:0.3"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+            <Menu Style="{StaticResource Menu-V}" >
+                <MenuItem Header="menu 1"  Style="{StaticResource MenuItem-H}">
+                    <MenuItem.Icon>
+                        <TextBlock Style="{StaticResource IconSearch}" ></TextBlock>
+                    </MenuItem.Icon>
+                    <MenuItem Header="menu 1 1"  Style="{StaticResource MenuItem-H}">
+                        <MenuItem.Icon>
+                            <TextBlock Style="{StaticResource IconSearch}" ></TextBlock>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="menu 1 2"  Style="{StaticResource MenuItem-H}">
+                        <MenuItem.Icon>
+                            <TextBlock Style="{StaticResource IconSearch}" ></TextBlock>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="menu 2" Style="{StaticResource MenuItem-H}">
+                    <MenuItem Style="{StaticResource MenuItem-H}">
+                        <MenuItem.Header>
+                            <RadioButton Content="1" Style="{StaticResource InputRadio}"></RadioButton>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <RadioButton Content="2"></RadioButton>
+                    <RadioButton Content="3"></RadioButton>
+                    <Separator></Separator>
+                    <MenuItem Style="{StaticResource MenuItem-H}">
+                        <MenuItem.Icon>
+                            <CheckBox Style="{StaticResource InputCheck-Success}" IsChecked="{Binding IsChecked,RelativeSource={RelativeSource AncestorType=MenuItem},UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
         </ContentControl>
         <TabControl Style="{StaticResource Tab}" ItemContainerStyle="{StaticResource TabItem-Primary}">
             <TabItem Header="Base">
@@ -107,14 +179,21 @@
                         <ProgressBar Width="100" Maximum="100" Value="20" Style="{StaticResource LineProgress-Primary}"></ProgressBar>
                         <ProgressBar Width="100" Maximum="100" Value="20" Style="{StaticResource LineProgress-Warning}"></ProgressBar>
                         <ProgressBar Width="100" Maximum="100" Value="100" Style="{StaticResource LineProgress-Danger}"></ProgressBar>
+
+                        <Button Content="Menu" Style="{StaticResource FlatButton}">
+                            <Button.ContextMenu>
+                                <ContextMenu Style="{StaticResource BaseContextMenu}">
+                                    <MenuItem Header="Menu1"></MenuItem>
+                                    <MenuItem Header="Menu2"></MenuItem>
+                                    <MenuItem Header="Menu3"></MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                     </WrapPanel>
                 </ContentControl>
-
-
             </TabItem>
             <TabItem Header="Container">
                 <StackPanel Orientation="Vertical">
-
                     <GroupBox Style="{StaticResource SwitchPanel}">
                         <GroupBox.Header>
                             <TextBlock Text="标题"></TextBlock>
@@ -143,8 +222,6 @@
                     </ContentControl>
 
                 </StackPanel>
-                
-                
             </TabItem>
         </TabControl>
 

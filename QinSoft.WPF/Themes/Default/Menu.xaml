@@ -1,0 +1,162 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="List.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type ContextMenu}" x:Key="BaseContextMenu">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ContentControl Style="{StaticResource CardPanel}" Padding="2">
+                        <StackPanel Orientation="Vertical" IsItemsHost="True"></StackPanel>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Menu}" x:Key="BaseMenu">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Menu}" x:Key="Menu-H" BasedOn="{StaticResource BaseMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Menu}">
+                    <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel IsItemsHost="True" Orientation="Horizontal" ></StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Menu}" x:Key="Menu-V" BasedOn="{StaticResource BaseMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Menu}">
+                    <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel IsItemsHost="True" Orientation="Vertical" ></StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type MenuItem}" x:Key="BaseMenuItem" >
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="IsSubmenuOpen" Value="False"></Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type MenuItem}" x:Key="MenuItem-V" BasedOn="{StaticResource BaseMenuItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" MinHeight="30"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Border x:Name="PART_Line">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="30"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
+                                    <ContentPresenter x:Name="PART_Content" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ContentPresenter>
+                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                        <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <Border x:Name="PART_SubMenu" Grid.Row="1" Visibility="{Binding Path=IsSubmenuOpen,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                <StackPanel Margin="10,0,0,0" IsItemsHost="True" Orientation="Vertical" ></StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Line" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type MenuItem}" x:Key="MenuItem-H" BasedOn="{StaticResource BaseMenuItem}">
+        <Setter Property="Background" Value="{StaticResource DefaultCardBackgroundBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" MinHeight="30"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Border x:Name="PART_Line">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="30"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
+                                    <ContentPresenter x:Name="PART_Content" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ContentPresenter>
+                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                        <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_SubMenu" PopupAnimation="Fade" Placement="Right" HorizontalOffset="4" AllowsTransparency="True"  IsOpen="{Binding Path=IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                <ContentControl Style="{StaticResource CardPanel}" Padding="2">
+                                    <StackPanel Orientation="Vertical" IsItemsHost="True"></StackPanel>
+                                </ContentControl>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Line" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_Line" Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

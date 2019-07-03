@@ -8,9 +8,32 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace QinSoft.WPF.Theme.Default
+namespace QinSoft.WPF.Themes.Default
 {
-    public class DelegateValueConverter : IValueConverter
+    public class ValueConverters
+    {
+        public static IValueConverter BooleanToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    bool? v = value as bool?;
+                    if (v == true)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+    }
+
+
+     class DelegateValueConverter : IValueConverter
     {
         private Func<object, Type, object, CultureInfo, object> _convertFunc;
         private Func<object, Type, object, CultureInfo, object> _convertBackFunc;
@@ -41,21 +64,4 @@ namespace QinSoft.WPF.Theme.Default
         }
     }
 
-    public static class Converts
-    {
-        public static IValueConverter SolidColorBrushColorConverter = new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
-        {
-            if (value is SolidColorBrush)
-                return (value as SolidColorBrush).Color;
-            else
-                return Colors.Black;
-        });
-
-        public static IValueConverter FlatButtonEllipseConvert = new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
-        {
-            FrameworkElement element = value as FrameworkElement;
-            int count = Convert.ToInt32(parameter);
-            return (element.ActualWidth > element.ActualHeight ? element.ActualWidth : element.ActualHeight) / count;
-        });
-    }
 }
