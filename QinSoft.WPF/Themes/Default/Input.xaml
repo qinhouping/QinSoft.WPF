@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="List.xaml"></ResourceDictionary>
         <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
@@ -38,7 +39,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Border x:Name="PART_Rectangle" Grid.Column="2" Opacity="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,3" Margin="-1" RenderTransformOrigin="0.5,0.5">
-                                    <Border.RenderTransform> 
+                                    <Border.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform ScaleX="1" ScaleY="1" />
                                             <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
@@ -362,4 +363,38 @@
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--下拉框（选择框）-->
+    <Style TargetType="{x:Type ComboBox}" x:Key="BaseComboBox">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect" BasedOn="{StaticResource BaseComboBox}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Style="{StaticResource BaseTextBox}" IsReadOnly="{TemplateBinding IsEditable}"></TextBox>
+                        <ToggleButton Grid.Column="1" Content="1"></ToggleButton>
+
+                        <!--<Popup x:Name="PART_Popup" Placement="Relative" IsOpen="{TemplateBinding IsDropDownOpen}">
+                          
+                        </Popup>-->
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

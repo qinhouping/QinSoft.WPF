@@ -183,12 +183,19 @@
                         <Button Content="Menu" Style="{StaticResource FlatButton}">
                             <Button.ContextMenu>
                                 <ContextMenu Style="{StaticResource BaseContextMenu}">
-                                    <MenuItem Header="Menu1"></MenuItem>
-                                    <MenuItem Header="Menu2"></MenuItem>
-                                    <MenuItem Header="Menu3"></MenuItem>
+                                    <MenuItem Header="Menu1" Style="{StaticResource MenuItem-H}">
+                                        <MenuItem.Icon>
+                                            <TextBlock Style="{StaticResource IconBookmark}"></TextBlock>
+                                        </MenuItem.Icon>
+                                        <MenuItem Header="Menu2" Style="{StaticResource MenuItem-H}"></MenuItem>
+                                        <MenuItem Header="Menu3" Style="{StaticResource MenuItem-H}"></MenuItem>
+                                    </MenuItem>
+                                    <MenuItem Header="Menu2" Style="{StaticResource MenuItem-H}"></MenuItem>
+                                    <MenuItem Header="Menu3" Style="{StaticResource MenuItem-H}"></MenuItem>
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
+
                     </WrapPanel>
                 </ContentControl>
             </TabItem>

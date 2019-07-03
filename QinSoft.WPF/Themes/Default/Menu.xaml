@@ -159,4 +159,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--默认-->
+    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}"></Style>
 </ResourceDictionary>
