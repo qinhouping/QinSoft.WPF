@@ -1,0 +1,102 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default">
+    <!--下拉框（选择框）-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="{x:Type ComboBox}" x:Key="BaseComboBox">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect" BasedOn="{StaticResource BaseComboBox}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="PART_Border" Grid.ColumnSpan="2"  BorderBrush="{TemplateBinding Foreground}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="PART_Rectangle" Grid.Column="2" Opacity="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,3" Margin="-1" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <TextBox x:Name="PART_Text" Style="{StaticResource BaseTextBox}" VerticalAlignment="Center" Text="{Binding Text,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}" IsReadOnly="{TemplateBinding IsEditable}"></TextBox>
+                        <ToggleButton x:Name="PART_Toggle" Style="{StaticResource RotateToggleButton}" Grid.Column="1" IsChecked="{Binding IsDropDownOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="30" Width="30">
+                            <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
+                        </ToggleButton>
+
+                        <Popup x:Name="PART_Popup" StaysOpen="True" AllowsTransparency="True" Width="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" PopupAnimation="Slide">
+                            <ContentControl Style="{StaticResource CardPanel}" Padding="2" Margin="2,0,2,2">
+                                <StackPanel IsItemsHost="True" Orientation="Vertical"></StackPanel>
+                            </ContentControl>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsFocused,ElementName=PART_Text}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0" Duration="0:0:0.1" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.2" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="5" To="1" Duration="0:0:0.2" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.2" Duration="0:0:0.1" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Success" BasedOn="{StaticResource InputSelect}">
+        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Primary" BasedOn="{StaticResource InputSelect}">
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Warning" BasedOn="{StaticResource InputSelect}">
+        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Danger" BasedOn="{StaticResource InputSelect}">
+        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+    </Style>
+</ResourceDictionary>

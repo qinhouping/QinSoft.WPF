@@ -196,6 +196,31 @@
                             </Button.ContextMenu>
                         </Button>
 
+                        <ComboBox Style="{StaticResource InputSelect}" Width="100">
+                            <ComboBoxItem>学生1</ComboBoxItem>
+                            <ComboBoxItem>学生2</ComboBoxItem>
+                            <ComboBoxItem>学生3</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox Style="{StaticResource InputSelect-Success}" Width="100">
+                            <ComboBoxItem>学生1</ComboBoxItem>
+                            <ComboBoxItem>学生2</ComboBoxItem>
+                            <ComboBoxItem>学生3</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox Style="{StaticResource InputSelect-Primary}" Width="100">
+                            <ComboBoxItem>学生1</ComboBoxItem>
+                            <ComboBoxItem>学生2</ComboBoxItem>
+                            <ComboBoxItem>学生3</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox Style="{StaticResource InputSelect-Warning}" Width="100">
+                            <ComboBoxItem>学生1</ComboBoxItem>
+                            <ComboBoxItem>学生2</ComboBoxItem>
+                            <ComboBoxItem>学生3</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox Style="{StaticResource InputSelect-Danger}" Width="100">
+                            <ComboBoxItem>学生1</ComboBoxItem>
+                            <ComboBoxItem>学生2</ComboBoxItem>
+                            <ComboBoxItem>学生3</ComboBoxItem>
+                        </ComboBox>
                     </WrapPanel>
                 </ContentControl>
             </TabItem>
