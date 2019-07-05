@@ -90,13 +90,73 @@
     <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Success" BasedOn="{StaticResource InputSelect}">
         <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
     </Style>
+    
     <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Primary" BasedOn="{StaticResource InputSelect}">
         <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
     </Style>
+    
     <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Warning" BasedOn="{StaticResource InputSelect}">
         <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
+    
     <Style TargetType="{x:Type ComboBox}" x:Key="InputSelect-Danger" BasedOn="{StaticResource InputSelect}">
         <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="BaseComboBoxItem">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="InputSelectOption" BasedOn="{StaticResource BaseComboBoxItem}">
+        <Setter Property="Padding" Value="5,2"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <ContentPresenter x:Name="PART_Content" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="InputRadioSelectOption" BasedOn="{StaticResource BaseComboBoxItem}">
+        <Setter Property="Padding" Value="5,2"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Style="{StaticResource InputRadio}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" IsChecked="{Binding IsSelected,RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></RadioButton>
+                            <ContentPresenter x:Name="PART_Content" Grid.Column="1" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                        </Grid>
+                      
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

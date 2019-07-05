@@ -196,12 +196,12 @@
                             </Button.ContextMenu>
                         </Button>
 
-                        <ComboBox Style="{StaticResource InputSelect}" Width="100">
+                        <ComboBox Style="{StaticResource InputSelect}" ItemContainerStyle="{StaticResource InputSelectOption}" Width="100">
                             <ComboBoxItem>学生1</ComboBoxItem>
                             <ComboBoxItem>学生2</ComboBoxItem>
                             <ComboBoxItem>学生3</ComboBoxItem>
                         </ComboBox>
-                        <ComboBox Style="{StaticResource InputSelect-Success}" Width="100">
+                        <ComboBox Style="{StaticResource InputSelect-Success}" ItemContainerStyle="{StaticResource InputRadioSelectOption}" Width="100">
                             <ComboBoxItem>学生1</ComboBoxItem>
                             <ComboBoxItem>学生2</ComboBoxItem>
                             <ComboBoxItem>学生3</ComboBoxItem>
