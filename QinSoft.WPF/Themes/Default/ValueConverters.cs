@@ -30,10 +30,23 @@ namespace QinSoft.WPF.Themes.Default
                 });
             }
         }
+
+        public static IValueConverter AvgCornerRadiusConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    double v = Convert.ToDouble(value);
+                    int avg = Convert.ToInt32(parameter);
+                    return new CornerRadius((double)(v / avg));
+                });
+            }
+        }
     }
 
 
-     class DelegateValueConverter : IValueConverter
+    class DelegateValueConverter : IValueConverter
     {
         private Func<object, Type, object, CultureInfo, object> _convertFunc;
         private Func<object, Type, object, CultureInfo, object> _convertBackFunc;

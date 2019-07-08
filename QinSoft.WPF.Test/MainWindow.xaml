@@ -105,6 +105,29 @@
             <TabItem Header="Base">
                 <ContentControl Style="{StaticResource CardPanel}">
                     <WrapPanel>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Success}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Primary}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Warning}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Danger}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Fill-Success}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Fill-Primary}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Fill-Warning}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="测试" Style="{StaticResource Tip-Fill-Danger}" VerticalAlignment="Center"></TextBlock>
+                        <Label Style="{StaticResource Chip}">
+                            <TextBlock Text="Basic Chip"></TextBlock>
+                        </Label>
+                        <Label Style="{StaticResource Chip-Success}">
+                            <TextBlock Text="Basic Chip"></TextBlock>
+                        </Label>
+                        <Label Style="{StaticResource Chip-Primary}">
+                            <TextBlock Text="Basic Chip"></TextBlock>
+                        </Label>
+                        <Label Style="{StaticResource Chip-Warning}">
+                            <TextBlock Text="Basic Chip"></TextBlock>
+                        </Label>
+                        <Label Style="{StaticResource Chip-Danger}">
+                            <TextBlock Text="Basic Chip"></TextBlock>
+                        </Label>
                         <Button Content="Click" Style="{StaticResource FlatButton}" Width="100" Margin="2"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Success}"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Primary}"></Button>
@@ -221,6 +244,9 @@
                             <ComboBoxItem>学生2</ComboBoxItem>
                             <ComboBoxItem>学生3</ComboBoxItem>
                         </ComboBox>
+
+                        <DatePicker Style="{StaticResource DatePicker-Danger}" CalendarStyle="{StaticResource BaseCalendar}" Width="120"></DatePicker>
+
                     </WrapPanel>
                 </ContentControl>
             </TabItem>
