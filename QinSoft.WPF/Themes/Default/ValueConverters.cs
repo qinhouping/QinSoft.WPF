@@ -46,7 +46,7 @@ namespace QinSoft.WPF.Themes.Default
     }
 
 
-    class DelegateValueConverter : IValueConverter
+    public class DelegateValueConverter : IValueConverter
     {
         private Func<object, Type, object, CultureInfo, object> _convertFunc;
         private Func<object, Type, object, CultureInfo, object> _convertBackFunc;

@@ -239,14 +239,16 @@
                             <ComboBoxItem>学生2</ComboBoxItem>
                             <ComboBoxItem>学生3</ComboBoxItem>
                         </ComboBox>
-                        <ComboBox Style="{StaticResource InputSelect-Danger}" Width="100">
+                        <ComboBox Style="{StaticResource InputSelect-Danger}" Width="100" ItemContainerStyle="{StaticResource InputCheckSelectOption}">
                             <ComboBoxItem>学生1</ComboBoxItem>
                             <ComboBoxItem>学生2</ComboBoxItem>
                             <ComboBoxItem>学生3</ComboBoxItem>
                         </ComboBox>
 
-                        <DatePicker Style="{StaticResource DatePicker-Danger}" CalendarStyle="{StaticResource BaseCalendar}" Width="120"></DatePicker>
+                        <DatePicker Style="{StaticResource DatePicker-Danger}" Width="120"></DatePicker>
 
+                        <lib:MCombobox Width="100" x:Name="mcob">
+                        </lib:MCombobox>
                     </WrapPanel>
                 </ContentControl>
             </TabItem>

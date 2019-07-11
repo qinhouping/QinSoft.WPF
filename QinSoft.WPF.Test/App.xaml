@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

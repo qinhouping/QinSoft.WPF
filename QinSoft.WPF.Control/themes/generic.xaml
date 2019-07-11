@@ -3,9 +3,7 @@
                     xmlns:local="clr-namespace:QinSoft.WPF.Control">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="/QinSoft.WPF.Control;component/Themes/MCombobox.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type local:ButtonEx}" TargetType="{x:Type local:ButtonEx}" BasedOn="{StaticResource FlatButton-Success}">
-    </Style>
 </ResourceDictionary>

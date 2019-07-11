@@ -1,48 +1,27 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default">
+                    xmlns:local="clr-namespace:QinSoft.WPF.Control">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Input.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="../Common/FontAwesome.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
-    <Style TargetType="{x:Type Calendar}" x:Key="BaseCalendar">
-        <Setter Property="Background" Value="{StaticResource DefaultCardBackgroundBrush}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
 
-        <Setter Property="CalendarDayButtonStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FloatingButton}">
-                    <Setter Property="Height" Value="30"></Setter>
-                    <Setter Property="Width" Value="30"></Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-    <Style TargetType="{x:Type DatePicker}" x:Key="BaseDatePicker">
+    <Style x:Key="{x:Type local:MCombobox}" TargetType="{x:Type local:MCombobox}" >
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
         <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
-        <Setter Property="SelectedDateFormat" Value="Short"></Setter>
-        <Setter Property="CalendarStyle" Value="{StaticResource BaseCalendar}"></Setter>
-        <Setter Property="Template">
+        <Setter Property="SelectionMode" Value="Multiple"></Setter>
+        <Setter Property="Template" >
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DatePicker}">
+                <ControlTemplate TargetType="{x:Type local:MCombobox}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="PART_Border" Grid.ColumnSpan="3"  BorderBrush="{TemplateBinding Foreground}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="True">
+                        <Border x:Name="PART_Border" Grid.ColumnSpan="2"  BorderBrush="{TemplateBinding Foreground}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -62,20 +41,19 @@
                                 </Border>
                             </Grid>
                         </Border>
-                        <TextBlock Style="{StaticResource IconCalendar}" VerticalAlignment="Center"></TextBlock>
-                        <TextBox x:Name="PART_TextBox" Style="{StaticResource BaseTextBox}" Grid.Column="1" VerticalAlignment="Center" Text="{TemplateBinding Text}"></TextBox>
-                        <ToggleButton x:Name="PART_Toggle" Style="{StaticResource RotateToggleButton}" Grid.Column="2" IsChecked="{Binding IsDropDownOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="30" Width="30">
+                        <TextBox x:Name="PART_Text" Style="{StaticResource BaseTextBox}" VerticalAlignment="Center" Text="{Binding Text,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay}" IsReadOnly="{TemplateBinding IsEditable}"></TextBox>
+                        <ToggleButton x:Name="PART_Toggle" Style="{StaticResource RotateToggleButton}" Grid.Column="1" IsChecked="{Binding IsDropDownOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="30" Width="30">
                             <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
                         </ToggleButton>
 
-                        <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Top"  PopupAnimation="Slide">
-                            <ContentControl Style="{StaticResource CardPanel}">
-                                <Calendar Style="{TemplateBinding CalendarStyle}"></Calendar>
+                        <Popup x:Name="PART_Popup" StaysOpen="True" AllowsTransparency="True" Width="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" PopupAnimation="Slide">
+                            <ContentControl Style="{StaticResource CardPanel}" Padding="2" Margin="2,0,2,2">
+                                <ListBox x:Name="PART_ListBox" Style="{StaticResource Lists}" BorderThickness="0" ItemContainerStyle="{StaticResource CheckListsItem}" SelectionMode="{TemplateBinding SelectionMode}" DisplayMemberPath="{TemplateBinding  DisplayMemberPath}" SelectedValuePath="{TemplateBinding SelectedValuePath}" SelectedValue="{TemplateBinding SelectedValue}" SelectedItem="{TemplateBinding SelectedItem}" ItemsSource="{TemplateBinding ItemsSource}"></ListBox>
                             </ContentControl>
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsFocused,ElementName=PART_TextBox}" Value="True">
+                        <DataTrigger Binding="{Binding IsFocused,ElementName=PART_Text}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -98,18 +76,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-    <Style TargetType="{x:Type DatePicker}" x:Key="DatePicker" BasedOn="{StaticResource BaseDatePicker}"></Style>
-    <Style TargetType="{x:Type DatePicker}" x:Key="DatePicker-Success" BasedOn="{StaticResource DatePicker}">
-        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
-    </Style>
-    <Style TargetType="{x:Type DatePicker}" x:Key="DatePicker-Primary" BasedOn="{StaticResource DatePicker}">
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
-    </Style>
-    <Style TargetType="{x:Type DatePicker}" x:Key="DatePicker-Warning" BasedOn="{StaticResource DatePicker}">
-        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
-    </Style>
-    <Style TargetType="{x:Type DatePicker}" x:Key="DatePicker-Danger" BasedOn="{StaticResource DatePicker}">
-        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
     </Style>
 </ResourceDictionary>

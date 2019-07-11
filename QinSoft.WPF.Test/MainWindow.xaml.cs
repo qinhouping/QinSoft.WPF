@@ -22,6 +22,9 @@ namespace QinSoft.WPF.Test
         public MainWindow()
         {
             InitializeComponent();
+
+            mcob.ItemsSource = new string[] { "hello", "world" };
+            mcob.SelectedItem = "hello";
         }
     }
 }
