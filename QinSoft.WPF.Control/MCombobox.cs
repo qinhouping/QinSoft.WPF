@@ -70,6 +70,12 @@ namespace QinSoft.WPF.Control
             DataList = GetTemplateChild("PART_ListBox") as ListBox;
 
             DataList.SelectionChanged += DataList_SelectionChanged;
+            DataList.MouseLeave += DataList_MouseLeave;
+        }
+
+        private void DataList_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.IsDropDownOpen = false;
         }
 
         private void DataList_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -136,4 +136,55 @@
         <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
     </Style>
+    
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <Style x:Key="BriefTabItem" TargetType="{x:Type TabItem}" BasedOn="{StaticResource BaseTabItem}">
+        <Setter Property="Margin" Value="2"></Setter>
+        <Setter Property="Width" Value="10"></Setter>
+        <Setter Property="MinWidth" Value="5"></Setter>
+        <Setter Property="Height" Value="10"></Setter>
+        <Setter Property="MinHeight" Value="5"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Rectangle x:Name="PART_Rectange" Stroke="{TemplateBinding BorderBrush}" Fill="Transparent" ToolTip="{TemplateBinding Header}"></Rectangle>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Rectange" Property="StrokeThickness"  Value="0"></Setter>
+                            <Setter TargetName="PART_Rectange" Property="Fill" Value="{Binding BorderBrush,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Rectange" Property="Fill" Value="{Binding Foreground,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="BriefTabs" TargetType="{x:Type TabControl}" BasedOn="{StaticResource BaseTabControl}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource BriefTabItem}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid>
+                        <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"></Border>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ContentPresenter Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" >
+                            <Border Background="{StaticResource DefaultCardBackgroundBrush}" Opacity="0.2">
+                            </Border>
+
+                            <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Horizontal" Opacity="0.8"></StackPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

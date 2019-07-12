@@ -281,6 +281,30 @@
                         </ListBox>
                     </ContentControl>
 
+                    <GroupBox Style="{StaticResource SwitchPanel}">
+                        <GroupBox.Header>
+                            <TextBlock Text="标题"></TextBlock>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TabControl Style="{StaticResource BriefTabs}"  Height="200">
+                            <TabItem Header="图片1">
+                                <ScrollViewer>
+                                    <Image Source="http://pic1.win4000.com/wallpaper/c/53cdd1f7c1f21.jpg"></Image>
+                                </ScrollViewer>
+                            </TabItem>
+                            <TabItem Header="图片2">
+                                <ScrollViewer>
+                                    <Image Source="http://pic41.nipic.com/20140509/12888705_172059218136_2.jpg"></Image>
+                                </ScrollViewer>
+                            </TabItem>
+                            <TabItem Header="图片3">
+                                <ScrollViewer>
+                                    <Image Source="http://pic32.nipic.com/20130810/7772606_170808427000_2.jpg"></Image>
+                                </ScrollViewer>
+                            </TabItem>
+                        </TabControl>
+                        </Grid>
+                    </GroupBox>
                 </StackPanel>
             </TabItem>
         </TabControl>
