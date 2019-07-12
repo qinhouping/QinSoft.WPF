@@ -287,25 +287,136 @@
                         </GroupBox.Header>
                         <Grid>
                             <TabControl Style="{StaticResource BriefTabs}"  Height="200">
-                            <TabItem Header="图片1">
-                                <ScrollViewer>
-                                    <Image Source="http://pic1.win4000.com/wallpaper/c/53cdd1f7c1f21.jpg"></Image>
-                                </ScrollViewer>
-                            </TabItem>
-                            <TabItem Header="图片2">
-                                <ScrollViewer>
-                                    <Image Source="http://pic41.nipic.com/20140509/12888705_172059218136_2.jpg"></Image>
-                                </ScrollViewer>
-                            </TabItem>
-                            <TabItem Header="图片3">
-                                <ScrollViewer>
-                                    <Image Source="http://pic32.nipic.com/20130810/7772606_170808427000_2.jpg"></Image>
-                                </ScrollViewer>
-                            </TabItem>
-                        </TabControl>
+                                <TabItem Header="图片1">
+                                    <ScrollViewer>
+                                        <Image Source="http://pic1.win4000.com/wallpaper/c/53cdd1f7c1f21.jpg"></Image>
+                                    </ScrollViewer>
+                                </TabItem>
+                                <TabItem Header="图片2">
+                                    <ScrollViewer>
+                                        <Image Source="http://pic41.nipic.com/20140509/12888705_172059218136_2.jpg"></Image>
+                                    </ScrollViewer>
+                                </TabItem>
+                                <TabItem Header="图片3">
+                                    <ScrollViewer>
+                                        <Image Source="http://pic32.nipic.com/20130810/7772606_170808427000_2.jpg"></Image>
+                                    </ScrollViewer>
+                                </TabItem>
+                            </TabControl>
                         </Grid>
                     </GroupBox>
                 </StackPanel>
+            </TabItem>
+
+            <TabItem Header="3D">
+                <Viewport3D>
+                    <Viewport3D.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Cube" Storyboard.TargetProperty="(Model3D.Transform).(Transform3DGroup.Children)[1].(RotateTransform3D.Rotation).(AxisAngleRotation3D.Angle)" From="0" To="360" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever"></DoubleAnimation>
+                                    <!--<DoubleAnimation Storyboard.TargetName="Cube" Storyboard.TargetProperty="(Model3D.Transform).(Transform3DGroup.Children)[2].(RotateTransform3D.Rotation).(AxisAngleRotation3D.Angle)" From="0" To="360" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever"></DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="Cube" Storyboard.TargetProperty="(Model3D.Transform).(Transform3DGroup.Children)[3].(RotateTransform3D.Rotation).(AxisAngleRotation3D.Angle)" From="0" To="360" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever"></DoubleAnimation>-->
+
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Viewport3D.Triggers>
+                    <ModelVisual3D>
+                        <ModelVisual3D.Content>
+                            <Model3DGroup x:Name="Cube">
+                                <Model3DGroup.Transform>
+                                    <Transform3DGroup>
+                                        <ScaleTransform3D></ScaleTransform3D>
+                                        <RotateTransform3D>
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D Angle="0" Axis="0 1 0"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D>
+                                        <RotateTransform3D>
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D Angle="0" Axis="0 0 1"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D>
+                                        <RotateTransform3D>
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D Angle="0" Axis="1 0 0"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D>
+                                        <TranslateTransform3D></TranslateTransform3D>
+                                    </Transform3DGroup>
+                                </Model3DGroup.Transform>
+                                
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="2,2,-2 -2,2,-2 -2,-2,-2 2,-2,-2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource BlueBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="2,2,2 -2,2,2 -2,-2,2 2,-2,2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource GreenBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="2,2,2 2,2,-2 -2,2,-2 -2,2,2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource RedBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="2,-2,2 2,-2,-2 -2,-2,-2 -2,-2,2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource YellowBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="2,2,2 2,-2,2 2,-2,-2 2,2,-2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource PurpleBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+
+                                <GeometryModel3D>
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D Positions="-2,2,2 -2,-2,2 -2,-2,-2 -2,2,-2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="{StaticResource AmberBrush}"></DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+                            </Model3DGroup>
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+
+                    <ModelVisual3D>
+                        <ModelVisual3D.Content>
+                            <Model3DGroup>
+                                <AmbientLight></AmbientLight>
+                            </Model3DGroup>
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+
+                    <Viewport3D.Camera>
+                        <PerspectiveCamera Position="20,20,20" LookDirection="-1,-1,-1">
+                        </PerspectiveCamera>
+                    </Viewport3D.Camera>
+                </Viewport3D>
             </TabItem>
         </TabControl>
 
