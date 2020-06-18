@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace QinSoft.WPF.Themes.Default
+namespace QinSoft.WPF
 {
     public class ValueConverters
     {
@@ -40,6 +40,31 @@ namespace QinSoft.WPF.Themes.Default
                     double v = Convert.ToDouble(value);
                     int avg = Convert.ToInt32(parameter);
                     return new CornerRadius((double)(v / avg));
+                });
+            }
+        }
+
+        public static IValueConverter AvgConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    double v = Convert.ToDouble(value);
+                    int avg = Convert.ToInt32(parameter);
+                    return (int)(v / avg);
+                });
+            }
+        }
+
+        public static IValueConverter TimeToStringConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    DateTime v = Convert.ToDateTime(value);
+                    return v.ToString("G");
                 });
             }
         }

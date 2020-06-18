@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QinSoft.WPF.Test"
         xmlns:lib="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
+        xmlns:t="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="850" Width="800">
     <DockPanel>
@@ -346,7 +347,7 @@
                                         <TranslateTransform3D></TranslateTransform3D>
                                     </Transform3DGroup>
                                 </Model3DGroup.Transform>
-                                
+
                                 <GeometryModel3D>
                                     <GeometryModel3D.Geometry>
                                         <MeshGeometry3D Positions="2,2,-2 -2,2,-2 -2,-2,-2 2,-2,-2" TriangleIndices="0,1,2 0,2,3"></MeshGeometry3D>
@@ -417,6 +418,166 @@
                         </PerspectiveCamera>
                     </Viewport3D.Camera>
                 </Viewport3D>
+            </TabItem>
+
+            <TabItem Header="IM">
+                <TabItem.Resources>
+                    <!--消息列表风格-->
+                    <Style TargetType="ListBox" x:Key="MessagesList">
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"></Setter>
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"></Setter>
+                    </Style>
+
+                    <!--消息列表子项风格-->
+                    <Style TargetType="ListBoxItem" x:Key="MessageItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                        <Setter Property="MinHeight" Value="30"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Grid>
+                                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                            <ContentPresenter x:Name="PART_Content" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!--消息项风格-->
+                    <Style TargetType="Label" x:Key="MessageContentWrapper">
+                        <Setter Property="Background" Value="LightGray"></Setter>
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Padding" Value="5"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Label}">
+                                    <Grid>
+                                        <Border x:Name="PART_Border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                            <ContentPresenter x:Name="PART_Content" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!--混合消息内容列表风格-->
+                    <Style TargetType="ListView" x:Key="MixMessages">
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"></Setter>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"></Setter>
+                    </Style>
+
+                    <!--混合消息内容子项风格-->
+                    <Style TargetType="ListViewItem" x:Key="MixMessageItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                        <Setter Property="MinHeight" Value="30"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Grid>
+                                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                            <ContentPresenter x:Name="PART_Content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!--混合消息子项容器模板-->
+                    <ItemsPanelTemplate x:Key="MixMessagesPanelTemplate">
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+
+                    <!--非混合消息内容数据模板-->
+                    <DataTemplate x:Key="MessageContentTemplate">
+                        <Grid >
+                            <TextBlock x:Name="unknown" Text="消息类型暂不支持" TextWrapping="Wrap" Visibility="Collapsed"></TextBlock>
+                            <TextBlock x:Name="txt" Text="{Binding Text}" TextWrapping="Wrap" Visibility="Collapsed"></TextBlock>
+                            <Image x:Name="img" Source="{Binding ThumbUrl}" Visibility="Collapsed" MouseDown="img_MouseDown" MaxHeight="150"></Image>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="Unknown">
+                                <Setter TargetName="unknown" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Text">
+                                <Setter TargetName="txt" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Image">
+                                <Setter TargetName="img" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+
+                    <!--混合消息内容数据模板-->
+                    <DataTemplate x:Key="MixMessageContentTemplate">
+                        <Grid>
+                            <ContentPresenter x:Name="noMix" ContentTemplate="{StaticResource MessageContentTemplate}" Visibility="Visible"></ContentPresenter>
+                            <ListView x:Name="mix" Style="{StaticResource MixMessages}" ItemContainerStyle="{StaticResource MixMessageItem}" ItemsPanel="{StaticResource MixMessagesPanelTemplate}" ItemTemplate="{DynamicResource MessageContentTemplate}"  ItemsSource="{Binding InnerMessages}" Visibility="Collapsed"></ListView>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="Mix">
+                                <Setter TargetName="noMix" Property="Visibility" Value="Collapsed"></Setter>
+                                <Setter TargetName="mix" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+
+                    <!--消息数据模板-->
+                    <DataTemplate x:Key="MessageItemTemplate">
+                        <Grid x:Name="grid">
+                            <Grid HorizontalAlignment="Left" Width="{Binding ActualWidth,Converter={x:Static t:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}" x:Name="leftGrid" Visibility="Visible">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Sender}"></Label>
+                                <Label Content="{Binding SendTime,Converter={x:Static t:ValueConverters.TimeToStringConverter}}" Grid.Column="1" HorizontalAlignment="Left"></Label>
+                                <Label Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource MessageContentWrapper}" HorizontalAlignment="Left">
+                                    <ContentPresenter ContentTemplate="{StaticResource MixMessageContentTemplate}"></ContentPresenter>
+                                </Label>
+                            </Grid>
+                            <Grid HorizontalAlignment="Right" Width="{Binding ActualWidth,Converter={x:Static t:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}"  x:Name="rightGrid" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Sender}" Grid.Column="1"></Label>
+                                <Label Content="{Binding SendTime,Converter={x:Static t:ValueConverters.TimeToStringConverter}}" HorizontalAlignment="Right"></Label>
+                                <Label Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource MessageContentWrapper}" HorizontalAlignment="Right">
+                                    <ContentPresenter ContentTemplate="{StaticResource MixMessageContentTemplate}"></ContentPresenter>
+                                </Label>
+                            </Grid>
+                        </Grid>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Left}" Value="False">
+                                <Setter TargetName="leftGrid" Property="Visibility" Value="Collapsed"></Setter>
+                                <Setter TargetName="rightGrid" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </TabItem.Resources>
+                <ListBox x:Name="chat" Style="{StaticResource MessagesList}" ItemContainerStyle="{StaticResource MessageItem}" ItemTemplate="{StaticResource MessageItemTemplate}"></ListBox>
             </TabItem>
         </TabControl>
 

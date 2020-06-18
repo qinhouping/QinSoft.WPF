@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default">
+                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default"
+                    xmlns:t="clr-namespace:QinSoft.WPF">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
@@ -91,13 +92,13 @@
 
                                     <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
                                     <ContentPresenter x:Name="PART_Content" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ContentPresenter>
-                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static t:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                         <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
                                     </ToggleButton>
                                 </Grid>
                             </Border>
 
-                            <Border x:Name="PART_SubMenu" Grid.Row="1" Visibility="{Binding Path=IsSubmenuOpen,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                            <Border x:Name="PART_SubMenu" Grid.Row="1" Visibility="{Binding Path=IsSubmenuOpen,Converter={x:Static t:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                 <StackPanel Margin="10,0,0,0" IsItemsHost="True" Orientation="Vertical" ></StackPanel>
                             </Border>
                         </Grid>
@@ -134,7 +135,7 @@
 
                                     <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
                                     <ContentPresenter x:Name="PART_Content" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ContentPresenter>
-                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static local:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                    <ToggleButton  x:Name="PART_Toggle" Grid.Column="2" Style="{StaticResource RotateToggleButton}" IsChecked="{Binding IsSubmenuOpen,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HasItems,Converter={x:Static t:ValueConverters.BooleanToVisibilityConverter},RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                         <TextBlock Style="{StaticResource IconChevronDown}"></TextBlock>
                                     </ToggleButton>
                                 </Grid>
