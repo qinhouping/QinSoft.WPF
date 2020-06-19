@@ -11,18 +11,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace QinSoft.WPF.Test
+namespace QinSoft.WPF.Test.View
 {
     /// <summary>
     /// ImageDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class ImageDialog : Window
+    public partial class ImageView : Window
     {
-        public ImageDialog(ImageSource source)
+        public ImageView()
         {
             InitializeComponent();
-
-            this.img.Source = source;
         }
     }
 }

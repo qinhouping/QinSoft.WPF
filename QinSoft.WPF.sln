@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio Version 16
+# Visual Studio Version 16
 VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.WPF", "QinSoft.WPF\QinSoft.WPF.csproj", "{72954F12-B600-4E5E-98BA-82AA5E046ADF}"
@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.WPF.Test", "QinSoft
 		{72954F12-B600-4E5E-98BA-82AA5E046ADF} = {72954F12-B600-4E5E-98BA-82AA5E046ADF}
 		{EF5E068B-F7A6-4E04-95F7-054B2CBE1EBC} = {EF5E068B-F7A6-4E04-95F7-054B2CBE1EBC}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.WPF.Core", "QinSoft.WPF.Core\QinSoft.WPF.Core.csproj", "{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{222AC418-A3B8-4F06-B0C3-942385174508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{222AC418-A3B8-4F06-B0C3-942385174508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{222AC418-A3B8-4F06-B0C3-942385174508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

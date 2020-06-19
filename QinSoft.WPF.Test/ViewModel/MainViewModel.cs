@@ -1,52 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using QinSoft.WPF.Core;
+using QinSoft.Ioc.Attribute;
+using QinSoft.Event;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.Windows;
 
-namespace QinSoft.WPF.Test
+namespace QinSoft.WPF.Test.ViewModel
 {
-    /// <summary>
-    /// MainWindow.xaml 的交互逻辑
-    /// </summary>
-    public partial class MainWindow : Window
+    [Component]
+    public class MainViewModel : PropertyChangedBase
     {
-        public MainWindow()
+        private string title;
+        public string Title
         {
-            InitializeComponent();
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                this.title = value;
+                this.NotifyPropertyChange(() => this.Title);
+            }
+        }
+        private IWindowManager windowManager;
+        private EventAggregator eventAggregator;
+        private TestViewModel testViewModel;
+        private ObservableCollection<Message> messages;
+        public ObservableCollection<Message> Messages
+        {
+            get
+            {
+                return this.messages;
+            }
+            set
+            {
+                this.messages = value;
+                this.NotifyPropertyChange(() => this.Messages);
+            }
+        }
 
-            mcob.ItemsSource = new string[] { "hello", "world" };
-            mcob.SelectedItem = "hello";
+        public MainViewModel(IWindowManager windowManager, TestViewModel testViewModel, EventAggregator eventAggregator)
+        {
+            this.Title = "QinSoft.WPF.Core.Test";
+            this.windowManager = windowManager;
+            this.eventAggregator = eventAggregator;
+            this.eventAggregator.Subscribe(this);
+            this.testViewModel = testViewModel;
 
-
-            chat.ItemsSource = new ObservableCollection<Message> {
+            this.messages = new ObservableCollection<Message> {
                new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Mix, InnerMessages=new ObservableCollection<Message>(){
                new Message() { Left = true, Sender = "test", SendTime = DateTime.Now, Type=MessageType.Text, Text = "inner message"  },
                new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Image, ThumbUrl="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg", Url="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg"  },
                           new Message() { Left = true, Sender = "test", SendTime = DateTime.Now, Type=MessageType.Text, Text = "inner message"  }
                }  }
             };
-
         }
 
-        public class Message : INotifyPropertyChanged
+        public ICommand TestClickCommand
         {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    windowManager.ShowWindow(this.testViewModel);
+                });
+            }
+        }
 
-            #region INotifyPropertyChanged 成员
+        public ICommand TestEventCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.eventAggregator.PublishAsync<string>(DateTime.Now.ToString());
+                });
+            }
+        }
 
-            public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand ShowImageCommand
+        {
+            get
+            {
+                return new RelayCommand<Message>((arg) =>
+                {
+                    windowManager.ShowDialog(new ImageViewModel(arg.Url));
+                });
+            }
+        }
 
-            #endregion
+
+
+        public class Message : PropertyChangedBase
+        {
 
             private string sender;
             public string Sender
@@ -58,7 +109,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.sender = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Sender"));
+                    this.NotifyPropertyChange(() => this.Sender);
                 }
             }
 
@@ -72,7 +123,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.sendTime = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("SendTime"));
+                    this.NotifyPropertyChange(() => this.SendTime);
                 }
             }
 
@@ -86,7 +137,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.left = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Left"));
+                    this.NotifyPropertyChange(() => this.Left);
                 }
             }
 
@@ -100,7 +151,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.type = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Type"));
+                    this.NotifyPropertyChange(() => this.Type);
                 }
             }
 
@@ -114,7 +165,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.text = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Text"));
+                    this.NotifyPropertyChange(() => this.Text);
                 }
             }
 
@@ -128,7 +179,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.thumbUrl = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("ThumbUrl"));
+                    this.NotifyPropertyChange(() => this.ThumbUrl);
                 }
             }
 
@@ -142,7 +193,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.url = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Url"));
+                    this.NotifyPropertyChange(() => this.Url);
                 }
             }
 
@@ -157,7 +208,7 @@ namespace QinSoft.WPF.Test
                 set
                 {
                     this.innerMessages = value;
-                    if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs("InnerMessages"));
+                    this.NotifyPropertyChange(() => this.InnerMessages);
                 }
             }
         }
@@ -168,16 +219,6 @@ namespace QinSoft.WPF.Test
             Text,
             Image,
             Mix
-        }
-
-        private void img_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed && e.ClickCount > 1)
-            {
-                Window win = new ImageDialog((sender as Image).Source);
-                win.Owner = this;
-                win.ShowDialog();
-            }
         }
     }
 }
