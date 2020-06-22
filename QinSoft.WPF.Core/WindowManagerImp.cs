@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using QinSoft.Ioc.Attribute;
 
@@ -44,8 +45,8 @@ namespace QinSoft.WPF.Core
         protected virtual Type GetWindowType(Type viewModelType)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
-            string winTypeFullName = viewModelType.FullName.Replace("ViewModel", "View");
-            return AppDomain.CurrentDomain.GetAssemblies().Select(u => u.GetType(winTypeFullName)).Where(u => u != null).FirstOrDefault();
+            string winTypeFullName = Regex.Replace(viewModelType.FullName, "ViewModel", "View", RegexOptions.IgnoreCase);
+            return AppDomain.CurrentDomain.GetAssemblies().Select(u => u.GetType(winTypeFullName, false, true)).Where(u => u != null).FirstOrDefault();
         }
 
         protected virtual Window CreateWindow(Type winType)
