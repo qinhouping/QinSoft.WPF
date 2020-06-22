@@ -44,7 +44,7 @@ namespace QinSoft.WPF.Test.ViewModel
             }
         }
 
-        public MainViewModel(IWindowManager windowManager, TestViewModel testViewModel, EventAggregator eventAggregator)
+        public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, TestViewModel testViewModel)
         {
             this.Title = "QinSoft.WPF.Core.Test";
             this.windowManager = windowManager;
