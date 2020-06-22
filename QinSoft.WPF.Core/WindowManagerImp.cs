@@ -71,7 +71,7 @@ namespace QinSoft.WPF.Core
                 foreach (KeyValuePair<string, object> set in setting)
                 {
                     PropertyInfo propertyInfo = winType.GetProperty(set.Key);
-                    if (propertyInfo != null) propertyInfo.SetValue(window, set.Value, null);
+                    if (propertyInfo != null && propertyInfo.CanWrite) propertyInfo.SetValue(window, set.Value, null);
                 }
             }
             this.windows.Add(window);

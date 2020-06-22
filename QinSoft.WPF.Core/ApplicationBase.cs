@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using QinSoft.Ioc;
 using QinSoft.Ioc.Container;
 using QinSoft.Ioc.Factory;
@@ -29,9 +30,9 @@ namespace QinSoft.WPF.Core
 
         public virtual void OnStartUp<T>(IDictionary<string, object> setting = null)
         {
-            object vm = this.IocApplicationContext.ObjectContainer.Get(typeof(T));
+            object viewModel = this.IocApplicationContext.ObjectContainer.Get(typeof(T));
             IWindowManager windowManager = this.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
-            windowManager.ShowWindow(vm, setting);
+            windowManager.ShowWindow(viewModel, setting);
         }
     }
 }
