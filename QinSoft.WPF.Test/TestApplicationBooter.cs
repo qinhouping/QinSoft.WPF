@@ -7,9 +7,9 @@ using System.Text;
 
 namespace QinSoft.WPF.Test
 {
-    public class TestApplicatonBooter : ApplicatonBooter
+    public class TestApplicationBooter : ApplicationBooter
     {
-        public TestApplicatonBooter() : base()
+        public TestApplicationBooter() : base()
         {
             this.OnStartUp<MainViewModel>();
         }
