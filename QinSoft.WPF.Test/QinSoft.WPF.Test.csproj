@@ -66,7 +66,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\ImageViewModel.cs" />
-    <Compile Include="TestApplicationBooter.cs" />
+    <Compile Include="ApplicationBooter.cs" />
     <Compile Include="View\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>

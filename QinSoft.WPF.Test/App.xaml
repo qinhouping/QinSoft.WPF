@@ -7,7 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
                 <ResourceDictionary>
-                    <local:TestApplicationBooter x:Key="booter"></local:TestApplicationBooter>
+                    <local:ApplicationBooter x:Key="applicationBooter"></local:ApplicationBooter>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

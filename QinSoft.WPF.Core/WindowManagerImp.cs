@@ -43,14 +43,21 @@ namespace QinSoft.WPF.Core
 
         protected virtual Type GetWindowType(Type viewModelType)
         {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             string winTypeFullName = viewModelType.FullName.Replace("ViewModel", "View");
             return AppDomain.CurrentDomain.GetAssemblies().Select(u => u.GetType(winTypeFullName)).Where(u => u != null).FirstOrDefault();
         }
 
         protected virtual Window CreateWindow(Type winType)
         {
+            if (winType == null) throw new ArgumentNullException("winType");
             Window window = Activator.CreateInstance(winType) as Window;
             return window;
+        }
+
+        protected virtual Window GetOwner()
+        {
+            return this.windows.LastOrDefault(u => u.Owner == null);
         }
 
         protected virtual void InitWindow(Window window, object dataContext, IDictionary<string, object> setting)
@@ -72,11 +79,6 @@ namespace QinSoft.WPF.Core
             {
                 this.windows.Remove(s as Window);
             };
-        }
-
-        protected virtual Window GetOwner()
-        {
-            return this.windows.LastOrDefault(u => u.Owner == null);
         }
     }
 }

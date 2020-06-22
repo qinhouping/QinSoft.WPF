@@ -50,7 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationBooter.cs" />
+    <Compile Include="ApplicationBase.cs" />
     <Compile Include="EventAggregatorImp.cs" />
     <Compile Include="IWindowManager.cs" />
     <Compile Include="PropertyChangedBase.cs" />

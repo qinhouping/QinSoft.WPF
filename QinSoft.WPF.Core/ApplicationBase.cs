@@ -9,11 +9,11 @@ using QinSoft.Ioc.Scaner;
 
 namespace QinSoft.WPF.Core
 {
-    public class ApplicationBooter
+    public abstract class ApplicationBase
     {
         public IocApplicationContext IocApplicationContext { get; protected set; }
 
-        public ApplicationBooter()
+        public ApplicationBase()
         {
             this.OnInit();
         }
