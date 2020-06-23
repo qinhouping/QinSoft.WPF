@@ -77,8 +77,8 @@ namespace QinSoft.WPF
         private Func<object, Type, object, CultureInfo, object> _convertBackFunc;
 
         public DelegateValueConverter(Func<object, Type, object, CultureInfo, object> convertFunc, Func<object, Type, object, CultureInfo, object> convertBackFunc)
-            : this(convertFunc)
         {
+            this._convertFunc = convertFunc;
             this._convertBackFunc = convertBackFunc;
         }
 

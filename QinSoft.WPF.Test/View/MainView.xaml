@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QinSoft.WPF.Test"
-        xmlns:lib="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
-        xmlns:t="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+        xmlns:test="clr-namespace:QinSoft.WPF.Test"
+        xmlns:control="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
+        xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="800" Width="1300">
     <DockPanel>
@@ -131,7 +131,7 @@
                         </Label>
                         <Button Content="Click" Style="{StaticResource FlatButton}" Width="100" Margin="2" Command="{Binding TestClickCommand}"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Success}" Command="{Binding TestEventCommand}"></Button>
-                        <Button Content="Click" Style="{StaticResource FlatButton-Primary}"></Button>
+                        <Button Content="Click" Style="{StaticResource FlatButton-Primary}" Click="Button_Click"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Warning}"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Danger}"></Button>
                         <Button Content="Click" Style="{StaticResource FlatButton-Danger}" IsEnabled="False"></Button>
@@ -248,8 +248,8 @@
 
                         <DatePicker Style="{StaticResource DatePicker-Danger}" Width="120"></DatePicker>
 
-                        <lib:MCombobox Width="100" x:Name="mcob">
-                        </lib:MCombobox>
+                        <control:MCombobox Width="100" x:Name="mcob">
+                        </control:MCombobox>
                     </WrapPanel>
                 </ContentControl>
             </TabItem>
@@ -541,7 +541,7 @@
                     <!--消息数据模板-->
                     <DataTemplate x:Key="MessageItemTemplate">
                         <Grid x:Name="grid">
-                            <Grid HorizontalAlignment="Left" Width="{Binding ActualWidth,Converter={x:Static t:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}" x:Name="leftGrid" Visibility="Visible">
+                            <Grid HorizontalAlignment="Left" Width="{Binding ActualWidth,Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}" x:Name="leftGrid" Visibility="Visible">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="Auto"></RowDefinition>
@@ -551,12 +551,12 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding Sender}"></Label>
-                                <Label Content="{Binding SendTime,Converter={x:Static t:ValueConverters.TimeToStringConverter}}" Grid.Column="1" HorizontalAlignment="Left"></Label>
+                                <Label Content="{Binding SendTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" Grid.Column="1" HorizontalAlignment="Left"></Label>
                                 <Label Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource MessageContentWrapper}" HorizontalAlignment="Left">
                                     <ContentPresenter ContentTemplate="{StaticResource MixMessageContentTemplate}"></ContentPresenter>
                                 </Label>
                             </Grid>
-                            <Grid HorizontalAlignment="Right" Width="{Binding ActualWidth,Converter={x:Static t:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}"  x:Name="rightGrid" Visibility="Collapsed">
+                            <Grid HorizontalAlignment="Right" Width="{Binding ActualWidth,Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2,  ElementName=grid}"  x:Name="rightGrid" Visibility="Collapsed">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="Auto"></RowDefinition>
@@ -566,7 +566,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding Sender}" Grid.Column="1"></Label>
-                                <Label Content="{Binding SendTime,Converter={x:Static t:ValueConverters.TimeToStringConverter}}" HorizontalAlignment="Right"></Label>
+                                <Label Content="{Binding SendTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" HorizontalAlignment="Right"></Label>
                                 <Label Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource MessageContentWrapper}" HorizontalAlignment="Right">
                                     <ContentPresenter ContentTemplate="{StaticResource MixMessageContentTemplate}"></ContentPresenter>
                                 </Label>

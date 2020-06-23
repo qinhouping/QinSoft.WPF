@@ -25,8 +25,13 @@ namespace QinSoft.WPF.Test.View
         {
             InitializeComponent();
 
-            mcob.ItemsSource = new string[] { "hello", "world" };
-            mcob.SelectedItem = "hello";
+            mcob.ItemsSource = new ObservableCollection<string>(new string[] { "hello", "world", "test" });
+            mcob.SelectedItems = new ObservableCollection<string>(new string[] { "hello", "world" });
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mcob.SelectedItems = new ObservableCollection<string>(new string[] { "hello", "world" });
         }
     }
 }

@@ -74,11 +74,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="themes\generic.xaml">
+    <Page Include="Themes\generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="themes\MCombobox.generic.xaml">
+    <Page Include="Themes\MCombobox.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

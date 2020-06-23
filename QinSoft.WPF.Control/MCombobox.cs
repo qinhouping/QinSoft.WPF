@@ -5,40 +5,31 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Reflection;
 using System;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Runtime.CompilerServices;
 
 namespace QinSoft.WPF.Control
 {
     /// <summary>
     /// 多选下拉框
     /// </summary>
-    [TemplatePart(Name = "PART_Text", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
     public class MCombobox : ComboBox
     {
-        private TextBox EditText { get; set; }
-
-        private ListBox DataList { get; set; }
-
-        public static readonly DependencyProperty SelectionModeProperty =
-            DependencyProperty.Register("SelectionMode", typeof(SelectionMode), typeof(MCombobox), new PropertyMetadata(SelectionMode.Single));
-
-        public SelectionMode SelectionMode
-        {
-            get
-            {
-                return (SelectionMode)this.GetValue(SelectionModeProperty);
-            }
-            set
-            {
-                this.SetValue(SelectionModeProperty, value);
-            }
-        }
+        private ListBox DataListBox;
+        public static readonly DependencyProperty SelectedItemsProperty =
+           DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MCombobox), new PropertyMetadata(new ObservableCollection<object>()));
 
         public IList SelectedItems
         {
             get
             {
-                return this.DataList.SelectedItems;
+                return this.GetValue(SelectedItemsProperty) as IList;
+            }
+            set
+            {
+                this.SetValue(SelectedItemsProperty, value);
             }
         }
 
@@ -62,40 +53,42 @@ namespace QinSoft.WPF.Control
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MCombobox), new FrameworkPropertyMetadata(typeof(MCombobox)));
         }
 
+        public MCombobox()
+        {
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            EditText = GetTemplateChild("PART_Text") as TextBox;
-            DataList = GetTemplateChild("PART_ListBox") as ListBox;
-
-            DataList.SelectionChanged += DataList_SelectionChanged;
-            DataList.MouseLeave += DataList_MouseLeave;
+            DataListBox = GetTemplateChild("PART_ListBox") as ListBox;
+            this.Text = GetText();
+            DataListBox.SelectionChanged += (s, e) =>
+            {
+                this.Text = GetText();
+            };
         }
 
-        private void DataList_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            this.IsDropDownOpen = false;
-        }
-
-        private void DataList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        protected string GetText()
         {
             IList<string> data = new List<string>();
-            foreach (object item in DataList.SelectedItems)
+            if (this.SelectedItems != null)
             {
-                Type type = item.GetType();
-                PropertyInfo propertyInfo = null;
-                if (!string.IsNullOrEmpty(DisplayMemberPath) && (propertyInfo = type.GetProperty(this.DisplayMemberPath)) != null)
+                foreach (object item in DataListBox.SelectedItems)
                 {
-                    data.Add(Convert.ToString(propertyInfo.GetValue(item, null)));
-                }
-                else
-                {
-                    data.Add(Convert.ToString(item));
+                    Type type = item.GetType();
+                    PropertyInfo propertyInfo = null;
+                    if ((propertyInfo = type.GetProperty(this.DisplayMemberPath)) != null)
+                    {
+                        data.Add(Convert.ToString(propertyInfo.GetValue(item, null)));
+                    }
+                    else
+                    {
+                        data.Add(Convert.ToString(item));
+                    }
                 }
             }
-            EditText.Text = string.Join(Separator, data.ToArray());
+            return string.Join(Separator, data.ToArray());
         }
     }
-
 }
