@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF4699F4-3C3B-4FC4-8F1E-A1CF2D2ED6E0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EMChat2</RootNamespace>
+    <AssemblyName>EMChat2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>log.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="QinSoft.Event, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QinSoft.Event.3.0.1\lib\net40\QinSoft.Event.dll</HintPath>
+    </Reference>
+    <Reference Include="QinSoft.Ioc, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QinSoft.Ioc.2.0.4\lib\net40\QinSoft.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="QinSoft.Log, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QinSoft.Log.2.2.0\lib\net40\QinSoft.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ApplicationBooter.cs" />
+    <Compile Include="Common\BaseTools.cs" />
+    <Compile Include="Common\ChineseCharactorTools.cs" />
+    <Compile Include="Common\EncryptTools.cs" />
+    <Compile Include="Common\ExecuteTools.cs" />
+    <Compile Include="Common\HttpTools.cs" />
+    <Compile Include="Common\RetryTools.cs" />
+    <Compile Include="Model\Entity\ChatInfo.cs" />
+    <Compile Include="Model\Entity\CustomerInfo.cs" />
+    <Compile Include="Model\Entity\EmotionInfo.cs" />
+    <Compile Include="Model\Entity\EmotionPackageInfo.cs" />
+    <Compile Include="Model\Entity\MessageInfo.cs" />
+    <Compile Include="Model\Entity\StaffInfo.cs" />
+    <Compile Include="Model\Entity\UserStateEnum.cs" />
+    <Compile Include="Service\EmotionPackageService.cs" />
+    <Compile Include="ViewModel\AlertViewModel.cs" />
+    <Compile Include="ViewModel\ApplicationContextViewModel.cs" />
+    <Compile Include="ViewModel\ApplicationSettingViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\Main\BodyAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\BottomAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\EmotionPickerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\PictureExplorerViewModel.cs" />
+    <Compile Include="ViewModel\Main\TopAreaViewModel.cs" />
+    <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="View\AlertView.xaml.cs">
+      <DependentUpon>AlertView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\BottomAreaView.xaml.cs">
+      <DependentUpon>BottomAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\BodyAreaView.xaml.cs">
+      <DependentUpon>BodyAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\ChatTabAreaView.xaml.cs">
+      <DependentUpon>ChatTabAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\ChatMessageAreaView.xaml.cs">
+      <DependentUpon>ChatMessageAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\ChatMessageInputAreaView.xaml.cs">
+      <DependentUpon>ChatMessageInputAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml.cs">
+      <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\ChatTabItem.cs" />
+    <Compile Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml.cs">
+      <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\EmotionPickerTabItemAreaView.xaml.cs">
+      <DependentUpon>EmotionPickerTabItemAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\PictureExplorerView.xaml.cs">
+      <DependentUpon>PictureExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\PrivateChatTabItemAreaView.xaml.cs">
+      <DependentUpon>PrivateChatTabItemAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\UserTabAreaView.xaml.cs">
+      <DependentUpon>UserTabAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\TopAreaView.xaml.cs">
+      <DependentUpon>TopAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShellTaskbarAreaView.xaml.cs">
+      <DependentUpon>ShellTaskbarAreaView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Event\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
+      <Project>{ef5e068b-f7a6-4e04-95f7-054b2cbe1ebc}</Project>
+      <Name>QinSoft.WPF.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QinSoft.WPF.Core\QinSoft.WPF.Core.csproj">
+      <Project>{edb8a36f-82b6-49ca-b9b5-fb29c928a892}</Project>
+      <Name>QinSoft.WPF.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QinSoft.WPF\QinSoft.WPF.csproj">
+      <Project>{72954f12-b600-4e5e-98ba-82aa5e046adf}</Project>
+      <Name>QinSoft.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resource\Style\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Style\ListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Style\Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\Style\Global.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Style\Image.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Style\Scroll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Style\Tab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\Style\Index.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\Style\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\Style\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AlertView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\BottomAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\BodyAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\ChatTabAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\ChatMessageAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\ChatMessageInputAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\EmotionPickerTabItemAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\PictureExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\PrivateChatTabItemAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\UserTabAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\TopAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShellTaskbarAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Image\DefaultHeaderImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Image\log.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="log.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Microsoft.Expression.Interactions.dll" />
+    <Content Include="lib\Microsoft.Windows.Shell.dll" />
+    <Content Include="lib\System.Windows.Interactivity.dll" />
+    <Resource Include="Resource\Image\emotion.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

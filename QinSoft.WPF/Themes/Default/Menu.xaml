@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:QinSoft.WPF.Themes.Default"
                     xmlns:t="clr-namespace:QinSoft.WPF">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Color.xaml"></ResourceDictionary>

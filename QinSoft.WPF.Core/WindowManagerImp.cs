@@ -12,7 +12,7 @@ namespace QinSoft.WPF.Core
     [Component]
     public class WindowManagerImp : IWindowManager
     {
-        private IList<Window> windows;
+        private IList<Window> windows = null;
 
         public WindowManagerImp()
         {

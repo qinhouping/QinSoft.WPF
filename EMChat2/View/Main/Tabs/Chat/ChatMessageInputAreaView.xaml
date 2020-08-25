@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Tabs.Chat.ChatMessageInputAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             mc:Ignorable="d" 
+             d:DesignHeight="170" d:DesignWidth="400">
+    <Grid>
+        <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" Style="{StaticResource IM-EmotionPicker-Popup}">
+            <view:EmotionPickerAreaView></view:EmotionPickerAreaView>
+        </Popup>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-ChatButton}">
+                        <TextBlock Style="{StaticResource IconSmileO}"></TextBlock>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:ChangePropertyAction PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=emotionPickerPopup}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button ToolTip="截图" Style="{StaticResource IM-ChatButton}">
+                        <TextBlock Style="{StaticResource IconCut}"></TextBlock>
+                    </Button>
+                    <Button ToolTip="图片" Style="{StaticResource IM-ChatButton}">
+                        <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
+                    </Button>
+                    <Button ToolTip="文件" Style="{StaticResource IM-ChatButton}">
+                        <TextBlock Style="{StaticResource IconFileO}"></TextBlock>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-ChatToggleButton}" IsChecked="{Binding IsShowChatSlider,Source={x:Static viewModel:ApplicationContextViewModel.Instance}, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource IconThList}"></TextBlock>
+                    </ToggleButton>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"></Grid>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="发送" ToolTip="发送消息">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ChatButton}">
+                            <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -31,6 +31,84 @@ namespace QinSoft.WPF
             }
         }
 
+        public static IValueConverter NotEmptyToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    string v = value as string;
+                    if (!string.IsNullOrEmpty(v))
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter EmptyToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    string v = value as string;
+                    if (string.IsNullOrEmpty(v))
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter ZeroToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    int? v = value as int?;
+                    if (v.HasValue && v == 0)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+
+
+        public static IValueConverter EqualsToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    if (value?.Equals(parameter) == true)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+
         public static IValueConverter AvgCornerRadiusConverter
         {
             get
@@ -63,8 +141,61 @@ namespace QinSoft.WPF
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    DateTime v = Convert.ToDateTime(value);
-                    return v.ToString("G");
+                    DateTime? v = value as DateTime?;
+                    string format = (parameter as string) ?? "yyyy-MM-dd HH:mm:ss";
+                    if (v.HasValue)
+                        return v.Value.ToString(format);
+                    else
+                        return string.Empty;
+                });
+            }
+        }
+
+        public static IValueConverter TimeToFriendlyStringConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    DateTime? v = value as DateTime?;
+                    if (v.HasValue)
+                    {
+                        DateTime n = DateTime.Now;
+                        //一天内
+                        if ((n - v.Value).TotalDays < 1)
+                        {
+                            return v.Value.ToString("HH:mm");
+                        }
+                        //七天内
+                        else if ((n - v.Value).TotalDays >= 1 && (n - v.Value).TotalDays < 7)
+                        {
+                            return v.Value.ToString("dd HH:mm");
+                        }
+                        //一年内
+                        else if ((n - v.Value).TotalDays >= 7 && (n - v.Value).TotalDays < 31)
+                        {
+                            return v.Value.ToString("MM-dd");
+                        }
+                        //超过一年
+                        else
+                        {
+                            return v.Value.ToString("yyyy-MM");
+                        }
+                    }
+                    else return string.Empty;
+                });
+            }
+        }
+
+        public static IValueConverter IntToFriendlyStringConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    int? v = value as int?;
+                    if (v.HasValue) return v.Value > 99 ? 99 : v.Value;
+                    else return string.Empty;
                 });
             }
         }

@@ -1,0 +1,16 @@
+﻿<Application x:Class="EMChat2.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:emchat="clr-namespace:EMChat2">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/QinSoft.WPF;component/Themes/Default/Index.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/EMChat2;component/Resource/Style/Index.xaml"></ResourceDictionary>
+                <ResourceDictionary>
+                    <emchat:ApplicationBooter x:Key="applicationBooter"></emchat:ApplicationBooter>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

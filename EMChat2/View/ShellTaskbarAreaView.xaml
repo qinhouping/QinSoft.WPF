@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="EMChat2.View.ShellTaskbarAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <i:Interaction.Triggers>
+                <ei:DataTrigger  Binding="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Static win:ResizeMode.NoResize}">
+                    <ei:ChangePropertyAction PropertyName="IsEnabled" Value="False" TargetName="maxBtn"/>
+                    <ei:ChangePropertyAction PropertyName="IsEnabled"   Value="False" TargetName="restoreBtn"/>
+                </ei:DataTrigger>
+                <ei:DataTrigger  Binding="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Static win:ResizeMode.CanMinimize}">
+                    <ei:ChangePropertyAction PropertyName="IsEnabled" Value="False" TargetName="maxBtn"/>
+                    <ei:ChangePropertyAction PropertyName="IsEnabled"   Value="False" TargetName="restoreBtn"/>
+                </ei:DataTrigger>
+            </i:Interaction.Triggers>
+
+            <Button x:Name="minBtn" ToolTip="最小化">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Style="{StaticResource IconWindowMinimize}"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Minimized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="maxBtn" ToolTip="最大化" Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Normal}}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Style="{StaticResource IconWindowMaximize}"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Maximized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="restoreBtn" ToolTip="还原" Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Maximized}}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Style="{StaticResource IconWindowRestore}"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Normal}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="closeBtn" ToolTip="关闭">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Style="{StaticResource IconTimes}"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
+                                <Setter Property="Foreground" Value="white"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}" MethodName="Close"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

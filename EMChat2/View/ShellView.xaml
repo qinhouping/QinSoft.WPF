@@ -1,0 +1,37 @@
+﻿<Window x:Class="EMChat2.View.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:EMChat2.View"
+        xmlns:main="clr-namespace:EMChat2.View.Main"
+        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
+        mc:Ignorable="d"
+        Title="东财通V2" MinHeight="700" MinWidth="1200" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
+    </shell:WindowChrome.WindowChrome>
+
+    <Border Style="{StaticResource IM-App}">
+        <Grid>
+
+            <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="50" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
+            </Grid>
+
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" Grid.ZIndex="1" >
+                <main:TopAreaView x:Name="topArea" Margin="0,28" DataContext="{Binding TopAreaViewModel}"></main:TopAreaView>
+            </Grid>
+
+            <Grid>
+                <main:BodyAreaView x:Name="mainArea" Grid.ZIndex="0" DataContext="{Binding BodyAreaViewModel}"></main:BodyAreaView>
+            </Grid>
+
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="50" Grid.ZIndex="1" >
+                <main:BottomAreaView x:Name="bottomArea" Margin="0,10" DataContext="{Binding BottomAreaViewModel}"></main:BottomAreaView>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
