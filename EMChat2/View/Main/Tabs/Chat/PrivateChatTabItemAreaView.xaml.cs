@@ -17,7 +17,7 @@ namespace EMChat2.View.Main.Tabs.Chat
     /// <summary>
     /// PrivateChatTabItemAreaView.xaml 的交互逻辑
     /// </summary>
-    public partial class PrivateChatTabItemAreaView : ChatTabItem
+    public partial class PrivateChatTabItemAreaView : ChatTabItemAreaView
     {
         public PrivateChatTabItemAreaView()
         {

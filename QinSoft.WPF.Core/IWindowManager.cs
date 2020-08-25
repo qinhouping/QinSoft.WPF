@@ -11,5 +11,11 @@ namespace QinSoft.WPF.Core
         Window ShowWindow(object viewModel, IDictionary<string, object> setting = null);
 
         bool? ShowDialog(object viewModel, IDictionary<string, object> setting = null);
+
+        void HideWindow(object viewModel);
+
+        void CloseWindow(object viewModel, bool? dialogResult);
+
+        void CloseWindow(object viewModel);
     }
 }

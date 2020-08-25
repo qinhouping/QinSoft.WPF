@@ -16,13 +16,14 @@ namespace EMChat2.ViewModel
         #region 构造函数
 
         [Constructor]
-        public AlertViewModel()
+        public AlertViewModel(IWindowManager windowManager)
         {
-
+            this.windowManager = windowManager;
         }
 
-        public AlertViewModel(string content, string title = "系统提示", AlertType alertType = AlertType.Info)
+        public AlertViewModel(IWindowManager windowManager, string content, string title = "系统提示", AlertType alertType = AlertType.Info)
         {
+            this.windowManager = windowManager;
             this.title = title;
             this.content = content;
             this.alertType = alertType;
@@ -31,6 +32,7 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 属性
+        private IWindowManager windowManager;
         private string title = "系统提示";
         public string Title
         {
@@ -74,6 +76,30 @@ namespace EMChat2.ViewModel
         }
 
 
+        #endregion
+
+        #region 命令
+        public ICommand ConfirmCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.windowManager.CloseWindow(this, true);
+                });
+            }
+        }
+
+        public ICommand CloseCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.windowManager.CloseWindow(this, null);
+                });
+            }
+        }
         #endregion
     }
 

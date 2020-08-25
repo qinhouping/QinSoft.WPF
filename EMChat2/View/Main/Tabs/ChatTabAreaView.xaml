@@ -10,7 +10,7 @@
       d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <TabControl Grid.ZIndex="0" ItemContainerStyle="{StaticResource IM-Chat-TabItem}">
+        <TabControl Grid.ZIndex="0" ItemContainerStyle="{StaticResource IM-Chat-TabItem}" ItemsSource="{Binding ChatTabItems}">
             <TabControl.Style>
                 <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource IM-Chat-Tab}">
                     <Setter Property="Background" Value="#EEEEEE"></Setter>
@@ -48,7 +48,7 @@
                 </Style>
             </TabControl.Style>
 
-            <chat:PrivateChatTabItemAreaView></chat:PrivateChatTabItemAreaView>
+            <!--<chat:PrivateChatTabItemAreaView></chat:PrivateChatTabItemAreaView>-->
         </TabControl>
     </Grid>
 </UserControl>

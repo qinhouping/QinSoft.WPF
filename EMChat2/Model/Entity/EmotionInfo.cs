@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EMChat2.Model.Entity
 {
     /// <summary>
-    /// 表情
+    /// 表情信息实体
     /// </summary>
     public class EmotionInfo : PropertyChangedBase
     {

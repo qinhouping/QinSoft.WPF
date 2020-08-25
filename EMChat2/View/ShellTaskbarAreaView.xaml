@@ -71,7 +71,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button x:Name="closeBtn" ToolTip="关闭">
+            <Button x:Name="closeBtn" ToolTip="关闭" Command="{Binding CloseCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
                         <Setter Property="Content">
@@ -87,12 +87,6 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}" MethodName="Close"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </Button>
         </StackPanel>
     </Grid>

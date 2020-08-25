@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Entity
 {
-    class MessageInfo
+    public class MessageInfo
     {
     }
 }

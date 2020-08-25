@@ -1,4 +1,4 @@
-﻿<view:ChatTabItem x:Class="EMChat2.View.Main.Tabs.Chat.PrivateChatTabItemAreaView"
+﻿<view:ChatTabItemAreaView x:Class="EMChat2.View.Main.Tabs.Chat.PrivateChatTabItemAreaView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,8 +7,9 @@
              xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" Style="{StaticResource IM-Chat-TabItem}"
-             d:DesignHeight="60" d:DesignWidth="230">
-    <view:ChatTabItem.Header>
+             d:DesignHeight="60" d:DesignWidth="230"
+             CreateTime="{Binding Chat.CreateTime}" IsTop="{Binding Chat.IsTop}" >
+    <view:ChatTabItemAreaView.Header>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -21,8 +22,9 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Column="0" Grid.RowSpan="2" >
-                <Image Margin="10" Style="{StaticResource IM-HeaderImage}" Source="/Resource/Image/DefaultHeaderImage.jpg"></Image>
-                <Label Content="99" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <TextBlock ToolTip="置顶" Style="{StaticResource IconLock}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource OrangeBrush}" Visibility="{Binding Chat.IsTop, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></TextBlock>
+                <Image Margin="10" Style="{StaticResource IM-HeaderImage}" Source="{Binding Chat.HeaderImageUrl}"></Image>
+                <Label Content="{Binding NotReadMessageCount}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
                     <Label.Style>
                         <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
                             <Setter Property="Width" Value="20"></Setter>
@@ -31,19 +33,10 @@
                         </Style>
                     </Label.Style>
                 </Label>
-
-                <Label HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8">
-                    <Label.Style>
-                        <Style BasedOn="{StaticResource Chip-Success}" TargetType="{x:Type Label}">
-                            <Setter Property="Width" Value="10"></Setter>
-                            <Setter Property="Height" Value="10"></Setter>
-                        </Style>
-                    </Label.Style>
-                </Label>
             </Grid>
 
             <Grid Grid.Column="1" Margin="0">
-                <TextBlock Text="测试私聊账号" VerticalAlignment="Bottom" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"></TextBlock>
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="1" Margin="0">
@@ -54,7 +47,7 @@
                 <TextBlock Text="13:14" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
             </Grid>
         </Grid>
-    </view:ChatTabItem.Header>
+    </view:ChatTabItemAreaView.Header>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -67,7 +60,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">
-            <TextBlock Text="测试私聊账号" VerticalAlignment="Bottom" Margin="10" FontSize="18"></TextBlock>
+            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18"></TextBlock>
         </Grid>
 
         <view:ChatMessageAreaView Grid.Row="1"></view:ChatMessageAreaView>
@@ -75,6 +68,6 @@
         <view:ChatMessageInputAreaView Grid.Row="2"></view:ChatMessageInputAreaView>
         <GridSplitter Grid.Row="2" Height="1" HorizontalAlignment ="Stretch" VerticalAlignment="Top"></GridSplitter>
 
-        <view:ChatSliderAreaView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="350" Visibility="{Binding IsShowChatSlider,Source={x:Static viewModel:ApplicationContextViewModel.Instance},Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter} }"></view:ChatSliderAreaView>
+        <view:ChatSliderAreaView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="350"></view:ChatSliderAreaView>
     </Grid>
-</view:ChatTabItem>
+</view:ChatTabItemAreaView>

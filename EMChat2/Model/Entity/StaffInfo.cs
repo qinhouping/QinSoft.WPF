@@ -7,90 +7,37 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Entity
 {
-    public class StaffInfo : PropertyChangedBase
+    /// <summary>
+    /// 内部员工信息实体
+    /// </summary>
+    public class StaffInfo : UserInfo
     {
-        private string id;
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-                this.NotifyPropertyChange(() => this.Id);
-            }
-        }
+        #region 构造函数
 
-        private string imUserId;
-        public string ImUserId
+        public StaffInfo()
         {
-            get
-            {
-                return this.imUserId;
-            }
-            set
-            {
-                this.imUserId = value;
-                this.NotifyPropertyChange(() => this.ImUserId);
-            }
+            this.Type = UserType.Staff;
         }
+        #endregion
 
-        private string code;
-        public string Code
-        {
-            get
-            {
-                return this.code;
-            }
-            set
-            {
-                this.code = value;
-                this.NotifyPropertyChange(() => this.Code);
-            }
-        }
+        #region 属性
 
-        private string name;
-        public string Name
+        /// <summary>
+        /// 工号
+        /// </summary>
+        private string workCode;
+        public string WorkCode
         {
             get
             {
-                return this.name;
+                return this.workCode;
             }
             set
             {
-                this.name = value;
-                this.NotifyPropertyChange(() => this.Name);
+                this.workCode = value;
+                this.NotifyPropertyChange(() => this.WorkCode);
             }
         }
-
-        private string headerImageUrl;
-        public string HeaderImageUrl
-        {
-            get
-            {
-                return this.headerImageUrl;
-            }
-            set
-            {
-                this.headerImageUrl = value;
-                this.NotifyPropertyChange(() => this.HeaderImageUrl);
-            }
-        }
-
-        private UserStateEnum state;
-        public UserStateEnum State
-        {
-            get
-            {
-                return this.state;
-            }
-            set
-            {
-                this.state = value;
-                this.NotifyPropertyChange(() => this.State);
-            }
-        }
+        #endregion
     }
 }

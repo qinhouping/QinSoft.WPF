@@ -7,7 +7,7 @@
         xmlns:main="clr-namespace:EMChat2.View.Main"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
-        Title="东财通V2" MinHeight="700" MinWidth="1200" Height="700" Width="1200"
+        Title="东财通2.0" MinHeight="700" MinWidth="1200" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip">
 
     <shell:WindowChrome.WindowChrome>
@@ -26,7 +26,7 @@
             </Grid>
 
             <Grid>
-                <main:BodyAreaView x:Name="mainArea" Grid.ZIndex="0" DataContext="{Binding BodyAreaViewModel}"></main:BodyAreaView>
+                <main:BodyAreaView x:Name="bodyArea" Grid.ZIndex="0" DataContext="{Binding BodyAreaViewModel}"></main:BodyAreaView>
             </Grid>
 
             <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="50" Grid.ZIndex="1" >

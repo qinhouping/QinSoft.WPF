@@ -24,8 +24,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.CurrentIndex = currentIndex;
         }
 
-        public PictureExplorerViewModel(string source)
+        public PictureExplorerViewModel(IWindowManager windowManager, string source)
         {
+            if (windowManager == null || string.IsNullOrEmpty(source)) throw new ArgumentNullException();
+            this.windowManager = windowManager;
             this.Sources = new string[1] { source };
             this.CurrentIndex = 0;
         }
@@ -99,6 +101,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 命令
+        public ICommand CloseCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.windowManager.CloseWindow(this);
+                });
+            }
+        }
+
         public ICommand PreviousCommand
         {
             get
@@ -145,17 +158,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                                     try
                                     {
                                         task.Result.ToFile(fileDialog.FileName);
-                                        new Action(() => this.windowManager.ShowDialog(new AlertViewModel("保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
+                                        new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
                                     }
                                     catch (Exception e)
                                     {
-                                        new Action(() => this.windowManager.ShowDialog(new AlertViewModel("保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
+                                        new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
                                     }
                                 });
                             }
                             catch (Exception e)
                             {
-                                new Action(() => this.windowManager.ShowDialog(new AlertViewModel("保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
+                                new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
                             }
                         }
                         else
@@ -165,11 +178,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                                 try
                                 {
                                     new FileInfo(this.CurrentSource).FromFile().ToFile(fileDialog.FileName);
-                                    new Action(() => this.windowManager.ShowDialog(new AlertViewModel("保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
+                                    new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
                                 }
                                 catch (Exception e)
                                 {
-                                    new Action(() => this.windowManager.ShowDialog(new AlertViewModel("保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
+                                    new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
                                 }
                             }).ExecuteInTask();
                         }

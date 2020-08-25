@@ -76,7 +76,26 @@ namespace QinSoft.WPF
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     int? v = value as int?;
-                    if (v.HasValue && v == 0)
+                    if (!v.HasValue || v == 0)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter NotZeroToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    int? v = value as int?;
+                    if (v.HasValue && v != 0)
                     {
                         return Visibility.Visible;
                     }

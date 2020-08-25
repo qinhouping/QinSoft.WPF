@@ -1,4 +1,5 @@
-﻿using QinSoft.Event;
+﻿using EMChat2.Model.Entity;
+using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
 using System;
@@ -6,17 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main
 {
     [Component]
     public class TopAreaViewModel : PropertyChangedBase
     {
-        #region
+        #region 构造函数
         public TopAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
+            this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
         }
         #endregion
@@ -35,6 +38,19 @@ namespace EMChat2.ViewModel.Main
             {
                 this.applicationContextViewModel = value;
                 this.NotifyPropertyChange(() => this.applicationContextViewModel);
+            }
+        }
+        #endregion
+
+        #region 命令
+        public ICommand ChangeCurrentStaffStateCommand
+        {
+            get
+            {
+                return new RelayCommand<UserStateEnum>(userStateEnum =>
+                {
+                    this.applicationContextViewModel.CurrentStaff.State = userStateEnum;
+                });
             }
         }
         #endregion

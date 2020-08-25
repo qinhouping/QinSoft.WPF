@@ -81,5 +81,33 @@ namespace QinSoft.WPF.Core
                 this.windows.Remove(s as Window);
             };
         }
+
+        public void HideWindow(object viewModel)
+        {
+            if (viewModel == null) throw new ArgumentNullException("viewModel");
+            foreach (Window win in this.windows.Where(u => viewModel.Equals(u.DataContext)))
+            {
+                win.Hide();
+            }
+        }
+
+        public void CloseWindow(object viewModel, bool? dialogResult)
+        {
+            if (viewModel == null) throw new ArgumentNullException("viewModel");
+            foreach (Window win in this.windows.ToList().Where(u => viewModel.Equals(u.DataContext)))
+            {
+                win.DialogResult = dialogResult;
+                win.Close();
+            }
+        }
+
+        public void CloseWindow(object viewModel)
+        {
+            if (viewModel == null) throw new ArgumentNullException("viewModel");
+            foreach (Window win in this.windows.ToList().Where(u => viewModel.Equals(u.DataContext)))
+            {
+                win.Close();
+            }
+        }
     }
 }

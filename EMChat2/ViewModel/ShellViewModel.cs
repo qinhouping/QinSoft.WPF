@@ -7,17 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel
 {
     [Component]
     public class ShellViewModel : PropertyChangedBase
     {
-        #region
+        #region 构造函数
         public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
+            this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.bodyAreaViewModel = bodyAreaViewModel;
             this.bottomAreaViewModel = bottomAreaViewModel;
@@ -78,6 +80,19 @@ namespace EMChat2.ViewModel
             {
                 this.topAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.TopAreaViewModel);
+            }
+        }
+        #endregion
+
+        #region 命令
+        public ICommand CloseCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.windowManager.CloseWindow(this);
+                });
             }
         }
         #endregion

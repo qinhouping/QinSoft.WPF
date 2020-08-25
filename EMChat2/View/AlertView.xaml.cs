@@ -23,11 +23,5 @@ namespace EMChat2.View
         {
             InitializeComponent();
         }
-
-        private void confirmBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-            this.Close();
-        }
     }
 }

@@ -104,7 +104,8 @@
     <Compile Include="Model\Entity\EmotionPackageInfo.cs" />
     <Compile Include="Model\Entity\MessageInfo.cs" />
     <Compile Include="Model\Entity\StaffInfo.cs" />
-    <Compile Include="Model\Entity\UserStateEnum.cs" />
+    <Compile Include="Model\Entity\SystemUserInfo.cs" />
+    <Compile Include="Model\Entity\UserInfo.cs" />
     <Compile Include="Service\EmotionPackageService.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\ApplicationContextViewModel.cs" />
@@ -112,8 +113,12 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\Main\BodyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\BottomAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\ChatTabAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\ChatTabItemAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\EmotionPickerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\PictureExplorerViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatTabItemAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\UserTabAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\TopAreaViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\AlertView.xaml.cs">
@@ -140,7 +145,7 @@
     <Compile Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml.cs">
       <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\ChatTabItem.cs" />
+    <Compile Include="View\Main\Tabs\Chat\ChatTabItemAreaView.cs" />
     <Compile Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml.cs">
       <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
     </Compile>
