@@ -14,8 +14,9 @@ namespace EMChat2
 
         public ApplicationBooter() : base()
         {
+            if (Current != null) throw new InvalidProgramException("An instantiation of the applicationbooter object already exists");
             Current = this;
-            this.OnStartUp<ShellViewModel>();
+            this.OnStartUp<LoginViewModel>();
         }
     }
 }

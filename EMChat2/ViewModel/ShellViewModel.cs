@@ -1,4 +1,7 @@
-﻿using EMChat2.ViewModel.Main;
+﻿using EMChat2.Common;
+using EMChat2.Model.Event;
+using EMChat2.Service;
+using EMChat2.ViewModel.Main;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -12,10 +15,10 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class ShellViewModel : PropertyChangedBase
+    public class ShellViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
-        public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel)
+        public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -24,6 +27,7 @@ namespace EMChat2.ViewModel
             this.bodyAreaViewModel = bodyAreaViewModel;
             this.bottomAreaViewModel = bottomAreaViewModel;
             this.topAreaViewModel = topAreaViewModel;
+            this.userService = userService;
         }
         #endregion
 
@@ -82,6 +86,7 @@ namespace EMChat2.ViewModel
                 this.NotifyPropertyChange(() => this.TopAreaViewModel);
             }
         }
+        private UserService userService;
         #endregion
 
         #region 命令
@@ -91,9 +96,27 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.CloseWindow(this);
+                    //this.windowManager.HideWindow(this);
+                    this.userService.Exit();
                 });
             }
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(LoginEventArgs arg)
+        {
+            new Action(() => this.windowManager.ShowWindow(this)).ExecuteInUIThread();
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            new Action(() => this.windowManager.CloseWindow(this)).ExecuteInUIThread();
         }
         #endregion
     }

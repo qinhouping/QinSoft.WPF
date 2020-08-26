@@ -38,7 +38,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-ChatToggleButton}" >
+                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-ChatToggleButton}" IsChecked="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Mode=TwoWay}">
                         <TextBlock Style="{StaticResource IconThList}"></TextBlock>
                     </ToggleButton>
                 </StackPanel>
@@ -54,8 +54,8 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="400">
-            <view:EmotionPickerAreaView></view:EmotionPickerAreaView>
+        <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">
+            <view:EmotionPickerAreaView DataContext="{Binding EmotionPickerAreaViewModel}"></view:EmotionPickerAreaView>
         </Popup>
     </Grid>
 </UserControl>

@@ -12,6 +12,7 @@ namespace EMChat2.Model.Entity
     /// </summary>
     public class EmotionInfo : PropertyChangedBase
     {
+        #region 属性
         /// <summary>
         /// 表情ID
         /// </summary>
@@ -41,8 +42,8 @@ namespace EMChat2.Model.Entity
             }
             set
             {
-                this.id = value;
-                this.NotifyPropertyChange(() => this.Id);
+                this.name = value;
+                this.NotifyPropertyChange(() => this.Name);
             }
         }
 
@@ -59,7 +60,21 @@ namespace EMChat2.Model.Entity
             set
             {
                 this.url = value;
+                this.NotifyPropertyChange(() => this.Url);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as EmotionInfo)?.id);
+        }
+        #endregion
     }
 }

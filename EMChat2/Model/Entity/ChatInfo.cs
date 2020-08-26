@@ -19,6 +19,7 @@ namespace EMChat2.Model.Entity
             this.createTime = DateTime.Now;
         }
         #endregion
+
         #region 属性
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace EMChat2.Model.Entity
         }
 
         /// <summary>
-        /// 房间id
+        /// 房间id（群聊才会设置该值）
         /// </summary>
         private string roomId;
         public string RoomId
@@ -52,6 +53,40 @@ namespace EMChat2.Model.Entity
             {
                 this.roomId = value;
                 this.NotifyPropertyChange(() => this.RoomId);
+            }
+        }
+
+        /// <summary>
+        /// 会话id
+        /// </summary>
+        private string chatId;
+        public string ChatId
+        {
+            get
+            {
+                return this.chatId;
+            }
+            set
+            {
+                this.chatId = value;
+                this.NotifyPropertyChange(() => this.ChatId);
+            }
+        }
+
+        /// <summary>
+        /// 业务
+        /// </summary>
+        private BusinessEnum? business;
+        public BusinessEnum? Business
+        {
+            get
+            {
+                return this.business;
+            }
+            set
+            {
+                this.business = value;
+                this.NotifyPropertyChange(() => this.business);
             }
         }
 
@@ -122,6 +157,24 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.IsTop);
             }
         }
+
+        /// <summary>
+        /// 是否提醒
+        /// </summary>
+        private bool isInform;
+        public bool IsInform
+        {
+            get
+            {
+                return this.isInform;
+            }
+            set
+            {
+                this.isInform = value;
+                this.NotifyPropertyChange(() => this.IsInform);
+            }
+        }
+
         /// <summary>
         /// 参与会话用户
         /// </summary>
@@ -154,6 +207,18 @@ namespace EMChat2.Model.Entity
                 this.createTime = value;
                 this.NotifyPropertyChange(() => this.CreateTime);
             }
+        }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.chatId.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.chatId.Equals((obj as ChatInfo)?.chatId);
         }
         #endregion
     }

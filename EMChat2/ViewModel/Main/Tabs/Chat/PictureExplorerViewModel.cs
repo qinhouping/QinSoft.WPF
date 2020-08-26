@@ -202,7 +202,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public void OnImageMouseWheel(object sender, MouseWheelEventArgs e)
+        public void ScaleCommand(object sender, MouseWheelEventArgs e)
         {
             this.Scale += (double)e.Delta / 3000;
         }

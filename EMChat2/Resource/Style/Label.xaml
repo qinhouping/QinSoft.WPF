@@ -5,4 +5,11 @@
         <Setter Property="Foreground" Value="#CCCCCC"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
     </Style>
+
+    <Style x:Key="IM-Name" TargetType="{x:Type Label}" >
+        <Setter Property="Foreground" Value="#BBBBBB"></Setter>
+        <Setter Property="FontFamily" Value="华文楷体"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="Opacity" Value="0.5"></Setter>
+    </Style>
 </ResourceDictionary>

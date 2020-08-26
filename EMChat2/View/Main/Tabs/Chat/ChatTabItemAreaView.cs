@@ -29,7 +29,7 @@ namespace EMChat2.View.Main.Tabs.Chat
         {
             get
             {
-                return (DateTime)this.GetValue(LastMessageTimeProperty);
+                return (DateTime?)this.GetValue(LastMessageTimeProperty);
             }
             set
             {

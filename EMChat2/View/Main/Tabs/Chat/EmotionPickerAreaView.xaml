@@ -7,15 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Border Style="{StaticResource IM-Popup-Content}">
-        <TabControl Style="{StaticResource IM-EmotionPicker-Tab}">
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
-            <view:EmotionPickerTabItemAreaView></view:EmotionPickerTabItemAreaView>
+        <TabControl Style="{StaticResource IM-EmotionPicker-Tab}" ItemsSource="{Binding EmotionPickerTabItems}">
+            
         </TabControl>
     </Border>
 </UserControl>

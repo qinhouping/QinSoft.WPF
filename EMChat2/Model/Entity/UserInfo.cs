@@ -115,6 +115,18 @@ namespace EMChat2.Model.Entity
             }
         }
         #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.imUserId.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.imUserId.Equals((obj as UserInfo)?.imUserId);
+        }
+        #endregion
     }
 
     /// <summary>

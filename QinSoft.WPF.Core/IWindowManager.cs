@@ -8,9 +8,9 @@ namespace QinSoft.WPF.Core
 {
     public interface IWindowManager
     {
-        Window ShowWindow(object viewModel, IDictionary<string, object> setting = null);
+        Window ShowWindow(object viewModel, bool isSingleton = true, IDictionary<string, object> setting = null);
 
-        bool? ShowDialog(object viewModel, IDictionary<string, object> setting = null);
+        bool? ShowDialog(object viewModel, bool isSingleton = true, IDictionary<string, object> setting = null);
 
         void HideWindow(object viewModel);
 

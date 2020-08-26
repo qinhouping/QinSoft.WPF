@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,61 @@ namespace QinSoft.WPF
                 {
                     bool? v = value as bool?;
                     if (v == true)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter ReverseBooleanToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    bool? v = value as bool?;
+                    if (v == false)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter NotNullToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    if (value != null)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter NullToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    if (value == null)
                     {
                         return Visibility.Visible;
                     }
@@ -69,25 +126,6 @@ namespace QinSoft.WPF
             }
         }
 
-        public static IValueConverter ZeroToVisibilityConverter
-        {
-            get
-            {
-                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
-                {
-                    int? v = value as int?;
-                    if (!v.HasValue || v == 0)
-                    {
-                        return Visibility.Visible;
-                    }
-                    else
-                    {
-                        return Visibility.Collapsed;
-                    }
-                });
-            }
-        }
-
         public static IValueConverter NotZeroToVisibilityConverter
         {
             get
@@ -107,7 +145,24 @@ namespace QinSoft.WPF
             }
         }
 
-
+        public static IValueConverter ZeroToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    int? v = value as int?;
+                    if (!v.HasValue || v == 0)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
 
         public static IValueConverter EqualsToVisibilityConverter
         {
@@ -127,6 +182,45 @@ namespace QinSoft.WPF
             }
         }
 
+        public static IValueConverter NotEqualsToVisibilityConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    if (value?.Equals(parameter) == false)
+                    {
+                        return Visibility.Visible;
+                    }
+                    else
+                    {
+                        return Visibility.Collapsed;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter EqualsToBooleanConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    return value?.Equals(parameter) == true;
+                });
+            }
+        }
+
+        public static IValueConverter NotEqualsToBooleanConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    return value?.Equals(parameter) == false;
+                });
+            }
+        }
 
         public static IValueConverter AvgCornerRadiusConverter
         {
@@ -215,6 +309,28 @@ namespace QinSoft.WPF
                     int? v = value as int?;
                     if (v.HasValue) return v.Value > 99 ? 99 : v.Value;
                     else return string.Empty;
+                });
+            }
+        }
+
+        public static IValueConverter EnumToDescriptionConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    Enum enumValue = value as Enum;
+                    if (enumValue == null)
+                    {
+                        return string.Empty;
+                    }
+                    else
+                    {
+                        FieldInfo field = enumValue.GetType().GetField(value.ToString());
+                        DescriptionAttribute[] descriptionAttributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+                        if (descriptionAttributes.Count() == 0) return string.Empty;
+                        else return descriptionAttributes[0].Description;
+                    }
                 });
             }
         }

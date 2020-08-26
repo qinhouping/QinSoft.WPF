@@ -11,9 +11,9 @@
     <Grid>
         <Image Style="{StaticResource IM-HeaderImage}" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
-            <Label Style="{StaticResource Chip-Success}" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
-            <Label Style="{StaticResource Chip-Warning}" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
-            <Label Style="{StaticResource Chip-Danger}" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
+            <Label Style="{StaticResource Chip-Warning}" ToolTip="离开" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
+            <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
 
             <Grid.ContextMenu>
                 <ContextMenu>

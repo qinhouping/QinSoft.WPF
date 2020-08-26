@@ -12,17 +12,6 @@
              d:DesignHeight="50" d:DesignWidth="800">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <i:Interaction.Triggers>
-                <ei:DataTrigger  Binding="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Static win:ResizeMode.NoResize}">
-                    <ei:ChangePropertyAction PropertyName="IsEnabled" Value="False" TargetName="maxBtn"/>
-                    <ei:ChangePropertyAction PropertyName="IsEnabled"   Value="False" TargetName="restoreBtn"/>
-                </ei:DataTrigger>
-                <ei:DataTrigger  Binding="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Static win:ResizeMode.CanMinimize}">
-                    <ei:ChangePropertyAction PropertyName="IsEnabled" Value="False" TargetName="maxBtn"/>
-                    <ei:ChangePropertyAction PropertyName="IsEnabled"   Value="False" TargetName="restoreBtn"/>
-                </ei:DataTrigger>
-            </i:Interaction.Triggers>
-
             <Button x:Name="minBtn" ToolTip="最小化">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
@@ -39,7 +28,9 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button x:Name="maxBtn" ToolTip="最大化" Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Normal}}">
+            <Button x:Name="maxBtn" ToolTip="最大化" 
+                    Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Normal}}"
+                    IsEnabled="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.NotEqualsToBooleanConverter},ConverterParameter={x:Static win:ResizeMode.NoResize}}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
                         <Setter Property="Content">
@@ -55,7 +46,9 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button x:Name="restoreBtn" ToolTip="还原" Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Maximized}}">
+            <Button x:Name="restoreBtn" ToolTip="还原" 
+                    Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Maximized}}"
+                    IsEnabled="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.NotEqualsToBooleanConverter},ConverterParameter={x:Static win:ResizeMode.NoResize}}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBarButton}">
                         <Setter Property="Content">

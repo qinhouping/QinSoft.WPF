@@ -32,7 +32,7 @@ namespace QinSoft.WPF.Core
         {
             object viewModel = this.IocApplicationContext.ObjectContainer.Get(typeof(T));
             IWindowManager windowManager = this.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
-            windowManager.ShowWindow(viewModel, setting);
+            windowManager.ShowWindow(viewModel, true, setting);
         }
     }
 }

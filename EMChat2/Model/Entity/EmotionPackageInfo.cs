@@ -13,6 +13,7 @@ namespace EMChat2.Model.Entity
     /// </summary>
     public class EmotionPackageInfo : PropertyChangedBase
     {
+        #region 属性
         /// <summary>
         /// 表情包ID
         /// </summary>
@@ -94,6 +95,19 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.Emotions);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as EmotionPackageInfo)?.id);
+        }
+        #endregion
     }
 
     /// <summary>

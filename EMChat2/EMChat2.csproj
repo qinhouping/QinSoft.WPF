@@ -98,24 +98,33 @@
     <Compile Include="Common\ExecuteTools.cs" />
     <Compile Include="Common\HttpTools.cs" />
     <Compile Include="Common\RetryTools.cs" />
+    <Compile Include="Model\Entity\BusinessEnum.cs" />
     <Compile Include="Model\Entity\ChatInfo.cs" />
     <Compile Include="Model\Entity\CustomerInfo.cs" />
     <Compile Include="Model\Entity\EmotionInfo.cs" />
     <Compile Include="Model\Entity\EmotionPackageInfo.cs" />
     <Compile Include="Model\Entity\MessageInfo.cs" />
+    <Compile Include="Model\Entity\RoomInfo.cs" />
+    <Compile Include="Model\Entity\SettingInfo.cs" />
     <Compile Include="Model\Entity\StaffInfo.cs" />
     <Compile Include="Model\Entity\SystemUserInfo.cs" />
     <Compile Include="Model\Entity\UserInfo.cs" />
-    <Compile Include="Service\EmotionPackageService.cs" />
+    <Compile Include="Model\Event\ExitEventArgs.cs" />
+    <Compile Include="Model\Event\LoginEventArgs.cs" />
+    <Compile Include="Model\Event\LogoutEventArgs.cs" />
+    <Compile Include="Service\ChatService.cs" />
+    <Compile Include="Service\SystemService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\ApplicationContextViewModel.cs" />
-    <Compile Include="ViewModel\ApplicationSettingViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\Main\BodyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\BottomAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Bottom\BottomSettingAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\ChatTabAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatTabItemAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\EmotionPickerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\EmotionPickerTabItemAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\PictureExplorerViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatTabItemAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\UserTabAreaViewModel.cs" />
@@ -132,6 +141,9 @@
     </Compile>
     <Compile Include="View\Main\BodyAreaView.xaml.cs">
       <DependentUpon>BodyAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Bottom\BottomSettingAreaView.xaml.cs">
+      <DependentUpon>BottomSettingAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Tabs\ChatTabAreaView.xaml.cs">
       <DependentUpon>ChatTabAreaView.xaml</DependentUpon>
@@ -196,9 +208,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Event\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
       <Project>{ef5e068b-f7a6-4e04-95f7-054b2cbe1ebc}</Project>
@@ -267,6 +277,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Main\BodyAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Bottom\BottomSettingAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

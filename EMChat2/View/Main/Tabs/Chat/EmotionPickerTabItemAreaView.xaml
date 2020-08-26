@@ -7,13 +7,13 @@
              mc:Ignorable="d" Style="{StaticResource IM-EmotionPicker-TabItem}"
              d:DesignHeight="40" d:DesignWidth="80">
     <TabItem.Header>
-        <Image Source="/Resource/Image/emotion.jpg"></Image>
+        <Image Source="{Binding EmotionPackage.ThumbUrl}" ToolTip="{Binding EmotionPackage.Name}"></Image>
     </TabItem.Header>
     <Grid>
-        <ListBox Style="{StaticResource IM-EmotionPicker-List}" ItemContainerStyle="{StaticResource IM-EmotionPicker-ListItem}">
+        <ListBox Style="{StaticResource IM-EmotionPicker-List}" ItemContainerStyle="{StaticResource IM-EmotionPicker-ListItem}" ItemsSource="{Binding EmotionPackage.Emotions}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Url}"></Image>
+                    <Image Source="{Binding Url}" ToolTip="{Binding Name}" MaxWidth="32"></Image>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

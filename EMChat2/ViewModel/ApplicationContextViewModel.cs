@@ -29,27 +29,14 @@ namespace EMChat2.ViewModel
                 ImUserId = "1111",
                 State = UserStateEnum.Online
             };
+
+            this.setting = new SettingInfo();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-
-        private bool isShowChatSlider = true;
-        public bool IsShowChatSlider
-        {
-            get
-            {
-                return this.isShowChatSlider;
-            }
-            set
-            {
-                this.isShowChatSlider = value;
-                this.NotifyPropertyChange(() => this.IsShowChatSlider);
-            }
-        }
-
         private StaffInfo currentStaff;
         public StaffInfo CurrentStaff
         {
@@ -64,12 +51,24 @@ namespace EMChat2.ViewModel
                 this.NotifyPropertyChange(() => this.IsLogin);
             }
         }
-
         public bool IsLogin
         {
             get
             {
                 return this.CurrentStaff != null;
+            }
+        }
+        private SettingInfo setting;
+        public SettingInfo Setting
+        {
+            get
+            {
+                return this.setting;
+            }
+            set
+            {
+                this.setting = value;
+                this.NotifyPropertyChange(() => this.Setting);
             }
         }
         #endregion

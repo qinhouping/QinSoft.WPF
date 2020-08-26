@@ -4,11 +4,72 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:EMChat2.View"
+        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
-        Title="LoginView" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-    </Grid>
+        Title="东财通2.0" Height="350" Width="420"
+        WindowStartupLocation="CenterScreen" ResizeMode ="NoResize">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
+    </shell:WindowChrome.WindowChrome>
+
+    <Border Style="{StaticResource IM-App}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid Name="layout" Height="125" Background="{StaticResource DeepPurpleBrush}">
+                    <Grid.Clip>
+                        <RectangleGeometry Rect="0,0,420,125"/>
+                    </Grid.Clip>
+                </Grid>
+                <Label Content="东财通" Style="{StaticResource IM-Name}" FontSize="20"></Label>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform Y="-50"></TranslateTransform>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Border HorizontalAlignment="Center">
+                    <Grid Width="240" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Style="{StaticResource IM-Popup-Content}" HorizontalAlignment="Center">
+                            <Grid>
+                                <Image Source="/Resource/Image/DefaultHeaderImage.jpg" Style="{StaticResource IM-LoginHeaderImage}"></Image>
+                                <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="5" Y="5"></TranslateTransform>
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                    <Label Style="{StaticResource Chip-Success}" ToolTip="在线"></Label>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <TextBox Grid.Row="1" Style="{StaticResource InputText}" Margin="0,5"></TextBox>
+                        <TextBox Grid.Row="2" Style="{StaticResource InputText}" Margin="0,5"></TextBox>
+                        <Grid Grid.Row="3">
+                            <CheckBox Content="自动登录" HorizontalAlignment="Left" Style="{StaticResource BaseCheckbox}"></CheckBox>
+                            <CheckBox Content="记录密码" HorizontalAlignment="Right" Style="{StaticResource BaseCheckbox}"></CheckBox>
+                        </Grid>
+                        <Button Grid.Row="4" Style="{StaticResource FlatButton}" Margin="0,5" Height="30" Content="登录" Command="{Binding LoginCommand}"></Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

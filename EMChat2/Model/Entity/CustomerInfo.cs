@@ -60,13 +60,30 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                if (string.IsNullOrEmpty(remark)) return this.Name;
+                if (string.IsNullOrEmpty(remark)) return base.Name;
                 else return this.remark;
             }
             set
             {
                 base.Name = value;
                 this.NotifyPropertyChange(() => this.Remark);
+            }
+        }
+
+        /// <summary>
+        /// 业务
+        /// </summary>
+        private BusinessEnum business;
+        public BusinessEnum Business
+        {
+            get
+            {
+                return this.business;
+            }
+            set
+            {
+                this.business = value;
+                this.NotifyPropertyChange(() => this.business);
             }
         }
         #endregion

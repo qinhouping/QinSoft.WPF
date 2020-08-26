@@ -3,14 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EMChat2.View"
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:bottom="clr-namespace:EMChat2.View.Main.Bottom"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="60">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button ToolTip="设置" Style="{StaticResource IM-Button}">
+            <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Button}">
                 <TextBlock Style="{StaticResource IconBars}"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=bottomSettingPopup}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Button>
+            <Label Content="东财通" HorizontalAlignment="Center" Margin="0,2" Style="{StaticResource IM-Name}"></Label>
         </StackPanel>
+
+        <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Width="180">
+            <bottom:BottomSettingAreaView DataContext="{Binding BottomSettingAreaViewModel}"></bottom:BottomSettingAreaView>
+        </Popup>
     </Grid>
 </UserControl>

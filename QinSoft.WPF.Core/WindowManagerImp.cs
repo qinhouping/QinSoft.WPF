@@ -19,9 +19,18 @@ namespace QinSoft.WPF.Core
             this.windows = new List<Window>();
         }
 
-        public bool? ShowDialog(object viewModel, IDictionary<string, object> setting)
+        public bool? ShowDialog(object viewModel, bool isSingleton = true, IDictionary<string, object> setting = null)
         {
             if (viewModel == null) throw new ArgumentNullException("viewModel");
+            if (isSingleton)
+            {
+                Window[] wins = this.GetWindows(viewModel);
+                if (wins.Count() > 0)
+                {
+                    Window win = wins[0];
+                    return win.ShowDialog();
+                }
+            }
             Type viewModelType = viewModel.GetType();
             Type winType = GetWindowType(viewModelType);
             if (winType == null) throw new Exception(string.Format("can not find view of viewModel({0})", viewModelType.FullName));
@@ -30,9 +39,19 @@ namespace QinSoft.WPF.Core
             return window.ShowDialog();
         }
 
-        public Window ShowWindow(object viewModel, IDictionary<string, object> setting)
+        public Window ShowWindow(object viewModel, bool isSingleton = true, IDictionary<string, object> setting = null)
         {
             if (viewModel == null) throw new ArgumentNullException("viewModel");
+            if (isSingleton)
+            {
+                Window[] wins = this.GetWindows(viewModel);
+                if (wins.Count() > 0)
+                {
+                    Window win = wins[0];
+                    win.Show();
+                    return win;
+                }
+            }
             Type viewModelType = viewModel.GetType();
             Type winType = GetWindowType(viewModelType);
             if (winType == null) throw new Exception(string.Format("can not find view of viewModel({0})", viewModelType.FullName));
@@ -82,10 +101,15 @@ namespace QinSoft.WPF.Core
             };
         }
 
-        public void HideWindow(object viewModel)
+        protected Window[] GetWindows(object viewModel)
         {
             if (viewModel == null) throw new ArgumentNullException("viewModel");
-            foreach (Window win in this.windows.Where(u => viewModel.Equals(u.DataContext)))
+            return this.windows.Where(u => viewModel.Equals(u.DataContext)).ToArray();
+        }
+
+        public void HideWindow(object viewModel)
+        {
+            foreach (Window win in GetWindows(viewModel))
             {
                 win.Hide();
             }
@@ -93,8 +117,7 @@ namespace QinSoft.WPF.Core
 
         public void CloseWindow(object viewModel, bool? dialogResult)
         {
-            if (viewModel == null) throw new ArgumentNullException("viewModel");
-            foreach (Window win in this.windows.ToList().Where(u => viewModel.Equals(u.DataContext)))
+            foreach (Window win in GetWindows(viewModel))
             {
                 win.DialogResult = dialogResult;
                 win.Close();
@@ -103,8 +126,7 @@ namespace QinSoft.WPF.Core
 
         public void CloseWindow(object viewModel)
         {
-            if (viewModel == null) throw new ArgumentNullException("viewModel");
-            foreach (Window win in this.windows.ToList().Where(u => viewModel.Equals(u.DataContext)))
+            foreach (Window win in GetWindows(viewModel))
             {
                 win.Close();
             }

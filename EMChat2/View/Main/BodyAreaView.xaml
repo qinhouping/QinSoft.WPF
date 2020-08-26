@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl Style="{StaticResource IM-Tab}">
-            <TabItem DataContext="{Binding ChatTabAreaViewModel}">
+            <TabItem>
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">
@@ -29,9 +29,9 @@
                     </Style>
                 </TabItem.Style>
 
-                <tabs:ChatTabAreaView x:Name="chatTab"></tabs:ChatTabAreaView>
+                <tabs:ChatTabAreaView x:Name="chatTab" DataContext="{Binding ChatTabAreaViewModel}"></tabs:ChatTabAreaView>
             </TabItem>
-            <TabItem DataContext="{Binding UserTabAreaViewModel}">
+            <TabItem>
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">
@@ -51,7 +51,7 @@
                     </Style>
                 </TabItem.Style>
 
-                <tabs:UserTabAreaView x:Name="userTab"></tabs:UserTabAreaView>
+                <tabs:UserTabAreaView x:Name="userTab" DataContext="{Binding UserTabAreaViewModel}"></tabs:UserTabAreaView>
             </TabItem>
         </TabControl>
     </Grid>

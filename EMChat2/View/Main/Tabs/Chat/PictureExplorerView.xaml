@@ -38,7 +38,7 @@
                     </Image.RenderTransform>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseWheel">
-                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="OnImageMouseWheel"></ei:CallMethodAction>
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="ScaleCommand"></ei:CallMethodAction>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
