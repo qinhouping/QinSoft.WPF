@@ -221,6 +221,11 @@ namespace EMChat2.Common
             return Regex.IsMatch(url, @"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?");
         }
 
+        public static bool IsExistsFile(this string filePath)
+        {
+            return File.Exists(filePath);
+        }
+
         public static void SafeFilePath(string filepath)
         {
             string directorypath = Path.GetDirectoryName(filepath);

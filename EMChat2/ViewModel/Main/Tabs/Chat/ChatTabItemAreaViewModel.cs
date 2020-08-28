@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
@@ -138,6 +139,28 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         return systemService.GetUrlMapping(u.Image.Url);
                     }).Where(u => !string.IsNullOrEmpty(u)).ToArray();
                     this.chatService.OpenImage(sources, index);
+                });
+            }
+        }
+
+        public ICommand OpenFileMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<FileMessageInfo>((message) =>
+                {
+                    this.chatService.OpenFile(systemService.GetUrlMapping(message.File.Url), message.File.Name, message.File.Extension);
+                });
+            }
+        }
+
+        public ICommand CopyMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<MessageInfo>((message) =>
+                {
+                    Clipboard.SetDataObject(message);
                 });
             }
         }

@@ -2,6 +2,7 @@
 using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,16 @@ namespace EMChat2.Service
     public class UserService
     {
         #region 构造函数
-        public UserService(EventAggregator eventAggregator)
+        public UserService(IWindowManager windowManager, EventAggregator eventAggregator)
         {
+            this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
         }
         #endregion
 
         #region 属性
+        private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         #endregion
 
