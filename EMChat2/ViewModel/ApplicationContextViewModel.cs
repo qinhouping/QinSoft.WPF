@@ -1,4 +1,5 @@
 ﻿using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -10,7 +11,7 @@ using System.Text;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class ApplicationContextViewModel : PropertyChangedBase
+    public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>
     {
         #region 构造函数
         public ApplicationContextViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -20,16 +21,6 @@ namespace EMChat2.ViewModel
             this.eventAggregator.Subscribe(this);
 
             //TODO 测试数据
-            this.currentStaff = new StaffInfo()
-            {
-                Id = Guid.NewGuid().ToString(),
-                WorkCode = "180366",
-                Name = "秦后平",
-                HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
-                ImUserId = "1111",
-                State = UserStateEnum.Online
-            };
-
             this.setting = new SettingInfo();
         }
         #endregion
@@ -70,6 +61,19 @@ namespace EMChat2.ViewModel
                 this.setting = value;
                 this.NotifyPropertyChange(() => this.Setting);
             }
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(LoginEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
+            this.CurrentStaff = arg.StaffInfo;
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            this.currentStaff = null;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
 using EMChat2.Model.Event;
 using EMChat2.Service;
 using QinSoft.Event;
@@ -7,6 +8,7 @@ using QinSoft.Log;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
@@ -18,7 +20,7 @@ namespace EMChat2.ViewModel
     public class LoginViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
-        public LoginViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, ShellViewModel shellViewModel, UserService userService)
+        public LoginViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, ShellViewModel shellViewModel, UserService userService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -26,6 +28,9 @@ namespace EMChat2.ViewModel
             this.applicationContextViewModel = applicationContextViewModel;
             this.shellViewModel = shellViewModel;
             this.userService = userService;
+            this.systemService = systemService;
+
+            LoadLoginInfo();
         }
         #endregion
 
@@ -59,6 +64,44 @@ namespace EMChat2.ViewModel
             }
         }
         private UserService userService;
+        private SystemService systemService;
+        private LoginInfo loginInfo;
+        public LoginInfo LoginInfo
+        {
+            get
+            {
+                return this.loginInfo;
+            }
+            set
+            {
+                this.loginInfo = value;
+                this.NotifyPropertyChange(() => this.LoginInfo);
+            }
+        }
+        private bool isLogging;
+        public bool IsLogging
+        {
+            get
+            {
+                return this.isLogging;
+            }
+            set
+            {
+                this.isLogging = value;
+                this.NotifyPropertyChange(() => this.IsLogging);
+            }
+        }
+        #endregion
+
+        #region 方法
+        private async void LoadLoginInfo()
+        {
+            this.LoginInfo = await this.systemService.LoadLoginInfo();
+            if (this.loginInfo.IsAutoLogin)
+            {
+                this.LoginCommand.Execute(null);
+            }
+        }
         #endregion
 
         #region 命令
@@ -79,16 +122,38 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.userService.Login();
+                    this.IsLogging = true;
+                    this.userService.Login(this.loginInfo);
+                });
+            }
+        }
+
+        public ICommand ChangeStateCommand
+        {
+            get
+            {
+                return new RelayCommand<UserStateEnum>((state) =>
+                {
+                    this.LoginInfo.State = state;
                 });
             }
         }
         #endregion
 
         #region 事件处理
-        public void Handle(LoginEventArgs arg)
+        public async void Handle(LoginEventArgs arg)
         {
-            new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
+            IsLogging = false;
+            if (arg.IsSuccess)
+            {
+                this.loginInfo.HeaderImageUrl = arg.StaffInfo.HeaderImageUrl;
+                await this.systemService.StoreLoginInfo(this.LoginInfo);
+                new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
+            }
+            else
+            {
+                new Action(() => this.windowManager.ShowDialog(new AlertViewModel(this.windowManager, arg.Message, "登录提示", AlertType.Error))).ExecuteInUIThread();
+            }
         }
 
         public void Handle(LogoutEventArgs arg)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
+using System.Diagnostics;
 
 namespace EMChat2.Common
 {
@@ -25,29 +26,33 @@ namespace EMChat2.Common
         #endregion
 
         #region base64
-        public static string Base64(this string content, Encoding encoding)
+        public static string Base64(this string content, Encoding encoding = null)
         {
             try
             {
+                encoding = encoding ?? Encoding.UTF8;
                 byte[] res = content.ToBytes(encoding);
                 return Convert.ToBase64String(res, 0, res.Length);
             }
-            catch
+            catch (Exception e)
             {
-                return string.Empty;
+                Debug.Write("Base64 Error:" + e.ToString());
+                return null;
             }
         }
 
-        public static string UnBase64(this string value, Encoding encoding)
+        public static string UnBase64(this string value, Encoding encoding = null)
         {
             try
             {
+                encoding = encoding ?? Encoding.UTF8;
                 byte[] res = Convert.FromBase64String(value);
                 return res.FromBytes(encoding);
             }
-            catch
+            catch (Exception e)
             {
-                return string.Empty;
+                Debug.Write("UnBase64 Error:" + e.ToString());
+                return null;
             }
         }
         #endregion

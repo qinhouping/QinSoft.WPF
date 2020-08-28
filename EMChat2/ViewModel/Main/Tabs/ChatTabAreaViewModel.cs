@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using EMChat2.View.Main.Tabs.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel)
@@ -25,68 +26,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
-
-            //TODO 测试数据
-            this.chatTabItems = new ObservableCollection<ChatTabItemAreaView>()
-            {
-                new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new CustomerInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="1",
-                     Name="私聊-投顾",
-                     HeaderImageUrl="https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
-                     State= UserStateEnum.Online,
-                     Business=BusinessEnum.Advisor,
-                     Uid="1"
-                }, BusinessEnum.Advisor))
-            }, new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new CustomerInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="2",
-                     Name="私聊-专家",
-                     HeaderImageUrl="https://tse3-mm.cn.bing.net/th/id/OIP.9QpPBCb9vEIfWQq7hQogJAD6D6?w=175&h=180&c=7&o=5&pid=1.7",
-                     State= UserStateEnum.Offline,
-                     Business=BusinessEnum.Expert,
-                     Uid="2"
-                }, BusinessEnum.Expert))
-            },new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new CustomerInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="3",
-                     Name="私聊-售后",
-                     HeaderImageUrl="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3582194852,1481557220&fm=26&gp=0.jpg",
-                     State= UserStateEnum.Offline,
-                     Business=BusinessEnum.PostSale,
-                     Uid="3"
-                }, BusinessEnum.PostSale))
-            },new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new CustomerInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="4",
-                     Name="私聊-售前",
-                     HeaderImageUrl="https://tse3-mm.cn.bing.net/th/id/OIP.9QpPBCb9vEIfWQq7hQogJAD6D6?w=175&h=180&c=7&o=5&pid=1.7",
-                     State= UserStateEnum.Offline,
-                     Business=BusinessEnum.PreSale,
-                     Uid="4"
-                }, BusinessEnum.PreSale))
-            },new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new SystemUserInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="5",
-                     Name="私聊-广播",
-                     HeaderImageUrl="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1783781708,2939608912&fm=26&gp=0.jpg",
-                     State= UserStateEnum.Offline
-                }))
-            },new PrivateChatTabItemAreaView() {
-                DataContext=new PrivateChatTabItemAreaViewModel(this.windowManager,this.eventAggregator,this.applicationContextViewModel,this.emotionPickerAreaViewModel,this.CreatePrivateChat(new StaffInfo(){
-                     Id=Guid.NewGuid().ToString(),
-                     ImUserId="5",
-                     Name="私聊-内部员工",
-                     HeaderImageUrl="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2228998571,2651049899&fm=26&gp=0.jpg",
-                     State= UserStateEnum.Offline,
-                     WorkCode="180333"
-                }))
-            }};
+            this.chatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
         }
         #endregion
 
@@ -119,8 +59,8 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ObservableCollection<ChatTabItemAreaView> chatTabItems;
-        public ObservableCollection<ChatTabItemAreaView> ChatTabItems
+        private ObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
+        public ObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
         {
             get
             {
@@ -130,6 +70,19 @@ namespace EMChat2.ViewModel.Main.Tabs
             {
                 this.chatTabItems = value;
                 this.NotifyPropertyChange(() => this.ChatTabItems);
+            }
+        }
+        private ChatTabItemAreaViewModel selectedChatTabItem;
+        public ChatTabItemAreaViewModel SelectedChatTabItem
+        {
+            get
+            {
+                return this.selectedChatTabItem;
+            }
+            set
+            {
+                this.selectedChatTabItem = value;
+                this.NotifyPropertyChange(() => this.SelectedChatTabItem);
             }
         }
         #endregion
@@ -151,6 +104,53 @@ namespace EMChat2.ViewModel.Main.Tabs
             chat.IsInform = false;
             chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
             return chat;
+        }
+        #endregion
+
+        #region 事件处理
+
+
+        public void Handle(LoginEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
+
+            //TODO 测试数据
+            this.ChatTabItems.Clear();
+            this.ChatTabItems.Add(
+                new PrivateChatTabItemAreaViewModel(
+                    this.windowManager,
+                    this.eventAggregator,
+                    this.applicationContextViewModel,
+                    this.emotionPickerAreaViewModel,
+                    this.CreatePrivateChat(new CustomerInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ImUserId = "1",
+                        Name = "私聊-投顾",
+                        HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
+                        State = UserStateEnum.Online,
+                        Business = BusinessEnum.Advisor,
+                        Uid = "1"
+                    },
+                    BusinessEnum.Advisor)));
+
+            this.ChatTabItems.Add(
+                new PrivateChatTabItemAreaViewModel(
+                    this.windowManager,
+                    this.eventAggregator,
+                    this.applicationContextViewModel,
+                    this.emotionPickerAreaViewModel,
+                    this.CreatePrivateChat(new CustomerInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ImUserId = "1",
+                        Name = "私聊-投顾",
+                        HeaderImageUrl = "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=251289958,1860898046&fm=26&gp=0.jpg",
+                        State = UserStateEnum.Online,
+                        Business = BusinessEnum.Advisor,
+                        Uid = "1"
+                    }, BusinessEnum.Advisor)));
+            this.SelectedChatTabItem = this.ChatTabItems.First();
         }
         #endregion
     }

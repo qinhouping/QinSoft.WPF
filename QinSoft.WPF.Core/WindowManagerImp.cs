@@ -77,7 +77,7 @@ namespace QinSoft.WPF.Core
 
         protected virtual Window GetOwner()
         {
-            return this.windows.LastOrDefault(u => u.Owner == null);
+            return this.windows.LastOrDefault(u => u.IsVisible == true && u.IsActive == true);
         }
 
         protected virtual void InitWindow(Window window, object dataContext, IDictionary<string, object> setting)

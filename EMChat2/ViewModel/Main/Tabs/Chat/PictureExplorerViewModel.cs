@@ -157,7 +157,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                                 {
                                     try
                                     {
-                                        task.Result.ToFile(fileDialog.FileName);
+                                        task.Result.StreamToFile(fileDialog.FileName);
                                         new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
                                     }
                                     catch (Exception e)
@@ -177,7 +177,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             {
                                 try
                                 {
-                                    new FileInfo(this.CurrentSource).FromFile().ToFile(fileDialog.FileName);
+                                    this.CurrentSource.FileToStream().StreamToFile(fileDialog.FileName);
                                     new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
                                 }
                                 catch (Exception e)

@@ -106,6 +106,7 @@ namespace EMChat2.ViewModel
         #region 事件处理
         public void Handle(LoginEventArgs arg)
         {
+            if (!arg.IsSuccess) return;
             new Action(() => this.windowManager.ShowWindow(this)).ExecuteInUIThread();
         }
 

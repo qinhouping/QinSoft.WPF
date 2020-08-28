@@ -25,174 +25,179 @@ namespace EMChat2.Common
         /// json日期默认格式
         /// </summary>
         public static DateTimeConverterBase DefaultDateTimeConvert = new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" };
-        /// <summary>
-        /// 拓展方法：序列化对象成json字符串
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static string ToJson(this object obj)
+
+
+        public static string ObjectToJson(this object obj)
         {
-            if (null == obj)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                try
-                {
-                    return JsonConvert.SerializeObject(obj, DefaultDateTimeConvert);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("tojson error:" + e.ToString());
-                    return string.Empty;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 拓展方法：反序列化json字符串成对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T FromJson<T>(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default;
-            }
-            else
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<T>(value);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("fromjson error:" + e.ToString());
-                    return default;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 拓展方法：序列化对象成XML
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static string ToXml(this object obj)
-        {
-            if (null == obj)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                try
-                {
-                    using (StreamReader stream = new StreamReader(new MemoryStream()))
-                    {
-                        XmlSerializer serializer = new XmlSerializer(obj.GetType());
-                        serializer.Serialize(stream.BaseStream, obj);
-                        stream.BaseStream.Position = 0;
-                        return stream.ReadToEnd();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("toxml error:" + e.ToString());
-                    return string.Empty;
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// 拓展方法反序列化xml字符串成对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T FromXml<T>(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default;
-            }
-            else
-            {
-                try
-                {
-                    using (StringReader sr = new StringReader(value))
-                    {
-                        XmlSerializer xmldes = new XmlSerializer(typeof(T));
-                        return (T)xmldes.Deserialize(sr);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("fromxml error:" + e.ToString());
-                    return default;
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// 拓展方法：将流保存到文件中
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="filepath"></param>
-        public static void ToFile(this Stream stream, string filepath)
-        {
-            using (BinaryWriter writer = new BinaryWriter(new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write)))
-            {
-                using (BinaryReader reader = new BinaryReader(stream))
-                {
-                    while (true)
-                    {
-                        byte[] content = reader.ReadBytes(20480);
-                        if (content == null || content.Length == 0)
-                        {
-                            break;
-                        }
-                        writer.Write(content);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 拓展方法：打开文件流
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static Stream FromFile(this FileInfo file)
-        {
+            if (null == obj) return null;
             try
             {
-                return new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
+                return JsonConvert.SerializeObject(obj, DefaultDateTimeConvert);
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine("ObjectToJson Error:" + e.ToString());
                 return null;
             }
         }
 
-        public static Stream FromImage(this Image image, ImageFormat format = null)
+
+        public static T JsonToObject<T>(this string value)
         {
-            if (format == null)
+            if (string.IsNullOrEmpty(value)) return default;
+            try
             {
-                format = ImageFormat.Jpeg;
+                return JsonConvert.DeserializeObject<T>(value);
             }
-            MemoryStream stream = new MemoryStream();
-            image.Save(stream, format);
-            stream.Position = 0;
-            return stream;
+            catch (Exception e)
+            {
+                Debug.WriteLine("JsonToObject Error:" + e.ToString());
+                return default;
+            }
         }
 
-        public static long ToTimeStamp(this DateTime Date)
+
+        public static string ObjectToXml(this object obj)
+        {
+            if (null == obj) return null;
+            try
+            {
+                using (StreamReader stream = new StreamReader(new MemoryStream()))
+                {
+                    XmlSerializer serializer = new XmlSerializer(obj.GetType());
+                    serializer.Serialize(stream.BaseStream, obj);
+                    stream.BaseStream.Position = 0;
+                    return stream.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("ObjectToXml Error:" + e.ToString());
+                return null;
+            }
+        }
+
+
+        public static T XmlToObject<T>(this string value)
+        {
+            if (string.IsNullOrEmpty(value)) return default;
+            try
+            {
+                using (StringReader sr = new StringReader(value))
+                {
+                    XmlSerializer xmldes = new XmlSerializer(typeof(T));
+                    return (T)xmldes.Deserialize(sr);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("XmlToObject Error:" + e.ToString());
+                return default;
+            }
+        }
+
+        public static void StreamToFile(this Stream stream, string filepath)
+        {
+            if (stream == null || string.IsNullOrEmpty(filepath)) return;
+            try
+            {
+                SafeFilePath(filepath);
+                using (BinaryWriter writer = new BinaryWriter(new FileStream(filepath, FileMode.Create, FileAccess.Write)))
+                {
+                    using (BinaryReader reader = new BinaryReader(stream))
+                    {
+                        while (true)
+                        {
+                            byte[] content = reader.ReadBytes(20480);
+                            if (content == null || content.Length == 0)
+                            {
+                                break;
+                            }
+                            writer.Write(content);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("StreamToFile Error:" + e.ToString());
+            }
+        }
+
+        public static Stream FileToStream(this string filepath)
+        {
+            if (string.IsNullOrEmpty(filepath)) return null;
+            try
+            {
+                return new FileStream(filepath, FileMode.Open, FileAccess.Read);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("StreamToFile Error:" + e.ToString());
+                return null;
+            }
+        }
+
+        public static Stream ImageToStream(this Image image, ImageFormat format = null)
+        {
+            if (image == null) return null;
+            try
+            {
+                if (image == null) throw new ArgumentNullException();
+                if (format == null)
+                {
+                    format = ImageFormat.Jpeg;
+                }
+                MemoryStream stream = new MemoryStream();
+                image.Save(stream, format);
+                stream.Position = 0;
+                return stream;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("ImageToStream Error:" + e.ToString());
+                return null;
+            }
+        }
+
+        public static Stream StringToStream(this string content, Encoding encoding = null)
+        {
+            if (content == null) return null;
+            try
+            {
+                encoding = encoding ?? Encoding.UTF8;
+                MemoryStream stream = new MemoryStream();
+                byte[] buffer = encoding.GetBytes(content);
+                stream.Write(buffer, 0, buffer.Length);
+                stream.Position = 0;
+                return stream;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("StringToStream Error:" + e.ToString());
+                return null;
+            }
+        }
+
+        public static string StreamToString(this Stream stream, Encoding encoding = null)
+        {
+            if (stream == null) return null;
+            try
+            {
+                encoding = encoding ?? Encoding.UTF8;
+                using (TextReader reader = new StreamReader(stream, encoding))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("StreamToString Error:" + e.ToString());
+                return null;
+            }
+        }
+
+        public static long DateTimeToTimeStamp(this DateTime Date)
         {
             switch (Date.Kind)
             {
@@ -204,19 +209,38 @@ namespace EMChat2.Common
             return (long)ts.TotalMilliseconds;
         }
 
-        public static DateTime ToDateTime(this long TimeStamp)
+        public static DateTime TimeStampToDateTime(this long TimeStamp)
         {
             DateTime Date = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             TimeSpan Span = new TimeSpan(TimeStamp);
             return Date.Add(Span);
         }
 
-        /// <summary>
-        /// 是否是网络路径
-        /// </summary>
         public static bool IsNetUrl(this string url)
         {
             return Regex.IsMatch(url, @"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?");
+        }
+
+        public static void SafeFilePath(string filepath)
+        {
+            string directorypath = Path.GetDirectoryName(filepath);
+            if (!Directory.Exists(directorypath))
+                Directory.CreateDirectory(directorypath);
+        }
+
+        public static T Clone<T>(this T obj)
+        {
+            if (obj == null) return default;
+            Type type = obj.GetType();
+            object newObj = Activator.CreateInstance(type);
+            foreach (PropertyInfo propertyInfo in type.GetProperties())
+            {
+                if (propertyInfo.CanRead && propertyInfo.CanWrite)
+                {
+                    propertyInfo.SetValue(newObj, propertyInfo.GetValue(obj));
+                }
+            }
+            return (T)newObj;
         }
     }
 }

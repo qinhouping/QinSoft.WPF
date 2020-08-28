@@ -1,4 +1,5 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
 using EMChat2.View.Main.Tabs.Chat;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -22,19 +23,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.emotionPickerTabItems = new ObservableCollection<TabItem>();
+            this.emotionPackages = new ObservableCollection<EmotionPackageInfo>();
 
             //TODO 测试数据
-            this.emotionPickerTabItems.Add(
-                new EmotionPickerTabItemAreaView()
-                {
-                    DataContext = new EmotionPickerTabItemAreaViewModel(this.windowManager, this.eventAggregator, new EmotionPackageInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Level = EmotionPackageLevel.System,
-                        Name = "emoji",
-                        ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
-                        Emotions = new ObservableCollection<EmotionInfo>()
+            this.EmotionPackages.Add(new EmotionPackageInfo()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Level = EmotionPackageLevel.System,
+                Name = "emoji",
+                ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
+                Emotions = new ObservableCollection<EmotionInfo>()
                     {
                         new EmotionInfo()
                         {
@@ -145,51 +143,38 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             Url="https://static.easyicon.net/preview/106/1069799.gif"
                         }
                     }
-                    })
-                });
-            this.emotionPickerTabItems.Add(
-                new EmotionPickerTabItemAreaView()
-                {
-                    DataContext = new EmotionPickerTabItemAreaViewModel(this.windowManager, this.eventAggregator, new EmotionPackageInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Level = EmotionPackageLevel.System,
-                        Name = "emoji2",
-                        ThumbUrl = "https://static.easyicon.net/preview/106/1064760.gif",
-                        Emotions = new ObservableCollection<EmotionInfo>()
-                    {
-                        new EmotionInfo()
-                        {
-                            Id=Guid.NewGuid().ToString(),
-                            Name="one",
-                            Url="https://static.easyicon.net/preview/106/1064760.gif"
-                        },
-                        new EmotionInfo()
-                        {
-                            Id=Guid.NewGuid().ToString(),
-                            Name="one",
-                            Url="https://static.easyicon.net/preview/106/1064761.gif"
-                        }
-                    }
-                    })
-                });
+            });
+            this.SelectedEmotionPackage = this.EmotionPackages.First();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<TabItem> emotionPickerTabItems;
-        public ObservableCollection<TabItem> EmotionPickerTabItems
+        private ObservableCollection<EmotionPackageInfo> emotionPackages;
+        public ObservableCollection<EmotionPackageInfo> EmotionPackages
         {
             get
             {
-                return this.emotionPickerTabItems;
+                return this.emotionPackages;
             }
             set
             {
-                this.emotionPickerTabItems = value;
-                this.NotifyPropertyChange(() => this.EmotionPickerTabItems);
+                this.emotionPackages = value;
+                this.NotifyPropertyChange(() => this.EmotionPackages);
+            }
+        }
+        private EmotionPackageInfo selectedEmotionPackage;
+        public EmotionPackageInfo SelectedEmotionPackage
+        {
+            get
+            {
+                return this.selectedEmotionPackage;
+            }
+            set
+            {
+                this.selectedEmotionPackage = value;
+                this.NotifyPropertyChange(() => this.SelectedEmotionPackage);
             }
         }
         #endregion

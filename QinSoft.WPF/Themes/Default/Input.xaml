@@ -115,6 +115,115 @@
         <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
     </Style>
 
+    <!--文本输入框-->
+    <Style x:Key="BasePasswordBox" TargetType="{x:Type PasswordBox}">
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="CaretBrush" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="SelectionBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+    </Style>
+    <Style x:Key="InputPassword" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource BasePasswordBox}">
+        <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Grid >
+                        <Border x:Name="PART_Border"  BorderBrush="{TemplateBinding Foreground}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="PART_Rectangle" Grid.Column="2" Opacity="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,3" Margin="-1" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <RotateTransform Angle="0" CenterX="0" CenterY="0"/>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost"  Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0" Duration="0:0:0.1" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1" To="5" BeginTime="0:0:0.1" Duration="0:0:0.2" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="5" To="1" Duration="0:0:0.2" AutoReverse="False"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rectangle" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.2" Duration="0:0:0.1" AutoReverse="False"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_Border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <DrawingBrush>
+                                        <DrawingBrush.Drawing>
+                                            <GeometryDrawing>
+                                                <GeometryDrawing.Pen>
+                                                    <Pen Brush="{Binding Foreground ,RelativeSource={RelativeSource Mode=TemplatedParent}}" Thickness="{Binding BorderThickness ,RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                        <Pen.DashStyle>
+                                                            <DashStyle Dashes="0,0,0,3"/>
+                                                        </Pen.DashStyle>
+                                                    </Pen>
+                                                </GeometryDrawing.Pen>
+                                                <GeometryDrawing.Geometry>
+                                                    <RectangleGeometry Rect="0,0,90,30" RadiusX="3" RadiusY="3"/>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingBrush.Drawing>
+                                    </DrawingBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="InputPassword-Primary" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource InputPassword}">
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="InputPassword-Danger" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource InputPassword}">
+        <Setter Property="BorderBrush" Value="{StaticResource RedBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="InputPassword-Success" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource InputPassword}">
+        <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}"></Setter>
+    </Style>
+
+    <Style x:Key="InputPassword-Warning" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource InputPassword}">
+        <Setter Property="BorderBrush" Value="{StaticResource OrangeBrush}"></Setter>
+    </Style>
+
     <!--单选-->
     <Style x:Key="BaseRadioButton" TargetType="{x:Type RadioButton}">
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>

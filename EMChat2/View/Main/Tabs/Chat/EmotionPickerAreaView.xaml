@@ -7,8 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Border Style="{StaticResource IM-Popup-Content}">
-        <TabControl Style="{StaticResource IM-EmotionPicker-Tab}" ItemsSource="{Binding EmotionPickerTabItems}">
-            
+        <TabControl Style="{StaticResource IM-EmotionPicker-Tab}" ItemContainerStyle="{StaticResource IM-EmotionPicker-TabItem}" ItemsSource="{Binding EmotionPackages}" SelectedItem="{Binding SelectedEmotionPackage}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ThumbUrl}" ToolTip="{Binding Name}"></Image>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <ListBox Style="{StaticResource IM-EmotionPicker-List}" ItemContainerStyle="{StaticResource IM-EmotionPicker-ListItem}" ItemsSource="{Binding Emotions}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Url}" ToolTip="{Binding Name}" MaxWidth="32"></Image>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </Border>
 </UserControl>

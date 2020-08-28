@@ -27,24 +27,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.NotReadMessageCount);
                 this.NotifyPropertyChange(() => this.LastMessage);
             };
-
-            //TODO 测试数据
-            this.messages.Add(new TextMessageInfo()
-            {
-                Id = Guid.NewGuid().ToString(),
-                MsgId = "1",
-                FromUser = "1111",
-                ToUsers = new string[] { "1" },
-                Business = null,
-                MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
-                ChatId = "123123123",
-                State = MsgState.Received,
-                Text = new TextMessageContext
-                {
-                    Content = "测试信息"
-                }
-            });
         }
         #endregion
 

@@ -159,7 +159,7 @@ namespace EMChat2.Common
                 headers = new Dictionary<string, string>();
             }
             headers["Content-Type"] = "application/json";//Json
-            HttpWebResponse response = DoReqeust(method, url, headers, cookies, data.ToJson(), timeout) as HttpWebResponse;
+            HttpWebResponse response = DoReqeust(method, url, headers, cookies, data.ObjectToJson(), timeout) as HttpWebResponse;
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new InvalidOperationException(string.Format("返回状态异常:{0}", response.StatusCode.ToString()));
@@ -167,7 +167,7 @@ namespace EMChat2.Common
             StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(ResponseEncoding));
             string content = reader.ReadToEnd();
             Debug.WriteLine("httptools request:{0} response:{1}", url, content);
-            return content.FromJson<T>();
+            return content.JsonToObject<T>();
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace EMChat2.Common
             HttpResponseMessage response = await UploadAsync(url, stream, name, fileName, extdata);
             string content = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("httptools request:{0} response:{1}", url, content);
-            return content.FromJson<T>();
+            return content.JsonToObject<T>();
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace EMChat2.Common
                     headers = new Dictionary<string, string>();
                 }
                 headers["Content-Type"] = "application/json";//Json
-                WebResponse response = DoReqeust(method, url, headers, cookies, data.ToJson(), timeout);
+                WebResponse response = DoReqeust(method, url, headers, cookies, data.ObjectToJson(), timeout);
                 return response.GetResponseStream();
             });
         }

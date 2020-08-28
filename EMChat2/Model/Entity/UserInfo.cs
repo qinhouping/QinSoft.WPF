@@ -135,17 +135,21 @@ namespace EMChat2.Model.Entity
     public enum UserStateEnum
     {
         /// <summary>
-        /// 离线
-        /// </summary>
-        Offline,
-        /// <summary>
         /// 在线
         /// </summary>
         Online,
         /// <summary>
-        /// 离开（忙碌）
+        /// 忙碌
         /// </summary>
-        Leave
+        Busy,
+        /// <summary>
+        /// 离开
+        /// </summary>
+        Leave,
+        /// <summary>
+        /// 离线
+        /// </summary>
+        Offline
     }
 
     /// <summary>
