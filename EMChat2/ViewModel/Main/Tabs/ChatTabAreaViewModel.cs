@@ -1,6 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
 using EMChat2.Model.Event;
+using EMChat2.Service;
 using EMChat2.View.Main.Tabs.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;
@@ -19,7 +20,7 @@ namespace EMChat2.ViewModel.Main.Tabs
     public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>
     {
         #region 构造函数
-        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel)
+        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -27,6 +28,8 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
             this.chatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
+            this.chatService = chatService;
+            this.systemService = systemService;
         }
         #endregion
 
@@ -85,6 +88,8 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.NotifyPropertyChange(() => this.SelectedChatTabItem);
             }
         }
+        private ChatService chatService;
+        private SystemService systemService;
         #endregion
 
         #region 内部方法
@@ -132,24 +137,9 @@ namespace EMChat2.ViewModel.Main.Tabs
                         Business = BusinessEnum.Advisor,
                         Uid = "1"
                     },
-                    BusinessEnum.Advisor)));
-
-            this.ChatTabItems.Add(
-                new PrivateChatTabItemAreaViewModel(
-                    this.windowManager,
-                    this.eventAggregator,
-                    this.applicationContextViewModel,
-                    this.emotionPickerAreaViewModel,
-                    this.CreatePrivateChat(new CustomerInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        ImUserId = "1",
-                        Name = "私聊-投顾",
-                        HeaderImageUrl = "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=251289958,1860898046&fm=26&gp=0.jpg",
-                        State = UserStateEnum.Online,
-                        Business = BusinessEnum.Advisor,
-                        Uid = "1"
-                    }, BusinessEnum.Advisor)));
+                    BusinessEnum.Advisor),
+                    this.chatService,
+                    this.systemService));
             this.SelectedChatTabItem = this.ChatTabItems.First();
         }
         #endregion

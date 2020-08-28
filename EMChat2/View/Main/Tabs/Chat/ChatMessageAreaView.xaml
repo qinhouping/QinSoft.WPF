@@ -3,10 +3,160 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:view="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC"></Border>
+        <Grid.Resources>
+            <!--用户信息-->
+            <Style x:Key="IM-Message-User" TargetType="{x:Type Label}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding FromUser}" ToolTip="{Binding MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}"></TextBlock>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--文本消息-->
+            <Style x:Key="IM-TextMessage" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Background" Value="#EEEEEE"></Setter>
+                <Setter Property="BorderBrush" Value="#DDDDDD"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+                <Setter Property="Padding" Value="8"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}">
+                            <Border x:Name="PART_Border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <TextBlock Text="{Binding Text.Content}" Margin="{TemplateBinding Padding}" TextWrapping="Wrap"></TextBlock>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--图片消息-->
+            <Style x:Key="IM-ImageMessage" TargetType="{x:Type Label}">
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}">
+                            <Image Source="{Binding Image.Url}" MaxHeight="200" Margin="{TemplateBinding Padding}">
+                                <Image.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenImageMessageCommand,RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}}" CommandParameter="{Binding}"></MouseBinding>
+                                </Image.InputBindings>
+                            </Image>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--表情消息-->
+            <Style x:Key="IM-EmotionMessage" TargetType="{x:Type Label}">
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}">
+                            <Image Source="{Binding Emotion.Url}" ToolTip="{Binding Emotion.Name}" MaxHeight="64" Margin="{TemplateBinding Padding}"></Image>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--文件信息-->
+            <Style x:Key="IM-FileMessage" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Background" Value="#EEEEEE"></Setter>
+                <Setter Property="BorderBrush" Value="#DDDDDD"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+                <Setter Property="Padding" Value="8"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}">
+                            <Border CornerRadius="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MaxWidth="200"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding File.Name}" VerticalAlignment="Center" Margin="5,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                    <TextBlock Style="{StaticResource IconFileO}" Grid.Column="1" FontSize="30"></TextBlock>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--连接信息-->
+            <Style x:Key="IM-LinkMessage" TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Background" Value="#EEEEEE"></Setter>
+                <Setter Property="BorderBrush" Value="#DDDDDD"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+                <Setter Property="Padding" Value="8"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}">
+                            <Border CornerRadius="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenLinkMessageCommand,RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}}" CommandParameter="{Binding}"></MouseBinding>
+                                    </Grid.InputBindings>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MaxWidth="200"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding Link.Title}" VerticalAlignment="Bottom" Margin="5,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                    <TextBlock Grid.Row="1" Text="{Binding Link.Description}" VerticalAlignment="Top" Margin="5,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                    <Image Grid.Column="1" Grid.RowSpan="2" Source="{Binding Link.ThumbUrl}" VerticalAlignment="Center" Height="32" Margin="5,0"></Image>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="MessageDataTemplate">
+                <Grid>
+                    <Grid x:Name="leftMessageGrid" Margin="5" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid >
+                            <Label Style="{StaticResource IM-Message-User}"></Label>
+                        </Grid>
+
+                        <Grid Grid.Row="1" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}">
+                            <Label Style="{StaticResource IM-TextMessage}" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter=text}"></Label>
+                            <Label Style="{StaticResource IM-ImageMessage}" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter=image}"></Label>
+                            <Label Style="{StaticResource IM-EmotionMessage}" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter=emotion}"></Label>
+                            <Label Style="{StaticResource IM-FileMessage}" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter=file}"></Label>
+                            <Label Style="{StaticResource IM-LinkMessage}" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter=link}"></Label>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+
+        <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
+
+            <ListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemTemplate="{StaticResource MessageDataTemplate}" ItemsSource="{Binding Messages}">
+
+            </ListBox>
+        </Border>
     </Grid>
 </UserControl>

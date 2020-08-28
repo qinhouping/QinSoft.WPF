@@ -1,4 +1,6 @@
 ﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
+using EMChat2.Service;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
 using System;
@@ -15,11 +17,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PictureExplorerViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public PictureExplorerViewModel(IWindowManager windowManager, string[] sources, int currentIndex)
+        public PictureExplorerViewModel(IWindowManager windowManager, SystemService systemService, string[] sources, int currentIndex)
         {
             if (windowManager == null) throw new ArgumentNullException();
             if (sources.Length <= 0 || currentIndex < 0 || currentIndex >= sources.Length) throw new ArgumentOutOfRangeException();
             this.windowManager = windowManager;
+            this.systemService = systemService;
             this.Sources = sources;
             this.CurrentIndex = currentIndex;
         }
@@ -98,6 +101,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
         private IWindowManager windowManager;
+        private SystemService systemService;
         #endregion
 
         #region 命令
@@ -158,6 +162,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                                     try
                                     {
                                         task.Result.StreamToFile(fileDialog.FileName);
+                                        systemService.StoreUrlMapping(new UrlMappingInfo() { Url = this.CurrentSource, LocalFilePath = fileDialog.FileName });
                                         new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "保存成功", "提示", AlertType.Success))).ExecuteInUIThread();
                                     }
                                     catch (Exception e)

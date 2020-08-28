@@ -141,13 +141,13 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 事件处理
-        public async void Handle(LoginEventArgs arg)
+        public void Handle(LoginEventArgs arg)
         {
             IsLogging = false;
             if (arg.IsSuccess)
             {
                 this.loginInfo.HeaderImageUrl = arg.StaffInfo.HeaderImageUrl;
-                await this.systemService.StoreLoginInfo(this.LoginInfo);
+                this.systemService.StoreLoginInfo(this.LoginInfo);
                 new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }
             else

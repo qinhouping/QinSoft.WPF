@@ -20,6 +20,11 @@ namespace EMChat2.Common
             return await Task.Factory.StartNew(func);
         }
 
+        public static async Task<object> ExecuteInTask(this Func<object> func)
+        {
+            return await Task.Factory.StartNew(func);
+        }
+
         public static void ExecuteInThreadPool(this Action action)
         {
             ThreadPool.QueueUserWorkItem((x) =>

@@ -1,17 +1,21 @@
-﻿using QinSoft.WPF.Core;
+﻿using EMChat2.Common;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
+using static EMChat2.Common.FileInfoTools;
 
 namespace EMChat2.Model.Entity
 {
     /// <summary>
     /// 消息信息实体
     /// </summary>
-    public abstract class MessageInfo : PropertyChangedBase
+    public class MessageInfo : PropertyChangedBase
     {
         #region 属性
         /// <summary>
@@ -143,21 +147,9 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private string content;
-        public virtual string Content
-        {
-            get
-            {
-                return this.content;
-            }
-            set
-            {
-                this.content = value;
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
+        public virtual string Content { get; set; }
 
-        public abstract string Mark { get; }
+        public virtual string Mark { get; }
 
         private MsgState state;
         public MsgState State
@@ -235,7 +227,10 @@ namespace EMChat2.Model.Entity
         public static readonly string Video = "video";
         public static readonly string Revoke = "revoke";
         public static readonly string Link = "link";
+        public static readonly string File = "file";
         public static readonly string Mixed = "mixed";
+
+        public static readonly string Tips = "tips";
     }
 
     public class TextMessageInfo : MessageInfo
@@ -248,8 +243,8 @@ namespace EMChat2.Model.Entity
         #endregion
 
         #region 属性  
-        private TextMessageContext text;
-        public TextMessageContext Text
+        private TextMessageContent text;
+        public TextMessageContent Text
         {
             get
             {
@@ -260,6 +255,7 @@ namespace EMChat2.Model.Entity
                 this.text = value;
                 this.NotifyPropertyChange(() => this.Text);
                 this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
             }
         }
 
@@ -270,10 +266,22 @@ namespace EMChat2.Model.Entity
                 return this.text.Content;
             }
         }
+
+        public override string Content
+        {
+            get
+            {
+                return this.text.ObjectToJson();
+            }
+            set
+            {
+                this.text = value.JsonToObject<TextMessageContent>();
+            }
+        }
         #endregion
     }
 
-    public class TextMessageContext : PropertyChangedBase
+    public class TextMessageContent : PropertyChangedBase
     {
         private string content;
         public string Content
@@ -286,6 +294,433 @@ namespace EMChat2.Model.Entity
             {
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+    }
+
+    public class ImageMessageInfo : MessageInfo
+    {
+        #region 构造函数
+        public ImageMessageInfo()
+        {
+            this.Type = MsgTypeConst.Image;
+        }
+        #endregion
+
+        #region 属性  
+        private ImageMessageContent image;
+        public ImageMessageContent Image
+        {
+            get
+            {
+                return this.image;
+            }
+            set
+            {
+                this.image = value;
+                this.NotifyPropertyChange(() => this.Image);
+                this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+
+        public override string Mark
+        {
+            get
+            {
+                return "[图片]";
+            }
+        }
+
+        public override string Content
+        {
+            get
+            {
+                return this.image.ObjectToJson();
+            }
+            set
+            {
+                this.image = value.JsonToObject<ImageMessageContent>();
+                this.NotifyPropertyChange(() => this.Image);
+            }
+        }
+        #endregion
+    }
+
+    public class ImageMessageContent : PropertyChangedBase
+    {
+        private string url;
+        public string Url
+        {
+            get
+            {
+                return this.url;
+            }
+            set
+            {
+                this.url = value;
+                this.NotifyPropertyChange(() => this.Url);
+            }
+        }
+    }
+
+    public class EmotionMessageInfo : MessageInfo
+    {
+        #region 构造函数
+        public EmotionMessageInfo()
+        {
+            this.Type = MsgTypeConst.Emotion;
+        }
+        #endregion
+
+        #region 属性  
+        private EmotionMessageContent emotion;
+        public EmotionMessageContent Emotion
+        {
+            get
+            {
+                return this.emotion;
+            }
+            set
+            {
+                this.emotion = value;
+                this.NotifyPropertyChange(() => this.Emotion);
+                this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+
+        public override string Mark
+        {
+            get
+            {
+                return string.Format("[表情-{0}]", this.emotion.Name);
+            }
+        }
+
+        public override string Content
+        {
+            get
+            {
+                return this.emotion.ObjectToJson();
+            }
+            set
+            {
+                this.emotion = value.JsonToObject<EmotionMessageContent>();
+                this.NotifyPropertyChange(() => this.Emotion);
+            }
+        }
+        #endregion
+    }
+
+    public class EmotionMessageContent : PropertyChangedBase
+    {
+        private string url;
+        public string Url
+        {
+            get
+            {
+                return this.url;
+            }
+            set
+            {
+                this.url = value;
+                this.NotifyPropertyChange(() => this.Url);
+            }
+        }
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+                this.NotifyPropertyChange(() => this.Name);
+            }
+        }
+
+        private bool isGif;
+        public bool IsGif
+        {
+            get
+            {
+                return this.isGif;
+            }
+            set
+            {
+                this.isGif = value;
+                this.NotifyPropertyChange(() => this.IsGif);
+            }
+        }
+    }
+
+    public class FileMessageInfo : MessageInfo
+    {
+        #region 构造函数 
+        public FileMessageInfo()
+        {
+            this.Type = MsgTypeConst.File;
+        }
+        #endregion
+
+        #region 属性  
+        private FileMessageContent file;
+        public FileMessageContent File
+        {
+            get
+            {
+                return this.file;
+            }
+            set
+            {
+                this.file = value;
+                this.NotifyPropertyChange(() => this.File);
+                this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+        public override string Mark
+        {
+            get
+            {
+                return string.Format("[文件-{0}]", this.file.Name);
+            }
+        }
+
+        public override string Content
+        {
+            get
+            {
+                return this.file.ObjectToJson();
+            }
+            set
+            {
+                this.file = value.JsonToObject<FileMessageContent>();
+                this.NotifyPropertyChange(() => this.File);
+            }
+        }
+        #endregion
+    }
+
+    public class FileMessageContent : PropertyChangedBase
+    {
+        private string url;
+        public string Url
+        {
+            get
+            {
+                return this.url;
+            }
+            set
+            {
+                this.url = value;
+                this.NotifyPropertyChange(() => this.Url);
+            }
+        }
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+                this.NotifyPropertyChange(() => this.Name);
+            }
+        }
+        private string extension;
+        public string Extension
+        {
+            get
+            {
+                return this.extension;
+            }
+            set
+            {
+                this.extension = value;
+                this.NotifyPropertyChange(() => this.Extension);
+            }
+        }
+    }
+
+    public class LinkMessageInfo : MessageInfo
+    {
+        #region 构造函数 
+        public LinkMessageInfo()
+        {
+            this.Type = MsgTypeConst.Link;
+        }
+        #endregion
+
+        #region 属性  
+        private LinkMessageContent link;
+        public LinkMessageContent Link
+        {
+            get
+            {
+                return this.link;
+            }
+            set
+            {
+                this.link = value;
+                this.NotifyPropertyChange(() => this.Link);
+                this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+        public override string Mark
+        {
+            get
+            {
+                return string.Format("[链接-{0}]", link.Title);
+            }
+        }
+
+        public override string Content
+        {
+            get
+            {
+                return this.link.ObjectToJson();
+            }
+            set
+            {
+                this.link = value.JsonToObject<LinkMessageContent>();
+                this.NotifyPropertyChange(() => this.Link);
+            }
+        }
+        #endregion
+    }
+
+    public class LinkMessageContent : PropertyChangedBase
+    {
+        private string url;
+        public string Url
+        {
+            get
+            {
+                return this.url;
+            }
+            set
+            {
+                this.url = value;
+                this.NotifyPropertyChange(() => this.Url);
+            }
+        }
+
+        private string thumbUrl;
+        public string ThumbUrl
+        {
+            get
+            {
+                return this.thumbUrl;
+            }
+            set
+            {
+                this.thumbUrl = value;
+                this.NotifyPropertyChange(() => this.ThumbUrl);
+            }
+        }
+
+        private string title;
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                this.title = value;
+                this.NotifyPropertyChange(() => this.Title);
+            }
+        }
+
+        private string description;
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+                this.NotifyPropertyChange(() => this.Description);
+            }
+        }
+    }
+
+    public class MixedMessageInfo : MessageInfo
+    {
+        #region 构造函数 
+        public MixedMessageInfo()
+        {
+            this.Type = MsgTypeConst.Mixed;
+        }
+        #endregion
+
+        #region 属性  
+        private MixedMessageContent mixed;
+        public MixedMessageContent Mixed
+        {
+            get
+            {
+                return this.mixed;
+            }
+            set
+            {
+                this.mixed = value;
+                this.NotifyPropertyChange(() => this.Mixed);
+                this.NotifyPropertyChange(() => this.Mark);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+        public override string Mark
+        {
+            get
+            {
+                List<string> marks = new List<string>();
+                foreach (MessageInfo message in this.mixed.Items)
+                {
+                    marks.Add(message.Mark);
+                }
+                return string.Join("", marks);
+            }
+        }
+
+        public override string Content
+        {
+            get
+            {
+                return this.mixed.ObjectToJson();
+            }
+            set
+            {
+                this.mixed = value.JsonToObject<MixedMessageContent>();
+                this.NotifyPropertyChange(() => this.Mixed);
+            }
+        }
+        #endregion
+    }
+
+    public class MixedMessageContent : PropertyChangedBase
+    {
+        private MessageInfo[] items;
+        public MessageInfo[] Items
+        {
+            get
+            {
+                return this.items;
+            }
+            set
+            {
+                this.items = value;
+                this.NotifyPropertyChange(() => this.Items);
             }
         }
     }

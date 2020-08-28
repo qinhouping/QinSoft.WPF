@@ -1,19 +1,22 @@
 ﻿using EMChat2.Model.Entity;
+using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     public abstract class ChatTabItemAreaViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public ChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat)
+        public ChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -21,6 +24,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
             this.chat = chat;
+            this.chatService = chatService;
+            this.systemService = systemService;
             this.messages = new ObservableCollection<MessageInfo>();
             this.messages.CollectionChanged += (s, e) =>
             {
@@ -34,6 +39,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         protected IWindowManager windowManager;
         protected EventAggregator eventAggregator;
         private ChatInfo chat;
+        private ChatService chatService;
+        private SystemService systemService;
         public ChatInfo Chat
         {
             get
@@ -101,6 +108,37 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             get
             {
                 return this.messages.LastOrDefault();
+            }
+        }
+        #endregion
+
+        #region 命令
+        public ICommand OpenLinkMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<LinkMessageInfo>((message) =>
+                {
+                    this.chatService.OpenLink(message.Link.Url);
+                });
+            }
+        }
+
+        public ICommand OpenImageMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<ImageMessageInfo>((message) =>
+                {
+                    ImageMessageInfo[] imageMessageInfos = this.Messages.OfType<ImageMessageInfo>().ToArray();
+                    int index = Array.IndexOf(imageMessageInfos, message);
+
+                    string[] sources = imageMessageInfos.Select(u =>
+                    {
+                        return systemService.GetUrlMapping(u.Image.Url);
+                    }).Where(u => !string.IsNullOrEmpty(u)).ToArray();
+                    this.chatService.OpenImage(sources, index);
+                });
             }
         }
         #endregion

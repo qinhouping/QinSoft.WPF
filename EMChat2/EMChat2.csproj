@@ -97,9 +97,11 @@
     <Compile Include="Common\ChineseCharactorTools.cs" />
     <Compile Include="Common\EncryptTools.cs" />
     <Compile Include="Common\ExecuteTools.cs" />
+    <Compile Include="Common\FileInfoTools.cs" />
     <Compile Include="Common\HttpTools.cs" />
     <Compile Include="Common\PasswordBoxHelper.cs" />
     <Compile Include="Common\RetryTools.cs" />
+    <Compile Include="Common\ValueConverters.cs" />
     <Compile Include="Model\Entity\BusinessEnum.cs" />
     <Compile Include="Model\Entity\ChatInfo.cs" />
     <Compile Include="Model\Entity\CustomerInfo.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Model\Entity\SettingInfo.cs" />
     <Compile Include="Model\Entity\StaffInfo.cs" />
     <Compile Include="Model\Entity\SystemUserInfo.cs" />
+    <Compile Include="Model\Entity\UrlMappingInfo.cs" />
     <Compile Include="Model\Entity\UserInfo.cs" />
     <Compile Include="Model\Event\BaseEventArgs.cs" />
     <Compile Include="Model\Event\ExitEventArgs.cs" />
@@ -160,7 +163,6 @@
     <Compile Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml.cs">
       <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\ChatTabItemAreaView.cs" />
     <Compile Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml.cs">
       <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
     </Compile>
@@ -325,9 +327,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\Image\DefaultHeaderImage.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resource\Image\log.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -337,7 +336,7 @@
     <Content Include="lib\Microsoft.Expression.Interactions.dll" />
     <Content Include="lib\Microsoft.Windows.Shell.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
-    <Resource Include="Resource\Image\emotion.jpg" />
+    <Resource Include="Resource\Image\file.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

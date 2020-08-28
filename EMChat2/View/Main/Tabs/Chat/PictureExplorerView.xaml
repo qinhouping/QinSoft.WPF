@@ -27,7 +27,7 @@
                 <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
             </Grid>
 
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
                 <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>

@@ -63,6 +63,24 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.Url);
             }
         }
+
+        /// <summary>
+        /// 是否是gif动图
+        /// </summary>
+        private bool isGif;
+        private bool IsGif
+        {
+            get
+            {
+                return this.isGif;
+            }
+            set
+            {
+                this.isGif = value;
+                this.NotifyPropertyChange(() => this.IsGif);
+            }
+        }
+
         #endregion
 
         #region 方法
