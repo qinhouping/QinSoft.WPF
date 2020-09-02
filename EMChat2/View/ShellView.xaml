@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:main="clr-namespace:EMChat2.View.Main"
+        xmlns:common="clr-namespace:EMChat2.Common"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
         Title="东财通2.0" MinHeight="700" MinWidth="1200" Height="700" Width="1200"
-        WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip">
+        WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip"
+        common:WindowInfoAttach.WindowInfo="">
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
 
     <Border Style="{StaticResource IM-App-Border}">
-        <Grid>
+        <Grid >
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="50" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                 <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>

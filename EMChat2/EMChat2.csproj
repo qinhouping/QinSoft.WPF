@@ -101,6 +101,7 @@
     <Compile Include="Common\HttpTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\RetryTools.cs" />
+    <Compile Include="Common\WindowInfoAttach.cs" />
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\Entity\BusinessEnum.cs" />
     <Compile Include="Model\Entity\ChatInfo.cs" />
