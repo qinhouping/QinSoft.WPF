@@ -14,7 +14,7 @@
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource IM-App}">
+    <Border Style="{StaticResource IM-App-Border}">
         <Grid>
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="50" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">

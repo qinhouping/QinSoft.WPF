@@ -30,7 +30,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-ShellBarButton" TargetType="{x:Type Button}">
+    <Style x:Key="IM-ShellBar-Button" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#DDDDDD"></Setter>
         <Setter Property="Foreground" Value="#5E5E5E"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
@@ -60,7 +60,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-ClearSearchButton" TargetType="{x:Type Button}">
+    <Style x:Key="IM-ClearSearch-Button" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#B3B3B3"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -84,7 +84,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-ChatButton" TargetType="{x:Type Button}">
+    <Style x:Key="IM-Chat-Button" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="#AAAAAA"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -115,7 +115,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-ChatToggleButton" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="IM-Chat-ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="#DDDDDD"></Setter>
         <Setter Property="Foreground" Value="#AAAAAA"></Setter>
         <Setter Property="BorderBrush" Value="#EEEEEE"></Setter>

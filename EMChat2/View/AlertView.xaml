@@ -14,7 +14,7 @@
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource IM-App}">
+    <Border Style="{StaticResource IM-App-Border}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -57,7 +57,7 @@
             <Grid Grid.Row="2">
                 <Button x:Name="confirmBtn" HorizontalAlignment="Right" Content="确定" IsDefault="True" Command="{Binding ConfirmCommand}">
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ChatButton}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Chat-Button}">
                             <Setter Property="FontSize" Value="12"></Setter>
                             <Setter Property="Margin" Value="0"></Setter>
                         </Style>

@@ -16,28 +16,15 @@ namespace EMChat2.View
 {
     public static class ValueConverters
     {
-
-        public static IValueConverter MessageToDisplayerConverter
+        public static IValueConverter MessageToContentMarkConverter
         {
             get
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    RichTextBox richTextBox = new RichTextBox();
-                    FlowDocument document = new FlowDocument();
-                    document.LineHeight = 1;
-                    Paragraph paragraph = new Paragraph();
-                    Run run = new Run(@"很");
-                    run.Foreground = new SolidColorBrush(Colors.Red);
-                    paragraph.Inlines.Add(run);
-                    paragraph.Inlines.Add("\r\nq");
-                    paragraph.Inlines.Add(new Image() { Source = new BitmapImage(new Uri("https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1906469856,4113625838&fm=26&gp=0.jpg")), Height = 64 });
-                    document.Blocks.Add(paragraph);
-                    richTextBox.Document = document;
-                    return richTextBox;
-                }, (value, targetType, parameter, cultInfo) =>
-                {
-                    return new MessageInfo();
+                    MessageInfo message = value as MessageInfo;
+                    if (message == null) return null;
+                    else return MessageTools.GetMessageContentMark(message.Content, message.Type);
                 });
             }
         }

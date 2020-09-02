@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="IM-App" TargetType="{x:Type Border}">
+    <Style x:Key="IM-App-Border" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="{StaticResource DeepPurpleBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
 
-    <Style x:Key="IM-Popup-Content" TargetType="{x:Type Border}">
+    <Style x:Key="IM-Content-Border" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="#AAAAAA"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="Background" Value="White"></Setter>

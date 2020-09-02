@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
-    <Border Style="{StaticResource IM-Popup-Content}">
+    <Border Style="{StaticResource IM-Content-Border}">
         <TabControl Style="{StaticResource IM-EmotionPicker-Tab}" ItemContainerStyle="{StaticResource IM-EmotionPicker-TabItem}" ItemsSource="{Binding EmotionPackages}" SelectedItem="{Binding SelectedEmotionPackage}">
             <TabControl.ItemTemplate>
                 <DataTemplate>

@@ -8,9 +8,9 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:bottom="clr-namespace:EMChat2.View.Main.Bottom"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="60">
+             d:DesignHeight="100" d:DesignWidth="60">
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
             <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Button}">
                 <TextBlock Style="{StaticResource IconBars}"/>
                 <i:Interaction.Triggers>
@@ -19,7 +19,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Label Content="东财通" HorizontalAlignment="Center" Margin="0,2" Style="{StaticResource IM-Name}"></Label>
+            <Label Content="东财通" HorizontalAlignment="Center" Margin="0,2" Style="{StaticResource IM-Name-Label}"></Label>
         </StackPanel>
 
         <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Width="180">

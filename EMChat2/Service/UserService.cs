@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Service
 {
+    /// <summary>
+    /// 用户服务，负责用户信息相关逻辑
+    /// </summary>
     [Component]
     public class UserService
     {

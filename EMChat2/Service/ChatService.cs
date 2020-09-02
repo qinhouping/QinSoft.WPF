@@ -16,6 +16,9 @@ using System.Windows.Forms;
 
 namespace EMChat2.Service
 {
+    /// <summary>
+    /// 会话服务，负责会话相关逻辑
+    /// </summary>
     [Component]
     public class ChatService
     {
@@ -49,6 +52,7 @@ namespace EMChat2.Service
         {
             await new Func<object>(() =>
             {
+                sources = sources.Select(u => systemService.GetUrlMapping(u)).ToArray();
                 new Action(() => this.windowManager.ShowDialog(new PictureExplorerViewModel(this.windowManager, systemService, sources, index))).ExecuteInUIThread();
                 return null;
             }).ExecuteInTask();
@@ -56,6 +60,7 @@ namespace EMChat2.Service
 
         public async void OpenFile(string filePath, string name, string extension)
         {
+            filePath = systemService.GetUrlMapping(filePath);
             if (filePath.IsNetUrl())
             {
                 FileDialog fileDialog = new SaveFileDialog();

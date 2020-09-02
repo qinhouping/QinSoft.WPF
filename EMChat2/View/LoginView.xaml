@@ -15,7 +15,7 @@
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource IM-App}">
+    <Border Style="{StaticResource IM-App-Border}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -32,7 +32,7 @@
                         <RectangleGeometry Rect="0,0,420,125"/>
                     </Grid.Clip>
                 </Grid>
-                <Label Content="东财通" Style="{StaticResource IM-Name}" FontSize="20"></Label>
+                <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="20"></Label>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.RenderTransform>
@@ -52,9 +52,9 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="90"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" Style="{StaticResource IM-Popup-Content}" HorizontalAlignment="Center" Margin="0,5">
+                <Border Grid.Column="1" Style="{StaticResource IM-Content-Border}" HorizontalAlignment="Center" Margin="0,5">
                     <Grid>
-                        <Image Source="{Binding LoginInfo.HeaderImageUrl}" Style="{StaticResource IM-LoginHeaderImage}"></Image>
+                        <Image Source="{Binding LoginInfo.HeaderImageUrl}" Style="{StaticResource IM-LoginHeader-Image}"></Image>
                         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
                             <Grid.RenderTransform>
                                 <TransformGroup>

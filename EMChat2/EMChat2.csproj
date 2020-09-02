@@ -209,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\api\" />
+    <Folder Include="View\Main\Tabs\Chat\Message\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">

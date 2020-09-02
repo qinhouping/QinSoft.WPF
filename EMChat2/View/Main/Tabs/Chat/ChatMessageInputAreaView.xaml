@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-ChatButton}">
+                    <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-Chat-Button}">
                         <TextBlock Style="{StaticResource IconSmileO}"></TextBlock>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -27,19 +27,19 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图" Style="{StaticResource IM-ChatButton}">
+                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
                     </Button>
-                    <Button ToolTip="图片" Style="{StaticResource IM-ChatButton}">
+                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
                     </Button>
-                    <Button ToolTip="文件" Style="{StaticResource IM-ChatButton}">
+                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}">
                         <TextBlock Style="{StaticResource IconFileO}"></TextBlock>
                     </Button>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-ChatToggleButton}" IsChecked="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Mode=TwoWay}">
+                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-Chat-ToggleButton}" IsChecked="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Mode=TwoWay}">
                         <TextBlock Style="{StaticResource IconThList}"></TextBlock>
                     </ToggleButton>
                 </StackPanel>
@@ -52,7 +52,7 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}">
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ChatButton}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Chat-Button}">
                             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
                         </Style>
                     </Button.Style>

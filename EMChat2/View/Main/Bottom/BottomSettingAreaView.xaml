@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200">
-    <Border  Style="{StaticResource IM-Popup-Content}">
+    <Border  Style="{StaticResource IM-Content-Border}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Image Style="{StaticResource IM-HeaderImage}" Grid.RowSpan="2" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
+                <Image Style="{StaticResource IM-Header-Image}" Grid.RowSpan="2" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
                 <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Column="1" Text="{Binding ApplicationContextViewModel.CurrentStaff.WorkCode}" VerticalAlignment="Bottom" Margin="10,0"></TextBlock>
                 <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Row="1" Grid.Column="1" Text="{Binding ApplicationContextViewModel.CurrentStaff.Name}" VerticalAlignment="Top" Margin="10,0"></TextBlock>
             </Grid>

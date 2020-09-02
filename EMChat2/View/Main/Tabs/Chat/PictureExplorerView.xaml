@@ -14,7 +14,7 @@
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
-    <Border Style="{StaticResource IM-App}">
+    <Border Style="{StaticResource IM-App-Border}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -45,16 +45,16 @@
 
             <Grid Grid.Row="2">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button ToolTip="上一张" Style="{StaticResource IM-ChatButton}" Command="{Binding PreviousCommand}">
+                    <Button ToolTip="上一张" Style="{StaticResource IM-Chat-Button}" Command="{Binding PreviousCommand}">
                         <TextBlock Style="{StaticResource IconLongArrowLeft}"></TextBlock>
                     </Button>
-                    <Button ToolTip="下一张" Style="{StaticResource IM-ChatButton}" Command="{Binding NextCommand}">
+                    <Button ToolTip="下一张" Style="{StaticResource IM-Chat-Button}" Command="{Binding NextCommand}">
                         <TextBlock Style="{StaticResource IconLongArrowRight}"></TextBlock>
                     </Button>
-                    <Button ToolTip="保存" Style="{StaticResource IM-ChatButton}" Command="{Binding SaveCommand}">
+                    <Button ToolTip="保存" Style="{StaticResource IM-Chat-Button}" Command="{Binding SaveCommand}">
                         <TextBlock Style="{StaticResource IconArrowDown}"></TextBlock>
                     </Button>
-                    <Button ToolTip="旋转" Style="{StaticResource IM-ChatButton}" Command="{Binding RepeatCommand}">
+                    <Button ToolTip="旋转" Style="{StaticResource IM-Chat-Button}" Command="{Binding RepeatCommand}">
                         <TextBlock Style="{StaticResource IconRepeat}"></TextBlock>
                     </Button>
                 </StackPanel>

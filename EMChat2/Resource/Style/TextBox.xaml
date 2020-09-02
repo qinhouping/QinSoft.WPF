@@ -6,7 +6,7 @@
         <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="IM-SearchTextBox" TargetType="{x:Type TextBox}" >
+    <Style x:Key="IM-Search-TextBox" TargetType="{x:Type TextBox}" >
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
@@ -34,7 +34,7 @@
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
                                 <TextBlock Text="搜索" Foreground="#888888" VerticalAlignment="Center" FontSize="{StaticResource DefaultFontSize}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}"></TextBlock>
                             </Grid>
-                            <Button Margin="10,0" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource IM-ClearSearchButton}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}">
+                            <Button Margin="10,0" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource IM-ClearSearch-Button}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource IconTimes}"></TextBlock>
                             </Button>
                         </Grid>

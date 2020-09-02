@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Service
 {
+    /// <summary>
+    /// 系统服务，负责本地数据加载和持久化等逻辑
+    /// </summary>
     [Component]
     public class SystemService
     {
