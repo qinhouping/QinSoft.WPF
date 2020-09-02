@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="BindingProxy.cs" />
     <Compile Include="ListBoxAttach.cs" />
+    <Compile Include="PasswordBoxAttach.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

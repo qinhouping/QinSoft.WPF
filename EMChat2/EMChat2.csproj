@@ -99,9 +99,9 @@
     <Compile Include="Common\ExecuteTools.cs" />
     <Compile Include="Common\FileInfoTools.cs" />
     <Compile Include="Common\HttpTools.cs" />
-    <Compile Include="Common\PasswordBoxHelper.cs" />
+    <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\RetryTools.cs" />
-    <Compile Include="Common\ValueConverters.cs" />
+    <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\Entity\BusinessEnum.cs" />
     <Compile Include="Model\Entity\ChatInfo.cs" />
     <Compile Include="Model\Entity\CustomerInfo.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="Model\Entity\SystemUserInfo.cs" />
     <Compile Include="Model\Entity\UrlMappingInfo.cs" />
     <Compile Include="Model\Entity\UserInfo.cs" />
-    <Compile Include="Model\Event\BaseEventArgs.cs" />
+    <Compile Include="Model\Event\CallbackEventArgs.cs" />
     <Compile Include="Model\Event\ExitEventArgs.cs" />
     <Compile Include="Model\Event\LoginEventArgs.cs" />
     <Compile Include="Model\Event\LogoutEventArgs.cs" />

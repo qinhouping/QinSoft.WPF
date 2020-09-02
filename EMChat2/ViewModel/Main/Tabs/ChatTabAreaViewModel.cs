@@ -120,7 +120,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             if (!arg.IsSuccess) return;
 
             //TODO 测试数据
-            this.ChatTabItems.Clear();
+            this.ChatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
             this.ChatTabItems.Add(
                 new PrivateChatTabItemAreaViewModel(
                     this.windowManager,

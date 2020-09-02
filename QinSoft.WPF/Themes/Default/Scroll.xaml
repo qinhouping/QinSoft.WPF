@@ -121,14 +121,16 @@
     <Style x:Key="BaseScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Auto"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Background="{TemplateBinding Background}">
-                            <ScrollContentPresenter  Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            <ScrollContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
                             <ScrollBar x:Name="PART_VerticalScrollBar"
                                        HorizontalAlignment="Right"
                                        Maximum="{TemplateBinding ScrollableHeight}"

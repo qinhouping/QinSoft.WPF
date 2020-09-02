@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class LoginEventArgs : BaseEventArgs
+    public class LoginEventArgs : CallbackEventArgs
     {
         public StaffInfo StaffInfo { get; set; }
     }

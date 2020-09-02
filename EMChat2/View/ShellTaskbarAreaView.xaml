@@ -46,7 +46,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button x:Name="restoreBtn" ToolTip="还原" 
+            <Button x:Name="restoreBtn" ToolTip
+                    ="还原" 
                     Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Maximized}}"
                     IsEnabled="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.NotEqualsToBooleanConverter},ConverterParameter={x:Static win:ResizeMode.NoResize}}">
                 <Button.Style>

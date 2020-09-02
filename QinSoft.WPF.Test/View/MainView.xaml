@@ -583,6 +583,10 @@
                 </TabItem.Resources>
                 <ListBox x:Name="chat" Style="{StaticResource MessagesList}" ItemContainerStyle="{StaticResource MessageItem}" ItemTemplate="{StaticResource MessageItemTemplate}" ItemsSource="{Binding Messages}"></ListBox>
             </TabItem>
+
+            <TabItem Header="RichTextBox">
+                <RichTextBox HorizontalAlignment="Left" MinWidth="0" Width="Auto"></RichTextBox>
+            </TabItem>
         </TabControl>
 
     </DockPanel>

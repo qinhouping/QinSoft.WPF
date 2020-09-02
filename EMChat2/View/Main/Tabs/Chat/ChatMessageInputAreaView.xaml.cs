@@ -19,6 +19,7 @@ namespace EMChat2.View.Main.Tabs.Chat
     /// </summary>
     public partial class ChatMessageInputAreaView : UserControl
     {
+
         public ChatMessageInputAreaView()
         {
             InitializeComponent();

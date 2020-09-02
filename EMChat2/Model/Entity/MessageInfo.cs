@@ -2,19 +2,19 @@
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
-using static EMChat2.Common.FileInfoTools;
 
 namespace EMChat2.Model.Entity
 {
     /// <summary>
     /// 消息信息实体
     /// </summary>
+    [Serializable]
     public class MessageInfo : PropertyChangedBase
     {
         #region 属性
@@ -22,7 +22,7 @@ namespace EMChat2.Model.Entity
         /// ID
         /// </summary>
         private string id;
-        public virtual string Id
+        public string Id
         {
             get
             {
@@ -36,7 +36,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string msgId;
-        public virtual string MsgId
+        public string MsgId
         {
             get
             {
@@ -50,7 +50,7 @@ namespace EMChat2.Model.Entity
         }
 
         private DateTime msgTime;
-        public virtual DateTime MsgTime
+        public DateTime MsgTime
         {
             get
             {
@@ -64,7 +64,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string chatId;
-        public virtual string ChatId
+        public string ChatId
         {
             get
             {
@@ -78,7 +78,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string roomId;
-        public virtual string RoomId
+        public string RoomId
         {
             get
             {
@@ -92,7 +92,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string fromUser;
-        public virtual string FromUser
+        public string FromUser
         {
             get
             {
@@ -106,7 +106,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string[] toUsers;
-        public virtual string[] ToUsers
+        public string[] ToUsers
         {
             get
             {
@@ -120,7 +120,7 @@ namespace EMChat2.Model.Entity
         }
 
         private BusinessEnum? business;
-        public virtual BusinessEnum? Business
+        public BusinessEnum? Business
         {
             get
             {
@@ -134,7 +134,7 @@ namespace EMChat2.Model.Entity
         }
 
         private string type;
-        public virtual string Type
+        public string Type
         {
             get
             {
@@ -147,12 +147,10 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        public virtual string Content { get; set; }
+        public string Content { get; set; }
 
-        public virtual string Mark { get; }
-
-        private MsgState state;
-        public MsgState State
+        private MessageState state;
+        public MessageState State
         {
             get
             {
@@ -179,107 +177,72 @@ namespace EMChat2.Model.Entity
         #endregion
     }
 
-    public enum MsgState
+    public enum MessageState
     {
         /// <summary>
         /// 发送中
         /// </summary>
+        [Description("发送中")]
         Sending,
         /// <summary>
-        /// 发送的
+        /// 发送成功
         /// </summary>
+        [Description("发送成功")]
         SendSuccess,
         /// <summary>
-        /// 发送失败的
+        /// 发送失败
         /// </summary>
+        [Description("发送失败")]
         SendFailure,
         /// <summary>
         /// 接收的
         /// </summary>
+        [Description("已接收")]
         Received,
         /// <summary>
         /// 拒绝的
         /// </summary>
+        [Description("已拒绝")]
         Refused,
         /// <summary>
         /// 已读的
         /// </summary>
+        [Description("已读")]
         Readed,
         /// <summary>
         /// 撤回的
         /// </summary>
+        [Description("已撤回")]
         Revoked,
         /// <summary>
         /// 移除的
         /// </summary>
+        [Description("已移除")]
         Deleted
     }
 
     /// <summary>
     /// 消息类型常量
     /// </summary>
-    public static class MsgTypeConst
+    public static class MessageTypeConst
     {
-        public static readonly string Text = "text";
-        public static readonly string Emotion = "emotion";
-        public static readonly string Image = "image";
-        public static readonly string Voice = "voice";
-        public static readonly string Video = "video";
-        public static readonly string Revoke = "revoke";
-        public static readonly string Link = "link";
-        public static readonly string File = "file";
-        public static readonly string Mixed = "mixed";
+        public const string Text = "text";
+        public const string Emotion = "emotion";
+        public const string Image = "image";
+        public const string Voice = "voice";
+        public const string Video = "video";
+        public const string Revoke = "revoke";
+        public const string Link = "link";
+        public const string File = "file";
+        public const string Mixed = "mixed";
+
+        public static readonly string Event = "event";
 
         public static readonly string Tips = "tips";
     }
 
-    public class TextMessageInfo : MessageInfo
-    {
-        #region 构造函数
-        public TextMessageInfo()
-        {
-            this.Type = MsgTypeConst.Text;
-        }
-        #endregion
 
-        #region 属性  
-        private TextMessageContent text;
-        public TextMessageContent Text
-        {
-            get
-            {
-                return this.text;
-            }
-            set
-            {
-                this.text = value;
-                this.NotifyPropertyChange(() => this.Text);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-
-        public override string Mark
-        {
-            get
-            {
-                return this.text.Content;
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.text.ObjectToJson();
-            }
-            set
-            {
-                this.text = value.JsonToObject<TextMessageContent>();
-            }
-        }
-        #endregion
-    }
+    [Serializable]
 
     public class TextMessageContent : PropertyChangedBase
     {
@@ -298,55 +261,7 @@ namespace EMChat2.Model.Entity
         }
     }
 
-    public class ImageMessageInfo : MessageInfo
-    {
-        #region 构造函数
-        public ImageMessageInfo()
-        {
-            this.Type = MsgTypeConst.Image;
-        }
-        #endregion
-
-        #region 属性  
-        private ImageMessageContent image;
-        public ImageMessageContent Image
-        {
-            get
-            {
-                return this.image;
-            }
-            set
-            {
-                this.image = value;
-                this.NotifyPropertyChange(() => this.Image);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-
-        public override string Mark
-        {
-            get
-            {
-                return "[图片]";
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.image.ObjectToJson();
-            }
-            set
-            {
-                this.image = value.JsonToObject<ImageMessageContent>();
-                this.NotifyPropertyChange(() => this.Image);
-            }
-        }
-        #endregion
-    }
-
+    [Serializable]
     public class ImageMessageContent : PropertyChangedBase
     {
         private string url;
@@ -364,55 +279,8 @@ namespace EMChat2.Model.Entity
         }
     }
 
-    public class EmotionMessageInfo : MessageInfo
-    {
-        #region 构造函数
-        public EmotionMessageInfo()
-        {
-            this.Type = MsgTypeConst.Emotion;
-        }
-        #endregion
 
-        #region 属性  
-        private EmotionMessageContent emotion;
-        public EmotionMessageContent Emotion
-        {
-            get
-            {
-                return this.emotion;
-            }
-            set
-            {
-                this.emotion = value;
-                this.NotifyPropertyChange(() => this.Emotion);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-
-        public override string Mark
-        {
-            get
-            {
-                return string.Format("[表情-{0}]", this.emotion.Name);
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.emotion.ObjectToJson();
-            }
-            set
-            {
-                this.emotion = value.JsonToObject<EmotionMessageContent>();
-                this.NotifyPropertyChange(() => this.Emotion);
-            }
-        }
-        #endregion
-    }
-
+    [Serializable]
     public class EmotionMessageContent : PropertyChangedBase
     {
         private string url;
@@ -457,54 +325,7 @@ namespace EMChat2.Model.Entity
         }
     }
 
-    public class FileMessageInfo : MessageInfo
-    {
-        #region 构造函数 
-        public FileMessageInfo()
-        {
-            this.Type = MsgTypeConst.File;
-        }
-        #endregion
-
-        #region 属性  
-        private FileMessageContent file;
-        public FileMessageContent File
-        {
-            get
-            {
-                return this.file;
-            }
-            set
-            {
-                this.file = value;
-                this.NotifyPropertyChange(() => this.File);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-        public override string Mark
-        {
-            get
-            {
-                return string.Format("[文件-{0}]", this.file.Name);
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.file.ObjectToJson();
-            }
-            set
-            {
-                this.file = value.JsonToObject<FileMessageContent>();
-                this.NotifyPropertyChange(() => this.File);
-            }
-        }
-        #endregion
-    }
-
+    [Serializable]
     public class FileMessageContent : PropertyChangedBase
     {
         private string url;
@@ -548,54 +369,7 @@ namespace EMChat2.Model.Entity
         }
     }
 
-    public class LinkMessageInfo : MessageInfo
-    {
-        #region 构造函数 
-        public LinkMessageInfo()
-        {
-            this.Type = MsgTypeConst.Link;
-        }
-        #endregion
-
-        #region 属性  
-        private LinkMessageContent link;
-        public LinkMessageContent Link
-        {
-            get
-            {
-                return this.link;
-            }
-            set
-            {
-                this.link = value;
-                this.NotifyPropertyChange(() => this.Link);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-        public override string Mark
-        {
-            get
-            {
-                return string.Format("[链接-{0}]", link.Title);
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.link.ObjectToJson();
-            }
-            set
-            {
-                this.link = value.JsonToObject<LinkMessageContent>();
-                this.NotifyPropertyChange(() => this.Link);
-            }
-        }
-        #endregion
-    }
-
+    [Serializable]
     public class LinkMessageContent : PropertyChangedBase
     {
         private string url;
@@ -655,63 +429,12 @@ namespace EMChat2.Model.Entity
         }
     }
 
-    public class MixedMessageInfo : MessageInfo
-    {
-        #region 构造函数 
-        public MixedMessageInfo()
-        {
-            this.Type = MsgTypeConst.Mixed;
-        }
-        #endregion
 
-        #region 属性  
-        private MixedMessageContent mixed;
-        public MixedMessageContent Mixed
-        {
-            get
-            {
-                return this.mixed;
-            }
-            set
-            {
-                this.mixed = value;
-                this.NotifyPropertyChange(() => this.Mixed);
-                this.NotifyPropertyChange(() => this.Mark);
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-        public override string Mark
-        {
-            get
-            {
-                List<string> marks = new List<string>();
-                foreach (MessageInfo message in this.mixed.Items)
-                {
-                    marks.Add(message.Mark);
-                }
-                return string.Join("", marks);
-            }
-        }
-
-        public override string Content
-        {
-            get
-            {
-                return this.mixed.ObjectToJson();
-            }
-            set
-            {
-                this.mixed = value.JsonToObject<MixedMessageContent>();
-                this.NotifyPropertyChange(() => this.Mixed);
-            }
-        }
-        #endregion
-    }
-
+    [Serializable]
     public class MixedMessageContent : PropertyChangedBase
     {
-        private MessageInfo[] items;
-        public MessageInfo[] Items
+        private MixedMessageContentItem[] items;
+        public MixedMessageContentItem[] Items
         {
             get
             {
@@ -721,6 +444,38 @@ namespace EMChat2.Model.Entity
             {
                 this.items = value;
                 this.NotifyPropertyChange(() => this.Items);
+            }
+        }
+    }
+
+    [Serializable]
+    public class MixedMessageContentItem : PropertyChangedBase
+    {
+        private string type;
+        public virtual string Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                this.type = value;
+                this.NotifyPropertyChange(() => this.Type);
+            }
+        }
+
+        private string content;
+        public virtual string Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
             }
         }
     }

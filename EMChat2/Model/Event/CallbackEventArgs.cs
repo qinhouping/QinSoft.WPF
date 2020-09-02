@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class BaseEventArgs
+    public class CallbackEventArgs
     {
         public bool IsSuccess { get; set; }
 

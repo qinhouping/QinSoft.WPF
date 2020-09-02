@@ -1,6 +1,8 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
 using EMChat2.Service;
 using QinSoft.Event;
+using QinSoft.Log.Utils;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using static System.Windows.Forms.DataFormats;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -95,12 +98,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.LastMessage);
             }
         }
+        private MessageInfo inputMessage;
+        public MessageInfo InputMessage
+        {
+            get
+            {
+                return this.inputMessage;
+            }
+            set
+            {
+                this.inputMessage = value;
+                this.NotifyPropertyChange(() => this.InputMessage);
+            }
+        }
 
         public int NotReadMessageCount
         {
             get
             {
-                return this.messages.Where(u => u.State.Equals(MsgState.Received)).Count();
+                return this.messages.Where(u => u.State.Equals(MessageState.Received)).Count();
             }
         }
 
@@ -114,56 +130,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 命令
-        public ICommand OpenLinkMessageCommand
-        {
-            get
-            {
-                return new RelayCommand<LinkMessageInfo>((message) =>
-                {
-                    this.chatService.OpenLink(message.Link.Url);
-                });
-            }
-        }
 
-        public ICommand OpenImageMessageCommand
-        {
-            get
-            {
-                return new RelayCommand<ImageMessageInfo>((message) =>
-                {
-                    ImageMessageInfo[] imageMessageInfos = this.Messages.OfType<ImageMessageInfo>().ToArray();
-                    int index = Array.IndexOf(imageMessageInfos, message);
-
-                    string[] sources = imageMessageInfos.Select(u =>
-                    {
-                        return systemService.GetUrlMapping(u.Image.Url);
-                    }).Where(u => !string.IsNullOrEmpty(u)).ToArray();
-                    this.chatService.OpenImage(sources, index);
-                });
-            }
-        }
-
-        public ICommand OpenFileMessageCommand
-        {
-            get
-            {
-                return new RelayCommand<FileMessageInfo>((message) =>
-                {
-                    this.chatService.OpenFile(systemService.GetUrlMapping(message.File.Url), message.File.Name, message.File.Extension);
-                });
-            }
-        }
-
-        public ICommand CopyMessageCommand
-        {
-            get
-            {
-                return new RelayCommand<MessageInfo>((message) =>
-                {
-                    Clipboard.SetDataObject(message);
-                });
-            }
-        }
         #endregion
     }
 }

@@ -150,6 +150,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     FileDialog fileDialog = new SaveFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+
+
                     fileDialog.FileName = Path.GetFileName(this.CurrentSource);
                     if (fileDialog.ShowDialog() == DialogResult.OK)
                     {

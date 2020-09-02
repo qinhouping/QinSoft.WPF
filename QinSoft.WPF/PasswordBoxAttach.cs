@@ -5,27 +5,27 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EMChat2.Common
+namespace QinSoft.WPF
 {
 
     /// <summary>
     /// 密码输入框帮助类
     /// 解决WPF没密码输入的功能
     /// </summary>
-    public static class PasswordBoxHelper
+    public static class PasswordBoxAttach
     {
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.RegisterAttached("Password",
-            typeof(string), typeof(PasswordBoxHelper),
+            typeof(string), typeof(PasswordBoxAttach),
             new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false, Attach));
+            typeof(bool), typeof(PasswordBoxAttach), new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-           typeof(PasswordBoxHelper));
+           typeof(PasswordBoxAttach));
 
 
         public static void SetAttach(DependencyObject dp, bool value)

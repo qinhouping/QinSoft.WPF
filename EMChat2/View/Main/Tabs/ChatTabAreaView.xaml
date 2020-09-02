@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:view="clr-namespace:EMChat2.View.Main.Tabs"
-      xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+      xmlns:view="clr-namespace:EMChat2.View"
       xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+      xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
@@ -95,7 +95,7 @@
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="1" Margin="0">
-                            <TextBlock Text="{Binding LastMessage.Mark}" ToolTip="{Binding LastMessage.Mark}" VerticalAlignment="Top" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
+                            <TextBlock Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage.Mark, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
                         </Grid>
 
                         <Grid Grid.Column="2" Grid.Row="1">
@@ -115,7 +115,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="Auto" MinHeight="170" MaxHeight="370"></RowDefinition>
+                            <RowDefinition Height="200" MinHeight="170" MaxHeight="370"></RowDefinition>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">

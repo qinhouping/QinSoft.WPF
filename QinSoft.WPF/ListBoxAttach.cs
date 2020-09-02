@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace QinSoft.WPF
 {
-    public class ListBoxAttach
+    public static class ListBoxAttach
     {
         public static IList GetSelectedItems(DependencyObject obj)
         {

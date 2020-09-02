@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:view="clr-namespace:EMChat2.View.Main.Tabs.Chat"
-             xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-             mc:Ignorable="d" 
-             d:DesignHeight="170" d:DesignWidth="400">
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="400">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -43,9 +44,13 @@
                     </ToggleButton>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="1"></Grid>
+            <Grid Grid.Row="1">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <RichTextBox x:Name="inputMessage" Style="{StaticResource IM-RichTextBox}"></RichTextBox>
+                </ScrollViewer>
+            </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="发送" ToolTip="发送消息">
+                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ChatButton}">
                             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
@@ -55,7 +60,7 @@
             </StackPanel>
         </Grid>
         <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">
-            <view:EmotionPickerAreaView DataContext="{Binding EmotionPickerAreaViewModel}"></view:EmotionPickerAreaView>
+            <chat:EmotionPickerAreaView DataContext="{Binding EmotionPickerAreaViewModel}"></chat:EmotionPickerAreaView>
         </Popup>
     </Grid>
 </UserControl>
