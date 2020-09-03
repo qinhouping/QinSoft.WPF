@@ -147,7 +147,7 @@
                             <ContentPresenter Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
 
                             <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#EEEEEE">
-                                <ScrollViewer Style="{StaticResource IM-EmotionPicker-Scroll}" HorizontalScrollBarVisibility="Visible">
+                                <ScrollViewer Style="{StaticResource IM-EmotionPicker-ScrollViewer}" HorizontalScrollBarVisibility="Visible">
                                     <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Horizontal"></StackPanel>
                                 </ScrollViewer>
                             </Border>

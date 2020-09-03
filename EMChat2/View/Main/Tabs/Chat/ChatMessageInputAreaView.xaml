@@ -7,7 +7,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
-             xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
+             xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="400">
     <Grid>
@@ -46,7 +46,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <RichTextBox x:Name="inputMessage" Style="{StaticResource IM-RichTextBox}"></RichTextBox>
+                    <RichTextBox Style="{StaticResource IM-InputMessage-RichTextBox}"></RichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

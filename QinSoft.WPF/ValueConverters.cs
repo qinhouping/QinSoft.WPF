@@ -367,5 +367,36 @@ namespace QinSoft.WPF
             return this._convertBackFunc.Invoke(value, targetType, parameter, culture);
         }
     }
+    public class DelegateMultiValueConverter : IMultiValueConverter
+    {
+        private Func<object[], Type, object, CultureInfo, object> _convertFunc;
+        private Func<object, Type[], object, CultureInfo, object[]> _convertBackFunc;
+
+        public DelegateMultiValueConverter(Func<object[], Type, object, CultureInfo, object> convertFunc, Func<object, Type[], object, CultureInfo, object[]> convertBackFunc)
+        {
+            this._convertFunc = convertFunc;
+            this._convertBackFunc = convertBackFunc;
+        }
+
+        public DelegateMultiValueConverter(Func<object[], Type, object, CultureInfo, object> convertFunc)
+        {
+            this._convertFunc = convertFunc;
+        }
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (this._convertFunc != null)
+                return this._convertFunc.Invoke(values, targetType, parameter, culture);
+            return null;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+
+            if (this._convertBackFunc == null)
+                return null;
+            return this._convertBackFunc.Invoke(value, targetTypes, parameter, culture);
+        }
+    }
 
 }

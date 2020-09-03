@@ -8,14 +8,12 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <wpf:BindingProxy x:Key="chatData" Data="{Binding}"></wpf:BindingProxy>
-        <Style TargetType="{x:Type RichTextBox}" BasedOn="{StaticResource IM-RichTextBox}">
-            <Setter Property="MaxWidth" Value="200"></Setter>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
@@ -23,15 +21,46 @@
                 <ListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Left" Margin="5" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}">
+                            <Grid Margin="5">
+                                <Grid.Resources>
+                                    <wpf:BindingProxy x:Key="messageData" Data="{Binding}"></wpf:BindingProxy>
+                                </Grid.Resources>
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Setter Property="ToolTip" Value="{Binding MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}"></Setter>
+                                        <Setter Property="HorizontalAlignment">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">
+                                                    <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                    <Binding Path="Data.ApplicationContextViewModel.CurrentStaff" Source="{StaticResource chatData}"></Binding>
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" HorizontalAlignment="Left" Style="{StaticResource IM-MessageUser-Label}" Content="{Binding FromUser}"></Label>
-                                <Label Grid.Row="1" HorizontalAlignment="Left" Style="{StaticResource IM-MessageContent-Label}" Content="{Binding Content}"></Label>
-                                <Label Grid.Row="2" HorizontalAlignment="Left" Style="{StaticResource IM-MessageState-Label}" Content="{Binding State,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}"></Label>
+                                <Label Grid.Row="0" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}">
+                                    <Label.Style>
+                                        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource IM-MessageUser-Label}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{x:Static view:ValueConverters.MessageToUserConverter}">
+                                                        <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                        <Binding Path="Data.Chat" Source="{StaticResource chatData}"></Binding>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                                <Label Grid.Row="1" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageContent-Label}">
+                                    <wpfControl:AutoRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}"></wpfControl:AutoRichTextBox>
+                                </Label>
+                                <Label Grid.Row="2" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageState-Label}" Content="{Binding State,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}"></Label>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
