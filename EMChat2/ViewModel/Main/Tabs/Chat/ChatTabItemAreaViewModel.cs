@@ -42,9 +42,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 属性
         protected IWindowManager windowManager;
         protected EventAggregator eventAggregator;
-        private ChatInfo chat;
         private ChatService chatService;
         private SystemService systemService;
+        private ChatInfo chat;
         public ChatInfo Chat
         {
             get
@@ -98,17 +98,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.LastMessage);
             }
         }
-        private MessageInfo inputMessage;
-        public MessageInfo InputMessage
+        private MessageContentItem inputMessageContent;
+        public MessageContentItem InputMessageContent
         {
             get
             {
-                return this.inputMessage;
+                return this.inputMessageContent;
             }
             set
             {
-                this.inputMessage = value;
-                this.NotifyPropertyChange(() => this.InputMessage);
+                this.inputMessageContent = value;
+                this.NotifyPropertyChange(() => this.InputMessageContent);
             }
         }
 

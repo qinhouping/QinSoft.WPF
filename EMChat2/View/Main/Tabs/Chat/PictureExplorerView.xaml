@@ -6,10 +6,12 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:view="clr-namespace:EMChat2.View"
+        xmlns:common="clr-namespace:EMChat2.Common"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
         mc:Ignorable="d"
         Title="图片查看器" Height="450" Width="800" 
-        WindowStartupLocation="CenterOwner" ResizeMode ="CanResizeWithGrip">
+        WindowStartupLocation="CenterOwner" ResizeMode ="CanResizeWithGrip"
+        common:WindowInfoAttach.WindowInfo="">
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>

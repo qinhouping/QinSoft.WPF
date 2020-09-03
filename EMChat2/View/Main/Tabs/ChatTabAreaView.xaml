@@ -119,7 +119,7 @@
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">
-                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18"></TextBlock>
+                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18" Style="{StaticResource BaseTextBlock}"></TextBlock>
                         </Grid>
 
                         <chat:ChatMessageAreaView Grid.Row="1"></chat:ChatMessageAreaView>

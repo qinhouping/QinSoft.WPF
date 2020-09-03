@@ -12,10 +12,45 @@ using System.Threading.Tasks;
 namespace EMChat2.Model.Entity
 {
     /// <summary>
+    /// 消息内容子项
+    /// </summary>
+    [Serializable]
+    public class MessageContentItem : PropertyChangedBase
+    {
+        private string type;
+        public virtual string Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                this.type = value;
+                this.NotifyPropertyChange(() => this.Type);
+            }
+        }
+
+        private string content;
+        public virtual string Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+    }
+
+    /// <summary>
     /// 消息信息实体
     /// </summary>
     [Serializable]
-    public class MessageInfo : PropertyChangedBase
+    public class MessageInfo : MessageContentItem
     {
         #region 属性
         /// <summary>
@@ -133,22 +168,6 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private string type;
-        public string Type
-        {
-            get
-            {
-                return this.type;
-            }
-            set
-            {
-                this.type = value;
-                this.NotifyPropertyChange(() => this.Type);
-            }
-        }
-
-        public string Content { get; set; }
-
         private MessageState state;
         public MessageState State
         {
@@ -231,7 +250,6 @@ namespace EMChat2.Model.Entity
         public const string Image = "image";
         public const string Voice = "voice";
         public const string Video = "video";
-        public const string Revoke = "revoke";
         public const string Link = "link";
         public const string File = "file";
         public const string Mixed = "mixed";
@@ -433,8 +451,8 @@ namespace EMChat2.Model.Entity
     [Serializable]
     public class MixedMessageContent : PropertyChangedBase
     {
-        private MixedMessageContentItem[] items;
-        public MixedMessageContentItem[] Items
+        private MessageContentItem[] items;
+        public MessageContentItem[] Items
         {
             get
             {
@@ -444,38 +462,6 @@ namespace EMChat2.Model.Entity
             {
                 this.items = value;
                 this.NotifyPropertyChange(() => this.Items);
-            }
-        }
-    }
-
-    [Serializable]
-    public class MixedMessageContentItem : PropertyChangedBase
-    {
-        private string type;
-        public virtual string Type
-        {
-            get
-            {
-                return this.type;
-            }
-            set
-            {
-                this.type = value;
-                this.NotifyPropertyChange(() => this.Type);
-            }
-        }
-
-        private string content;
-        public virtual string Content
-        {
-            get
-            {
-                return this.content;
-            }
-            set
-            {
-                this.content = value;
-                this.NotifyPropertyChange(() => this.Content);
             }
         }
     }

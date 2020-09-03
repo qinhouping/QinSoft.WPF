@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Tabs.Chat.ChatMessageContentControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200">
+    <UserControl.Style>
+        <Style TargetType="{x:Type UserControl}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Emotion}">
+                    <Setter Property="MaxWidth" Value="64"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Image}">
+                    <Setter Property="MaxWidth" Value="256"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Link}">
+                    <Setter Property="MaxHeight" Value="48"></Setter>
+                    <Setter Property="Width" Value="256"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.File}">
+                    <Setter Property="MaxHeight" Value="48"></Setter>
+                    <Setter Property="Width" Value="200"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Grid>
+        <!--表情-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Emotion}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Image Source="{Binding MsgContent.Url}"></Image>
+        </Border>
+        <!--图片-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Image}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Image Source="{Binding MsgContent.Url}" Cursor="Hand">
+                <Image.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenImageMessageCommand}"></MouseBinding>
+                </Image.InputBindings>
+            </Image>
+        </Border>
+        <!--链接-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Link}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid Cursor="Hand">
+                <Grid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenLinkMessageCommand}"></MouseBinding>
+                </Grid.InputBindings>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Margin="2" Source="{Binding MsgContent.ThumbUrl}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
+                <TextBlock Grid.Column="1" Margin="2" Text="{Binding MsgContent.Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Description}" ToolTip="{Binding MsgContent.Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#BBBBBB"></TextBlock>
+            </Grid>
+        </Border>
+        <!--文件-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.File}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid Cursor="Hand">
+                <Grid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenFileMessageCommand}"></MouseBinding>
+                </Grid.InputBindings>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="2" Margin="2" Source="/Resource/Image/file.ico" VerticalAlignment="Center"></Image>
+                <TextBlock Grid.RowSpan="2" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

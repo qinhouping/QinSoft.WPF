@@ -12,7 +12,7 @@ namespace EMChat2.Common
     /// </summary>
     public static class MessageTools
     {
-        public static object ParseMessageContent(string messageContent, string messageType)
+        public static object ParseMessageContent(string messageType, string messageContent)
         {
             if (string.IsNullOrEmpty(messageContent) || string.IsNullOrEmpty(messageType)) return null;
             switch (messageType)
@@ -22,7 +22,6 @@ namespace EMChat2.Common
                 case MessageTypeConst.Image: return messageContent.JsonToObject<ImageMessageContent>();
                 case MessageTypeConst.Voice: return null;
                 case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Revoke: return null;
                 case MessageTypeConst.Link: return messageContent.JsonToObject<LinkMessageContent>();
                 case MessageTypeConst.File: return messageContent.JsonToObject<FileMessageContent>();
                 case MessageTypeConst.Mixed: return messageContent.JsonToObject<MixedMessageContent>();
@@ -30,7 +29,7 @@ namespace EMChat2.Common
             }
         }
 
-        public static string GetMessageContentMark(string messageContent, string messageType)
+        public static string GetMessageContentMark(string messageType, string messageContent)
         {
             if (string.IsNullOrEmpty(messageContent) || string.IsNullOrEmpty(messageType)) return null;
             switch (messageType)
@@ -40,10 +39,9 @@ namespace EMChat2.Common
                 case MessageTypeConst.Image: return string.Format("[图片]");
                 case MessageTypeConst.Voice: return null;
                 case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Revoke: return null;
                 case MessageTypeConst.Link: return string.Format("[链接-{0}]", messageContent.JsonToObject<LinkMessageContent>().Title);
                 case MessageTypeConst.File: return string.Format("[文件-{0}]", messageContent.JsonToObject<FileMessageContent>().Name);
-                case MessageTypeConst.Mixed: return string.Join("", messageContent.JsonToObject<MixedMessageContent>().Items.Select(u => GetMessageContentMark(u.Content, u.Type)));
+                case MessageTypeConst.Mixed: return string.Join("", messageContent.JsonToObject<MixedMessageContent>().Items.Select(u => GetMessageContentMark(u.Type, u.Content)));
                 default: return null;
             }
         }

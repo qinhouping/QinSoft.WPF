@@ -102,6 +102,10 @@
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
+    <Compile Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml.cs">
+      <DependentUpon>ChatMessageContentControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\Entity\BusinessEnum.cs" />
     <Compile Include="Model\Entity\ChatInfo.cs" />
@@ -210,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\api\" />
-    <Folder Include="View\Main\Tabs\Chat\Message\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
@@ -292,6 +295,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Main\Tabs\Chat\ChatMessageAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

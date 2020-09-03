@@ -18,7 +18,7 @@
     <Grid>
         <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
             <Grid>
-                <ListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
+                <ListBox x:Name="messageList" Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="5">
@@ -58,7 +58,7 @@
                                     </Label.Style>
                                 </Label>
                                 <Label Grid.Row="1" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageContent-Label}">
-                                    <wpfControl:AutoRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}"></wpfControl:AutoRichTextBox>
+                                    <wpfControl:AutoRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}}" IsReadOnly="True"></wpfControl:AutoRichTextBox>
                                 </Label>
                                 <Label Grid.Row="2" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageState-Label}" Content="{Binding State,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}"></Label>
                             </Grid>

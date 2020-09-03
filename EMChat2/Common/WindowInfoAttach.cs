@@ -12,22 +12,22 @@ namespace EMChat2.Common
 {
     public static class WindowInfoAttach
     {
+        #region 属性
         private static string windoInfoFilePath = ConfigurationManager.AppSettings["WindowInfoFilePath"];
         private static IList<WindowInfo> windowInfos = new List<WindowInfo>();
-
         public static readonly DependencyProperty WindowInfoProperty =
               DependencyProperty.RegisterAttached("WindowInfo", typeof(string), typeof(WindowInfoAttach), new PropertyMetadata(OnWindowInfoPropertyChangedCallback));
         public static void SetWindowInfo(DependencyObject dp, string value)
         {
             dp.SetValue(WindowInfoProperty, value);
         }
-
         public static string GetWindowInfo(DependencyObject dp)
         {
             return dp.GetValue(WindowInfoProperty) as string;
         }
+        #endregion
 
-
+        #region 方法
         private static void OnWindowInfoPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Window window = d as Window;
@@ -49,7 +49,6 @@ namespace EMChat2.Common
                 window.Height = windowInfo.Height;
                 window.WindowState = windowInfo.State;
             }
-
             window.StateChanged += Window_StateChanged;
             window.SizeChanged += Window_SizeChanged;
             window.LocationChanged += Window_LocationChanged;
@@ -103,6 +102,7 @@ namespace EMChat2.Common
         {
             windowInfos.ObjectToJson().StringToStream().StreamToFile(windoInfoFilePath);
         }
+        #endregion
     }
 
     public class WindowInfo

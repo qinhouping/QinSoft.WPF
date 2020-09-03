@@ -585,7 +585,15 @@
             </TabItem>
 
             <TabItem Header="RichTextBox">
-                <RichTextBox HorizontalAlignment="Left" MinWidth="0" Width="Auto"></RichTextBox>
+                <RichTextBox HorizontalAlignment="Left" MinWidth="0" Width="Auto">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Image Source="http://www.myexception.cn/r/cms/www/red/img/exception-logo.jpg"></Image>
+                            <Run Text="测试"></Run>
+                            <ComboBox Width="100"></ComboBox>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
             </TabItem>
         </TabControl>
 

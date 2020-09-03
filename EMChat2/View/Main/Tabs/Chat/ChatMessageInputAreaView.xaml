@@ -46,7 +46,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <RichTextBox Style="{StaticResource IM-InputMessage-RichTextBox}"></RichTextBox>
+                    <wpfControl:AutoRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}"></wpfControl:AutoRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

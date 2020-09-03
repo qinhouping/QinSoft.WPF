@@ -8,25 +8,72 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace QinSoft.WPF.Control
 {
     public class AutoRichTextBox : RichTextBox
     {
+
+        #region 构造函数
         public AutoRichTextBox()
         {
             this.TextChanged += AutoRichTextBox_TextChanged;
             DependencyPropertyDescriptor.FromProperty(MaxWidthProperty, typeof(AutoRichTextBox)).AddValueChanged(this, this.AutoRichTextBox_MaxWidthPropertyChanged);
         }
 
+        #endregion
+
+        #region 属性
+        public static readonly DependencyProperty BindingDocumentProperty = DependencyProperty.Register("BindingDocument", typeof(FlowDocument), typeof(AutoRichTextBox), new PropertyMetadata(null, OnBindingDocumentPropertyChanged));
+
+        public static readonly DependencyProperty IsAutoProperty = DependencyProperty.Register("IsAuto", typeof(bool), typeof(AutoRichTextBox), new PropertyMetadata(true, OnIsAutoPropertyChanged));
+
+        private static void OnBindingDocumentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AutoRichTextBox autoRichTextBox = d as AutoRichTextBox;
+            autoRichTextBox.Document = (e.NewValue as FlowDocument) ?? new FlowDocument();
+        }
+
+        private static void OnIsAutoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        public FlowDocument BindingDocument
+        {
+            get
+            {
+                return GetValue(BindingDocumentProperty) as FlowDocument;
+            }
+            set
+            {
+                this.SetValue(BindingDocumentProperty, value);
+            }
+        }
+
+        public bool IsAuto
+        {
+            get
+            {
+                return (bool)GetValue(IsAutoProperty);
+            }
+            set
+            {
+                this.SetValue(IsAutoProperty, value);
+            }
+        }
+        #endregion
+
+        #region 方法
         private void AutoRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.Width = Math.Min(GetDocumentWidths().Max() + 20, this.MaxWidth);
+            if (IsAuto) this.Width = Math.Min(GetDocumentWidths().Max() + 20, this.MaxWidth);
         }
 
         private void AutoRichTextBox_MaxWidthPropertyChanged(object sender, EventArgs e)
         {
-            this.Width = Math.Min(GetDocumentWidths().Max(), this.MaxWidth);
+            if (IsAuto) this.Width = Math.Min(GetDocumentWidths().Max(), this.MaxWidth);
         }
 
         protected virtual double[] GetDocumentWidths()
@@ -82,12 +129,21 @@ namespace QinSoft.WPF.Control
                     if (inlineUIContainer.Child is FrameworkElement)
                     {
                         FrameworkElement frameworkElement = inlineUIContainer.Child as FrameworkElement;
-                        widths.Add(frameworkElement.Width);
-                        if (frameworkElement.Width >= this.MaxWidth) break;
+                        double width = frameworkElement.Width;
+                        if (double.IsNaN(width) || width == 0) width = frameworkElement.MaxWidth;
+                        if (double.IsInfinity(width)) width = double.MaxValue;
+                        widths.Add(width);
+                        if (width >= this.MaxWidth) break;
                     }
                 }
             }
             return widths.ToArray();
         }
+        #endregion
+    }
+
+    public class FlowDocumentExt : FlowDocument
+    {
+        protected override bool IsEnabledCore => true;
     }
 }

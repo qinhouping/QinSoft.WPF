@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
@@ -18,10 +19,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
-
-
-
             //TODO 测试数据
+            this.Messages.Clear();
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -32,6 +31,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgTime = DateTime.Now.AddYears(-1),
                 RoomId = null,
                 ChatId = "123123123",
+                Type = MessageTypeConst.Text,
                 State = MessageState.Received,
                 Content = new TextMessageContent
                 {
@@ -45,7 +45,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
-                Type = MessageTypeConst.Text,
+                Type = MessageTypeConst.Image,
                 MsgId = "1",
                 FromUser = "1111",
                 ToUsers = new string[] { "1" },
@@ -62,9 +62,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
-                Type = MessageTypeConst.Image,
+                Type = MessageTypeConst.Emotion,
                 MsgId = "2",
-                FromUser = "1111",
+                FromUser = "1",
                 ToUsers = new string[] { "1" },
                 Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
@@ -92,9 +92,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 State = MessageState.Received,
                 Content = new FileMessageContent
                 {
-                    Url = "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1280325423,1024589167&fm=26&gp=0.jpg",
-                    Name = "图片文件",
-                    Extension = "jpg"
+                    Url = "http://swdlcdn.eastmoney.com/swchighexper/highexper.exe",
+                    Name = "操盘密码",
+                    Extension = "exe"
                 }.ObjectToJson()
             });
             this.Messages.Add(new MessageInfo()
@@ -102,7 +102,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 Id = Guid.NewGuid().ToString(),
                 Type = MessageTypeConst.Link,
                 MsgId = "4",
-                FromUser = "1111",
+                FromUser = "1",
                 ToUsers = new string[] { "1" },
                 Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
@@ -117,7 +117,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
                 }.ObjectToJson()
             });
-
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -132,23 +131,33 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 State = MessageState.Received,
                 Content = new MixedMessageContent()
                 {
-                    Items = new MixedMessageContentItem[] {
-                        new MixedMessageContentItem()
+                    Items = new MessageContentItem[] {
+                        new MessageContentItem()
                         {
-                             Type=MessageTypeConst.Image,
+                           Type = MessageTypeConst.Emotion,
                              Content=new EmotionMessageContent {
                                 Url = "https://static.easyicon.net/preview/106/1069782.gif",
                                 Name = "图片",
                                 IsGif = true
                             }.ObjectToJson()
                         },
-                        new MixedMessageContentItem()
+                        new MessageContentItem()
                         {
                             Type=MessageTypeConst.Text,
                             Content= new TextMessageContent(){
                                 Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
                             }.ObjectToJson()
-                         }
+                        },
+                        new MessageContentItem()
+                        {
+                            Type=MessageTypeConst.Link,
+                            Content= new LinkMessageContent {
+                                Url = "https://www.baidu.com/",
+                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
+                                Title = "测试链接",
+                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                            }.ObjectToJson()
+                        }
                     }
                 }.ObjectToJson()
             });
