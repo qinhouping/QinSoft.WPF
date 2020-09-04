@@ -146,7 +146,7 @@ namespace EMChat2.ViewModel
             IsLogging = false;
             if (arg.IsSuccess)
             {
-                this.loginInfo.HeaderImageUrl = arg.StaffInfo.HeaderImageUrl;
+                this.loginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
                 this.systemService.StoreLoginInfo(this.LoginInfo);
                 new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }

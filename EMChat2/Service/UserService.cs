@@ -37,7 +37,7 @@ namespace EMChat2.Service
             await eventAggregator.PublishAsync(new LoginEventArgs()
             {
                 IsSuccess = true,
-                StaffInfo = new StaffInfo()
+                Staff = new StaffInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
                     WorkCode = "180366",

@@ -27,7 +27,7 @@
         <Setter Property="Background" Value="#EEEEEE"></Setter>
         <Setter Property="BorderBrush" Value="#DDDDDD"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
-         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -45,6 +45,13 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="10"></Setter>
         <Setter Property="Margin" Value="2"></Setter>
+        <Setter Property="Foreground" Value="#999999"></Setter>
+    </Style>
+
+    <!--提示信息-->
+    <Style x:Key="IM-TipMessage-Label" TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Foreground" Value="#999999"></Setter>
     </Style>
 </ResourceDictionary>

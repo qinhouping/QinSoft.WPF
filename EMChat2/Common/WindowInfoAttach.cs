@@ -25,6 +25,17 @@ namespace EMChat2.Common
         {
             return dp.GetValue(WindowInfoProperty) as string;
         }
+
+        public static readonly DependencyProperty IsFlashProperty =
+             DependencyProperty.RegisterAttached("IsFlash", typeof(bool), typeof(WindowInfoAttach), new PropertyMetadata(false, OnIsFlashPropertyChangedCallback));
+        public static void SetIsFlash(DependencyObject dp, bool value)
+        {
+            dp.SetValue(IsFlashProperty, value);
+        }
+        public static bool GetIsFlash(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(IsFlashProperty);
+        }
         #endregion
 
         #region 方法
@@ -102,6 +113,21 @@ namespace EMChat2.Common
         {
             windowInfos.ObjectToJson().StringToStream().StreamToFile(windoInfoFilePath);
         }
+
+        private static void OnIsFlashPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Window window = d as Window;
+            if (window == null) return;
+            if (GetIsFlash(window))
+            {
+                window.FlashWindow();
+            }
+            else
+            {
+                window.StopFlashingWindow();
+            }
+        }
+
         #endregion
     }
 

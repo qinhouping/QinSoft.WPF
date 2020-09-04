@@ -28,6 +28,15 @@ namespace EMChat2.ViewModel
             this.bottomAreaViewModel = bottomAreaViewModel;
             this.topAreaViewModel = topAreaViewModel;
             this.userService = userService;
+
+            //TODO 测试数据
+            this.isFlash = true;
+            this.balloonTip = new BalloonTipInfo()
+            {
+                Title = "TEST",
+                Content = "TEST",
+                Icon = Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
+            };
         }
         #endregion
 
@@ -87,17 +96,86 @@ namespace EMChat2.ViewModel
             }
         }
         private UserService userService;
+        private bool isFlash;
+        public bool IsFlash
+        {
+            get
+            {
+                return this.isFlash;
+            }
+            set
+            {
+                this.isFlash = value;
+                this.NotifyPropertyChange(() => this.IsFlash);
+            }
+        }
+        private BalloonTipInfo balloonTip;
+        public BalloonTipInfo BalloonTip
+        {
+            get
+            {
+                return this.balloonTip;
+            }
+            set
+            {
+                this.balloonTip = value;
+                this.NotifyPropertyChange(() => this.BalloonTip);
+            }
+        }
         #endregion
 
         #region 命令
+        public ICommand OpenCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.windowManager.ShowWindow(this);
+                });
+            }
+        }
+
         public ICommand CloseCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    //this.windowManager.HideWindow(this);
+                    this.windowManager.HideWindow(this);
+                });
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.userService.Logout();
+                });
+            }
+        }
+
+        public ICommand ExitCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
                     this.userService.Exit();
+                });
+            }
+        }
+
+        public ICommand ToggleTopmostCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.ApplicationContextViewModel.Setting.IsTopmostShellView = !this.ApplicationContextViewModel.Setting.IsTopmostShellView;
                 });
             }
         }

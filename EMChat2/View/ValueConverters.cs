@@ -42,7 +42,8 @@ namespace EMChat2.View
                 {
                     MessageInfo message = values[0] as MessageInfo;
                     StaffInfo staff = values[1] as StaffInfo;
-                    if (message.FromUser.Equals(staff?.ImUserId) == true) return HorizontalAlignment.Right;
+                    if (message == null || staff == null) return null;
+                    if (message.FromUser.Equals(staff.ImUserId) == true) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
                 });
             }
@@ -56,11 +57,13 @@ namespace EMChat2.View
                 {
                     MessageInfo message = values[0] as MessageInfo;
                     ChatInfo chat = values[1] as ChatInfo;
-                    return chat.ChatUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser)).Name;
+                    if (message == null || chat == null) return null;
+                    return chat.ChatUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name;
                 });
             }
         }
 
+        #region 私有方法
         private static void ParseMessageContentToDocument(FlowDocument document, Block block, string messageType, string messageContent)
         {
             if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
@@ -114,26 +117,29 @@ namespace EMChat2.View
                         foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageType, messageContent) as MixedMessageContent).Items)
                             ParseMessageContentToDocument(document, block, mixedItem.Type, mixedItem.Content);
                     }; break;
+                case MessageTypeConst.Tips:
+                case MessageTypeConst.Event:
+                    break;
             }
         }
 
-        private static void ParseInlinesToMessageContent(Inline[] inlines, List<MessageContentInfo> messageContentInfos, ref MessageContentInfo messageContentInfo)
+        private static void ParseInlinesToMessageContent(Inline[] inlines, List<MessageContentInfo> messageContents, ref MessageContentInfo messageContent)
         {
             foreach (Inline inline in inlines)
             {
                 if (inline is Run)
                 {
                     Run run = inline as Run;
-                    if (messageContentInfo == null || messageContentInfo.Type != MessageTypeConst.Text)
+                    if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
                     {
-                        messageContentInfo = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };
-                        messageContentInfos.Add(messageContentInfo);
+                        messageContent = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };
+                        messageContents.Add(messageContent);
                     }
                     else
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContentInfo.Type, messageContentInfo.Content) as TextMessageContent;
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
                         textMessageContent.Content += string.Format("{0}{1}", Environment.NewLine, run.Text);
-                        messageContentInfo.Content = textMessageContent.ObjectToJson();
+                        messageContent.Content = textMessageContent.ObjectToJson();
                     }
                 }
                 else if (inline is InlineUIContainer)
@@ -143,19 +149,19 @@ namespace EMChat2.View
                     {
                         ChatMessageContentControlView chatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContentInfo = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
-                        messageContentInfos.Add(messageContentInfo);
+                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContents.Add(messageContent);
                     }
                 }
                 else if (inline is Span)
                 {
                     Span span = inline as Span;
-                    ParseInlinesToMessageContent(span.Inlines.ToArray(), messageContentInfos, ref messageContentInfo);
+                    ParseInlinesToMessageContent(span.Inlines.ToArray(), messageContents, ref messageContent);
                 }
             }
         }
 
-        private static void ParseDocumentToMessageContent(FlowDocument document, List<MessageContentInfo> messageContentInfos)
+        private static void ParseDocumentToMessageContent(FlowDocument document, List<MessageContentInfo> messageContents)
         {
             MessageContentInfo messageContentInfo = null;
             foreach (Block block in document.Blocks)
@@ -168,16 +174,17 @@ namespace EMChat2.View
                         ChatMessageContentControlView chatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
                         messageContentInfo = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
-                        messageContentInfos.Add(messageContentInfo);
+                        messageContents.Add(messageContentInfo);
                     }
                 }
                 else if (block is Paragraph)
                 {
                     Paragraph paragraph = block as Paragraph;
-                    ParseInlinesToMessageContent(paragraph.Inlines.ToArray(), messageContentInfos, ref messageContentInfo);
+                    ParseInlinesToMessageContent(paragraph.Inlines.ToArray(), messageContents, ref messageContentInfo);
                 }
             }
         }
+        #endregion
 
         public static IValueConverter MessageToDocumentConverter
         {
@@ -193,19 +200,41 @@ namespace EMChat2.View
                 }, (value, targetType, parameter, cultInfo) =>
                 {
                     FlowDocumentExt document = value as FlowDocumentExt;
-                    List<MessageContentInfo> messageContentInfos = new List<MessageContentInfo>();
-                    ParseDocumentToMessageContent(document, messageContentInfos);
-                    if (messageContentInfos.Count > 1)
+                    if (document == null) return null;
+                    List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
+                    ParseDocumentToMessageContent(document, messageContents);
+                    if (messageContents.Count > 1)
                     {
-                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = messageContentInfos.ObjectToJson() };
+                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = messageContents.ObjectToJson() };
                     }
-                    else if (messageContentInfos.Count == 1)
+                    else if (messageContents.Count == 1)
                     {
-                        return messageContentInfos[0];
+                        return messageContents[0];
                     }
                     else
                     {
                         return null;
+                    }
+                });
+            }
+        }
+
+        public static IValueConverter TipsMessageToStringConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    MessageContentInfo message = value as MessageContentInfo;
+                    if (message == null) return null;
+                    if (message.Type == MessageTypeConst.Tips)
+                    {
+                        TipsMessageContent tipsMessageContent = MessageTools.ParseMessageContent(message.Type, message.Content) as TipsMessageContent;
+                        return tipsMessageContent.Content;
+                    }
+                    else
+                    {
+                        return "非提示信息";
                     }
                 });
             }

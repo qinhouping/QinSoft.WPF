@@ -13,6 +13,23 @@ namespace EMChat2.Model.Entity
     public class SettingInfo : PropertyChangedBase
     {
         /// <summary>
+        /// 是否置顶显示主窗口
+        /// </summary>
+        private bool isTopmostShellView;
+        public bool IsTopmostShellView
+        {
+            get
+            {
+                return this.isTopmostShellView;
+            }
+            set
+            {
+                this.isTopmostShellView = value;
+                this.NotifyPropertyChange(() => this.IsTopmostShellView);
+            }
+        }
+
+        /// <summary>
         /// 是否显示会话侧边栏
         /// </summary>
         private bool isShowChatSlider;

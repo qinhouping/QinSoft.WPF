@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class ExitEventArgs
+    public class ExitEventArgs : EventArgs
     {
     }
 }

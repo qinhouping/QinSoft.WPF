@@ -19,20 +19,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
+            
             //TODO 测试数据
-            this.Messages.Clear();
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
                 MsgId = "1",
                 FromUser = "1111",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
                 Type = MessageTypeConst.Text,
-                State = MessageState.Received,
+                State = MessageState.SendFailure,
                 Content = new TextMessageContent
                 {
                     Content = @"搜索了一下Platform SDK的头文件，在ShellApi.h中找到了uFlags的定义，我将这些值声明为GetFileInfoFlags枚举类型(详细代码在后面)，我 目前只用到了SHGFI_ICON和SHGFI_SMALLICON，SHGFI_ICON表示要获取文件大图标，SHGFI_SMALLICON表示要 获取小图标，我第一次用SHGFI_SMALLICON时程序出现了异常，后来仔细看MSDN才知道SHGFI_SMALLICON和 SHGFI_ICON必须要连用。
@@ -49,9 +47,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgId = "1",
                 FromUser = "1111",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
                 State = MessageState.Received,
                 Content = new ImageMessageContent
@@ -66,9 +62,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgId = "2",
                 FromUser = "1",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
                 State = MessageState.Received,
                 Content = new EmotionMessageContent
@@ -85,9 +79,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgId = "3",
                 FromUser = "1111",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
                 State = MessageState.Received,
                 Content = new FileMessageContent
@@ -104,9 +96,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgId = "4",
                 FromUser = "1",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
                 State = MessageState.Received,
                 Content = new LinkMessageContent
@@ -124,11 +114,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MsgId = "5",
                 FromUser = "1111",
                 ToUsers = new string[] { "1" },
-                Business = null,
                 MsgTime = DateTime.Now.AddYears(-1),
-                RoomId = null,
                 ChatId = "123123123",
-                State = MessageState.Received,
+                State = MessageState.Sending,
                 Content = new MixedMessageContent()
                 {
                     Items = new MessageContentInfo[] {
@@ -159,6 +147,21 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             }.ObjectToJson()
                         }
                     }
+                }.ObjectToJson()
+            });
+            this.Messages.Add(new MessageInfo()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Type = MessageTypeConst.Tips,
+                MsgId = "5",
+                FromUser = "System",
+                ToUsers = new string[] { "1" },
+                MsgTime = DateTime.Now.AddYears(-1),
+                ChatId = "123123123",
+                State = MessageState.Readed,
+                Content = new TipsMessageContent()
+                {
+                    Content = "测试提示"
                 }.ObjectToJson()
             });
 

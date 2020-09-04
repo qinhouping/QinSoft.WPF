@@ -2,6 +2,7 @@
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -112,20 +113,6 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private string roomId;
-        public string RoomId
-        {
-            get
-            {
-                return this.roomId;
-            }
-            set
-            {
-                this.roomId = value;
-                this.NotifyPropertyChange(() => this.RoomId);
-            }
-        }
-
         private string fromUser;
         public string FromUser
         {
@@ -151,20 +138,6 @@ namespace EMChat2.Model.Entity
             {
                 this.toUsers = value;
                 this.NotifyPropertyChange(() => this.ToUsers);
-            }
-        }
-
-        private BusinessEnum? business;
-        public BusinessEnum? Business
-        {
-            get
-            {
-                return this.business;
-            }
-            set
-            {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.Business);
             }
         }
 
@@ -245,6 +218,7 @@ namespace EMChat2.Model.Entity
     /// </summary>
     public static class MessageTypeConst
     {
+        #region 可见消息
         public const string Text = "text";
         public const string Emotion = "emotion";
         public const string Image = "image";
@@ -253,12 +227,13 @@ namespace EMChat2.Model.Entity
         public const string Link = "link";
         public const string File = "file";
         public const string Mixed = "mixed";
+        //系统提示消息
+        public const string Tips = "tips";
+        #endregion
 
-        public static readonly string Event = "event";
-
-        public static readonly string Tips = "tips";
+        //消息消息不可见
+        public const string Event = "event";
     }
-
 
     [Serializable]
 
@@ -447,7 +422,6 @@ namespace EMChat2.Model.Entity
         }
     }
 
-
     [Serializable]
     public class MixedMessageContent : PropertyChangedBase
     {
@@ -462,6 +436,42 @@ namespace EMChat2.Model.Entity
             {
                 this.items = value;
                 this.NotifyPropertyChange(() => this.Items);
+            }
+        }
+    }
+
+    [Serializable]
+    public class TipsMessageContent : PropertyChangedBase
+    {
+        private string content;
+        public string Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+    }
+
+    [Serializable]
+    public class EventMessageContentBase : PropertyChangedBase
+    {
+        private string _event;
+        public string Event
+        {
+            get
+            {
+                return this._event;
+            }
+            set
+            {
+                this._event = value;
+                this.NotifyPropertyChange(() => this.Event);
             }
         }
     }

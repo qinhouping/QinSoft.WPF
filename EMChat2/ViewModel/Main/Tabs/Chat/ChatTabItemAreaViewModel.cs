@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Log.Utils;
@@ -13,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using static System.Windows.Forms.DataFormats;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -30,12 +30,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
-            this.messages = new ObservableCollection<MessageInfo>();
-            this.messages.CollectionChanged += (s, e) =>
-            {
-                this.NotifyPropertyChange(() => this.NotReadMessageCount);
-                this.NotifyPropertyChange(() => this.LastMessage);
-            };
+            this.Messages = new ObservableCollection<MessageInfo>();
         }
         #endregion
 
@@ -96,6 +91,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.Messages);
                 this.NotifyPropertyChange(() => this.NotReadMessageCount);
                 this.NotifyPropertyChange(() => this.LastMessage);
+                this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+                this.messages.CollectionChanged += (s, e) =>
+                {
+                    this.NotifyPropertyChange(() => this.NotReadMessageCount);
+                    this.NotifyPropertyChange(() => this.LastMessage);
+                    this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+                };
             }
         }
         private MessageContentInfo inputMessageContent;
@@ -130,7 +132,60 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 命令
+        public ICommand ToggleChatIsTopCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.Chat.IsTop = !this.Chat.IsTop;
+                });
+            }
+        }
 
+        public ICommand ToggleChatIsInformCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.Chat.IsInform = !this.Chat.IsInform;
+                });
+            }
+        }
+
+        public ICommand CloseChatCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.eventAggregator.PublishAsync<CloseChatEventArgs>(new CloseChatEventArgs() { Chat = this });
+                });
+            }
+        }
+
+        public ICommand SendMessageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+
+                });
+            }
+        }
+
+        public ICommand ResendMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<MessageInfo>((message) =>
+                {
+
+                });
+            }
+        }
         #endregion
     }
 }

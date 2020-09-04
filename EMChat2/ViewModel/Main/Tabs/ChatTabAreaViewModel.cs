@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
@@ -30,6 +30,11 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.chatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
+
+            this.ChatTabItems.CollectionChanged += (s, e) =>
+            {
+                this.ChangeSelectedChatTabItem();
+            };
         }
         #endregion
 
@@ -84,15 +89,29 @@ namespace EMChat2.ViewModel.Main.Tabs
             }
             set
             {
+                if (this.selectedChatTabItem?.Equals(value) == true) return;
                 this.selectedChatTabItem = value;
                 this.NotifyPropertyChange(() => this.SelectedChatTabItem);
             }
         }
         private ChatService chatService;
         private SystemService systemService;
+        private int totalNotReadMessageCount;
+        public int TotalNotReadMessageCount
+        {
+            get
+            {
+                return this.totalNotReadMessageCount;
+            }
+            set
+            {
+                this.totalNotReadMessageCount = value;
+                this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+            }
+        }
         #endregion
 
-        #region 内部方法
+        #region 方法
         private ChatInfo CreatePrivateChat(UserInfo userInfo, BusinessEnum? business = null)
         {
             List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, userInfo.ImUserId, business?.ToString() };
@@ -100,7 +119,6 @@ namespace EMChat2.ViewModel.Main.Tabs
             ChatInfo chat = new ChatInfo();
             chat.Id = Guid.NewGuid().ToString();
             chat.ChatId = string.Join("_", ids).MD5();
-            chat.RoomId = null;
             chat.Business = business;
             chat.Name = userInfo.Name;
             chat.Type = ChatType.Private;
@@ -110,17 +128,23 @@ namespace EMChat2.ViewModel.Main.Tabs
             chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
             return chat;
         }
+
+        private void ChangeSelectedChatTabItem()
+        {
+            if (this.SelectedChatTabItem == null && this.ChatTabItems.Count > 0)
+            {
+                this.SelectedChatTabItem = this.ChatTabItems.First();
+            }
+        }
         #endregion
 
         #region 事件处理
-
-
         public void Handle(LoginEventArgs arg)
         {
             if (!arg.IsSuccess) return;
 
             //TODO 测试数据
-            this.ChatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
+            new Action(() => this.ChatTabItems.Clear()).ExecuteInUIThread();
             this.ChatTabItems.Add(
                 new PrivateChatTabItemAreaViewModel(
                     this.windowManager,
@@ -140,7 +164,17 @@ namespace EMChat2.ViewModel.Main.Tabs
                     BusinessEnum.Advisor),
                     this.chatService,
                     this.systemService));
-            this.SelectedChatTabItem = this.ChatTabItems.First();
+        }
+
+        public void Handle(CloseChatEventArgs arg)
+        {
+            new Action(() => this.ChatTabItems.Remove(arg.Chat)).ExecuteInUIThread();
+            ChangeSelectedChatTabItem();
+        }
+
+        public void Handle(NotReadMessageCountChangedEventArgs Message)
+        {
+            this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
         }
         #endregion
     }

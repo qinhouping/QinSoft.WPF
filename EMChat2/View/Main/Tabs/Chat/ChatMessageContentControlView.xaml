@@ -17,6 +17,12 @@
                 <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Image}">
                     <Setter Property="MaxWidth" Value="256"></Setter>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Voice}">
+                    <Setter Property="MaxWidth" Value="256"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Video}">
+                    <Setter Property="MaxWidth" Value="256"></Setter>
+                </DataTrigger>
                 <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Link}">
                     <Setter Property="MaxHeight" Value="48"></Setter>
                     <Setter Property="Width" Value="256"></Setter>
@@ -60,6 +66,34 @@
                     <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenImageMessageCommand}"></MouseBinding>
                 </Image.InputBindings>
             </Image>
+        </Border>
+        <!--音频-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Voice}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBlock Style="{StaticResource BaseTextBlock}" Text="该消息类型暂不支持"></TextBlock>
+        </Border>
+        <!--视频-->
+        <Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Video}">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBlock Style="{StaticResource BaseTextBlock}" Text="该消息类型暂不支持"></TextBlock>
         </Border>
         <!--链接-->
         <Border>
@@ -107,15 +141,17 @@
                     <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenFileMessageCommand}"></MouseBinding>
                 </Grid.InputBindings>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Image Grid.RowSpan="2" Margin="2" Source="/Resource/Image/file.ico" VerticalAlignment="Center"></Image>
-                <TextBlock Grid.RowSpan="2" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                <!--<Image Grid.RowSpan="2" Margin="2" Source="/Resource/Image/file.ico" VerticalAlignment="Center"></Image>-->
+                <TextBlock Grid.RowSpan="2" Style="{StaticResource IconFileO}" FontSize="35" Margin="10,2" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="1" Margin="2" Text="{Binding MsgContent.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Extension}" ToolTip="{Binding MsgContent.Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#BBBBBB"></TextBlock>
             </Grid>
         </Border>
     </Grid>

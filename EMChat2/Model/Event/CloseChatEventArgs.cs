@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.ViewModel.Main.Tabs.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class LoginEventArgs : CallbackEventArgs
+    public class CloseChatEventArgs : EventArgs
     {
-        public StaffInfo Staff { get; set; }
+        public ChatTabItemAreaViewModel Chat { get; set; }
     }
 }

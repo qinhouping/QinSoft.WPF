@@ -42,7 +42,7 @@
         <Setter Property="MinHeight" Value="50"></Setter>
         <Setter Property="MinWidth" Value="50"></Setter>
         <Setter Property="Cursor" Value="Hand"></Setter>
-        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">

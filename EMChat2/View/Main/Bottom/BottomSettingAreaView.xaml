@@ -82,7 +82,7 @@
                             <Label Style="{StaticResource Chip-Danger}" Height="20" Width="20">
                                 <TextBlock Style="{StaticResource IconSignOut}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                             </Label>
-                            <TextBlock Grid.Column="1" Text="退出" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
+                            <TextBlock Grid.Column="1" Text="退出登录" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
                         </Grid>
                     </Grid>
                 </ListBoxItem>

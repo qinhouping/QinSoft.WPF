@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:tabs="clr-namespace:EMChat2.View.Main.Tabs"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -14,14 +15,36 @@
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">
                             <Setter.Value>
-                                <TextBlock Style="{StaticResource IconCommentO}" ToolTip="消息"/>
+                                <Grid>
+                                    <TextBlock Style="{StaticResource IconCommentO}" ToolTip="消息" Margin="10"/>
+                                    <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
+                                        <Label.Style>
+                                            <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
+                                                <Setter Property="Width" Value="20"></Setter>
+                                                <Setter Property="Height" Value="20"></Setter>
+                                                <Setter Property="FontSize" Value="10"></Setter>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Header">
                                     <Setter.Value>
-                                        <TextBlock Style="{StaticResource IconComment}" ToolTip="消息"/>
+                                        <Grid>
+                                            <TextBlock Style="{StaticResource IconComment}" ToolTip="消息" Margin="10"/>
+                                            <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+                                                <Label.Style>
+                                                    <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
+                                                        <Setter Property="Width" Value="20"></Setter>
+                                                        <Setter Property="Height" Value="20"></Setter>
+                                                        <Setter Property="FontSize" Value="10"></Setter>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                        </Grid>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>

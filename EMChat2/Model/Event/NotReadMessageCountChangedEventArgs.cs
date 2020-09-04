@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class LogoutEventArgs : EventArgs
+    public class NotReadMessageCountChangedEventArgs : EventArgs
     {
     }
 }

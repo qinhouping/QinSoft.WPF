@@ -49,6 +49,8 @@ namespace QinSoft.WPF.Core
                 {
                     Window win = wins[0];
                     win.Show();
+                    if (win.WindowState == WindowState.Minimized) win.WindowState = WindowState.Normal;
+                    win.Activate();
                     return win;
                 }
             }

@@ -49,7 +49,7 @@
             </TabControl.Style>
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <!--私聊数据模板-->
+                    <!--私聊会话数据模板-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -75,7 +75,7 @@
                                     <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
                                         <Setter Property="Width" Value="20"></Setter>
                                         <Setter Property="Height" Value="20"></Setter>
-                                        <Setter Property="FontSize" Value="8"></Setter>
+                                        <Setter Property="FontSize" Value="10"></Setter>
                                     </Style>
                                 </Label.Style>
                             </Label>
@@ -95,18 +95,49 @@
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="1" Margin="0">
-                            <TextBlock Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage.Mark, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
+                            <TextBlock Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
                         </Grid>
 
                         <Grid Grid.Column="2" Grid.Row="1">
                             <TextBlock Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
                         </Grid>
+
+                        <Grid.ContextMenu>
+                            <ContextMenu Style="{StaticResource BaseContextMenu}">
+                                <MenuItem Command="{Binding ToggleChatIsTopCommand}">
+                                    <MenuItem.Style>
+                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}">
+                                            <Setter Property="Header" Value="置顶"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Chat.IsTop}" Value="True">
+                                                    <Setter Property="Header" Value="取消置顶"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+                                <MenuItem Command="{Binding ToggleChatIsInformCommand}">
+                                    <MenuItem.Style>
+                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}">
+                                            <Setter Property="Header" Value="免打扰"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Chat.IsInform}" Value="False">
+                                                    <Setter Property="Header" Value="取消免打扰"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+                                <MenuItem Header="移除" Style="{StaticResource MenuItem-H}" Command="{Binding CloseChatCommand}"></MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                     </Grid>
                 </DataTemplate>
             </TabControl.ItemTemplate>
+
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <!--私聊数据模板-->
+                    <!--私聊会话数据模板-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>

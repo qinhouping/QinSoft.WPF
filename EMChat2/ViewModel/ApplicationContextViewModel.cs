@@ -39,14 +39,6 @@ namespace EMChat2.ViewModel
             {
                 this.currentStaff = value;
                 this.NotifyPropertyChange(() => this.CurrentStaff);
-                this.NotifyPropertyChange(() => this.IsLogin);
-            }
-        }
-        public bool IsLogin
-        {
-            get
-            {
-                return this.CurrentStaff != null;
             }
         }
         private SettingInfo setting;
@@ -68,7 +60,7 @@ namespace EMChat2.ViewModel
         public void Handle(LoginEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-            this.CurrentStaff = arg.StaffInfo;
+            this.CurrentStaff = arg.Staff;
         }
 
         public void Handle(LogoutEventArgs arg)

@@ -40,23 +40,6 @@ namespace EMChat2.Model.Entity
         }
 
         /// <summary>
-        /// 房间id（群聊才会设置该值）
-        /// </summary>
-        private string roomId;
-        public string RoomId
-        {
-            get
-            {
-                return this.roomId;
-            }
-            set
-            {
-                this.roomId = value;
-                this.NotifyPropertyChange(() => this.RoomId);
-            }
-        }
-
-        /// <summary>
         /// 会话id
         /// </summary>
         private string chatId;

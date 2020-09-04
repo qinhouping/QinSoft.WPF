@@ -33,6 +33,7 @@
                     </Grid.Clip>
                 </Grid>
                 <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="20"></Label>
+                <Label Content="上海东方财富证券投资咨询有限公司" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource IM-Name-Label}" FontSize="10"></Label>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.RenderTransform>
