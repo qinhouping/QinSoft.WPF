@@ -14,6 +14,8 @@ namespace EMChat2.Common.Cef
         public static void Initialize()
         {
             CefSharpSettings.LegacyJavascriptBindingEnabled = true;
+            CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
+
             CefSettings cefSettings = new CefSettings();
             cefSettings.UserAgent = string.Format("QinSoft.WPF-EMChat2.0({0})-ChromiumWebBrowser({1})", VersionTools.GetAppVersion(), VersionTools.GetVersion(typeof(ChromiumWebBrowser)));
             CefSharp.Cef.Initialize(cefSettings);

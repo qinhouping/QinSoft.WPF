@@ -46,7 +46,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-Message-RichTextBox" TargetType="{x:Type wpfControl:AutoRichTextBox}">
+    <Style x:Key="IM-Message-RichTextBox" TargetType="{x:Type wpfControl:AutoAdjustRichTextBox}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
@@ -58,28 +58,7 @@
         <Setter Property="AutoWordSelection" Value="True"></Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type wpfControl:AutoRichTextBox}">
-                    <Border CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="IM-InputMessage-RichTextBox" TargetType="{x:Type RichTextBox}">
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="BorderBrush" Value="Transparent"></Setter>
-        <Setter Property="BorderThickness" Value="0"></Setter>
-        <Setter Property="AcceptsReturn" Value="True"></Setter>
-        <Setter Property="AcceptsTab" Value="True"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"></Setter>
-        <Setter Property="AutoWordSelection" Value="True"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RichTextBox}">
+                <ControlTemplate TargetType="{x:Type wpfControl:AutoAdjustRichTextBox}">
                     <Border CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
                         <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}"></ScrollViewer>
                     </Border>

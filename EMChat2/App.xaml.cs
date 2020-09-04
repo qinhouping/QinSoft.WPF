@@ -37,8 +37,6 @@ namespace EMChat2
         {
             WindowInfoAttach.StoreWindowInfos();
 
-            this.Shutdown();
-
             base.OnExit(e);
         }
 

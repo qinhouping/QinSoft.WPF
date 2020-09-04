@@ -20,7 +20,7 @@
     <Grid>
         <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
             <Grid>
-                <ListBox x:Name="messageList" Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
+                <wpfControl:AutoScrollListBox x:Name="messageList" Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="5">
@@ -62,7 +62,7 @@
                                         </Label.Style>
                                     </Label>
                                     <Label Grid.Row="1" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageContent-Label}">
-                                        <wpfControl:AutoRichTextBox x:Name="messageContent" Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True"></wpfControl:AutoRichTextBox>
+                                        <wpfControl:AutoAdjustRichTextBox x:Name="messageContent" Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor},Converter={x:Static wpf:ValueConverters.AvgConverter},ConverterParameter=2}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True"></wpfControl:AutoAdjustRichTextBox>
                                     </Label>
                                     <Label Grid.Row="2" HorizontalAlignment="{Binding HorizontalAlignment,RelativeSource={RelativeSource AncestorType=Grid,Mode=FindAncestor}}" Style="{StaticResource IM-MessageState-Label}">
                                         <Grid>
@@ -165,7 +165,7 @@
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </wpfControl:AutoScrollListBox>
                 <Button x:Name="hasNewMessageButton" Style="{StaticResource FlatButton-Success}" Opacity="0.6" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource IconArrowDown}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"></TextBlock>

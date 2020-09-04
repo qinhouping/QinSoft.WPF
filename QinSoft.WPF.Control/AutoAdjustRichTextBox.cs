@@ -12,27 +12,27 @@ using System.Windows.Navigation;
 
 namespace QinSoft.WPF.Control
 {
-    public class AutoRichTextBox : RichTextBox
+    public class AutoAdjustRichTextBox : RichTextBox
     {
         private bool informFromSource = false;
         private bool informFromTarget = false;
         #region 构造函数
-        public AutoRichTextBox()
+        public AutoAdjustRichTextBox()
         {
             this.TextChanged += AutoRichTextBox_TextChanged;
-            DependencyPropertyDescriptor.FromProperty(MaxWidthProperty, typeof(AutoRichTextBox)).AddValueChanged(this, this.AutoRichTextBox_MaxWidthPropertyChanged);
+            DependencyPropertyDescriptor.FromProperty(MaxWidthProperty, typeof(AutoAdjustRichTextBox)).AddValueChanged(this, this.AutoRichTextBox_MaxWidthPropertyChanged);
         }
 
         #endregion
 
         #region 属性
-        public static readonly DependencyProperty BindingDocumentProperty = DependencyProperty.Register("BindingDocument", typeof(FlowDocument), typeof(AutoRichTextBox), new PropertyMetadata(null, OnBindingDocumentPropertyChanged));
+        public static readonly DependencyProperty BindingDocumentProperty = DependencyProperty.Register("BindingDocument", typeof(FlowDocument), typeof(AutoAdjustRichTextBox), new PropertyMetadata(null, OnBindingDocumentPropertyChanged));
 
-        public static readonly DependencyProperty IsAutoProperty = DependencyProperty.Register("IsAuto", typeof(bool), typeof(AutoRichTextBox), new PropertyMetadata(true, OnIsAutoPropertyChanged));
+        public static readonly DependencyProperty IsAutoProperty = DependencyProperty.Register("IsAuto", typeof(bool), typeof(AutoAdjustRichTextBox), new PropertyMetadata(true, OnIsAutoPropertyChanged));
 
         private static void OnBindingDocumentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoRichTextBox autoRichTextBox = d as AutoRichTextBox;
+            AutoAdjustRichTextBox autoRichTextBox = d as AutoAdjustRichTextBox;
             if (autoRichTextBox.informFromTarget)
             {
                 autoRichTextBox.informFromTarget = false;

@@ -78,7 +78,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoRichTextBox.cs" />
+    <Compile Include="AutoAdjustRichTextBox.cs" />
+    <Compile Include="AutoScrollListBox.cs" />
     <Compile Include="MCombobox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

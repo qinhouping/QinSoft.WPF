@@ -46,7 +46,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <wpfControl:AutoRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoRichTextBox>
+                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
