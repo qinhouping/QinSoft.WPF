@@ -104,12 +104,12 @@ namespace EMChat2.Common
             windowInfo.State = window.WindowState;
         }
 
-        public static void LoadwindowInfos()
+        public static void LoadWindowInfos()
         {
             windowInfos = windoInfoFilePath.FileToStream().StreamToString().JsonToObject<List<WindowInfo>>() ?? new List<WindowInfo>().ToList();
         }
 
-        public static void StorewindowInfos()
+        public static void StoreWindowInfos()
         {
             windowInfos.ObjectToJson().StringToStream().StreamToFile(windoInfoFilePath);
         }

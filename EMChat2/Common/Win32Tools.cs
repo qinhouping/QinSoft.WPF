@@ -40,7 +40,7 @@ namespace EMChat2.Common
             FLASHWINFO info = new FLASHWINFO();
             info.hwnd = h.Handle;
             info.cbSize = Convert.ToUInt32(Marshal.SizeOf(info));
-            info.dwFlags = FLASHW_ALL | FLASHW_TIMER;
+            info.dwFlags = FLASHW_TRAY | FLASHW_TIMER;
             info.uCount = count;
             info.dwTimeout = interval;
             FlashWindowEx(ref info);

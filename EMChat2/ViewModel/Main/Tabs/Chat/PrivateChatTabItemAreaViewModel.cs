@@ -10,16 +10,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     public class PrivateChatTabItemAreaViewModel : ChatTabItemAreaViewModel
     {
         #region 构造函数
-        public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
+        public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatSliderAreaViewModel chatSliderAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
-            
+            this.chatSliderAreaViewModel = chatSliderAreaViewModel;
+
             //TODO 测试数据
             this.Messages.Add(new MessageInfo()
             {
@@ -175,5 +177,30 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             };
         }
         #endregion
+
+        #region 属性
+        private ChatSliderAreaViewModel chatSliderAreaViewModel;
+        public ChatSliderAreaViewModel ChatSliderAreaViewModel
+        {
+            get
+            {
+                return this.chatSliderAreaViewModel;
+            }
+            set
+            {
+                this.chatSliderAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.ChatSliderAreaViewModel);
+            }
+        }
+        #endregion
+
+        #region 命令 
+        #endregion
+
+        public override void Dispose()
+        {
+            this.eventAggregator.Subscribe(this.ChatSliderAreaViewModel);
+            this.eventAggregator.Unsubscribe(this);
+        }
     }
 }

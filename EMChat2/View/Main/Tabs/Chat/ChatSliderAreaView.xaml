@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:cefCommon="clr-namespace:EMChat2.Common.Cef"
+             xmlns:cefWpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Border BorderThickness="1,1,0,0" BorderBrush="#CCCCCC">
-            <WebBrowser Source="https://www.baidu.com"></WebBrowser>
+            <cefWpf:ChromiumWebBrowser Address="{Binding Address}" cefCommon:ChromiumWebBrowserAttach.RegisterJsObject="{Binding RegisterJsObject}"></cefWpf:ChromiumWebBrowser>
         </Border>
     </Grid>
 </UserControl>

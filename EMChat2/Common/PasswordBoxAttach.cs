@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace QinSoft.WPF
+namespace EMChat2.Common
 {
 
     /// <summary>

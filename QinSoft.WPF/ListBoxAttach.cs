@@ -10,6 +10,9 @@ namespace QinSoft.WPF
 {
     public static class ListBoxAttach
     {
+
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(ListBoxAttach), new PropertyMetadata(OnSelectedItemsChanged));
         public static IList GetSelectedItems(DependencyObject obj)
         {
             return obj.GetValue(SelectedItemsProperty) as IList;
@@ -19,9 +22,6 @@ namespace QinSoft.WPF
         {
             obj.SetValue(SelectedItemsProperty, value);
         }
-
-        public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(ListBoxAttach), new PropertyMetadata(OnSelectedItemsChanged));
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

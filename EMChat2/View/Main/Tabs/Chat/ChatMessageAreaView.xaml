@@ -8,13 +8,14 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <wpf:BindingProxy x:Key="chatData" Data="{Binding}"></wpf:BindingProxy>
+        <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
     </UserControl.Resources>
     <Grid>
         <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
@@ -24,7 +25,7 @@
                         <DataTemplate>
                             <Grid Margin="5">
                                 <Grid.Resources>
-                                    <wpf:BindingProxy x:Key="messageData" Data="{Binding}"></wpf:BindingProxy>
+                                    <common:BindingProxy x:Key="messageData" Data="{Binding}"></common:BindingProxy>
                                 </Grid.Resources>
                                 <!--正常显示消息-->
                                 <Grid x:Name="normalMessage">

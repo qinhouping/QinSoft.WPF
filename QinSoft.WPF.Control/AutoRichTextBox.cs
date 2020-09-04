@@ -130,7 +130,7 @@ namespace QinSoft.WPF.Control
                     Run run = inline as Run;
                     double fontSize = inline.FontSize;
                     string text = run.Text;
-                    foreach (string itemText in text.Split('\r'))
+                    foreach (string itemText in text.Split(Environment.NewLine.ToCharArray()))
                     {
                         double width = 0;
                         for (int i = 0; i < itemText.Length; i++)

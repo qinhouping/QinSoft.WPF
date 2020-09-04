@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public abstract class ChatTabItemAreaViewModel : PropertyChangedBase
+    public abstract class ChatTabItemAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
         public ChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService)
@@ -113,7 +113,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.InputMessageContent);
             }
         }
-
         public int NotReadMessageCount
         {
             get
@@ -121,7 +120,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return this.messages.Where(u => u.State.Equals(MessageState.Received)).Count();
             }
         }
-
         public MessageInfo LastMessage
         {
             get
@@ -160,7 +158,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    this.eventAggregator.PublishAsync<CloseChatEventArgs>(new CloseChatEventArgs() { Chat = this });
+                    this.eventAggregator.PublishAsync(new CloseChatEventArgs() { Chat = this });
+                    this.Dispose();
                 });
             }
         }
@@ -185,6 +184,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
                 });
             }
+        }
+        #endregion
+
+        #region 方法
+        public virtual void Dispose()
+        {
+            this.eventAggregator.Unsubscribe(this);
         }
         #endregion
     }

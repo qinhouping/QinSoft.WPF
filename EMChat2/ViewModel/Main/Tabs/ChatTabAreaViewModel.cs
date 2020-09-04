@@ -20,13 +20,14 @@ namespace EMChat2.ViewModel.Main.Tabs
     public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>
     {
         #region 构造函数
-        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
+        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatSliderAreaViewModel chatSliderAreaViewModel, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
+            this.chatSliderAreaViewModel = chatSliderAreaViewModel;
             this.chatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
@@ -65,6 +66,19 @@ namespace EMChat2.ViewModel.Main.Tabs
             {
                 this.emotionPickerAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
+            }
+        }
+        private ChatSliderAreaViewModel chatSliderAreaViewModel;
+        public ChatSliderAreaViewModel ChatSliderAreaViewModel
+        {
+            get
+            {
+                return this.chatSliderAreaViewModel;
+            }
+            set
+            {
+                this.chatSliderAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.ChatSliderAreaViewModel);
             }
         }
         private ObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
@@ -145,25 +159,29 @@ namespace EMChat2.ViewModel.Main.Tabs
 
             //TODO 测试数据
             new Action(() => this.ChatTabItems.Clear()).ExecuteInUIThread();
-            this.ChatTabItems.Add(
-                new PrivateChatTabItemAreaViewModel(
-                    this.windowManager,
-                    this.eventAggregator,
-                    this.applicationContextViewModel,
-                    this.emotionPickerAreaViewModel,
-                    this.CreatePrivateChat(new CustomerInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        ImUserId = "1",
-                        Name = "私聊-投顾",
-                        HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
-                        State = UserStateEnum.Online,
-                        Business = BusinessEnum.Advisor,
-                        Uid = "1"
-                    },
-                    BusinessEnum.Advisor),
-                    this.chatService,
-                    this.systemService));
+            for (int i = 0; i < 10; i++)
+            {
+                this.ChatTabItems.Add(
+                    new PrivateChatTabItemAreaViewModel(
+                        this.windowManager,
+                        this.eventAggregator,
+                        this.applicationContextViewModel,
+                        this.emotionPickerAreaViewModel,
+                        this.chatSliderAreaViewModel,
+                        this.CreatePrivateChat(new CustomerInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ImUserId = "1",
+                            Name = "私聊-投顾",
+                            HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
+                            State = UserStateEnum.Online,
+                            Business = BusinessEnum.Advisor,
+                            Uid = "1"
+                        },
+                        BusinessEnum.Advisor),
+                        this.chatService,
+                        this.systemService));
+            }
         }
 
         public void Handle(CloseChatEventArgs arg)

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace QinSoft.WPF
+namespace EMChat2.Common
 {
     public class BindingProxy : Freezable
     {

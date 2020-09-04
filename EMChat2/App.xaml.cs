@@ -1,4 +1,5 @@
 ﻿using EMChat2.Common;
+using EMChat2.Common.Cef;
 using EMChat2.ViewModel;
 using QinSoft.Ioc;
 using QinSoft.WPF.Core;
@@ -28,11 +29,15 @@ namespace EMChat2
             //Task线程内未捕获异常处理事件
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
-            WindowInfoAttach.LoadwindowInfos();
+            CefGlobalSetting.Initialize();
+
+            WindowInfoAttach.LoadWindowInfos();
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            WindowInfoAttach.StorewindowInfos();
+            WindowInfoAttach.StoreWindowInfos();
+
+            this.Shutdown();
 
             base.OnExit(e);
         }

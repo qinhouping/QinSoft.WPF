@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+        xmlns:common="clr-namespace:EMChat2.Common"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
@@ -113,7 +114,7 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource InputText}" Margin="0,5" Text="{Binding LoginInfo.UserName,Mode=TwoWay}"></TextBox>
 
                 <TextBlock Grid.Row="2" Text="密   码:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                <PasswordBox Grid.Row="2" Grid.Column="1" Style="{StaticResource InputPassword}" Margin="0,5" wpf:PasswordBoxAttach.Attach="True" wpf:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
+                <PasswordBox Grid.Row="2" Grid.Column="1" Style="{StaticResource InputPassword}" Margin="0,5" common:PasswordBoxAttach.Attach="True" common:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
 
                 <CheckBox Grid.Row="3" Grid.Column="1" Content="自动登录" HorizontalAlignment="Left" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsAutoLogin, Mode=TwoWay}"></CheckBox>
                 <CheckBox Grid.Row="3" Grid.Column="1" Content="记录密码" HorizontalAlignment="Right" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsRememberPassword, Mode=TwoWay}"></CheckBox>

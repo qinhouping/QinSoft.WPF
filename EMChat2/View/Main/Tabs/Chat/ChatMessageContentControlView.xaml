@@ -5,35 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
-             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200">
-    <UserControl.Style>
-        <Style TargetType="{x:Type UserControl}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Emotion}">
-                    <Setter Property="MaxWidth" Value="64"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Image}">
-                    <Setter Property="MaxWidth" Value="256"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Voice}">
-                    <Setter Property="MaxWidth" Value="256"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Video}">
-                    <Setter Property="MaxWidth" Value="256"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Link}">
-                    <Setter Property="MaxHeight" Value="48"></Setter>
-                    <Setter Property="Width" Value="256"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.File}">
-                    <Setter Property="MaxHeight" Value="48"></Setter>
-                    <Setter Property="Width" Value="200"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Style>
+             d:DesignHeight="64" d:DesignWidth="200">
     <Grid>
         <!--表情-->
         <Border>
