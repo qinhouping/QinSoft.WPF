@@ -131,8 +131,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 State = MessageState.Received,
                 Content = new MixedMessageContent()
                 {
-                    Items = new MessageContentItem[] {
-                        new MessageContentItem()
+                    Items = new MessageContentInfo[] {
+                        new MessageContentInfo()
                         {
                            Type = MessageTypeConst.Emotion,
                              Content=new EmotionMessageContent {
@@ -141,14 +141,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                                 IsGif = true
                             }.ObjectToJson()
                         },
-                        new MessageContentItem()
+                        new MessageContentInfo()
                         {
                             Type=MessageTypeConst.Text,
                             Content= new TextMessageContent(){
                                 Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
                             }.ObjectToJson()
                         },
-                        new MessageContentItem()
+                        new MessageContentInfo()
                         {
                             Type=MessageTypeConst.Link,
                             Content= new LinkMessageContent {
@@ -161,6 +161,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     }
                 }.ObjectToJson()
             });
+
+            this.InputMessageContent = new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Text,
+                Content = new TextMessageContent()
+                {
+                    Content = "hello\r\nworld"
+                }.ObjectToJson()
+            };
         }
         #endregion
     }

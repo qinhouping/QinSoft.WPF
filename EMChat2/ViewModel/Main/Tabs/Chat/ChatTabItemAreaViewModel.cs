@@ -98,8 +98,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.LastMessage);
             }
         }
-        private MessageContentItem inputMessageContent;
-        public MessageContentItem InputMessageContent
+        private MessageContentInfo inputMessageContent;
+        public MessageContentInfo InputMessageContent
         {
             get
             {

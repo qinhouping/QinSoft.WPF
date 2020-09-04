@@ -14,7 +14,8 @@ namespace QinSoft.WPF.Control
 {
     public class AutoRichTextBox : RichTextBox
     {
-
+        private bool informFromSource = false;
+        private bool informFromTarget = false;
         #region 构造函数
         public AutoRichTextBox()
         {
@@ -32,6 +33,17 @@ namespace QinSoft.WPF.Control
         private static void OnBindingDocumentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             AutoRichTextBox autoRichTextBox = d as AutoRichTextBox;
+            if (autoRichTextBox.informFromTarget)
+            {
+                autoRichTextBox.informFromTarget = false;
+                return;
+            }
+            if (autoRichTextBox.informFromSource)
+            {
+                autoRichTextBox.informFromSource = false;
+                return;
+            }
+            autoRichTextBox.informFromSource = true;
             autoRichTextBox.Document = (e.NewValue as FlowDocument) ?? new FlowDocument();
         }
 
@@ -68,7 +80,16 @@ namespace QinSoft.WPF.Control
         #region 方法
         private void AutoRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (IsAuto) this.Width = Math.Min(GetDocumentWidths().Max() + 20, this.MaxWidth);
+            if (IsAuto)
+                this.Width = Math.Min(GetDocumentWidths().Max() + 20, this.MaxWidth);
+            if (informFromSource)
+            {
+                informFromSource = false;
+                return;
+            }
+            informFromTarget = true;
+            informFromSource = true;
+            this.BindingDocument = this.Document;
         }
 
         private void AutoRichTextBox_MaxWidthPropertyChanged(object sender, EventArgs e)

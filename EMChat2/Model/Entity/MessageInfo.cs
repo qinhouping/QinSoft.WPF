@@ -15,7 +15,7 @@ namespace EMChat2.Model.Entity
     /// 消息内容子项
     /// </summary>
     [Serializable]
-    public class MessageContentItem : PropertyChangedBase
+    public class MessageContentInfo : PropertyChangedBase
     {
         private string type;
         public virtual string Type
@@ -50,7 +50,7 @@ namespace EMChat2.Model.Entity
     /// 消息信息实体
     /// </summary>
     [Serializable]
-    public class MessageInfo : MessageContentItem
+    public class MessageInfo : MessageContentInfo
     {
         #region 属性
         /// <summary>
@@ -451,8 +451,8 @@ namespace EMChat2.Model.Entity
     [Serializable]
     public class MixedMessageContent : PropertyChangedBase
     {
-        private MessageContentItem[] items;
-        public MessageContentItem[] Items
+        private MessageContentInfo[] items;
+        public MessageContentInfo[] Items
         {
             get
             {

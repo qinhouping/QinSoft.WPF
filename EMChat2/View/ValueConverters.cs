@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,7 +42,7 @@ namespace EMChat2.View
                 {
                     MessageInfo message = values[0] as MessageInfo;
                     StaffInfo staff = values[1] as StaffInfo;
-                    if (message.FromUser.Equals(staff.ImUserId) == true) return HorizontalAlignment.Right;
+                    if (message.FromUser.Equals(staff?.ImUserId) == true) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
                 });
             }
@@ -60,32 +61,121 @@ namespace EMChat2.View
             }
         }
 
-        private static Inline[] ParseMesageContentToInlines(string messageType, string messageContent)
+        private static void ParseMessageContentToDocument(FlowDocument document, Block block, string messageType, string messageContent)
         {
+            if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
             switch (messageType)
             {
                 case MessageTypeConst.Text:
-                    return new Inline[] { new Run((MessageTools.ParseMessageContent(messageType, messageContent) as TextMessageContent).Content) };
+                    {
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageType, messageContent) as TextMessageContent;
+                        string[] messageContentItems = Regex.Split(textMessageContent.Content, Environment.NewLine);
+                        for (int i = 0; i < messageContentItems.Length; i++)
+                        {
+                            string messageContentItem = messageContentItems[i];
+                            if (block is BlockUIContainer)
+                            {
+                                block = new Paragraph(); document.Blocks.Add(block);
+                                (block as Paragraph).Inlines.Add(messageContentItem.Trim());
+                            }
+                            else if (block is Paragraph)
+                            {
+                                (block as Paragraph).Inlines.Add(messageContentItem.Trim());
+                            }
+                            if (i < messageContentItems.Length - 1)
+                                block = new Paragraph(); document.Blocks.Add(block);
+                        }
+                    }; break;
                 case MessageTypeConst.Emotion:
                 case MessageTypeConst.Image:
                 case MessageTypeConst.Voice:
                 case MessageTypeConst.Video:
                 case MessageTypeConst.Link:
                 case MessageTypeConst.File:
-                    return new Inline[] { new InlineUIContainer(
-                        new ChatMessageContentControlView()
+                    {
+                        if (block is BlockUIContainer)
                         {
-                            DataContext = new ChatMessageContentControlViewModel(messageType, MessageTools.ParseMessageContent(messageType, messageContent))
-                        })
-                    };
+                            (block as BlockUIContainer).Child = new ChatMessageContentControlView()
+                            {
+                                DataContext = new ChatMessageContentControlViewModel(messageType, MessageTools.ParseMessageContent(messageType, messageContent))
+                            };
+                            block = new Paragraph(); document.Blocks.Add(block);
+                        }
+                        else if (block is Paragraph)
+                        {
+                            (block as Paragraph).Inlines.Add(new ChatMessageContentControlView()
+                            {
+                                DataContext = new ChatMessageContentControlViewModel(messageType, MessageTools.ParseMessageContent(messageType, messageContent))
+                            });
+                        }
+                    }; break;
                 case MessageTypeConst.Mixed:
                     {
-                        List<Inline> inlines = new List<Inline>();
-                        foreach (MessageContentItem mixedItem in (MessageTools.ParseMessageContent(messageType, messageContent) as MixedMessageContent).Items)
-                            inlines.AddRange(ParseMesageContentToInlines(mixedItem.Type, mixedItem.Content));
-                        return inlines.ToArray();
+                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageType, messageContent) as MixedMessageContent).Items)
+                            ParseMessageContentToDocument(document, block, mixedItem.Type, mixedItem.Content);
+                    }; break;
+            }
+        }
+
+        private static void ParseInlinesToMessageContent(Inline[] inlines, List<MessageContentInfo> messageContentInfos, ref MessageContentInfo messageContentInfo)
+        {
+            foreach (Inline inline in inlines)
+            {
+                if (inline is Run)
+                {
+                    Run run = inline as Run;
+                    if (messageContentInfo == null || messageContentInfo.Type != MessageTypeConst.Text)
+                    {
+                        messageContentInfo = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };
+                        messageContentInfos.Add(messageContentInfo);
                     }
-                default: return new Inline[] { };
+                    else
+                    {
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContentInfo.Type, messageContentInfo.Content) as TextMessageContent;
+                        textMessageContent.Content += string.Format("{0}{1}", Environment.NewLine, run.Text);
+                        messageContentInfo.Content = textMessageContent.ObjectToJson();
+                    }
+                }
+                else if (inline is InlineUIContainer)
+                {
+                    InlineUIContainer inlineUIContainer = inline as InlineUIContainer;
+                    if (inlineUIContainer.Child is ChatMessageContentControlView)
+                    {
+                        ChatMessageContentControlView chatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
+                        ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
+                        messageContentInfo = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContentInfos.Add(messageContentInfo);
+                    }
+                }
+                else if (inline is Span)
+                {
+                    Span span = inline as Span;
+                    ParseInlinesToMessageContent(span.Inlines.ToArray(), messageContentInfos, ref messageContentInfo);
+                }
+            }
+        }
+
+        private static void ParseDocumentToMessageContent(FlowDocument document, List<MessageContentInfo> messageContentInfos)
+        {
+            MessageContentInfo messageContentInfo = null;
+            foreach (Block block in document.Blocks)
+            {
+                if (block is BlockUIContainer)
+                {
+                    BlockUIContainer blockUIContainer = block as BlockUIContainer;
+                    if (blockUIContainer.Child is ChatMessageContentControlView)
+                    {
+                        ChatMessageContentControlView chatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
+                        ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
+                        messageContentInfo = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContentInfos.Add(messageContentInfo);
+                    }
+                }
+                else if (block is Paragraph)
+                {
+                    Paragraph paragraph = block as Paragraph;
+                    ParseInlinesToMessageContent(paragraph.Inlines.ToArray(), messageContentInfos, ref messageContentInfo);
+                }
             }
         }
 
@@ -95,12 +185,28 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageInfo message = value as MessageInfo;
                     FlowDocumentExt flowDocument = new FlowDocumentExt();
-                    Paragraph paragraph = new Paragraph();
-                    paragraph.Inlines.AddRange(ParseMesageContentToInlines(message.Type, message.Content));
-                    flowDocument.Blocks.Add(paragraph);
+                    MessageContentInfo message = value as MessageContentInfo;
+                    if (message != null)
+                        ParseMessageContentToDocument(flowDocument, null, message.Type, message.Content);
                     return flowDocument;
+                }, (value, targetType, parameter, cultInfo) =>
+                {
+                    FlowDocumentExt document = value as FlowDocumentExt;
+                    List<MessageContentInfo> messageContentInfos = new List<MessageContentInfo>();
+                    ParseDocumentToMessageContent(document, messageContentInfos);
+                    if (messageContentInfos.Count > 1)
+                    {
+                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = messageContentInfos.ObjectToJson() };
+                    }
+                    else if (messageContentInfos.Count == 1)
+                    {
+                        return messageContentInfos[0];
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 });
             }
         }
