@@ -29,8 +29,6 @@ namespace EMChat2
             //Task线程内未捕获异常处理事件
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
-            CefGlobalSetting.Initialize();
-
             WindowInfoAttach.LoadWindowInfos();
         }
         protected override void OnExit(ExitEventArgs e)

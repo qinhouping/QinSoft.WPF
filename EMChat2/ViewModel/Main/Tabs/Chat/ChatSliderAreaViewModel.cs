@@ -10,17 +10,15 @@ using System.Threading.Tasks;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    [Component]
     public class ChatSliderAreaViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public ChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public ChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, string address)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.registerJsObject = new RegisterJsObject() { Name = "emchat", JsObject = new CefJsObjectBase() };
-            this.address = "https://github.com/qinhouping";
+            this.address = address;
         }
         #endregion
 
@@ -32,25 +30,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.address + "?v=" + Guid.NewGuid().ToString();
+                return this.address;
             }
             set
             {
                 this.address = value;
                 this.NotifyPropertyChange(() => this.Address);
-            }
-        }
-        private RegisterJsObject registerJsObject;
-        public RegisterJsObject RegisterJsObject
-        {
-            get
-            {
-                return this.registerJsObject;
-            }
-            set
-            {
-                this.registerJsObject = value;
-                this.NotifyPropertyChange(() => this.RegisterJsObject);
             }
         }
         #endregion

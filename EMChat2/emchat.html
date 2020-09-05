@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>测试</title>
+</head>
+<body>
+    <script>
+
+        if (typeof emchatJsConnector === "undefined") {
+            document.writeln("emchatJsConnector undefined");
+        } else {
+            document.writeln("emchatJsConnector ok");
+            JSON.stringify(emchatJsConnector.executeCSharpAsync("computerInfo", "GetEnviroment", (msg) => {
+                document.writeln(msg);
+            }));
+        }
+    </script>
+</body>
+</html>

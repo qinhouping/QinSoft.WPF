@@ -17,6 +17,7 @@ namespace EMChat2.Common.Cef
             CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
             CefSettings cefSettings = new CefSettings();
+            cefSettings.Locale = "zh_CN";
             cefSettings.UserAgent = string.Format("QinSoft.WPF-EMChat2.0({0})-ChromiumWebBrowser({1})", VersionTools.GetAppVersion(), VersionTools.GetVersion(typeof(ChromiumWebBrowser)));
             CefSharp.Cef.Initialize(cefSettings);
         }

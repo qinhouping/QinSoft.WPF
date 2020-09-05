@@ -17,12 +17,12 @@
                             <Setter.Value>
                                 <Grid>
                                     <TextBlock Style="{StaticResource IconCommentO}" ToolTip="消息" Margin="10"/>
-                                    <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
+                                    <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
                                         <Label.Style>
                                             <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
                                                 <Setter Property="Width" Value="20"></Setter>
                                                 <Setter Property="Height" Value="20"></Setter>
-                                                <Setter Property="FontSize" Value="10"></Setter>
+                                                <Setter Property="FontSize" Value="9"></Setter>
                                             </Style>
                                         </Label.Style>
                                     </Label>
@@ -35,12 +35,12 @@
                                     <Setter.Value>
                                         <Grid>
                                             <TextBlock Style="{StaticResource IconComment}" ToolTip="消息" Margin="10"/>
-                                            <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+                                            <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
                                                 <Label.Style>
                                                     <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
                                                         <Setter Property="Width" Value="20"></Setter>
                                                         <Setter Property="Height" Value="20"></Setter>
-                                                        <Setter Property="FontSize" Value="10"></Setter>
+                                                        <Setter Property="FontSize" Value="9"></Setter>
                                                     </Style>
                                                 </Label.Style>
                                             </Label>

@@ -134,10 +134,12 @@
     <Compile Include="Common\BindingProxy.cs" />
     <Compile Include="Common\Cef\CefGlobalSetting.cs" />
     <Compile Include="Common\BaseTools.cs" />
-    <Compile Include="Common\Cef\ICefJsObject.cs" />
-    <Compile Include="Common\Cef\CefJsObjectBase.cs" />
-    <Compile Include="Common\ChineseCharactorTools.cs" />
+    <Compile Include="Common\Cef\CefJsObject.cs" />
+    <Compile Include="Common\Cef\CefWebBrowser.cs" />
+    <Compile Include="Common\Cef\CefJsConnector.cs" />
     <Compile Include="Common\Cef\CefWebBrowserAttach.cs" />
+    <Compile Include="Common\Cef\ComputerInfoCefJsObject.cs" />
+    <Compile Include="Common\ChineseCharactorTools.cs" />
     <Compile Include="Common\EncryptTools.cs" />
     <Compile Include="Common\ExecuteTools.cs" />
     <Compile Include="Common\HttpTools.cs" />
@@ -391,6 +393,9 @@
     <Resource Include="log.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="emchat.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="lib\Hardcodet.Wpf.TaskbarNotification.dll" />
     <Content Include="lib\Microsoft.Expression.Interactions.dll" />
     <Content Include="lib\Microsoft.Windows.Shell.dll" />

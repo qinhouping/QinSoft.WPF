@@ -32,7 +32,7 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 是否显示会话侧边栏
         /// </summary>
-        private bool isShowChatSlider;
+        private bool isShowChatSlider = true;
         public bool IsShowChatSlider
         {
             get

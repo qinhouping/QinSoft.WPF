@@ -1,9 +1,5 @@
-﻿using CefSharp;
-using CefSharp.ModelBinding;
-using CefSharp.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,33 +7,34 @@ using System.Windows;
 
 namespace EMChat2.Common.Cef
 {
-    public static class ChromiumWebBrowserAttach
+    public static class CefWebBrowserAttach
     {
         public static readonly DependencyProperty RegisterJsObjectProperty =
-            DependencyProperty.RegisterAttached("RegisterJsObject", typeof(RegisterJsObject), typeof(ChromiumWebBrowserAttach), new PropertyMetadata(OnRegisterJsObjectPropertyChangedCallback));
-        public static void SetRegisterJsObject(DependencyObject dp, RegisterJsObject value)
+                 DependencyProperty.RegisterAttached("RegisterJsObject", typeof(CefJsObject), typeof(CefWebBrowserAttach), new PropertyMetadata(OnRegisterJsObjectPropertyChangedCallback));
+
+        public static void SetRegisterJsObject(DependencyObject dp, CefJsObject value)
         {
             dp.SetValue(RegisterJsObjectProperty, value);
         }
-        public static RegisterJsObject GetRegisterJsObject(DependencyObject dp)
+
+        public static CefJsObject GetRegisterJsObject(DependencyObject dp)
         {
-            return dp.GetValue(RegisterJsObjectProperty) as RegisterJsObject;
+            return dp.GetValue(RegisterJsObjectProperty) as CefJsObject;
         }
 
         private static void OnRegisterJsObjectPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ChromiumWebBrowser chromiumWebBrowser = d as ChromiumWebBrowser;
-            if (chromiumWebBrowser == null || chromiumWebBrowser.IsInitialized) return;
-            RegisterJsObject registerJsObject = GetRegisterJsObject(chromiumWebBrowser);
-            chromiumWebBrowser.RegisterAsyncJsObject(registerJsObject.Name, registerJsObject.JsObject, new BindingOptions() { CamelCaseJavascriptNames = true });
-            registerJsObject.JsObject.ChromiumWebBrowser = chromiumWebBrowser;
+            CefWebBrowser webBrowser = d as CefWebBrowser;
+            if (webBrowser == null) return;
+            if (e.OldValue is CefJsObject)
+            {
+                ((e.OldValue) as CefJsObject).UnregisterJsConnector(webBrowser.CefJsConnector);
+            }
+            if (e.NewValue is CefJsObject)
+            {
+                ((e.NewValue) as CefJsObject).RegisterJsConnector(webBrowser.CefJsConnector);
+            }
         }
-    }
 
-    public class RegisterJsObject
-    {
-        public string Name { get; set; }
-
-        public ICefJsObject JsObject { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace QinSoft.WPF.Control
             Decorator decorator = (Decorator)VisualTreeHelper.GetChild(this, 0);
             ScrollViewer scrollViewer = (ScrollViewer)decorator.Child;
             if (!this.IsFocused)
-                scrollViewer.ScrollToEnd();
+                scrollViewer.ScrollToVerticalOffset(100);
         }
     }
 }

@@ -7,6 +7,7 @@ using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +18,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatTabItemAreaViewModel : ChatTabItemAreaViewModel
     {
         #region 构造函数
-        public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatSliderAreaViewModel chatSliderAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
+        public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
-            this.chatSliderAreaViewModel = chatSliderAreaViewModel;
+            this.chatSliderAreaViewModel = new ChatSliderAreaViewModel(this.windowManager, this.eventAggregator, Path.Combine(Directory.GetCurrentDirectory(), "emchat.html"));
 
             //TODO 测试数据
             this.Messages.Add(new MessageInfo()

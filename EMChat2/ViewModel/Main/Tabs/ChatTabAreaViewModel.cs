@@ -1,4 +1,5 @@
 ﻿using EMChat2.Common;
+using EMChat2.Common.Cef;
 using EMChat2.Model.Entity;
 using EMChat2.Model.Event;
 using EMChat2.Service;
@@ -20,22 +21,16 @@ namespace EMChat2.ViewModel.Main.Tabs
     public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>
     {
         #region 构造函数
-        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatSliderAreaViewModel chatSliderAreaViewModel, ChatService chatService, SystemService systemService)
+        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
-            this.chatSliderAreaViewModel = chatSliderAreaViewModel;
-            this.chatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
+            this.ChatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
-
-            this.ChatTabItems.CollectionChanged += (s, e) =>
-            {
-                this.ChangeSelectedChatTabItem();
-            };
         }
         #endregion
 
@@ -68,19 +63,6 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ChatSliderAreaViewModel chatSliderAreaViewModel;
-        public ChatSliderAreaViewModel ChatSliderAreaViewModel
-        {
-            get
-            {
-                return this.chatSliderAreaViewModel;
-            }
-            set
-            {
-                this.chatSliderAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.ChatSliderAreaViewModel);
-            }
-        }
         private ObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
         public ObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
         {
@@ -91,6 +73,10 @@ namespace EMChat2.ViewModel.Main.Tabs
             set
             {
                 this.chatTabItems = value;
+                this.chatTabItems.CollectionChanged += (s, e) =>
+                {
+                    this.ChangeSelectedChatTabItem();
+                };
                 this.NotifyPropertyChange(() => this.ChatTabItems);
             }
         }
@@ -167,7 +153,6 @@ namespace EMChat2.ViewModel.Main.Tabs
                         this.eventAggregator,
                         this.applicationContextViewModel,
                         this.emotionPickerAreaViewModel,
-                        this.chatSliderAreaViewModel,
                         this.CreatePrivateChat(new CustomerInfo()
                         {
                             Id = Guid.NewGuid().ToString(),
