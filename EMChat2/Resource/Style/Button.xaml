@@ -179,5 +179,84 @@
         </Setter>
     </Style>
 
+    <Style x:Key="IM-Tree-ToggleButton" TargetType="{x:Type  ToggleButton}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="#999999"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <TextBlock x:Name="PART_Text" Style="{StaticResource IconCaretRight}"></TextBlock>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Style" Value="{StaticResource IconCaretDown}" TargetName="PART_Text"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IM-Text-Button" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource DeepPurpleBrush}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="Height" Value="32"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <ContentPresenter x:Name="PART_Content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IM-OpenChat-Button" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource DeepPurpleBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="Height" Value="32"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <ContentPresenter x:Name="PART_Content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                            <Border x:Name="overBorder" Background="White" Opacity="0.2" Visibility="Collapsed"></Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="overBorder" Property="Visibility" Value="Visible"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

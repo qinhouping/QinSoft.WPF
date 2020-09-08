@@ -5,9 +5,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:tabs="clr-namespace:EMChat2.View.Main.Tabs"
+             xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240" MinWidth="240" MaxWidth="280"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#EEEEEE" BorderBrush="#CCCCCC" BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="62"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10"></TextBox>
+                </Grid>
+
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <user:CustomerAreaView  Grid.Row="0" DataContext="{Binding CustomerAreaViewModel}"></user:CustomerAreaView>
+                        <user:StaffAreaView Grid.Row="1" DataContext="{Binding StaffAreaViewModel}"></user:StaffAreaView>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <user:UserDetailAreaView Grid.Column="1" DataContext="{Binding UserDetailAreaViewModel}"></user:UserDetailAreaView>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
     </Grid>
 </UserControl>

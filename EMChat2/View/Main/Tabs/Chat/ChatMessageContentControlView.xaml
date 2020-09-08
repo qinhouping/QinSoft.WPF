@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.Chat"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="64" d:DesignWidth="200">
+             d:DesignHeight="64" d:DesignWidth="200" IsTabStop="False">
     <Grid>
         <!--表情-->
         <Border>
@@ -20,7 +22,11 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <Image Source="{Binding MsgContent.Url}"></Image>
+            <Image gif:ImageBehavior.AnimatedSource="{Binding MsgContent.Url}" Visibility="{Binding MsgContent.IsGif,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                <Image.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
+                </Image.InputBindings>
+            </Image>
         </Border>
         <!--图片-->
         <Border>

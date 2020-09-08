@@ -166,7 +166,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </wpfControl:AutoScrollListBox>
-                <Button x:Name="hasNewMessageButton" Style="{StaticResource FlatButton-Success}" Opacity="0.6" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
+                <Button x:Name="hasNewMessageButton" Style="{StaticResource FlatButton-Success}" Opacity="0.6" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Visibility="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource IconArrowDown}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"></TextBlock>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,2,0,2" Text="{Binding NotReadMessageCount}"></TextBlock>

@@ -80,11 +80,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
             private set
             {
-                if (value >= 0.5 && value <= 2)
-                {
-                    this.scale = value;
-                    this.NotifyPropertyChange(() => this.Scale);
-                }
+                if (value < 0.5) value = 0.5;
+                if (value > 2) value = 2;
+                this.scale = value;
+                this.NotifyPropertyChange(() => this.Scale);
             }
         }
         private double angle = 0;

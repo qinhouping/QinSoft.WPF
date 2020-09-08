@@ -68,6 +68,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        public ICommand OpenEmotionMessageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    EmotionMessageContent emotionMessageContent = MsgContent as EmotionMessageContent;
+                    this.chatService.OpenImage(new string[] { emotionMessageContent.Url }, 0);
+                });
+            }
+        }
+
         public ICommand OpenLinkMessageCommand
         {
             get

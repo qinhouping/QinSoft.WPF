@@ -56,6 +56,10 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.Name);
             }
         }
+
+        /// <summary>
+        /// 重写获取Name逻辑
+        /// </summary>
         public override string Name
         {
             get
@@ -66,7 +70,53 @@ namespace EMChat2.Model.Entity
             set
             {
                 base.Name = value;
-                this.NotifyPropertyChange(() => this.Remark);
+                this.NotifyPropertyChange(() => this.Name);
+                this.NotifyPropertyChange(() => this.OriName);
+            }
+        }
+
+        /// <summary>
+        /// 原始名称
+        /// </summary>
+        public string OriName
+        {
+            get
+            {
+                return base.Name;
+            }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string description;
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+                this.NotifyPropertyChange(() => this.Description);
+            }
+        }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        private SexEnum sex;
+        public SexEnum Sex
+        {
+            get
+            {
+                return this.sex;
+            }
+            set
+            {
+                this.sex = value;
+                this.NotifyPropertyChange(() => this.Sex);
             }
         }
 
@@ -84,6 +134,20 @@ namespace EMChat2.Model.Entity
             {
                 this.business = value;
                 this.NotifyPropertyChange(() => this.business);
+            }
+        }
+
+        private DateTime followTime;
+        public DateTime FollowTime
+        {
+            get
+            {
+                return this.followTime;
+            }
+            set
+            {
+                this.followTime = value;
+                this.NotifyPropertyChange(() => this.FollowTime);
             }
         }
         #endregion

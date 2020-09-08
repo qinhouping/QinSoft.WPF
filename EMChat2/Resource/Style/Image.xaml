@@ -7,9 +7,15 @@
         <Setter Property="Cursor" Value="Hand"></Setter>
     </Style>
 
-    <Style TargetType="{x:Type Image}" x:Key="IM-LoginHeader-Image">
+    <Style TargetType="{x:Type Image}" x:Key="IM-Big-Header-Image">
         <Setter Property="Height" Value="64"></Setter>
         <Setter Property="Width" Value="64"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Image}" x:Key="IM-Small-Header-Image">
+        <Setter Property="Height" Value="20"></Setter>
+        <Setter Property="Width" Value="20"></Setter>
         <Setter Property="Cursor" Value="Hand"></Setter>
     </Style>
 

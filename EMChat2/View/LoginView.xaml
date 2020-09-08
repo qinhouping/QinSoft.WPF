@@ -56,7 +56,7 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="1" Style="{StaticResource IM-Content-Border}" HorizontalAlignment="Center" Margin="0,5">
                     <Grid>
-                        <Image Source="{Binding LoginInfo.HeaderImageUrl}" Style="{StaticResource IM-LoginHeader-Image}"></Image>
+                        <Image Source="{Binding LoginInfo.HeaderImageUrl}" Style="{StaticResource IM-Big-Header-Image}"></Image>
                         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
                             <Grid.RenderTransform>
                                 <TransformGroup>

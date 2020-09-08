@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl Style="{StaticResource IM-Tab}">
-            <TabItem>
+            <TabItem IsSelected="True">
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">

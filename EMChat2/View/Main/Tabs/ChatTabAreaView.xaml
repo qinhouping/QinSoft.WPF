@@ -39,8 +39,8 @@
                                             </ScrollViewer>
                                         </Grid>
                                     </Border>
-                                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
                                     <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
@@ -156,7 +156,7 @@
 
                         <chat:ChatMessageAreaView Grid.Row="1"></chat:ChatMessageAreaView>
 
-                        <chat:ChatMessageInputAreaView Grid.Row="2"></chat:ChatMessageInputAreaView>
+                        <chat:ChatMessageInputAreaView Grid.Row="2" TabIndex="1"></chat:ChatMessageInputAreaView>
                         <GridSplitter Grid.Row="2" Height="1" HorizontalAlignment ="Stretch" VerticalAlignment="Top"></GridSplitter>
 
                         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="350" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">

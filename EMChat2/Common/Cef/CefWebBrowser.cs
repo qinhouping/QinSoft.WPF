@@ -26,7 +26,7 @@ namespace EMChat2.Common.Cef
 
         private void CefWebBrowser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (this.IsInitialized) this.ShowDevTools();
+            //if (this.IsInitialized) this.ShowDevTools();
         }
 
         public CefJsConnector CefJsConnector { get; protected set; }

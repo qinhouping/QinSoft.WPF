@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:common="clr-namespace:EMChat2.Common"
+        xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
         mc:Ignorable="d"
-        Title="图片查看器" Height="450" Width="800" 
+        Title="图片查看器" Height="450" Width="800" MinHeight="200" MinWidth="200"
         WindowStartupLocation="CenterOwner" ResizeMode ="CanResizeWithGrip"
         common:WindowInfoAttach.WindowInfo="">
 
@@ -29,7 +31,7 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
+                <Image gif:ImageBehavior.AnimatedSource="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <TranslateTransform/>
@@ -59,6 +61,7 @@
                     <Button ToolTip="旋转" Style="{StaticResource IM-Chat-Button}" Command="{Binding RepeatCommand}">
                         <TextBlock Style="{StaticResource IconRepeat}"></TextBlock>
                     </Button>
+                    <TextBlock Text="{Binding Scale, Converter={x:Static wpf:ValueConverters.DoubleToPercentageConverter}}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -65,6 +65,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Padding" Value="5,0"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">

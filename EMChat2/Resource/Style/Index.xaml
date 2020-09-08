@@ -11,6 +11,7 @@
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
         <ResourceDictionary Source="TextBox.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Tree.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

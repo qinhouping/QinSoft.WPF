@@ -120,6 +120,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -150,12 +153,27 @@
     <Compile Include="Common\VersionTools.cs" />
     <Compile Include="Common\Win32Tools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
+    <Compile Include="Model\Entity\DepartmentInfo.cs" />
+    <Compile Include="Model\Entity\SexEnum.cs" />
     <Compile Include="Model\Event\CloseChatEventArgs.cs" />
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
+    <Compile Include="Model\Event\UserDetailEventArgs.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatSliderAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\CustomerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\StaffAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\UserDetailAreaViewModel.cs" />
     <Compile Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml.cs">
       <DependentUpon>ChatMessageContentControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\CustomerAreaView.xaml.cs">
+      <DependentUpon>CustomerAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\StaffAreaView.xaml.cs">
+      <DependentUpon>StaffAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\UserDetailAreaView.xaml.cs">
+      <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\Entity\BusinessEnum.cs" />
@@ -321,6 +339,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resource\Style\Tree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AlertView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -370,6 +392,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Main\Tabs\UserTabAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\CustomerAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\StaffAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\UserDetailAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

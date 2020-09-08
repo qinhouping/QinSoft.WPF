@@ -127,8 +127,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         {
                            Type = MessageTypeConst.Emotion,
                              Content=new EmotionMessageContent {
-                                Url = "https://static.easyicon.net/preview/106/1069782.gif",
-                                Name = "图片",
+                                Url = "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0",
+                                Name = "Gif动图",
                                 IsGif = true
                             }.ObjectToJson()
                         },

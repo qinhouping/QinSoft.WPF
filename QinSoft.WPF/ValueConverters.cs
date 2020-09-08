@@ -334,6 +334,29 @@ namespace QinSoft.WPF
                 });
             }
         }
+
+        public static IMultiValueConverter NotEqualsToVisibilityMultiConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    return values.Length == 2 && values[0]?.Equals(values[1]) == true ? Visibility.Collapsed : Visibility.Visible;
+                });
+            }
+        }
+
+        public static IValueConverter DoubleToPercentageConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    double v = (double)value;
+                    return (int)(v * 100) + "%";
+                });
+            }
+        }
     }
 
 

@@ -17,7 +17,7 @@
                         <DockPanel>
                             <Border DockPanel.Dock="Left" BorderThickness="0" BorderBrush="{StaticResource GreyBrush}" Background="{StaticResource DeepPurpleBrush}">
                                 <StackPanel Orientation="Vertical" Margin="0,80,0,0">
-                                    <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Vertical"></StackPanel>
+                                    <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Vertical" Cursor="Hand"></StackPanel>
                                     <Rectangle Margin="10" Fill="#BBBBBB" Height="1"></Rectangle>
                                 </StackPanel>
                             </Border>
@@ -41,7 +41,6 @@
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="MinHeight" Value="50"></Setter>
         <Setter Property="MinWidth" Value="50"></Setter>
-        <Setter Property="Cursor" Value="Hand"></Setter>
         <Setter Property="FontSize" Value="20"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -85,8 +84,8 @@
                                     <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Vertical"></StackPanel>
                                 </ScrollViewer>
                             </Border>
-                            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
                             <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
                         </Grid>
                     </Border>
                 </ControlTemplate>
