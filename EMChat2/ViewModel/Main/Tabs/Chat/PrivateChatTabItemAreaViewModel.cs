@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public class PrivateChatTabItemAreaViewModel : ChatTabItemAreaViewModel
+    public class PrivateChatTabItemAreaViewModel : ChatTabItemAreaViewModel, IDisposable
     {
         #region 构造函数
         public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
@@ -125,15 +125,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     Items = new MessageContentInfo[] {
                         new MessageContentInfo()
                         {
-                           Type = MessageTypeConst.Emotion,
-                             Content=new EmotionMessageContent {
-                                Url = "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0",
-                                Name = "Gif动图",
-                                IsGif = true
-                            }.ObjectToJson()
-                        },
-                        new MessageContentInfo()
-                        {
                             Type=MessageTypeConst.Text,
                             Content= new TextMessageContent(){
                                 Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
@@ -170,10 +161,37 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
             this.InputMessageContent = new MessageContentInfo()
             {
-                Type = MessageTypeConst.Text,
-                Content = new TextMessageContent()
+                Type = MessageTypeConst.Mixed,
+                Content = new MixedMessageContent()
                 {
-                    Content = "hello\r\nworld"
+                    Items = new MessageContentInfo[] {
+                        new MessageContentInfo()
+                        {
+                           Type = MessageTypeConst.Emotion,
+                             Content=new EmotionMessageContent {
+                                Url = "http://m.xinhuanet.com/sd/2018-10/30/1123633103_15408621754241n.gif",
+                                Name = "Gif动图",
+                                IsGif = true
+                            }.ObjectToJson()
+                        },
+                        new MessageContentInfo()
+                        {
+                            Type=MessageTypeConst.Text,
+                            Content= new TextMessageContent(){
+                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                            }.ObjectToJson()
+                        },
+                        new MessageContentInfo()
+                        {
+                            Type=MessageTypeConst.Link,
+                            Content= new LinkMessageContent {
+                                Url = "https://www.baidu.com/",
+                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
+                                Title = "测试链接",
+                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                            }.ObjectToJson()
+                        }
+                    }
                 }.ObjectToJson()
             };
         }
@@ -200,8 +218,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public override void Dispose()
         {
-            this.eventAggregator.Subscribe(this.ChatSliderAreaViewModel);
-            this.eventAggregator.Unsubscribe(this);
+            this.ChatSliderAreaViewModel.Dispose();
+            base.Dispose();
         }
     }
 }

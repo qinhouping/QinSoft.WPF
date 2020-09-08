@@ -152,7 +152,10 @@ namespace EMChat2.ViewModel
             }
             else
             {
-                new Action(() => this.windowManager.ShowDialog(new AlertViewModel(this.windowManager, arg.Message, "登录提示", AlertType.Error))).ExecuteInUIThread();
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, arg.Message, "登录提示", AlertType.Error))
+                {
+                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                }
             }
         }
 

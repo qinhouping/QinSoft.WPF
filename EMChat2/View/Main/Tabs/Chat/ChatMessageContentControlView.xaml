@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
@@ -22,11 +22,18 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <Image gif:ImageBehavior.AnimatedSource="{Binding MsgContent.Url}" Visibility="{Binding MsgContent.IsGif,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
-                <Image.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
-                </Image.InputBindings>
-            </Image>
+            <Grid>
+                <Image Source="{Binding MsgContent.Url}" Visibility="{Binding MsgContent.IsGif,Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}">
+                    <Image.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
+                    </Image.InputBindings>
+                </Image>
+                <Image x:Name="gifImage" gif:AnimationBehavior.AutoStart="False" gif:AnimationBehavior.SourceUri="{Binding MsgContent.Url}" Visibility="{Binding MsgContent.IsGif,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}" MouseEnter="gifImage_MouseEnter" MouseLeave="gifImage_MouseLeave">
+                    <Image.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
+                    </Image.InputBindings>
+                </Image>
+            </Grid>
         </Border>
         <!--图片-->
         <Border>

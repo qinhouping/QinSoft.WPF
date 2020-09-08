@@ -53,7 +53,12 @@ namespace EMChat2.Service
             await new Func<object>(() =>
             {
                 sources = sources.Select(u => systemService.GetUrlMapping(u)).ToArray();
-                new Action(() => this.windowManager.ShowDialog(new PictureExplorerViewModel(this.windowManager, systemService, sources, index))).ExecuteInUIThread();
+                new Action(() =>
+                {
+                    PictureExplorerViewModel pictureExplorerViewModel = new PictureExplorerViewModel(this.windowManager, this.eventAggregator, systemService, sources, index);
+                    this.windowManager.ShowDialog(pictureExplorerViewModel);
+                    pictureExplorerViewModel.Dispose();
+                }).ExecuteInUIThread();
                 return null;
             }).ExecuteInTask();
         }
@@ -79,7 +84,11 @@ namespace EMChat2.Service
                         }
                         catch (Exception e)
                         {
-                            new Action(() => this.windowManager.ShowDialog(new AlertViewModel(windowManager, "文件下载失败" + e.Message, "提示", AlertType.Error))).ExecuteInUIThread();
+                            using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, "文件下载失败" + e.Message, "提示", AlertType.Error))
+                            {
+
+                                new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                            }
                         }
                     });
                 }

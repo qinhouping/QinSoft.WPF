@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public class ChatSliderAreaViewModel : PropertyChangedBase
+    public class ChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
         public ChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, string address)
@@ -39,5 +39,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            this.eventAggregator.Unsubscribe(this);
+        }
     }
 }

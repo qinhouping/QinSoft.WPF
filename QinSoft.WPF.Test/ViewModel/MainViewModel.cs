@@ -44,6 +44,20 @@ namespace QinSoft.WPF.Test.ViewModel
             }
         }
 
+        private ObservableCollection<string> images;
+        public ObservableCollection<string> Images
+        {
+            get
+            {
+                return this.images;
+            }
+            set
+            {
+                this.images = value;
+                this.NotifyPropertyChange(() => this.Images);
+            }
+        }
+
         public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, TestViewModel testViewModel)
         {
             this.Title = "QinSoft.WPF.Core.Test";
@@ -58,6 +72,12 @@ namespace QinSoft.WPF.Test.ViewModel
                new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Image, ThumbUrl="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg", Url="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg"  },
                           new Message() { Left = true, Sender = "test", SendTime = DateTime.Now, Type=MessageType.Text, Text = "inner message"  }
                }  }
+            };
+
+            this.images = new ObservableCollection<string>()
+            {
+                "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0",
+                "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0"
             };
         }
 

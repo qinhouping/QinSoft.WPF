@@ -205,7 +205,7 @@ namespace EMChat2.View
                     ParseDocumentToMessageContent(document, messageContents);
                     if (messageContents.Count > 1)
                     {
-                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = messageContents.ObjectToJson() };
+                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = new MixedMessageContent() { Items = messageContents.ToArray() }.ObjectToJson() };
                     }
                     else if (messageContents.Count == 1)
                     {

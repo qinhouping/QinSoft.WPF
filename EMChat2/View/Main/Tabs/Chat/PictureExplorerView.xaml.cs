@@ -22,6 +22,7 @@ namespace EMChat2.View.Main.Tabs.Chat
         public PictureExplorerView()
         {
             InitializeComponent();
+
         }
     }
 }

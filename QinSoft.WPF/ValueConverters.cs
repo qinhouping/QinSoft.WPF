@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace QinSoft.WPF
 {
@@ -354,6 +355,27 @@ namespace QinSoft.WPF
                 {
                     double v = (double)value;
                     return (int)(v * 100) + "%";
+                });
+            }
+        }
+
+        public static IValueConverter UrlToImageConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    string v = value as string;
+                    if (string.IsNullOrEmpty(v)) return null;
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    bi.UriSource = new Uri(value as string);
+                    bi.EndInit();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                    return bi;
                 });
             }
         }

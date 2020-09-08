@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:common="clr-namespace:EMChat2.Common"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
@@ -31,7 +31,7 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image gif:ImageBehavior.AnimatedSource="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
+                <Image gif:AnimationBehavior.SourceUri="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <TranslateTransform/>

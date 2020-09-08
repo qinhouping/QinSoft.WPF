@@ -6,6 +6,7 @@
         xmlns:test="clr-namespace:QinSoft.WPF.Test"
         xmlns:control="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="800" Width="1300">
     <DockPanel>
@@ -594,6 +595,18 @@
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
+            </TabItem>
+
+            <TabItem Header="Image内存泄漏测试">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ListBox ItemsSource="{Binding Images}" x:Name="imageList"></ListBox>
+                    <Image gif:ImageBehavior.AnimatedSource="{Binding SelectedItem,ElementName=imageList}" Grid.Column="1"></Image>
+                </Grid>
+
             </TabItem>
         </TabControl>
 

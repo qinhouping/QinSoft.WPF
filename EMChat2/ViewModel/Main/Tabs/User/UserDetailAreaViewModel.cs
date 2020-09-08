@@ -22,8 +22,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.tagCustomerAreaViewModel = tagCustomerAreaViewModel;
-            this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel();
-            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel();
+            this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel(this.windowManager, this.eventAggregator);
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator);
         }
         #endregion
 
