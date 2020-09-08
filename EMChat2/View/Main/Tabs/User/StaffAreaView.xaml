@@ -33,12 +33,12 @@
                         <ListBox ItemsSource="{Binding Staffs}" Grid.Row="1" x:Name="staffs" Visibility="Collapsed" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="8,0,0,0" HorizontalAlignment="Left" x:Name="grid" Cursor="Hand">
+                                    <Grid Margin="6,0,0,0" HorizontalAlignment="Left" x:Name="grid" Cursor="Hand">
                                         <Grid.InputBindings>
                                             <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenStaffDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
                                         </Grid.InputBindings>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20"></ColumnDefinition>
+                                            <ColumnDefinition Width="24"></ColumnDefinition>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>

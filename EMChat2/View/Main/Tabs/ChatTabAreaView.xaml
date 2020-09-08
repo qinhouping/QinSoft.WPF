@@ -151,7 +151,7 @@
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">
-                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
                         </Grid>
 
                         <chat:ChatMessageAreaView Grid.Row="1"></chat:ChatMessageAreaView>
@@ -159,7 +159,7 @@
                         <chat:ChatMessageInputAreaView Grid.Row="2" TabIndex="1"></chat:ChatMessageInputAreaView>
                         <GridSplitter Grid.Row="2" Height="1" HorizontalAlignment ="Stretch" VerticalAlignment="Top"></GridSplitter>
 
-                        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="350" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="362" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
                             <chat:ChatSliderAreaView DataContext="{Binding ChatSliderAreaViewModel}" ></chat:ChatSliderAreaView>
                         </Grid>
                     </Grid>

@@ -2,6 +2,7 @@
 using CefSharp.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace EMChat2.Common.Cef
 {
     public class CefWebBrowser : ChromiumWebBrowser
     {
+        private bool showCefDevTools = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowCefDevTools"]);
+
         static CefWebBrowser()
         {
             //cef全局设置
@@ -26,7 +29,7 @@ namespace EMChat2.Common.Cef
 
         private void CefWebBrowser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //if (this.IsInitialized) this.ShowDevTools();
+            if (this.IsInitialized && this.showCefDevTools) this.ShowDevTools();
         }
 
         public CefJsConnector CefJsConnector { get; protected set; }

@@ -1,4 +1,6 @@
-﻿using EMChat2.Model.Event;
+﻿using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
+using EMChat2.View.Main.Tabs.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -11,54 +13,93 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<UserDetailEventArgs>
+    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<DetailChangeEventArgs>
     {
         #region 构造函数
-        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, TagCustomerAreaViewModel tagCustomerAreaViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
+            this.tagCustomerAreaViewModel = tagCustomerAreaViewModel;
+            this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel();
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private UserDetailType userDetailType;
-        public UserDetailType UserDetailType
+        private DetailType? type;
+        public DetailType? Type
         {
             get
             {
-                return this.userDetailType;
+                return this.type;
             }
             set
             {
-                this.userDetailType = value;
-                this.NotifyPropertyChange(() => this.UserDetailType);
+                this.type = value;
+                this.NotifyPropertyChange(() => this.Type);
             }
         }
-        private object detailData;
-        public object DetailData
+        private TagCustomerAreaViewModel tagCustomerAreaViewModel;
+        public TagCustomerAreaViewModel TagCustomerAreaViewModel
         {
             get
             {
-                return this.detailData;
+                return this.tagCustomerAreaViewModel;
             }
             set
             {
-                this.detailData = value;
-                this.NotifyPropertyChange(() => this.DetailData);
+                this.tagCustomerAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.TagCustomerAreaViewModel);
+            }
+        }
+        private DepartmentDetailAreaViewModel departmentDetailAreaViewModel;
+        public DepartmentDetailAreaViewModel DepartmentDetailAreaViewModel
+        {
+            get
+            {
+                return this.departmentDetailAreaViewModel;
+            }
+            set
+            {
+                this.departmentDetailAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.DepartmentDetailAreaViewModel);
+            }
+        }
+        private StaffDetailAreaViewModel staffDetailAreaViewModel;
+        public StaffDetailAreaViewModel StaffDetailAreaViewModel
+        {
+            get
+            {
+                return this.staffDetailAreaViewModel;
+            }
+            set
+            {
+                this.staffDetailAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.StaffDetailAreaViewModel);
             }
         }
         #endregion
 
         #region 事件处理
 
-        public void Handle(UserDetailEventArgs arg)
+        public void Handle(DetailChangeEventArgs arg)
         {
-            this.UserDetailType = arg.Type;
-            this.DetailData = arg.Data;
+            this.Type = arg.Type;
+            switch (arg.Type)
+            {
+                case DetailType.Department:
+                    this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentInfo;
+                    break;
+                case DetailType.Staff:
+                    this.StaffDetailAreaViewModel.Staff = arg.Data as StaffInfo;
+                    break;
+                case DetailType.TagCustomer:
+                    break;
+            }
         }
         #endregion
     }

@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class UserDetailEventArgs : EventArgs
+    public class DetailChangeEventArgs : EventArgs
     {
-        public UserDetailType Type { get; set; }
+        public DetailType Type { get; set; }
 
         public object Data { get; set; }
     }
 
-    public enum UserDetailType
+    public enum DetailType
     {
-        /// <summary>
-        /// 新客户
-        /// </summary>
-        NewCustomer,
         /// <summary>
         /// 标签客户
         /// </summary>

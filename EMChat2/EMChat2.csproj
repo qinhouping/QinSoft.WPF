@@ -155,13 +155,19 @@
     <Compile Include="Common\WindowInfoAttach.cs" />
     <Compile Include="Model\Entity\DepartmentInfo.cs" />
     <Compile Include="Model\Entity\SexEnum.cs" />
+    <Compile Include="Model\Entity\TagGroupInfo.cs" />
+    <Compile Include="Model\Entity\TagInfo.cs" />
     <Compile Include="Model\Event\CloseChatEventArgs.cs" />
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
-    <Compile Include="Model\Event\UserDetailEventArgs.cs" />
+    <Compile Include="Model\Event\DetailChangeEventArgs.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatSliderAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\CustomerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\CustomerDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\DepartmentDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\StaffAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\StaffDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\User\TagCustomerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\UserDetailAreaViewModel.cs" />
     <Compile Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml.cs">
       <DependentUpon>ChatMessageContentControlView.xaml</DependentUpon>
@@ -169,8 +175,20 @@
     <Compile Include="View\Main\Tabs\User\CustomerAreaView.xaml.cs">
       <DependentUpon>CustomerAreaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Main\Tabs\User\CustomerDetailAreaView.xaml.cs">
+      <DependentUpon>CustomerDetailAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\DepartmentDetailAreaView.xaml.cs">
+      <DependentUpon>DepartmentDetailAreaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Main\Tabs\User\StaffAreaView.xaml.cs">
       <DependentUpon>StaffAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\StaffDetailAreaView.xaml.cs">
+      <DependentUpon>StaffDetailAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\User\TagCustomerAreaView.xaml.cs">
+      <DependentUpon>TagCustomerAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Tabs\User\UserDetailAreaView.xaml.cs">
       <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
@@ -399,7 +417,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Main\Tabs\User\CustomerDetailAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\DepartmentDetailAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Main\Tabs\User\StaffAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\StaffDetailAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\User\TagCustomerAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -98,9 +98,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand<DepartmentInfo>((department) =>
                 {
-                    this.eventAggregator.PublishAsync(new UserDetailEventArgs()
+                    this.eventAggregator.PublishAsync(new DetailChangeEventArgs()
                     {
-                        Type = UserDetailType.Department,
+                        Type = DetailType.Department,
                         Data = department
                     });
                 });
@@ -113,9 +113,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand<StaffInfo>((staff) =>
                 {
-                    this.eventAggregator.PublishAsync(new UserDetailEventArgs()
+                    this.eventAggregator.PublishAsync(new DetailChangeEventArgs()
                     {
-                        Type = UserDetailType.Staff,
+                        Type = DetailType.Staff,
                         Data = staff
                     });
                 });

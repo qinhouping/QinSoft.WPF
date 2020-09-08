@@ -1,6 +1,7 @@
 ﻿using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -148,6 +149,20 @@ namespace EMChat2.Model.Entity
             {
                 this.followTime = value;
                 this.NotifyPropertyChange(() => this.FollowTime);
+            }
+        }
+
+        private ObservableCollection<TagInfo> tags;
+        public ObservableCollection<TagInfo> Tags
+        {
+            get
+            {
+                return this.tags;
+            }
+            set
+            {
+                this.tags = value;
+                this.NotifyPropertyChange(() => this.Tags);
             }
         }
         #endregion

@@ -5,109 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
              xmlns:event="clr-namespace:EMChat2.Model.Event"
-             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border x:Name="newCustomer" Visibility="{Binding UserDetailType,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:UserDetailType.NewCustomer}}"></Border>
-        <Border x:Name="tagCustomer" Visibility="{Binding UserDetailType,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:UserDetailType.TagCustomer}}"></Border>
-        <Border x:Name="department" Visibility="{Binding UserDetailType,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:UserDetailType.Department}}">
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Content="{Binding DetailData.Name}" Padding="10,5" Style="{StaticResource Chip-Primary}" HorizontalContentAlignment="Center" FontSize="20"></Label>
-                <Label Grid.Row="1" Content="{Binding DetailData.AllStaffs.Length}" ContentStringFormat="- {0}人 -" HorizontalAlignment="Center" Foreground="#AAAAAA" FontSize="16" FontFamily="{StaticResource DefaultFontFamily}" Margin="0,5"></Label>
-            </Grid>
+        <!--标签客户详情-->
+        <Border x:Name="tagCustomer" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.TagCustomer}}">
+            <user:TagCustomerAreaView DataContext="{Binding TagCustomerAreaViewModel}"></user:TagCustomerAreaView>
         </Border>
-        <Border x:Name="staff" Visibility="{Binding UserDetailType,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:UserDetailType.Staff}}">
-            <Grid Margin="0,100,0,0" HorizontalAlignment="Center" Width="320">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1">
-                    <Grid Margin="0,20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="staffName" Text="{Binding DetailData.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="20"></TextBlock>
-                                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0">
-                                    <Grid>
-                                        <TextBlock>
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock" BasedOn="{StaticResource IconUser}">
-                                                    <Setter Property="Foreground" Value="Transparent"></Setter>
-                                                    <Setter Property="FontSize" Value="16"></Setter>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding DetailData.Sex}" Value="{x:Static entity:SexEnum.Man}">
-                                                            <Setter Property="Foreground" Value="{StaticResource GreenBrush}"></Setter>
-                                                            <Setter Property="ToolTip" Value="男"></Setter>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding DetailData.Sex}" Value="{x:Static entity:SexEnum.Women}">
-                                                            <Setter Property="Foreground" Value="{StaticResource DeepOrangeBrush}"></Setter>
-                                                            <Setter Property="ToolTip" Value="女"></Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock x:Name="staffOriName" Text="{Binding DetailData.OriName}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                        <Setter Property="Visibility">
-                                            <Setter.Value>
-                                                <MultiBinding Converter="{x:Static wpf:ValueConverters.NotEqualsToVisibilityMultiConverter}">
-                                                    <Binding Path="Text" ElementName="staffName"></Binding>
-                                                    <Binding Path="Text" ElementName="staffOriName" ></Binding>
-                                                </MultiBinding>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-                        <Image Source="{Binding DetailData.HeaderImageUrl}" Grid.Column="2" Style="{StaticResource IM-Big-Header-Image}"></Image>
-                    </Grid>
-                </Border>
-                <Border Grid.Row="1" Margin="0,20">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center" Visibility="{Binding DetailData.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}"></TextBlock>
-                        <Button Grid.Column="1" Margin="5,0" Content="设置备注和描述" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Visibility="{Binding DetailData.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}"></Button>
-                        <Button Grid.Column="1" Margin="5,0" Content="{Binding DetailData.Description}" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Visibility="{Binding DetailData.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}"></Button>
-                        <TextBlock Grid.Column="2" Style="{StaticResource IconChevronRight}" Foreground="#AAAAAA" FontSize="8" VerticalAlignment="Center"></TextBlock>
-                    </Grid>
-                </Border>
-                <Border Grid.Row="2" Margin="0,20">
-                    <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Height="32" Content="发消息"></Button>
-                </Border>
-            </Grid>
+        <!--部门详情-->
+        <Border x:Name="department" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.Department}}">
+            <user:DepartmentDetailAreaView HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding DepartmentDetailAreaViewModel}"></user:DepartmentDetailAreaView>
+        </Border>
+        <!--员工详情-->
+        <Border x:Name="staff" Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.Staff}}">
+            <user:StaffDetailAreaView Margin="0,100,0,0" Width="320" DataContext="{Binding StaffDetailAreaViewModel}"></user:StaffDetailAreaView>
         </Border>
     </Grid>
 </UserControl>

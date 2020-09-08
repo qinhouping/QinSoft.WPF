@@ -34,6 +34,9 @@
                 <TreeViewItem Style="{StaticResource IM-TreeItem}">
                     <TreeViewItem.Header>
                         <Grid>
+                            <Grid.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenTagCustomerDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView,Mode=FindAncestor}}"></MouseBinding>
+                            </Grid.InputBindings>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
