@@ -39,7 +39,8 @@
             </Grid>
         </Border>
 
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1" Grid.ZIndex="1"></GridSplitter>
         <user:UserDetailAreaView Grid.Column="1" DataContext="{Binding UserDetailAreaViewModel}"></user:UserDetailAreaView>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
     </Grid>
 </UserControl>

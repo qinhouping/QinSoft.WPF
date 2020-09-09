@@ -3,49 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="240">
     <Border BorderBrush="#DDDDDD" BorderThickness="0,1,0,0">
         <TreeView Style="{StaticResource IM-Tree}">
-            <TreeViewItem Style="{StaticResource IM-TreeItem}" IsExpanded="True">
+            <TreeViewItem Style="{StaticResource IM-TreeItem}">
                 <TreeViewItem.Header>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource IconUsers}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="2"></TextBlock>
-                        <TextBlock Text="我的客户" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource IconUsers}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="2"></TextBlock>
+                            <TextBlock Text="我的客户" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
+
+                        </Grid>
+                        <ListBox Grid.Row="1" ItemsSource="{Binding ApplicationContextViewModel.CurrentStaff.BusinessList}" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="6,0,0,0" HorizontalAlignment="Left" x:Name="grid" Cursor="Hand">
+                                        <Grid.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenTagCustomerDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
+                                        </Grid.InputBindings>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="24"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource IconTag}" Foreground="{StaticResource DeepPurpleBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding .,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                 </TreeViewItem.Header>
-                <!--<TreeViewItem Style="{StaticResource IM-TreeItem}">
-                    <TreeViewItem.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource IconUser}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="2"></TextBlock>
-                            <TextBlock Text="新客户" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
-                        </Grid>
-                    </TreeViewItem.Header>
-                </TreeViewItem>-->
-                <TreeViewItem Style="{StaticResource IM-TreeItem}">
-                    <TreeViewItem.Header>
-                        <Grid>
-                            <Grid.InputBindings>
-                                <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenTagCustomerDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView,Mode=FindAncestor}}"></MouseBinding>
-                            </Grid.InputBindings>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource IconTag}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Margin="2"></TextBlock>
-                            <TextBlock Text="标签" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
-                        </Grid>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
             </TreeViewItem>
         </TreeView>
     </Border>

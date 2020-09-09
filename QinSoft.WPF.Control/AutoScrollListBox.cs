@@ -37,7 +37,7 @@ namespace QinSoft.WPF.Control
         {
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(100);//TODO 通过延迟滚动来解决未渲染滚动不了的bug
+                Thread.Sleep(50);//TODO 通过延迟滚动来解决未渲染滚动不了的bug
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     GetScrollViewerChild()?.ScrollToEnd();

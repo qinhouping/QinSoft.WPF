@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace EMChat2
 {
@@ -31,9 +32,14 @@ namespace EMChat2
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             WindowInfoAttach.LoadWindowInfos();
+
+            //初始化垃圾回收
+            GcTimerTools.Initialize();
         }
+
         protected override void OnExit(ExitEventArgs e)
         {
+
             WindowInfoAttach.StoreWindowInfos();
 
             base.OnExit(e);

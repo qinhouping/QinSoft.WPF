@@ -157,7 +157,7 @@ namespace EMChat2.ViewModel.Main.Tabs
                         {
                             Id = Guid.NewGuid().ToString(),
                             ImUserId = "1",
-                            Name = "私聊-投顾",
+                            Name = "私聊-投顾" + i,
                             HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
                             State = UserStateEnum.Online,
                             Business = BusinessEnum.Advisor,

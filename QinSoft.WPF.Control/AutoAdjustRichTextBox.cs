@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -20,13 +22,12 @@ namespace QinSoft.WPF.Control
         public AutoAdjustRichTextBox()
         {
             this.TextChanged += AutoRichTextBox_TextChanged;
-            DependencyPropertyDescriptor.FromProperty(MaxWidthProperty, typeof(AutoAdjustRichTextBox)).AddValueChanged(this, this.AutoRichTextBox_MaxWidthPropertyChanged);
         }
 
         #endregion
 
         #region 属性
-        public static readonly DependencyProperty BindingDocumentProperty = DependencyProperty.Register("BindingDocument", typeof(FlowDocument), typeof(AutoAdjustRichTextBox), new PropertyMetadata(null, OnBindingDocumentPropertyChanged));
+        public static readonly DependencyProperty BindingDocumentProperty = DependencyProperty.Register("BindingDocument", typeof(FlowDocumentExt), typeof(AutoAdjustRichTextBox), new PropertyMetadata(null, OnBindingDocumentPropertyChanged));
 
         public static readonly DependencyProperty IsAutoProperty = DependencyProperty.Register("IsAuto", typeof(bool), typeof(AutoAdjustRichTextBox), new PropertyMetadata(true, OnIsAutoPropertyChanged));
 
@@ -44,7 +45,7 @@ namespace QinSoft.WPF.Control
                 return;
             }
             autoRichTextBox.informFromSource = true;
-            autoRichTextBox.Document = (e.NewValue as FlowDocument) ?? new FlowDocument();
+            autoRichTextBox.Document = (e.NewValue as FlowDocumentExt) ?? new FlowDocumentExt();
         }
 
         private static void OnIsAutoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -52,11 +53,11 @@ namespace QinSoft.WPF.Control
 
         }
 
-        public FlowDocument BindingDocument
+        public FlowDocumentExt BindingDocument
         {
             get
             {
-                return GetValue(BindingDocumentProperty) as FlowDocument;
+                return GetValue(BindingDocumentProperty) as FlowDocumentExt;
             }
             set
             {
@@ -89,12 +90,7 @@ namespace QinSoft.WPF.Control
             }
             informFromTarget = true;
             informFromSource = true;
-            this.BindingDocument = this.Document;
-        }
-
-        private void AutoRichTextBox_MaxWidthPropertyChanged(object sender, EventArgs e)
-        {
-            if (IsAuto) this.Width = Math.Min(GetDocumentWidths().Max(), this.MaxWidth);
+            this.BindingDocument = this.Document as FlowDocumentExt;
         }
 
         protected virtual double[] GetDocumentWidths()
@@ -160,6 +156,7 @@ namespace QinSoft.WPF.Control
             }
             return widths.ToArray();
         }
+
         #endregion
     }
 

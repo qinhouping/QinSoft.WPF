@@ -336,17 +336,6 @@ namespace QinSoft.WPF
             }
         }
 
-        public static IMultiValueConverter NotEqualsToVisibilityMultiConverter
-        {
-            get
-            {
-                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
-                {
-                    return values.Length == 2 && values[0]?.Equals(values[1]) == true ? Visibility.Collapsed : Visibility.Visible;
-                });
-            }
-        }
-
         public static IValueConverter DoubleToPercentageConverter
         {
             get
@@ -365,17 +354,39 @@ namespace QinSoft.WPF
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    string v = value as string;
-                    if (string.IsNullOrEmpty(v)) return null;
-                    BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.CacheOption = BitmapCacheOption.OnLoad;
-                    bi.UriSource = new Uri(value as string);
-                    bi.EndInit();
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
-                    return bi;
+                    string url = value as string;
+                    if (string.IsNullOrEmpty(url)) 
+                        return null;
+                    else
+                    {
+                        BitmapImage bitmapImage = new BitmapImage { CacheOption = BitmapCacheOption.None, CreateOptions = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreImageCache };
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri(url);
+                        bitmapImage.EndInit();
+                        return bitmapImage;
+                    }
+                });
+            }
+        }
+
+        public static IMultiValueConverter NotEqualsToVisibilityMultiConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    return values.Length == 2 && values[0]?.Equals(values[1]) == true ? Visibility.Collapsed : Visibility.Visible;
+                });
+            }
+        }
+
+        public static IMultiValueConverter ContainToVisibilityMultiConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    return values.Length == 2 && (values[0] as IEnumerable<object>).Contains(values[1]);
                 });
             }
         }

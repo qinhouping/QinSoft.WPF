@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Entity
 {
+    /// <summary>
+    /// 标签实体
+    /// </summary>
     public class TagInfo : PropertyChangedBase
     {
+        #region 属性
+        /// <summary>
+        /// ID
+        /// </summary>
         private string id;
         public string Id
         {
@@ -23,6 +30,9 @@ namespace EMChat2.Model.Entity
             }
         }
 
+        /// <summary>
+        /// 标签名字
+        /// </summary>
         private string name;
         public string Name
         {
@@ -36,5 +46,18 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.Name);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as TagInfo)?.id);
+        }
+        #endregion
     }
 }

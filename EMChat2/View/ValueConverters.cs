@@ -42,7 +42,7 @@ namespace EMChat2.View
                 {
                     MessageInfo message = values[0] as MessageInfo;
                     StaffInfo staff = values[1] as StaffInfo;
-                    if (message == null || staff == null) return null;
+                    if (message == null || staff == null) return HorizontalAlignment.Center;
                     if (message.FromUser.Equals(staff.ImUserId) == true) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
                 });
@@ -64,7 +64,7 @@ namespace EMChat2.View
         }
 
         #region 私有方法
-        private static void ParseMessageContentToDocument(FlowDocument document, Block block, string messageType, string messageContent)
+        private static void ParseMessageContentToDocument(FlowDocumentExt document, Block block, string messageType, string messageContent)
         {
             if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
             switch (messageType)
@@ -161,7 +161,7 @@ namespace EMChat2.View
             }
         }
 
-        private static void ParseDocumentToMessageContent(FlowDocument document, List<MessageContentInfo> messageContents)
+        private static void ParseDocumentToMessageContent(FlowDocumentExt document, List<MessageContentInfo> messageContents)
         {
             MessageContentInfo messageContentInfo = null;
             foreach (Block block in document.Blocks)

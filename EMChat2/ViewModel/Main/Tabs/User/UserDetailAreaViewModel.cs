@@ -30,8 +30,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private DetailType? type;
-        public DetailType? Type
+        private DetailType type;
+        public DetailType Type
         {
             get
             {
@@ -98,6 +98,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.StaffDetailAreaViewModel.Staff = arg.Data as StaffInfo;
                     break;
                 case DetailType.TagCustomer:
+                    this.TagCustomerAreaViewModel.Business = (BusinessEnum)arg.Data;
                     break;
             }
         }

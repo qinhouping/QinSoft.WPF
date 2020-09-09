@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:common="clr-namespace:EMChat2.Common"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+        xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
         mc:Ignorable="d"
         Title="图片查看器" Height="450" Width="800" MinHeight="200" MinWidth="200"
@@ -31,7 +31,7 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image gif:AnimationBehavior.SourceUri="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
+                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <TranslateTransform/>

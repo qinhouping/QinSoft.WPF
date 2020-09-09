@@ -13,10 +13,12 @@
         <Border Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.TagCustomer}}">
             <user:TagCustomerAreaView DataContext="{Binding TagCustomerAreaViewModel}"></user:TagCustomerAreaView>
         </Border>
+        
         <!--部门详情-->
         <Border Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.Department}}">
             <user:DepartmentDetailAreaView HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding DepartmentDetailAreaViewModel}"></user:DepartmentDetailAreaView>
         </Border>
+        
         <!--员工详情-->
         <Border Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.Staff}}">
             <user:StaffDetailAreaView Margin="0,100,0,0" Width="320" DataContext="{Binding StaffDetailAreaViewModel}"></user:StaffDetailAreaView>

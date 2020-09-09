@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using XamlAnimatedGif;
 
 namespace EMChat2.View.Main.Tabs.Chat
 {
@@ -48,16 +47,6 @@ namespace EMChat2.View.Main.Tabs.Chat
                     case MessageTypeConst.Event: { } break;
                 }
             }
-        }
-
-        private void gifImage_MouseEnter(object sender, MouseEventArgs e)
-        {
-            AnimationBehavior.GetAnimator(sender as DependencyObject).Play();
-        }
-
-        private void gifImage_MouseLeave(object sender, MouseEventArgs e)
-        {
-            AnimationBehavior.GetAnimator(sender as DependencyObject).Pause();
         }
     }
 }

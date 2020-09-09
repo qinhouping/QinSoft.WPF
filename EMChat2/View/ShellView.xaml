@@ -39,7 +39,7 @@
                 </Grid>
             </Grid>
 
-            <tb:TaskbarIcon x:Name="taskBarIcon" IconSource="/log.ico" ToolTipText="{Binding ApplicationContextViewModel.CurrentStaff.Name}" LeftClickCommand="{Binding OpenCommand}" DoubleClickCommand="{Binding OpenCommand}" common:TaskbarIconAttach.BalloonTip="{Binding BalloonTip}">
+            <tb:TaskbarIcon IconSource="/log.ico" ToolTipText="{Binding ApplicationContextViewModel.CurrentStaff.Name}" LeftClickCommand="{Binding OpenCommand}" DoubleClickCommand="{Binding OpenCommand}" common:TaskbarIconAttach.BalloonTip="{Binding BalloonTip}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">

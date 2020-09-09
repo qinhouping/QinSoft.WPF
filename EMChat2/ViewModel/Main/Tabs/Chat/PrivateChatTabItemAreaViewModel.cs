@@ -27,25 +27,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.Messages.Add(new MessageInfo()
             {
                 Id = Guid.NewGuid().ToString(),
-                MsgId = "1",
-                FromUser = "1111",
-                ToUsers = new string[] { "1" },
-                MsgTime = DateTime.Now.AddYears(-1),
-                ChatId = "123123123",
-                Type = MessageTypeConst.Text,
-                State = MessageState.SendFailure,
-                Content = new TextMessageContent
-                {
-                    Content = @"搜索了一下Platform SDK的头文件，在ShellApi.h中找到了uFlags的定义，我将这些值声明为GetFileInfoFlags枚举类型(详细代码在后面)，我 目前只用到了SHGFI_ICON和SHGFI_SMALLICON，SHGFI_ICON表示要获取文件大图标，SHGFI_SMALLICON表示要 获取小图标，我第一次用SHGFI_SMALLICON时程序出现了异常，后来仔细看MSDN才知道SHGFI_SMALLICON和 SHGFI_ICON必须要连用。
-
-    最后我把这些API函数声明、结构体声明、枚举类型声明等东西总的放在一个FileInfo类中，代码我会放在文章的最后部分以防止大家阅 读文章不便。
-
-    最后我在我的文件浏览菜单项中定义了一个静态方法来获取文件夹或者文件的小图标，代码如下："
-                }.ObjectToJson()
-            });
-            this.Messages.Add(new MessageInfo()
-            {
-                Id = Guid.NewGuid().ToString(),
                 Type = MessageTypeConst.Image,
                 MsgId = "1",
                 FromUser = "1111",
@@ -158,42 +139,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     Content = "测试提示"
                 }.ObjectToJson()
             });
-
-            this.InputMessageContent = new MessageContentInfo()
-            {
-                Type = MessageTypeConst.Mixed,
-                Content = new MixedMessageContent()
-                {
-                    Items = new MessageContentInfo[] {
-                        new MessageContentInfo()
-                        {
-                           Type = MessageTypeConst.Emotion,
-                             Content=new EmotionMessageContent {
-                                Url = "http://m.xinhuanet.com/sd/2018-10/30/1123633103_15408621754241n.gif",
-                                Name = "Gif动图",
-                                IsGif = true
-                            }.ObjectToJson()
-                        },
-                        new MessageContentInfo()
-                        {
-                            Type=MessageTypeConst.Text,
-                            Content= new TextMessageContent(){
-                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                            }.ObjectToJson()
-                        },
-                        new MessageContentInfo()
-                        {
-                            Type=MessageTypeConst.Link,
-                            Content= new LinkMessageContent {
-                                Url = "https://www.baidu.com/",
-                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
-                                Title = "测试链接",
-                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                            }.ObjectToJson()
-                        }
-                    }
-                }.ObjectToJson()
-            };
         }
         #endregion
 

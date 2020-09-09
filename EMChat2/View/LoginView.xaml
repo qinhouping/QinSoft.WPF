@@ -121,7 +121,7 @@
 
                 <Button Grid.Row="4" Grid.Column="1" Margin="0,5" Height="30" Content="登录" Command="{Binding LoginCommand}">
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Login-Button}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsLogging}" Value="True">
                                     <Setter Property="IsEnabled" Value="False"></Setter>

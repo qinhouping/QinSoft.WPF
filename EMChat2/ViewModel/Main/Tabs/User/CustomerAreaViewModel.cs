@@ -1,4 +1,5 @@
-﻿using EMChat2.Model.Event;
+﻿using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -15,17 +16,31 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class CustomerAreaViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public CustomerAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public CustomerAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
+            this.applicationContextViewModel = applicationContextViewModel;
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private ApplicationContextViewModel applicationContextViewModel;
+        public ApplicationContextViewModel ApplicationContextViewModel
+        {
+            get
+            {
+                return this.applicationContextViewModel;
+            }
+            set
+            {
+                this.applicationContextViewModel = value;
+                this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+            }
+        }
         #endregion
 
         #region 命令
@@ -33,12 +48,12 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand<BusinessEnum>((business) =>
                 {
                     this.eventAggregator.PublishAsync(new DetailChangeEventArgs()
                     {
                         Type = DetailType.TagCustomer,
-                        Data = null
+                        Data = business
                     });
                 });
             }

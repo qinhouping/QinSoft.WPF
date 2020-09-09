@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -12,7 +13,10 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">
-            <TextBlock Text="标签" VerticalAlignment="Bottom" Margin="10" FontSize="18" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="10" >
+                <TextBlock Text="标签" VerticalAlignment="Bottom" FontSize="18" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                <TextBlock Text="{Binding Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" VerticalAlignment="Bottom" Margin="10,0" FontSize="12" Style="{StaticResource BaseTextBlock}"></TextBlock>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -20,9 +24,11 @@
                 <ColumnDefinition Width="250"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListBox Style="{StaticResource Lists-Primary}"></ListBox>
-            <ListBox Style="{StaticResource Lists-Primary}"></ListBox>
-            <user:CustomerDetailAreaView></user:CustomerDetailAreaView>
+            <ListBox Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}"></ListBox>
+
+            <ListBox Grid.Column="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}"></ListBox>
+
+            <user:CustomerDetailAreaView Grid.Column="2" DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
         </Grid>
     </Grid>
 </UserControl>

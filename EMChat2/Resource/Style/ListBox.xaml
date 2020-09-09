@@ -120,4 +120,20 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="IM-TagGroup-List" TargetType="{x:Type ListBox}">
+        
+    </Style>
+
+    <Style x:Key="IM-TagGroup-ListItem" TargetType="{x:Type ListBoxItem}">
+
+    </Style>
+
+    <Style x:Key="IM-Tag-List" TargetType="{x:Type ListBox}">
+
+    </Style>
+
+    <Style x:Key="IM-Tag-ListItem" TargetType="{x:Type ListBoxItem}">
+
+    </Style>
 </ResourceDictionary>

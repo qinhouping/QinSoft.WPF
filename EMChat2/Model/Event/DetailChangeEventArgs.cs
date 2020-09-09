@@ -16,6 +16,10 @@ namespace EMChat2.Model.Event
     public enum DetailType
     {
         /// <summary>
+        /// 空
+        /// </summary>
+        None,
+        /// <summary>
         /// 标签客户
         /// </summary>
         TagCustomer,

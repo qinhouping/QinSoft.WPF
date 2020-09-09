@@ -1,6 +1,7 @@
 ﻿using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,6 +119,23 @@ namespace EMChat2.Model.Entity
             {
                 this.sex = value;
                 this.NotifyPropertyChange(() => this.Sex);
+            }
+        }
+
+        /// <summary>
+        /// 业务列表
+        /// </summary>
+        private ObservableCollection<BusinessEnum> businessList;
+        public ObservableCollection<BusinessEnum> BusinessList
+        {
+            get
+            {
+                return this.businessList;
+            }
+            set
+            {
+                this.businessList = value;
+                this.NotifyPropertyChange(() => this.BusinessList);
             }
         }
         #endregion

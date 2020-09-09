@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Entity
 {
+    /// <summary>
+    /// 标签组信息实体
+    /// </summary>
     public class TagGroupInfo : PropertyChangedBase
     {
+        #region 属性
+        /// <summary>
+        /// ID
+        /// </summary>
         private string id;
         public string Id
         {
@@ -24,6 +31,9 @@ namespace EMChat2.Model.Entity
             }
         }
 
+        /// <summary>
+        /// 标签组名称
+        /// </summary>
         private string name;
         public string Name
         {
@@ -38,6 +48,9 @@ namespace EMChat2.Model.Entity
             }
         }
 
+        /// <summary>
+        /// 标签级别
+        /// </summary>
 
         private TagLevel tagLevel;
         public TagLevel TagLevel
@@ -53,6 +66,9 @@ namespace EMChat2.Model.Entity
             }
         }
 
+        /// <summary>
+        /// 标签列表
+        /// </summary>
         private ObservableCollection<TagInfo> tags;
         public ObservableCollection<TagInfo> Tags
         {
@@ -66,6 +82,19 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.Tags);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as TagGroupInfo)?.id);
+        }
+        #endregion
     }
 
     /// <summary>
