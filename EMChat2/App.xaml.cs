@@ -31,6 +31,7 @@ namespace EMChat2
             //Task线程内未捕获异常处理事件
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
+            //加载窗口信息
             WindowInfoAttach.LoadWindowInfos();
 
             //初始化垃圾回收
@@ -39,7 +40,10 @@ namespace EMChat2
 
         protected override void OnExit(ExitEventArgs e)
         {
+            //释放垃圾回收
+            GcTimerTools.Dispose();
 
+            //存储窗口信息
             WindowInfoAttach.StoreWindowInfos();
 
             base.OnExit(e);

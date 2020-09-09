@@ -88,7 +88,7 @@
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"></TextBlock>
-                            <Label Grid.Column="1" Margin="4,0" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource Chip-Primary}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
+                            <Label Grid.Column="1" Margin="4,0" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
                         </Grid>
 
                         <Grid Grid.Column="2" Grid.Row="0">

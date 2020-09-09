@@ -7,6 +7,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:bottom="clr-namespace:EMChat2.View.Main.Bottom"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="60">
     <Grid>

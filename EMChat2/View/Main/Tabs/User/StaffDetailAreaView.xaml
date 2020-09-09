@@ -71,7 +71,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
-                <Image Source="{Binding Staff.HeaderImageUrl}" Grid.Column="2" Style="{StaticResource IM-Big-Header-Image}"></Image>
+                <Image Source="{Binding Staff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.Column="2" Style="{StaticResource IM-Big-Header-Image}"></Image>
             </Grid>
         </Border>
         <Border Grid.Row="1" Margin="0,20">

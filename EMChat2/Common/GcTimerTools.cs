@@ -24,6 +24,12 @@ namespace EMChat2.Common
             timer.Start();
         }
 
+        public static void Dispose()
+        {
+            if (timer == null) return;
+            timer.Stop();
+        }
+
         private static void Timer_Tick(object sender, EventArgs e)
         {
             GC.Collect();

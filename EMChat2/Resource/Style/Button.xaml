@@ -116,9 +116,9 @@
     </Style>
 
     <Style x:Key="IM-Chat-ToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="#DDDDDD"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="#AAAAAA"></Setter>
-        <Setter Property="BorderBrush" Value="#EEEEEE"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
@@ -129,16 +129,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid>
-                        <Border x:Name="PART_Border" Background="Transparent">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter x:Name="PART_Content" Margin="5" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{Binding BorderBrush,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{Binding Background,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
+                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter Property="Background" Value="{StaticResource DeepPurpleBrush}"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#DDDDDD"></Setter>

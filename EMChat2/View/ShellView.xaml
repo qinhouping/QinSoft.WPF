@@ -7,6 +7,7 @@
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:main="clr-namespace:EMChat2.View.Main"
         xmlns:common="clr-namespace:EMChat2.Common"
+        xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
         Title="东财通2.0" MinHeight="650" MinWidth="1100" Height="700" Width="1200"
@@ -44,7 +45,7 @@
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">
                             <MenuItem.Icon>
-                                <Image Style="{StaticResource IM-Small-Header-Image}" Grid.RowSpan="2" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
+                                <Image Style="{StaticResource IM-Small-Header-Image}" Grid.RowSpan="2" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
                             </MenuItem.Icon>
                             <MenuItem.Header>
                                 <Grid>

@@ -34,7 +34,10 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     TagLevel= TagLevel.System,
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="0", Name="决策版" },
-                        new TagInfo(){ Id="2", Name="领航版" }
+                        new TagInfo(){ Id="1", Name="领航版" },
+                        new TagInfo(){ Id="2", Name="大师版" },
+                        new TagInfo(){ Id="3", Name="先锋版" },
+                        new TagInfo(){ Id="4", Name="经典版" }
                     }
                 },
                 new TagGroupInfo(){
@@ -52,6 +55,14 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="21", Name="是" },
                         new TagInfo(){ Id="22", Name="否" }
+                    }
+                },
+                 new TagGroupInfo(){
+                    Id="3", Name="个人标签",
+                    TagLevel= TagLevel.User,
+                    Tags=new ObservableCollection<TagInfo>(){
+                        new TagInfo(){ Id="有意向", Name="是" },
+                        new TagInfo(){ Id="无意向", Name="否" }
                     }
                 }
             };
@@ -72,7 +83,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                      State= UserStateEnum.Online,
                      Tags=new ObservableCollection<TagInfo>()
                      {
-                         new TagInfo(){ Id="2", Name="领航版" },
+                         new TagInfo(){ Id="2", Name="大师版" },
                          new TagInfo(){ Id="11", Name="首次" },
                          new TagInfo(){ Id="21", Name="是" }
                      },
@@ -92,7 +103,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                      State= UserStateEnum.Online,
                      Tags=new ObservableCollection<TagInfo>()
                      {
-                         new TagInfo(){ Id="2", Name="领航版" },
+                         new TagInfo(){ Id="2", Name="大师版" },
                          new TagInfo(){ Id="11", Name="首次" },
                          new TagInfo(){ Id="22", Name="否" }
                      },

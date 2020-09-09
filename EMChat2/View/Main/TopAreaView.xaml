@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Image Style="{StaticResource IM-Header-Image}" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
+        <Image Style="{StaticResource IM-Header-Image}" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
             <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
             <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>

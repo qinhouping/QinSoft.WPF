@@ -18,17 +18,57 @@
                 <TextBlock Text="{Binding Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" VerticalAlignment="Bottom" Margin="10,0" FontSize="12" Style="{StaticResource BaseTextBlock}"></TextBlock>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"></ColumnDefinition>
-                <ColumnDefinition Width="250"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <ListBox Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}"></ListBox>
+        <Border Grid.Row="1" BorderBrush="#DDDDDD" BorderThickness="0,1,0,0">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="300"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ListBox Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}" ItemsSource="{Binding TagGroups}" BorderBrush="#DDDDDD"  BorderThickness="0,0,1,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource IconTag}" FontSize="12" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Margin="5,0"></TextBlock>
+                                </Grid>
+                                <ListBox Grid.Row="1" Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}"></CheckBox>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
-            <ListBox Grid.Column="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}"></ListBox>
+                <ListBox Grid.Column="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" SelectionMode="Single" BorderBrush="#DDDDDD"  BorderThickness="0,0,1,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
-            <user:CustomerDetailAreaView Grid.Column="2" DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
-        </Grid>
+                <user:CustomerDetailAreaView Grid.Column="2" DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

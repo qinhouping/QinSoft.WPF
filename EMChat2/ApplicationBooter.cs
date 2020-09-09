@@ -21,6 +21,7 @@ namespace EMChat2
             if (Current != null) throw new InvalidProgramException("An instantiation of the applicationbooter object already exists");
             Current = this;
 
+            //程序单实例检测
             bool isNewInstance = false;
             string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             Mutex mutex = new Mutex(true, appName, out isNewInstance);

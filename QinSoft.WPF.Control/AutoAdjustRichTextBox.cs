@@ -82,7 +82,7 @@ namespace QinSoft.WPF.Control
         private void AutoRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (IsAuto)
-                this.Width = Math.Min(GetDocumentWidths().Max() + 20, this.MaxWidth);
+                this.Width = Math.Min(GetDocumentWidths().Max() , this.MaxWidth);
             if (informFromSource)
             {
                 informFromSource = false;
