@@ -57,10 +57,10 @@
                 <Border Grid.Column="1" Style="{StaticResource IM-Content-Border}" HorizontalAlignment="Center" Margin="0,5">
                     <Grid>
                         <Image Source="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Style="{StaticResource IM-Big-Header-Image}"></Image>
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="8" Height="8">
                             <Grid.RenderTransform>
                                 <TransformGroup>
-                                    <TranslateTransform X="5" Y="5"></TranslateTransform>
+                                    <TranslateTransform X="4" Y="4"></TranslateTransform>
                                 </TransformGroup>
                             </Grid.RenderTransform>
                             <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
@@ -75,7 +75,7 @@
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip-Success}" Width="10" Height="10" Margin="5,0"></Label>
+                                                <Label Style="{StaticResource Chip-Success}" Width="8" Height="8" Margin="5,0"></Label>
                                                 <TextBlock Grid.Column="1" Text="在线" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                             </Grid>
                                         </MenuItem.Header>
@@ -87,7 +87,7 @@
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip-Warning}" Width="10" Height="10" Margin="5,0"></Label>
+                                                <Label Style="{StaticResource Chip-Warning}" Width="8" Height="8" Margin="5,0"></Label>
                                                 <TextBlock Grid.Column="1" Text="忙碌" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                             </Grid>
                                         </MenuItem.Header>
@@ -99,7 +99,7 @@
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip}" Width="10" Height="10" Margin="5,0"></Label>
+                                                <Label Style="{StaticResource Chip}" Width="8" Height="8" Margin="5,0"></Label>
                                                 <TextBlock Grid.Column="1" Text="离开" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                             </Grid>
                                         </MenuItem.Header>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,8 +23,8 @@
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250"></ColumnDefinition>
-                    <ColumnDefinition Width="300"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="*" MinWidth="320"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <ListBox Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}" ItemsSource="{Binding TagGroups}" BorderBrush="#DDDDDD"  BorderThickness="0,0,1,0">
                     <ListBox.ItemTemplate>
@@ -36,10 +37,12 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Style="{StaticResource IconTag}" FontSize="12" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Margin="5,0"></TextBlock>
+                                    <TextBlock Grid.Column="2" Text="{Binding Level,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter},StringFormat='({0})'}" VerticalAlignment="Center" Style="{StaticResource IM-Tip}"></TextBlock>
                                 </Grid>
                                 <ListBox Grid.Row="1" Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
                                     <ListBox.ItemTemplate>
@@ -62,12 +65,40 @@
                 <ListBox Grid.Column="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" SelectionMode="Single" BorderBrush="#DDDDDD"  BorderThickness="0,0,1,0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
+                            <Border BorderBrush="#DDDDDD" BorderThickness="0,0,0,1">
+                                <Grid x:Name="grid">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Style="{StaticResource IM-Header-Image }" Source="{Binding HeaderImageUrl,Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" VerticalAlignment="Center"></Image>
+
+                                    <TextBlock Grid.Column="1" Margin="10,0" Style="{StaticResource BaseTextBlock}" Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
+
+                                    <Grid Grid.Column="2" VerticalAlignment="Center" Width="8" Height="8">
+                                        <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
+                                        <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
+                                        <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
+                                        <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="grid" Property="Background" Value="#EEEEEE"></Setter>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True">
+                                    <Setter TargetName="grid" Property="Background" Value="#DDDDDD"></Setter>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <user:CustomerDetailAreaView Grid.Column="2" DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
+                <Grid Grid.Column="2" HorizontalAlignment="Center" Width="320" Visibility="{Binding SelectedCustomer, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}">
+                    <user:CustomerDetailAreaView DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

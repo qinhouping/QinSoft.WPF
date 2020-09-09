@@ -44,7 +44,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
                                         <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
-                                        <Grid Grid.Column="2" Width="8" Height="8">
+                                        <Grid Grid.Column="2" Width="8" Height="8" VerticalAlignment="Center">
                                             <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
                                             <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
                                             <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
