@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Department.Name}" Margin="5" Style="{StaticResource Tip}" FontSize="20"></TextBlock>
-        <TextBlock Grid.Row="1" Style="{StaticResource BaseTextBlock}" Text="{Binding Department.AllStaffs.Length,StringFormat='- {0}人 -'}" HorizontalAlignment="Center" Foreground="#AAAAAA" Margin="5"></TextBlock>
+        <Label Content="{Binding Department.Name}" Padding="10,5" Style="{StaticResource Chip}" HorizontalContentAlignment="Center" FontSize="20"></Label>
+        <Label Grid.Row="1" Content="{Binding Department.AllStaffs.Length}" ContentStringFormat="- {0}人 -" HorizontalAlignment="Center" Foreground="#AAAAAA" FontSize="16" FontFamily="{StaticResource DefaultFontFamily}" Margin="0,5"></Label>
     </Grid>
 </UserControl>
