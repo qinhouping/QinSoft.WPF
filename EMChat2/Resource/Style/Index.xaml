@@ -12,6 +12,7 @@
         <ResourceDictionary Source="Popup.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="TextBlock.xaml"></ResourceDictionary>
         <ResourceDictionary Source="TextBox.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tree.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

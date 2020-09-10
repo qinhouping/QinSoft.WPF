@@ -29,7 +29,7 @@
                 </Grid>
 
                 <Grid HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" Grid.ZIndex="1">
-                    <main:TopAreaView x:Name="topArea" Margin="0,20" DataContext="{Binding TopAreaViewModel}"></main:TopAreaView>
+                    <main:TopAreaView x:Name="topArea" Margin="5,20" DataContext="{Binding TopAreaViewModel}"></main:TopAreaView>
                 </Grid>
 
                 <Grid>
