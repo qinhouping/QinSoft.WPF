@@ -31,7 +31,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 new TagGroupInfo(){
                     Id="1", Name="客户类型",
-                    TagLevel= TagLevel.System,
+                    Level= TagLevel.System,
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="0", Name="决策版" },
                         new TagInfo(){ Id="1", Name="领航版" },
@@ -42,7 +42,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 },
                 new TagGroupInfo(){
                     Id="2", Name="成交类型",
-                    TagLevel= TagLevel.System,
+                    Level= TagLevel.System,
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="11", Name="首次" },
                         new TagInfo(){ Id="12", Name="升级" },
@@ -51,7 +51,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 },
                 new TagGroupInfo(){
                     Id="3", Name="是否到期",
-                    TagLevel= TagLevel.System,
+                    Level= TagLevel.System,
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="21", Name="是" },
                         new TagInfo(){ Id="22", Name="否" }
@@ -59,7 +59,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 },
                  new TagGroupInfo(){
                     Id="3", Name="个人标签",
-                    TagLevel= TagLevel.User,
+                    Level= TagLevel.User,
                     Tags=new ObservableCollection<TagInfo>(){
                         new TagInfo(){ Id="有意向", Name="是" },
                         new TagInfo(){ Id="无意向", Name="否" }

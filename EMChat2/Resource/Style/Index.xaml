@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
         <ResourceDictionary Source="CheckBox.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Global.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Image.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Label.xaml"></ResourceDictionary>

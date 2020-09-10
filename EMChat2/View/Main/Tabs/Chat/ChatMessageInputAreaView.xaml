@@ -40,7 +40,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-Chat-ToggleButton}" IsChecked="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Mode=TwoWay}">
-                        <TextBlock Style="{StaticResource IconThList}"></TextBlock>
+                        <TextBlock Style="{StaticResource IconSliders}"></TextBlock>
                     </ToggleButton>
                 </StackPanel>
             </Grid>
@@ -50,13 +50,7 @@
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Chat-Button}">
-                            <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}"></Button>
             </StackPanel>
         </Grid>
         <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">

@@ -52,17 +52,17 @@ namespace EMChat2.Model.Entity
         /// 标签级别
         /// </summary>
 
-        private TagLevel tagLevel;
-        public TagLevel TagLevel
+        private TagLevel level;
+        public TagLevel Level
         {
             get
             {
-                return this.tagLevel;
+                return this.level;
             }
             set
             {
-                this.tagLevel = value;
-                this.NotifyPropertyChange(() => this.TagLevel);
+                this.level = value;
+                this.NotifyPropertyChange(() => this.Level);
             }
         }
 

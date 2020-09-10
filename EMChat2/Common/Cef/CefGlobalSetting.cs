@@ -18,7 +18,7 @@ namespace EMChat2.Common.Cef
 
             CefSettings cefSettings = new CefSettings();
             cefSettings.Locale = "zh_CN";
-            cefSettings.UserAgent = string.Format("QinSoft.WPF-EMChat2.0({0})-ChromiumWebBrowser({1})", VersionTools.GetAppVersion(), VersionTools.GetVersion(typeof(ChromiumWebBrowser)));
+            cefSettings.UserAgent = string.Format("QinSoft.WPF-EMChat2.0({0})-ChromiumWebBrowser({1})", VersionTools.AppVersion, VersionTools.GetVersion(typeof(ChromiumWebBrowser)));
             CefSharp.Cef.Initialize(cefSettings);
         }
     }

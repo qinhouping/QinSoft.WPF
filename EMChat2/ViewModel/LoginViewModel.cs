@@ -65,6 +65,7 @@ namespace EMChat2.ViewModel
         }
         private UserService userService;
         private SystemService systemService;
+        private LoginInfo oldLoginInfo;
         private LoginInfo loginInfo;
         public LoginInfo LoginInfo
         {
@@ -97,6 +98,21 @@ namespace EMChat2.ViewModel
         private async void LoadLoginInfo()
         {
             this.LoginInfo = await this.systemService.LoadLoginInfo();
+            this.oldLoginInfo = this.LoginInfo.Clone();
+            this.LoginInfo.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName != "UserName") return;
+                if (this.LoginInfo.UserName?.Equals(this.oldLoginInfo.UserName) != true)
+                {
+                    this.LoginInfo.HeaderImageUrl = null;
+
+                }
+                else
+                {
+                    this.LoginInfo.HeaderImageUrl = this.oldLoginInfo.HeaderImageUrl;
+                }
+            };
+
             if (this.loginInfo.IsAutoLogin)
             {
                 this.LoginCommand.Execute(null);

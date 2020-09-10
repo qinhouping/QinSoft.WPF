@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="MinHeight" Value="30"></Setter>
+        <Setter Property="MinHeight" Value="25"></Setter>
         <Setter Property="MinWidth" Value="60"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>

@@ -6,14 +6,15 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="200">
-    <Border  Style="{StaticResource IM-Content-Border}">
+             d:DesignHeight="300" d:DesignWidth="150">
+    <Border Style="{StaticResource IM-Content-Border}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <!--用户信息-->
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -23,67 +24,49 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Image Style="{StaticResource IM-Header-Image}" Grid.RowSpan="2" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
+                <Image Grid.RowSpan="2" Style="{StaticResource IM-Header-Image}" Margin="0,5" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
                 <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Column="1" Text="{Binding ApplicationContextViewModel.CurrentStaff.WorkCode}" VerticalAlignment="Bottom" Margin="10,0"></TextBlock>
                 <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Row="1" Grid.Column="1" Text="{Binding ApplicationContextViewModel.CurrentStaff.Name}" VerticalAlignment="Top" Margin="10,0"></TextBlock>
             </Grid>
 
+            <!--菜单列表-->
             <ListBox Grid.Row="1" Style="{StaticResource BaseListBox}" ItemContainerStyle="{StaticResource ListsItem}">
                 <ListBoxItem>
                     <Grid ToolTip="通用设置">
-                        <Grid Margin="20,5" >
+                        <Grid Margin="5" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip}" Height="20" Width="20">
-                                <TextBlock Style="{StaticResource IconCog}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                            <Label Style="{StaticResource Chip}" Height="{StaticResource IM-Tab-IconFontSize}" Width="{StaticResource IM-Tab-IconFontSize}">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallIconFontSize}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCog}">
+                                            <Setter Property="FontSize" Value="{StaticResource IM-Login-IconFontSize}"></Setter>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <TransformGroup>
+                                                        <RotateTransform></RotateTransform>
+                                                    </TransformGroup>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <EventTrigger RoutedEvent="Loaded">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </Label>
-                            <TextBlock Grid.Column="1" Text="通用" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
-                        </Grid>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <Grid >
-                        <Grid Margin="20,5" Visibility="Collapsed" ToolTip="有新版本可以更新">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip-Danger}" Height="20" Width="20">
-                                <TextBlock Style="{StaticResource IconArrowUp}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                            </Label>
-                            <TextBlock Grid.Column="1" Text="2.0.0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
-                            <TextBlock Grid.Column="2" Text="1.0.0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Foreground="#888888"></TextBlock>
-                        </Grid>
-                        <Grid Margin="20,5" ToolTip="已经是最新版">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip-Success}" Height="20" Width="20">
-                                <TextBlock Style="{StaticResource IconCheck}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                            </Label>
-                            <TextBlock Grid.Column="1" Text="2.0.0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
-                        </Grid>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <Grid ToolTip="退出登录">
-                        <Grid.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{Binding LogoutCommand}"></MouseBinding>
-                        </Grid.InputBindings>
-                        <Grid Margin="20,5" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip-Danger}" Height="20" Width="20">
-                                <TextBlock Style="{StaticResource IconSignOut}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                            </Label>
-                            <TextBlock Grid.Column="1" Text="退出登录" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
+                            <TextBlock Grid.Column="1" Text="通用" Style="{StaticResource BaseTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
                         </Grid>
                     </Grid>
                 </ListBoxItem>

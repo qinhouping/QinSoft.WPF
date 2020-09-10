@@ -323,6 +323,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resource\Style\Font.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resource\Style\ListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -463,6 +467,9 @@
     <Resource Include="log.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resource\Image\avator.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="emchat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -470,7 +477,9 @@
     <Content Include="lib\Microsoft.Expression.Interactions.dll" />
     <Content Include="lib\Microsoft.Windows.Shell.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
-    <Resource Include="Resource\Image\file.ico" />
+    <Resource Include="Resource\Image\file.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -16,15 +16,18 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
+                        
+                        <!--我的客户（标签查询）-->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource IconUsers}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="2"></TextBlock>
-                            <TextBlock Text="我的客户" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
-
+                            <TextBlock Style="{StaticResource IconUsers}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="我的客户" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
                         </Grid>
+                        
+                        <!--业务列表-->
                         <ListBox Grid.Row="1" ItemsSource="{Binding ApplicationContextViewModel.CurrentStaff.BusinessList}" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>

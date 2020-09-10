@@ -62,7 +62,9 @@
                             <RowDefinition MinHeight="30"></RowDefinition>
                         </Grid.RowDefinitions>
 
+                        <!--会话头像-->
                         <Grid Grid.Column="0" Grid.RowSpan="2" >
+                            <!--置顶标示-->
                             <TextBlock ToolTip="置顶" Style="{StaticResource IconThumbTack}" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource OrangeBrush}" Visibility="{Binding Chat.IsTop, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}" RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <TransformGroup>
@@ -70,13 +72,18 @@
                                     </TransformGroup>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
+
+                            <!--头像-->
                             <Image Margin="10" Style="{StaticResource IM-Header-Image}" Source="{Binding Chat.HeaderImageUrl}"></Image>
-                            <Label Content="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
+
+                            <!--未读消息数-->
+                            <Label HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Content="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" Visibility="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
                                 <Label.Style>
                                     <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
-                                        <Setter Property="Width" Value="20"></Setter>
-                                        <Setter Property="Height" Value="20"></Setter>
-                                        <Setter Property="FontSize" Value="9"></Setter>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                        <Setter Property="Width" Value="{StaticResource BigFontSize}"></Setter>
+                                        <Setter Property="Height" Value="{StaticResource BigFontSize}"></Setter>
+                                        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"></Setter>
                                     </Style>
                                 </Label.Style>
                             </Label>
@@ -87,20 +94,26 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"></TextBlock>
-                            <Label Grid.Column="1" Margin="4,0" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
+                            <!--会话名称-->
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextTrimming="CharacterEllipsis"></TextBlock>
+
+                            <!--业务标示-->
+                            <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
                         </Grid>
 
                         <Grid Grid.Column="2" Grid.Row="0">
-                            <TextBlock ToolTip="免打扰" Style="{StaticResource IconBellSlash}" Foreground="#888888" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0" Visibility="{Binding Chat.IsInform, Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}"></TextBlock>
+                            <!--免打扰标示-->
+                            <TextBlock ToolTip="免打扰" Style="{StaticResource IconBellSlash}" Foreground="#AAAAAA" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" Visibility="{Binding Chat.IsInform, Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="1" Margin="0">
-                            <TextBlock Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
+                            <!--最后一条消息内容-->
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
                         </Grid>
 
                         <Grid Grid.Column="2" Grid.Row="1">
-                            <TextBlock Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
+                            <!--最后一条消息时间-->
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
                         </Grid>
 
                         <Grid.ContextMenu>
@@ -145,22 +158,26 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="62"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="200" MinHeight="170" MaxHeight="370"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="62">
-                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="18" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                        <!--会话名称-->
+                        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
                         </Grid>
 
+                        <!--会话消息列表-->
                         <chat:ChatMessageAreaView Grid.Row="1"></chat:ChatMessageAreaView>
 
                         <GridSplitter Grid.Row="2" Height="1" HorizontalAlignment ="Stretch" VerticalAlignment="Top" Grid.ZIndex="1"></GridSplitter>
+                        <!--会话消息输入-->
                         <chat:ChatMessageInputAreaView Grid.Row="2" TabIndex="1"></chat:ChatMessageInputAreaView>
 
+                        <!--会话侧边栏-->
                         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="362" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
-                            <chat:ChatSliderAreaView DataContext="{Binding ChatSliderAreaViewModel}" ></chat:ChatSliderAreaView>
+                            <chat:ChatSliderAreaView DataContext="{Binding ChatSliderAreaViewModel}"></chat:ChatSliderAreaView>
                         </Grid>
                     </Grid>
                 </DataTemplate>

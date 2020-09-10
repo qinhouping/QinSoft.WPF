@@ -23,6 +23,7 @@
     <Border Style="{StaticResource IM-App-Border}">
         <Grid>
             <Grid>
+                <!--窗口按钮-->
                 <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="50" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                     <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
                 </Grid>
@@ -40,6 +41,7 @@
                 </Grid>
             </Grid>
 
+            <!--任务栏图标-->
             <tb:TaskbarIcon IconSource="/log.ico" ToolTipText="{Binding ApplicationContextViewModel.CurrentStaff.Name}" LeftClickCommand="{Binding OpenCommand}" DoubleClickCommand="{Binding OpenCommand}" common:TaskbarIconAttach.BalloonTip="{Binding BalloonTip}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">

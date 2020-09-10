@@ -3,10 +3,136 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="{Binding Customer.Name}" Style="{StaticResource BaseTextBlock}" Foreground="Black"></TextBlock>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--基本信息-->
+        <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1">
+            <Grid Margin="0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <!--客户名称-->
+                        <TextBlock x:Name="staffName" Text="{Binding Customer.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2"></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource IconUser}">
+                                    <Setter Property="Foreground" Value="Transparent"></Setter>
+                                    <Setter Property="FontSize" Value="16"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static entity:SexEnum.Man}">
+                                            <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
+                                            <Setter Property="ToolTip" Value="男"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static entity:SexEnum.Women}">
+                                            <Setter Property="Foreground" Value="{StaticResource DeepOrangeBrush}"></Setter>
+                                            <Setter Property="ToolTip" Value="女"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <!--原名称-->
+                        <TextBlock x:Name="staffOriName" Text="{Binding Customer.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                    <Setter Property="Visibility">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{x:Static wpf:ValueConverters.NotEqualsToVisibilityMultiConverter}">
+                                                <Binding Path="Text" ElementName="staffName"></Binding>
+                                                <Binding Path="Text" ElementName="staffOriName" ></Binding>
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+                <!--客户头像-->
+                <Image Source="{Binding Customer.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.Column="2" Style="{StaticResource IM-Big-Header-Image}"></Image>
+            </Grid>
+        </Border>
+
+        <!--详细信息-->
+        <Border Grid.Row="1" Margin="0,20">
+            <StackPanel>
+                <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center"></TextBlock>
+                    <Button Grid.Column="1" Content="设置备注和描述" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+                </Grid>
+
+                <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center"></TextBlock>
+                    <Button Grid.Column="1" Margin="5,0" Content="{Binding Customer.Description}" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+                </Grid>
+
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="通行证ID" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center" ></TextBlock>
+                    <TextBlock Margin="5,0" Text="{Binding Customer.Uid}" Grid.Column="1" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA" VerticalAlignment="Center"></TextBlock>
+                </Grid>
+
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="添加时间" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center" ></TextBlock>
+                    <TextBlock Margin="5,0" Text="{Binding Customer.FollowTime,StringFormat='yyyy年MM月dd日 HH:mm:ss'}" Grid.Column="1" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA" VerticalAlignment="Center"></TextBlock>
+                </Grid>
+
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="标签" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center" ></TextBlock>
+                    <ListBox Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Customer.Tags}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}"></CheckBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!--发送消息-->
+        <Border Grid.Row="2" Margin="0,20">
+            <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Content="发消息"></Button>
+        </Border>
     </Grid>
 </UserControl>

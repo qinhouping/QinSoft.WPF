@@ -10,19 +10,21 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl Style="{StaticResource IM-Tab}">
+            <!--消息模块选项卡-->
             <TabItem IsSelected="True">
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">
                             <Setter.Value>
                                 <Grid>
-                                    <TextBlock Style="{StaticResource IconCommentO}" ToolTip="消息" Margin="10"/>
-                                    <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
+                                    <TextBlock Style="{StaticResource IconCommentO}" ToolTip="消息" Margin="10" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
+                                    <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}" Margin="4" >
                                         <Label.Style>
                                             <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
-                                                <Setter Property="Width" Value="20"></Setter>
-                                                <Setter Property="Height" Value="20"></Setter>
-                                                <Setter Property="FontSize" Value="9"></Setter>
+                                                <Setter Property="Padding" Value="0"></Setter>
+                                                <Setter Property="Width" Value="{StaticResource BigFontSize}"></Setter>
+                                                <Setter Property="Height" Value="{StaticResource BigFontSize}"></Setter>
+                                                <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"></Setter>
                                             </Style>
                                         </Label.Style>
                                     </Label>
@@ -34,13 +36,14 @@
                                 <Setter Property="Header">
                                     <Setter.Value>
                                         <Grid>
-                                            <TextBlock Style="{StaticResource IconComment}" ToolTip="消息" Margin="10"/>
-                                            <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+                                            <TextBlock Style="{StaticResource IconComment}" ToolTip="消息" Margin="10"  FontSize="{StaticResource IM-Tab-IconFontSize}"/>
+                                            <Label Content="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding ChatTabAreaViewModel.TotalNotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}" Margin="4">
                                                 <Label.Style>
                                                     <Style BasedOn="{StaticResource Chip-Danger}" TargetType="{x:Type Label}">
-                                                        <Setter Property="Width" Value="20"></Setter>
-                                                        <Setter Property="Height" Value="20"></Setter>
-                                                        <Setter Property="FontSize" Value="9"></Setter>
+                                                        <Setter Property="Padding" Value="0"></Setter>
+                                                        <Setter Property="Width" Value="{StaticResource BigFontSize}"></Setter>
+                                                        <Setter Property="Height" Value="{StaticResource BigFontSize}"></Setter>
+                                                        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"></Setter>
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
@@ -54,19 +57,21 @@
 
                 <tabs:ChatTabAreaView x:Name="chatTab" DataContext="{Binding ChatTabAreaViewModel}"></tabs:ChatTabAreaView>
             </TabItem>
+
+            <!--通讯录模块选项卡-->
             <TabItem>
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">
                             <Setter.Value>
-                                <TextBlock Style="{StaticResource IconAddressBookO}" ToolTip="通讯录"/>
+                                <TextBlock Style="{StaticResource IconAddressBookO}" ToolTip="通讯录" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Header">
                                     <Setter.Value>
-                                        <TextBlock Style="{StaticResource IconAddressBook}" ToolTip="通讯录"/>
+                                        <TextBlock Style="{StaticResource IconAddressBook}" ToolTip="通讯录" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>

@@ -3,5 +3,14 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!--默认字体-->
     <FontFamily x:Key="DefaultFontFamily">Microsoft YaHei</FontFamily>
+
+    <!--字体大小-->
+    <sys:Double x:Key="SmallFontSize">8</sys:Double>
     <sys:Double x:Key="DefaultFontSize">12</sys:Double>
+    <sys:Double x:Key="BigFontSize">16</sys:Double>
+
+    <sys:Double x:Key="MoreSmallIconFontSize">8</sys:Double>
+    <sys:Double x:Key="SmallIconFontSize">12</sys:Double>
+    <sys:Double x:Key="DefaultIconFontSize">16</sys:Double>
+    <sys:Double x:Key="BigIconFontSize">20</sys:Double>
 </ResourceDictionary>

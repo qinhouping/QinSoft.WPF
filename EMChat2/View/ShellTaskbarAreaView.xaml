@@ -9,79 +9,80 @@
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="800">
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="minBtn" ToolTip="最小化">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <TextBlock Style="{StaticResource IconWindowMinimize}"/>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Minimized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button x:Name="maxBtn" ToolTip="最大化" 
+             d:DesignHeight="50" d:DesignWidth="200">
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="minBtn" ToolTip="最小化">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock Style="{StaticResource IconWindowMinimize}" FontSize="{StaticResource MoreSmallIconFontSize}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Minimized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Button x:Name="maxBtn" ToolTip="最大化" 
                     Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Normal}}"
                     IsEnabled="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.NotEqualsToBooleanConverter},ConverterParameter={x:Static win:ResizeMode.NoResize}}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <TextBlock Style="{StaticResource IconWindowMaximize}"/>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Maximized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button x:Name="restoreBtn" ToolTip
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock Style="{StaticResource IconWindowMaximize}" FontSize="{StaticResource MoreSmallIconFontSize}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Maximized}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Button x:Name="restoreBtn" ToolTip
                     ="还原" 
                     Visibility="{Binding WindowState,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static win:WindowState.Maximized}}"
                     IsEnabled="{Binding ResizeMode,RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static wpf:ValueConverters.NotEqualsToBooleanConverter},ConverterParameter={x:Static win:ResizeMode.NoResize}}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <TextBlock Style="{StaticResource IconWindowRestore}"/>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Normal}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button x:Name="closeBtn" ToolTip="关闭" Command="{Binding CloseCommand}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <TextBlock Style="{StaticResource IconTimes}"/>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
-                                <Setter Property="Foreground" Value="white"></Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </StackPanel>
-    </Grid>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock Style="{StaticResource IconWindowRestore}" FontSize="{StaticResource MoreSmallIconFontSize}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:ChangePropertyAction PropertyName="WindowState" Value="{x:Static win:WindowState.Normal}" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Button x:Name="closeBtn" ToolTip="关闭" Command="{Binding CloseCommand}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-ShellBar-Button}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <TextBlock Style="{StaticResource IconTimes}" FontSize="{StaticResource MoreSmallIconFontSize}"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource RedBrush}"></Setter>
+                            <Setter Property="Foreground" Value="white"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
 </UserControl>

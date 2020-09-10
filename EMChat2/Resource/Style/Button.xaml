@@ -92,7 +92,7 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="Cursor" Value="Hand"></Setter>
-        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Margin" Value="5"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -123,7 +123,7 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="Cursor" Value="Hand"></Setter>
-        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Margin" Value="5"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -229,7 +229,7 @@
     </Style>
 
     <Style x:Key="IM-Login-Button" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#AAAAAA"></Setter>
+        <Setter Property="Background" Value="#BBBBBB"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>

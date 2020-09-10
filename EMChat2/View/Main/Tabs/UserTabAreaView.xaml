@@ -23,6 +23,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid>
+                    <!--用户搜索框-->
                     <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10"></TextBox>
                 </Grid>
 
@@ -32,7 +33,10 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
+                        <!--客户树-->
                         <user:CustomerAreaView  Grid.Row="0" DataContext="{Binding CustomerAreaViewModel}"></user:CustomerAreaView>
+                        
+                        <!--员工树-->
                         <user:StaffAreaView Grid.Row="1" DataContext="{Binding StaffAreaViewModel}"></user:StaffAreaView>
                     </Grid>
                 </ScrollViewer>
@@ -41,6 +45,7 @@
 
 
         <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1" Grid.ZIndex="1"></GridSplitter>
+        <!--用户详情-->
         <user:UserDetailAreaView Grid.Column="1" DataContext="{Binding UserDetailAreaViewModel}"></user:UserDetailAreaView>
     </Grid>
 </UserControl>

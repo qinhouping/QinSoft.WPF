@@ -19,118 +19,186 @@
     <Border Style="{StaticResource IM-App-Border}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="145"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                 <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
             </Grid>
-            <Grid Grid.Row="1">
-                <Grid Name="layout" Height="125" Background="{StaticResource DeepPurpleBrush}">
+
+            <!--背景-->
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <Grid Name="layout" Background="{StaticResource DeepPurpleBrush}">
                     <Grid.Clip>
-                        <RectangleGeometry Rect="0,0,420,125"/>
+                        <RectangleGeometry Rect="0,0,420,145"/>
                     </Grid.Clip>
                 </Grid>
-                <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="20"></Label>
-                <Label Content="上海东方财富证券投资咨询有限公司" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource IM-Name-Label}" FontSize="10"></Label>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource BigFontSize}" VerticalAlignment="Center"></Label>
+                    <Label Content="{Binding ., Source={x:Static common:VersionTools.AppVersion}}" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Bottom"></Label>
+                </StackPanel>
+                <Label Content="上海东方财富证券投资咨询有限公司" Style="{StaticResource IM-Name-Label}" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
             </Grid>
-            <Grid Grid.Row="2">
+
+            <!--主体内容-->
+            <Grid Grid.Row="1">
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <TranslateTransform Y="-40"></TranslateTransform>
                     </TransformGroup>
                 </Grid.RenderTransform>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="90"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" Style="{StaticResource IM-Content-Border}" HorizontalAlignment="Center" Margin="0,5">
-                    <Grid>
-                        <Image Source="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Style="{StaticResource IM-Big-Header-Image}"></Image>
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="10" Height="10">
-                            <Grid.RenderTransform>
-                                <TransformGroup>
-                                    <TranslateTransform X="5" Y="5"></TranslateTransform>
-                                </TransformGroup>
-                            </Grid.RenderTransform>
-                            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
-                            <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
-                            <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
-                            <Grid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem ToolTip="在线" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Online}">
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip-Success}" Width="10" Height="10" Margin="5,0"></Label>
-                                                <TextBlock Grid.Column="1" Text="在线" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                    <MenuItem ToolTip="忙碌" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Busy}">
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip-Warning}" Width="10" Height="10" Margin="5,0"></Label>
-                                                <TextBlock Grid.Column="1" Text="忙碌" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                    <MenuItem ToolTip="离开" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Leave}">
-                                        <MenuItem.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Style="{StaticResource Chip}" Width="10" Height="10" Margin="5,0"></Label>
-                                                <TextBlock Grid.Column="1" Text="离开" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                            </Grid>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                </ContextMenu>
-                            </Grid.ContextMenu>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--头像-->
+                    <Border Grid.Column="1" HorizontalAlignment="Center">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <TranslateTransform></TranslateTransform>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0:0:1" From="20" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.Y)"></DoubleAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <Grid>
+                            <Border Style="{StaticResource IM-Content-Border}" Margin="4">
+                                <Grid>
+                                    <Image Source="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Style="{StaticResource IM-Big-Header-Image}"></Image>
+                                    <Image Source="/Resource/Image/avator.ico" Style="{StaticResource IM-Big-Header-Image}" Visibility="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}"></Image>
+                                </Grid>
+                            </Border>
+                            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="8" Height="8">
+                                <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
+                                <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
+                                <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
+                                <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem ToolTip="在线" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Online}">
+                                            <MenuItem.Header>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Style="{StaticResource Chip-Success}" Width="10" Height="10" Margin="5,0"></Label>
+                                                    <TextBlock Grid.Column="1" Text="在线" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                                </Grid>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem ToolTip="忙碌" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Busy}">
+                                            <MenuItem.Header>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Style="{StaticResource Chip-Warning}" Width="10" Height="10" Margin="5,0"></Label>
+                                                    <TextBlock Grid.Column="1" Text="忙碌" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                                </Grid>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem ToolTip="离开" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Leave}">
+                                            <MenuItem.Header>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Style="{StaticResource Chip}" Width="10" Height="10" Margin="5,0"></Label>
+                                                    <TextBlock Grid.Column="1" Text="离开" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                                </Grid>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!--登录数据-->
+                    <Grid Grid.Row="1">
+                        <!--登录表单-->
+                        <Grid Visibility="{Binding IsLogging,Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="90"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="用户名:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource InputText}" Margin="0,5" Text="{Binding LoginInfo.UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+                            <TextBlock Grid.Row="1" Text="密   码:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
+                            <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource InputPassword}" Margin="0,5" common:PasswordBoxAttach.Attach="True" common:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
+
+                            <CheckBox Grid.Row="2" Grid.Column="1" Content="自动登录" HorizontalAlignment="Left" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsAutoLogin, Mode=TwoWay}"></CheckBox>
+                            <CheckBox Grid.Row="2" Grid.Column="1" Content="记录密码" HorizontalAlignment="Right" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsRememberPassword, Mode=TwoWay}"></CheckBox>
+
+                            <Button Grid.Row="4" Grid.Column="1" Margin="0,5" Content="登录" Style="{StaticResource IM-Login-Button}" Command="{Binding LoginCommand}"></Button>
+                        </Grid>
+
+                        <!--登录中提示-->
+                        <Grid Visibility="{Binding IsLogging,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#AAAAAA">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
+                                            <Setter Property="FontSize" Value="{StaticResource IM-Login-IconFontSize}"></Setter>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <TransformGroup>
+                                                        <RotateTransform></RotateTransform>
+                                                    </TransformGroup>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <EventTrigger RoutedEvent="Loaded">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="登录中" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"></TextBlock>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Border>
-
-                <TextBlock Grid.Row="1" Text="用户名:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource InputText}" Margin="0,5" Text="{Binding LoginInfo.UserName,Mode=TwoWay}"></TextBox>
-
-                <TextBlock Grid.Row="2" Text="密   码:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                <PasswordBox Grid.Row="2" Grid.Column="1" Style="{StaticResource InputPassword}" Margin="0,5" common:PasswordBoxAttach.Attach="True" common:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
-
-                <CheckBox Grid.Row="3" Grid.Column="1" Content="自动登录" HorizontalAlignment="Left" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsAutoLogin, Mode=TwoWay}"></CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="1" Content="记录密码" HorizontalAlignment="Right" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsRememberPassword, Mode=TwoWay}"></CheckBox>
-
-                <Button Grid.Row="4" Grid.Column="1" Margin="0,5" Height="30" Content="登录" Command="{Binding LoginCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Login-Button}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLogging}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Setter Property="Content" Value="登录中"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                </Grid>
             </Grid>
         </Grid>
     </Border>

@@ -11,9 +11,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="60">
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+        <!--按钮列表-->
+        <StackPanel Orientation="Vertical">
             <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Button}">
-                <TextBlock Style="{StaticResource IconBars}"/>
+                <TextBlock Style="{StaticResource IconBars}" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:ChangePropertyAction PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=bottomSettingPopup}"/>
@@ -23,7 +24,8 @@
             <Label Content="东财通" HorizontalAlignment="Center" Margin="0,2" Style="{StaticResource IM-Name-Label}"></Label>
         </StackPanel>
 
-        <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Width="180">
+        <!--弹窗菜单-->
+        <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" MinWidth="150">
             <bottom:BottomSettingAreaView DataContext="{Binding BottomSettingAreaViewModel}"></bottom:BottomSettingAreaView>
         </Popup>
     </Grid>
