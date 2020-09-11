@@ -35,6 +35,7 @@ namespace EMChat2.Service
         #region 方法
         public async void Login(LoginInfo loginInfo)
         {
+            await Task.Delay(1000);
             await eventAggregator.PublishAsync(new LoginEventArgs()
             {
                 IsSuccess = true,
