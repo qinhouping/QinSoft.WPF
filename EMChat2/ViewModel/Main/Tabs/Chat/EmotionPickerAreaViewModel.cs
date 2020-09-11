@@ -25,7 +25,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.emotionPackages = new ObservableCollection<EmotionPackageInfo>();
+            this.emotionPackages = new ThreadSafeObservableCollection<EmotionPackageInfo>();
 
             //TODO 测试数据
             new Action(() =>
@@ -37,7 +37,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     Level = EmotionPackageLevel.System,
                     Name = "emoji",
                     ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
-                    Emotions = new ObservableCollection<EmotionInfo>()
+                    Emotions = new ThreadSafeObservableCollection<EmotionInfo>()
                     {
                         new EmotionInfo()
                         {
@@ -157,8 +157,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<EmotionPackageInfo> emotionPackages;
-        public ObservableCollection<EmotionPackageInfo> EmotionPackages
+        private ThreadSafeObservableCollection<EmotionPackageInfo> emotionPackages;
+        public ThreadSafeObservableCollection<EmotionPackageInfo> EmotionPackages
         {
             get
             {

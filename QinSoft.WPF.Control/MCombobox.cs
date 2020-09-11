@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Runtime.CompilerServices;
+using QinSoft.WPF.Core;
 
 namespace QinSoft.WPF.Control
 {
@@ -19,7 +20,7 @@ namespace QinSoft.WPF.Control
     {
         private ListBox DataListBox;
         public static readonly DependencyProperty SelectedItemsProperty =
-           DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MCombobox), new PropertyMetadata(new ObservableCollection<object>()));
+           DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MCombobox), new PropertyMetadata(new ThreadSafeObservableCollection<object>()));
 
         public IList SelectedItems
         {

@@ -114,5 +114,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QinSoft.WPF.Core\QinSoft.WPF.Core.csproj">
+      <Project>{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}</Project>
+      <Name>QinSoft.WPF.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

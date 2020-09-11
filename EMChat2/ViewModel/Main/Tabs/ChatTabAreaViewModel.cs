@@ -28,7 +28,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
-            this.ChatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
+            this.ChatTabItems = new ThreadSafeObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
         }
@@ -63,8 +63,8 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
-        public ObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
+        private ThreadSafeObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
+        public ThreadSafeObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
         {
             get
             {
@@ -125,7 +125,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             chat.HeaderImageUrl = userInfo.HeaderImageUrl;
             chat.IsTop = true;
             chat.IsInform = false;
-            chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
+            chat.ChatUsers = new ThreadSafeObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
             return chat;
         }
 

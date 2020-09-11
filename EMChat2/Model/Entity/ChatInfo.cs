@@ -161,12 +161,12 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 参与会话用户
         /// </summary>
-        private ObservableCollection<UserInfo> chatUsers;
-        public ObservableCollection<UserInfo> ChatUsers
+        private ThreadSafeObservableCollection<UserInfo> chatUsers;
+        public ThreadSafeObservableCollection<UserInfo> ChatUsers
         {
             get
             {
-                return this.chatUsers ?? new ObservableCollection<UserInfo>();
+                return this.chatUsers ?? new ThreadSafeObservableCollection<UserInfo>();
             }
             set
             {

@@ -28,8 +28,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<DepartmentInfo> departments;
-        public ObservableCollection<DepartmentInfo> Departments
+        private ThreadSafeObservableCollection<DepartmentInfo> departments;
+        public ThreadSafeObservableCollection<DepartmentInfo> Departments
         {
             get
             {
@@ -47,10 +47,10 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         public void Handle(LoginEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-            this.departments = new ObservableCollection<DepartmentInfo>() {
+            this.departments = new ThreadSafeObservableCollection<DepartmentInfo>() {
                 new DepartmentInfo() {
                     Name = "东财咨询",
-                    Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
+                    Staffs = new ThreadSafeObservableCollection<StaffInfo>() { new StaffInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
                         WorkCode = "180366",
@@ -60,17 +60,17 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         State = UserStateEnum.Busy,
                         Sex= SexEnum.Women
                     } },
-                    Departments = new ObservableCollection<DepartmentInfo>()
+                    Departments = new ThreadSafeObservableCollection<DepartmentInfo>()
                     {
                         new DepartmentInfo()
                         {
                             Name = "业务组",
-                            Departments=new ObservableCollection<DepartmentInfo>()
+                            Departments=new ThreadSafeObservableCollection<DepartmentInfo>()
                             {
                                 new DepartmentInfo()
                                 {
                                     Name = "业务一部",
-                                    Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
+                                    Staffs = new ThreadSafeObservableCollection<StaffInfo>() { new StaffInfo()
                                     {
                                         Id = Guid.NewGuid().ToString(),
                                         WorkCode = "180366",

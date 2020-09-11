@@ -30,8 +30,8 @@ namespace QinSoft.WPF.Test.ViewModel
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private TestViewModel testViewModel;
-        private ObservableCollection<Message> messages;
-        public ObservableCollection<Message> Messages
+        private ThreadSafeObservableCollection<Message> messages;
+        public ThreadSafeObservableCollection<Message> Messages
         {
             get
             {
@@ -44,8 +44,8 @@ namespace QinSoft.WPF.Test.ViewModel
             }
         }
 
-        private ObservableCollection<string> images;
-        public ObservableCollection<string> Images
+        private ThreadSafeObservableCollection<string> images;
+        public ThreadSafeObservableCollection<string> Images
         {
             get
             {
@@ -66,15 +66,15 @@ namespace QinSoft.WPF.Test.ViewModel
             this.eventAggregator.Subscribe(this);
             this.testViewModel = testViewModel;
 
-            this.messages = new ObservableCollection<Message> {
-               new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Mix, InnerMessages=new ObservableCollection<Message>(){
+            this.messages = new ThreadSafeObservableCollection<Message> {
+               new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Mix, InnerMessages=new ThreadSafeObservableCollection<Message>(){
                new Message() { Left = true, Sender = "test", SendTime = DateTime.Now, Type=MessageType.Text, Text = "inner message"  },
                new Message() { Left = false, Sender = "test", SendTime = DateTime.Now,  Type=MessageType.Image, ThumbUrl="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg", Url="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg"  },
                           new Message() { Left = true, Sender = "test", SendTime = DateTime.Now, Type=MessageType.Text, Text = "inner message"  }
                }  }
             };
 
-            this.images = new ObservableCollection<string>()
+            this.images = new ThreadSafeObservableCollection<string>()
             {
                 "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0",
                 "http://img.soogif.com/CsqN4oJqAc0gHqQ9A7FFeUtXVuqhYx7V.gif_s400x0"
@@ -217,9 +217,9 @@ namespace QinSoft.WPF.Test.ViewModel
                 }
             }
 
-            private ObservableCollection<Message> innerMessages;
+            private ThreadSafeObservableCollection<Message> innerMessages;
 
-            public ObservableCollection<Message> InnerMessages
+            public ThreadSafeObservableCollection<Message> InnerMessages
             {
                 get
                 {

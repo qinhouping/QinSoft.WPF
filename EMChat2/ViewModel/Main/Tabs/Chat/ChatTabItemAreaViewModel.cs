@@ -30,7 +30,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
-            this.Messages = new ObservableCollection<MessageInfo>();
+            this.Messages = new ThreadSafeObservableCollection<MessageInfo>();
         }
         #endregion
 
@@ -78,8 +78,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ObservableCollection<MessageInfo> messages;
-        public ObservableCollection<MessageInfo> Messages
+        private ThreadSafeObservableCollection<MessageInfo> messages;
+        public ThreadSafeObservableCollection<MessageInfo> Messages
         {
             get
             {

@@ -82,12 +82,12 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 表情列表
         /// </summary>
-        private ObservableCollection<EmotionInfo> emotions;
-        public ObservableCollection<EmotionInfo> Emotions
+        private ThreadSafeObservableCollection<EmotionInfo> emotions;
+        public ThreadSafeObservableCollection<EmotionInfo> Emotions
         {
             get
             {
-                return this.emotions ?? new ObservableCollection<EmotionInfo>();
+                return this.emotions ?? new ThreadSafeObservableCollection<EmotionInfo>();
             }
             set
             {

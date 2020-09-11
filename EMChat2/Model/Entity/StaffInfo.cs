@@ -125,12 +125,12 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 业务列表
         /// </summary>
-        private ObservableCollection<BusinessEnum> businessList;
-        public ObservableCollection<BusinessEnum> BusinessList
+        private ThreadSafeObservableCollection<BusinessEnum> businessList;
+        public ThreadSafeObservableCollection<BusinessEnum> BusinessList
         {
             get
             {
-                return this.businessList ?? new ObservableCollection<BusinessEnum>();
+                return this.businessList ?? new ThreadSafeObservableCollection<BusinessEnum>();
             }
             set
             {

@@ -47,7 +47,7 @@ namespace EMChat2.Service
                     HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
                     ImUserId = "1111",
                     State = loginInfo.State,
-                    BusinessList = new ObservableCollection<BusinessEnum>() {
+                    BusinessList = new ThreadSafeObservableCollection<BusinessEnum>() {
                         BusinessEnum.Advisor,
                         BusinessEnum.Expert
                     }

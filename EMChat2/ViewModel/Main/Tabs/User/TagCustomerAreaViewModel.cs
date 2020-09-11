@@ -22,8 +22,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator);
-            this.tagGroups = new ObservableCollection<TagGroupInfo>();
-            this.customers = new ObservableCollection<CustomerInfo>();
+            this.tagGroups = new ThreadSafeObservableCollection<TagGroupInfo>();
+            this.customers = new ThreadSafeObservableCollection<CustomerInfo>();
             this.selectedCustomer = null;
 
             //TODO 测试数据
@@ -35,7 +35,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Id = "1",
                     Name = "客户类型",
                     Level = TagLevel.System,
-                    Tags = new ObservableCollection<TagInfo>(){
+                    Tags = new ThreadSafeObservableCollection<TagInfo>(){
                             new TagInfo(){ Id="0", Name="决策版" },
                             new TagInfo(){ Id="1", Name="领航版" },
                             new TagInfo(){ Id="2", Name="大师版" },
@@ -48,7 +48,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Id = "2",
                     Name = "成交类型",
                     Level = TagLevel.System,
-                    Tags = new ObservableCollection<TagInfo>(){
+                    Tags = new ThreadSafeObservableCollection<TagInfo>(){
                             new TagInfo(){ Id="11", Name="首次" },
                             new TagInfo(){ Id="12", Name="升级" },
                             new TagInfo(){ Id="13", Name="续费" }
@@ -59,7 +59,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Id = "3",
                     Name = "是否到期",
                     Level = TagLevel.System,
-                    Tags = new ObservableCollection<TagInfo>(){
+                    Tags = new ThreadSafeObservableCollection<TagInfo>(){
                             new TagInfo(){ Id="21", Name="是" },
                             new TagInfo(){ Id="22", Name="否" }
                         }
@@ -69,7 +69,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Id = "3",
                     Name = "个人标签",
                     Level = TagLevel.User,
-                    Tags = new ObservableCollection<TagInfo>(){
+                    Tags = new ThreadSafeObservableCollection<TagInfo>(){
                             new TagInfo(){ Id="有意向", Name="是" },
                             new TagInfo(){ Id="无意向", Name="否" }
                         }
@@ -88,7 +88,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     Remark = "测试客户1-测试备注",
                     Sex = SexEnum.Man,
                     State = UserStateEnum.Online,
-                    Tags = new ObservableCollection<TagInfo>()
+                    Tags = new ThreadSafeObservableCollection<TagInfo>()
                      {
                          new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
                          new TagInfo(){ Id="11", Name="首次", IsSelected=true },
@@ -117,8 +117,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<TagGroupInfo> tagGroups;
-        public ObservableCollection<TagGroupInfo> TagGroups
+        private ThreadSafeObservableCollection<TagGroupInfo> tagGroups;
+        public ThreadSafeObservableCollection<TagGroupInfo> TagGroups
         {
             get
             {
@@ -137,8 +137,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return this.TagGroups.SelectMany(u => u.Tags.Where(t => t.IsSelected == true));
             }
         }
-        private ObservableCollection<CustomerInfo> customers;
-        public ObservableCollection<CustomerInfo> Customers
+        private ThreadSafeObservableCollection<CustomerInfo> customers;
+        public ThreadSafeObservableCollection<CustomerInfo> Customers
         {
             get
             {
