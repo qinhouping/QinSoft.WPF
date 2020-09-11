@@ -22,6 +22,7 @@ namespace EMChat2
     /// </summary>
     public partial class App : Application
     {
+        private bool showGloalError = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGloalError"]);
         protected override void OnStartup(StartupEventArgs e)
         {
             //UI线程未捕获异常处理事件（UI主线程）
@@ -72,6 +73,7 @@ namespace EMChat2
         {
             try
             {
+                if (!showGloalError) return;
                 IWindowManager windowManager = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
                 EventAggregator eventAggregator = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<QinSoft.WPF.Core.EventAggregatorImp>();
                 using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, error, title, AlertType.Error))

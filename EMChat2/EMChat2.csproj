@@ -152,6 +152,7 @@
     <Compile Include="Common\Win32Tools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
     <Compile Include="Model\Entity\DepartmentInfo.cs" />
+    <Compile Include="Model\Entity\ISelectable.cs" />
     <Compile Include="Model\Entity\SexEnum.cs" />
     <Compile Include="Model\Entity\TagGroupInfo.cs" />
     <Compile Include="Model\Entity\TagInfo.cs" />

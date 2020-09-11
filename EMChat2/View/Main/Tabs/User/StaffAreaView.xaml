@@ -50,7 +50,7 @@
                                         <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
                                         
                                         <!--员工名称-->
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
                                         
                                         <!--员工在线状态-->
                                         <Grid Grid.Column="2" Width="8" Height="8">

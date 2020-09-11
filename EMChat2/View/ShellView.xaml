@@ -24,7 +24,7 @@
         <Grid>
             <Grid>
                 <!--窗口按钮-->
-                <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="50" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" MinHeight="25" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                     <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
                 </Grid>
 

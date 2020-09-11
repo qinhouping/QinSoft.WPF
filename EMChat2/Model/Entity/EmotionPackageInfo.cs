@@ -87,7 +87,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.emotions;
+                return this.emotions ?? new ObservableCollection<EmotionInfo>();
             }
             set
             {

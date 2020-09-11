@@ -130,7 +130,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.businessList;
+                return this.businessList ?? new ObservableCollection<BusinessEnum>();
             }
             set
             {

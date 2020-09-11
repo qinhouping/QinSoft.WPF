@@ -136,7 +136,7 @@
                                                                                             </TransformGroup>
                                                                                         </TextBlock.RenderTransform>
                                                                                         <TextBlock.Style>
-                                                                                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
+                                                                                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconRotateRight}">
                                                                                                 <Setter Property="FontSize" Value="15"></Setter>
                                                                                                 <Style.Triggers>
                                                                                                     <EventTrigger RoutedEvent="Loaded">

@@ -22,7 +22,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.eventAggregator.Subscribe(this);
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator);
             this.tagGroups = new ObservableCollection<TagGroupInfo>();
-            this.selectedTags = new ObservableCollection<TagInfo>();
             this.customers = new ObservableCollection<CustomerInfo>();
             this.selectedCustomer = null;
 
@@ -83,9 +82,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                      State= UserStateEnum.Online,
                      Tags=new ObservableCollection<TagInfo>()
                      {
-                         new TagInfo(){ Id="2", Name="大师版" },
-                         new TagInfo(){ Id="11", Name="首次" },
-                         new TagInfo(){ Id="21", Name="是" }
+                         new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
+                         new TagInfo(){ Id="11", Name="首次", IsSelected=true },
+                         new TagInfo(){ Id="21", Name="是", IsSelected=true }
                      },
                      Uid= "customer1"
                 },
@@ -100,13 +99,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                      Name="测试客户2",
                      Remark="测试客户2-测试备注",
                      Sex= SexEnum.Man,
-                     State= UserStateEnum.Online,
-                     Tags=new ObservableCollection<TagInfo>()
-                     {
-                         new TagInfo(){ Id="2", Name="大师版" },
-                         new TagInfo(){ Id="11", Name="首次" },
-                         new TagInfo(){ Id="22", Name="否" }
-                     },
+                     State= UserStateEnum.Busy,
                      Uid= "customer2"
                 }
             };
@@ -129,17 +122,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.TagGroups);
             }
         }
-        private ObservableCollection<TagInfo> selectedTags;
-        public ObservableCollection<TagInfo> SelectedTags
+        public IEnumerable<TagInfo> SelectedTags
         {
             get
             {
-                return selectedTags;
-            }
-            set
-            {
-                this.selectedTags = value;
-                this.NotifyPropertyChange(() => this.SelectedTags);
+                return this.TagGroups.SelectMany(u => u.Tags.Where(t => t.IsSelected == true));
             }
         }
         private ObservableCollection<CustomerInfo> customers;
@@ -166,7 +153,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.selectedCustomer = value;
                 this.NotifyPropertyChange(() => this.SelectedCustomer);
-                this.customerDetailAreaViewModel.Customer = value;
+                this.CustomerDetailAreaViewModel.Customer = value;
             }
         }
         private CustomerDetailAreaViewModel customerDetailAreaViewModel;

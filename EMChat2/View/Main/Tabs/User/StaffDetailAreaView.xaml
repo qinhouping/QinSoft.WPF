@@ -84,7 +84,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Content="设置备注和描述" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+                    <Button Grid.Column="1" Content="设置备注和描述" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
                 </Grid>
 
                 <Grid Visibility="{Binding Staff.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2">
@@ -93,7 +93,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Margin="5,0" Content="{Binding Staff.Description}" HorizontalAlignment="Left" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+                    <Button Grid.Column="1" Margin="5,0" Content="{Binding Staff.Description}" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
                 </Grid>
 
                 <Grid Margin="2">

@@ -10,7 +10,7 @@ namespace EMChat2.Model.Entity
     /// <summary>
     /// 标签实体
     /// </summary>
-    public class TagInfo : PropertyChangedBase
+    public class TagInfo : PropertyChangedBase, ISelectable
     {
         #region 属性
         /// <summary>
@@ -47,6 +47,23 @@ namespace EMChat2.Model.Entity
             }
         }
         #endregion
+
+        #region 实现接口 ISelectable
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get
+            {
+                return this.isSelected;
+            }
+            set
+            {
+                this.isSelected = value;
+                this.NotifyPropertyChange(() => this.IsSelected); ;
+            }
+        }
+        #endregion
+
 
         #region 方法
         public override int GetHashCode()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -355,7 +356,7 @@ namespace QinSoft.WPF
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     string url = value as string;
-                    if (string.IsNullOrEmpty(url)) 
+                    if (string.IsNullOrEmpty(url))
                         return null;
                     else
                     {
@@ -379,17 +380,6 @@ namespace QinSoft.WPF
                 });
             }
         }
-
-        public static IMultiValueConverter ContainToVisibilityMultiConverter
-        {
-            get
-            {
-                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
-                {
-                    return values.Length == 2 && (values[0] as IEnumerable<object>).Contains(values[1]);
-                });
-            }
-        }
     }
 
 
@@ -409,14 +399,14 @@ namespace QinSoft.WPF
             this._convertFunc = convertFunc;
         }
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (this._convertFunc != null)
                 return this._convertFunc.Invoke(value, targetType, parameter, culture);
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (this._convertBackFunc == null)
                 return value;
@@ -439,14 +429,14 @@ namespace QinSoft.WPF
             this._convertFunc = convertFunc;
         }
 
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (this._convertFunc != null)
                 return this._convertFunc.Invoke(values, targetType, parameter, culture);
             return null;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
 
             if (this._convertBackFunc == null)

@@ -21,7 +21,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.departments;
+                return this.departments ?? new ObservableCollection<DepartmentInfo>();
             }
             set
             {
@@ -39,7 +39,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.staffs;
+                return this.staffs ?? new ObservableCollection<StaffInfo>();
             }
             set
             {

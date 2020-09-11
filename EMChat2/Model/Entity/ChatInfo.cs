@@ -166,7 +166,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.chatUsers;
+                return this.chatUsers ?? new ObservableCollection<UserInfo>();
             }
             set
             {

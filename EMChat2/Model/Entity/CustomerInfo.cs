@@ -157,7 +157,7 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.tags;
+                return this.tags ?? new ObservableCollection<TagInfo>();
             }
             set
             {
