@@ -19,7 +19,7 @@ namespace EMChat2.ViewModel
     public class ShellViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
-        public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel, UserService userService, ComputerInfoCefJsObject computerInfoCefJsObject)
+        public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -29,16 +29,18 @@ namespace EMChat2.ViewModel
             this.bottomAreaViewModel = bottomAreaViewModel;
             this.topAreaViewModel = topAreaViewModel;
             this.userService = userService;
-            this.computerInfoCefJsObject = computerInfoCefJsObject;
 
             //TODO 测试数据
-            this.isFlash = true;
-            this.balloonTip = new BalloonTipInfo()
+            new Action(() =>
             {
-                Title = "TEST",
-                Content = "TEST",
-                Icon = Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
-            };
+                this.IsFlash = true;
+                this.BalloonTip = new BalloonTipInfo()
+                {
+                    Title = "Test",
+                    Content = "测试提醒",
+                    Icon = Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
+                };
+            }).ExecuteInTask();
         }
         #endregion
 
@@ -122,19 +124,6 @@ namespace EMChat2.ViewModel
             {
                 this.balloonTip = value;
                 this.NotifyPropertyChange(() => this.BalloonTip);
-            }
-        }
-        private ComputerInfoCefJsObject computerInfoCefJsObject;
-        public ComputerInfoCefJsObject ComputerInfoCefJsObject
-        {
-            get
-            {
-                return this.computerInfoCefJsObject;
-            }
-            set
-            {
-                this.computerInfoCefJsObject = value;
-                this.NotifyPropertyChange(() => this.ComputerInfoCefJsObject);
             }
         }
         #endregion

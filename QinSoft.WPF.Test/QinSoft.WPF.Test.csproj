@@ -62,8 +62,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="QinSoft.Event, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QinSoft.Event.3.0.1\lib\net40\QinSoft.Event.dll</HintPath>
+    <Reference Include="QinSoft.Event, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QinSoft.Event.3.0.3\lib\net40\QinSoft.Event.dll</HintPath>
     </Reference>
     <Reference Include="QinSoft.Ioc, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QinSoft.Ioc.2.0.4\lib\net40\QinSoft.Ioc.dll</HintPath>

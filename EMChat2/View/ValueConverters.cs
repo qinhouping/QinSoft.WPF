@@ -64,7 +64,7 @@ namespace EMChat2.View
         }
 
         #region 私有方法
-        private static void ParseMessageContentToDocument(FlowDocumentExt document, Block block, string messageType, string messageContent)
+        private static void ParseMessageContentToDocument(FlowDocumentExt document, ref Block block, string messageType, string messageContent)
         {
             if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
             switch (messageType)
@@ -86,7 +86,9 @@ namespace EMChat2.View
                                 (block as Paragraph).Inlines.Add(messageContentItem.Trim());
                             }
                             if (i < messageContentItems.Length - 1)
+                            {
                                 block = new Paragraph(); document.Blocks.Add(block);
+                            }
                         }
                     }; break;
                 case MessageTypeConst.Emotion:
@@ -115,7 +117,7 @@ namespace EMChat2.View
                 case MessageTypeConst.Mixed:
                     {
                         foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageType, messageContent) as MixedMessageContent).Items)
-                            ParseMessageContentToDocument(document, block, mixedItem.Type, mixedItem.Content);
+                            ParseMessageContentToDocument(document, ref block, mixedItem.Type, mixedItem.Content);
                     }; break;
                 case MessageTypeConst.Tips:
                 case MessageTypeConst.Event:
@@ -138,7 +140,7 @@ namespace EMChat2.View
                     else
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
-                        textMessageContent.Content += string.Format("{0}{1}", Environment.NewLine, run.Text);
+                        textMessageContent.Content += run.Text;
                         messageContent.Content = textMessageContent.ObjectToJson();
                     }
                 }
@@ -163,9 +165,10 @@ namespace EMChat2.View
 
         private static void ParseDocumentToMessageContent(FlowDocumentExt document, List<MessageContentInfo> messageContents)
         {
-            MessageContentInfo messageContentInfo = null;
-            foreach (Block block in document.Blocks)
+            MessageContentInfo messageContent = null;
+            for (int i = 0; i < document.Blocks.Count; i++)
             {
+                Block block = document.Blocks.ElementAt(i);
                 if (block is BlockUIContainer)
                 {
                     BlockUIContainer blockUIContainer = block as BlockUIContainer;
@@ -173,14 +176,33 @@ namespace EMChat2.View
                     {
                         ChatMessageContentControlView chatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContentInfo = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
-                        messageContents.Add(messageContentInfo);
+                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContents.Add(messageContent);
                     }
                 }
                 else if (block is Paragraph)
                 {
                     Paragraph paragraph = block as Paragraph;
-                    ParseInlinesToMessageContent(paragraph.Inlines.ToArray(), messageContents, ref messageContentInfo);
+                    ParseInlinesToMessageContent(paragraph.Inlines.ToArray(), messageContents, ref messageContent);
+
+                    if (i < document.Blocks.Count - 1)
+                    {
+                        if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
+                        {
+                            messageContent = new MessageContentInfo()
+                            {
+                                Type = MessageTypeConst.Text,
+                                Content = new TextMessageContent() { Content = Environment.NewLine }.ObjectToJson()
+                            };
+                            messageContents.Add(messageContent);
+                        }
+                        else
+                        {
+                            TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
+                            textMessageContent.Content += Environment.NewLine;
+                            messageContent.Content = textMessageContent.ObjectToJson();
+                        }
+                    }
                 }
             }
         }
@@ -195,7 +217,10 @@ namespace EMChat2.View
                     FlowDocumentExt flowDocument = new FlowDocumentExt();
                     MessageContentInfo message = value as MessageContentInfo;
                     if (message != null)
-                        ParseMessageContentToDocument(flowDocument, null, message.Type, message.Content);
+                    {
+                        Block block = null;
+                        ParseMessageContentToDocument(flowDocument, ref block, message.Type, message.Content);
+                    }
                     return flowDocument;
                 }, (value, targetType, parameter, cultInfo) =>
                 {

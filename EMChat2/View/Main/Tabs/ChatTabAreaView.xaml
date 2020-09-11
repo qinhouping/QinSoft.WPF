@@ -39,7 +39,10 @@
                                             </ScrollViewer>
                                         </Grid>
                                     </Border>
-                                    <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                                    <Grid Grid.Column="1">
+                                        <Image Source="/Resource/Image/log.ico" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Visibility="{Binding Content, ElementName=PART_SelectedContentHost, Converter={x:Static wpf:ValueConverters.NullToVisibilityConverter}}"></Image>
+                                        <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                                    </Grid>
                                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
                                 </Grid>
                             </ControlTemplate>

@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
@@ -144,29 +144,32 @@ namespace EMChat2.ViewModel.Main.Tabs
             if (!arg.IsSuccess) return;
 
             //TODO 测试数据
-            new Action(() => this.ChatTabItems.Clear()).ExecuteInUIThread();
-            for (int i = 0; i < 10; i++)
+            new Action(() =>
             {
-                this.ChatTabItems.Add(
-                    new PrivateChatTabItemAreaViewModel(
-                        this.windowManager,
-                        this.eventAggregator,
-                        this.applicationContextViewModel,
-                        this.emotionPickerAreaViewModel,
-                        this.CreatePrivateChat(new CustomerInfo()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            ImUserId = "1",
-                            Name = "私聊-投顾" + i,
-                            HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
-                            State = UserStateEnum.Online,
-                            Business = BusinessEnum.Advisor,
-                            Uid = "1"
-                        },
-                        BusinessEnum.Advisor),
-                        this.chatService,
-                        this.systemService));
-            }
+                this.ChatTabItems.Clear();
+                for (int i = 0; i < 10; i++)
+                {
+                    this.ChatTabItems.Add(
+                        new PrivateChatTabItemAreaViewModel(
+                            this.windowManager,
+                            this.eventAggregator,
+                            this.applicationContextViewModel,
+                            this.emotionPickerAreaViewModel,
+                            this.CreatePrivateChat(new CustomerInfo()
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                ImUserId = "1",
+                                Name = "私聊-投顾" + i,
+                                HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
+                                State = UserStateEnum.Online,
+                                Business = BusinessEnum.Advisor,
+                                Uid = "1"
+                            },
+                            BusinessEnum.Advisor),
+                            this.chatService,
+                            this.systemService));
+                }
+            }).ExecuteInUIThread();
         }
 
         public void Handle(CloseChatEventArgs arg)
@@ -177,7 +180,22 @@ namespace EMChat2.ViewModel.Main.Tabs
 
         public void Handle(NotReadMessageCountChangedEventArgs Message)
         {
-            this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
+            this.TotalNotReadMessageCount = ChatTabItems.ToArray().Sum(u => u.NotReadMessageCount);
+        }
+
+        public void Handle(SelectEmotionEventArgs arg)
+        {
+            if (this.SelectedChatTabItem == null) return;
+            this.SelectedChatTabItem.TemporaryInputMessagContent = new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Emotion,
+                Content = new EmotionMessageContent()
+                {
+                    Url = arg.Emotion.Url,
+                    Name = arg.Emotion.Name,
+                    IsGif = arg.Emotion.IsGif
+                }.ObjectToJson()
+            };
         }
         #endregion
     }

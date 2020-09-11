@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Border BorderThickness="1,1,0,0" BorderBrush="#CCCCCC">
-            <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject="{Binding DataContext.ComputerInfoCefJsObject, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"></cefCommon:CefWebBrowser>
+            <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject="{Binding ComputerInfoCefJsObject}"></cefCommon:CefWebBrowser>
         </Border>
     </Grid>
 </UserControl>

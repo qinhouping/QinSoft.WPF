@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Navigation;
 
@@ -16,6 +18,7 @@ namespace QinSoft.WPF.Control
 {
     public class AutoAdjustRichTextBox : RichTextBox
     {
+        private double defaultWidth = 1024;//默认宽度
         private bool informFromSource = false;
         private bool informFromTarget = false;
         #region 构造函数
@@ -82,7 +85,8 @@ namespace QinSoft.WPF.Control
         private void AutoRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (IsAuto)
-                this.Width = Math.Min(GetDocumentWidths().Max() , this.MaxWidth);
+                this.Width = Math.Min(GetDocumentWidths().Max() + 10, this.MaxWidth);
+
             if (informFromSource)
             {
                 informFromSource = false;
@@ -101,43 +105,45 @@ namespace QinSoft.WPF.Control
             {
                 if (block is BlockUIContainer)
                 {
-                    widths.Add(double.MaxValue);
+                    double width = this.defaultWidth;
+
+                    width = widths[widths.Count - 1] + width;
+                    widths[widths.Count - 1] = width;
+                    if (width >= this.MaxWidth) break;
                 }
                 else if (block is Paragraph)
                 {
                     Paragraph paragraph = block as Paragraph;
-                    widths.AddRange(GetInlineWidth(paragraph.Inlines.ToArray()));
+                    GetInlineWidth(paragraph.Inlines.ToArray(), ref widths);
                 }
+                widths.Add(0);
             }
             return widths.ToArray();
         }
 
-        protected virtual double[] GetInlineWidth(Inline[] inlines)
+        protected virtual double[] GetInlineWidth(Inline[] inlines, ref List<double> widths)
         {
-            List<double> widths = new List<double>();
             foreach (Inline inline in inlines)
             {
                 if (inline is Span)
                 {
-                    widths.AddRange(GetInlineWidth((inline as Span).Inlines.ToArray()));
+                    widths.AddRange(GetInlineWidth((inline as Span).Inlines.ToArray(), ref widths));
                 }
                 else if (inline is Run)
                 {
                     Run run = inline as Run;
-                    double fontSize = inline.FontSize;
                     string text = run.Text;
-                    foreach (string itemText in text.Split(Environment.NewLine.ToCharArray()))
+                    string[] texts = text.Split(Environment.NewLine.ToCharArray());
+                    for (int textIndex = 0; textIndex < texts.Length; textIndex++)
                     {
-                        double width = 0;
-                        for (int i = 0; i < itemText.Length; i++)
-                        {
-                            if ((int)itemText[i] > 127)
-                                width += fontSize;
-                            else
-                                width += (fontSize / 2);
-                        }
-                        widths.Add(width);
+                        string itemText = texts[textIndex];
+                        SizeF size = GetStringSize(itemText, new Font(run.FontFamily.ToString(), (float)run.FontSize, GraphicsUnit.Pixel));
+                        double width = size.Width;
+
+                        width = widths[widths.Count - 1] + width;
+                        widths[widths.Count - 1] = width;
                         if (width >= this.MaxWidth) break;
+                        if (textIndex < texts.Length - 1) widths.Add(0);
                     }
                 }
                 else if (inline is InlineUIContainer)
@@ -147,9 +153,13 @@ namespace QinSoft.WPF.Control
                     {
                         FrameworkElement frameworkElement = inlineUIContainer.Child as FrameworkElement;
                         double width = frameworkElement.Width;
-                        if (double.IsNaN(width) || width == 0) width = frameworkElement.MaxWidth;
-                        if (double.IsInfinity(width)) width = double.MaxValue;
-                        widths.Add(width);
+
+                        if (double.IsNaN(width) || double.IsInfinity(width) || width == 0) width = frameworkElement.MaxWidth;
+
+                        if (double.IsNaN(width) || double.IsInfinity(width) || width == 0) width = defaultWidth;
+
+                        width = widths[widths.Count - 1] + width;
+                        widths[widths.Count - 1] = width;
                         if (width >= this.MaxWidth) break;
                     }
                 }
@@ -157,6 +167,13 @@ namespace QinSoft.WPF.Control
             return widths.ToArray();
         }
 
+        protected virtual SizeF GetStringSize(string content, Font font)
+        {
+            using (Graphics graphics = Graphics.FromHwnd(new WindowInteropHelper(Application.Current.MainWindow).Handle))
+            {
+                return graphics.MeasureString(content, font);
+            }
+        }
         #endregion
     }
 

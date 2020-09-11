@@ -21,13 +21,13 @@ namespace EMChat2.Common.Cef
         public virtual void RegisterJsConnector(CefJsConnector cefJsConnector)
         {
             if (cefJsConnector == null) throw new ArgumentNullException("cefJsConnector");
-            if (this.CefJsConnector != null) throw new InvalidOperationException("cefJsObject has been registered");
+            if (this.CefJsConnector != null && this.CefJsConnector != cefJsConnector) throw new InvalidOperationException("cefJsObject has been registered");
             if (cefJsConnector.Connect(this)) this.CefJsConnector = cefJsConnector;
         }
         public virtual void UnregisterJsConnector(CefJsConnector cefJsConnector)
         {
             if (cefJsConnector == null) throw new ArgumentNullException("cefJsConnector");
-            if (this.CefJsConnector == null) throw new InvalidOperationException("cefJsObject has been unregistered");
+            if (this.CefJsConnector == null || this.CefJsConnector != cefJsConnector) throw new InvalidOperationException("cefJsObject has been unregistered");
             if (cefJsConnector.Unconnect(this)) this.CefJsConnector = null;
         }
     }

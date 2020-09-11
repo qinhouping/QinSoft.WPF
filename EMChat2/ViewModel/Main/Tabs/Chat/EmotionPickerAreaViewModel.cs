@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
+using EMChat2.Model.Event;
 using EMChat2.View.Main.Tabs.Chat;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -26,13 +28,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.emotionPackages = new ObservableCollection<EmotionPackageInfo>();
 
             //TODO 测试数据
-            this.EmotionPackages.Add(new EmotionPackageInfo()
+            new Action(() =>
             {
-                Id = Guid.NewGuid().ToString(),
-                Level = EmotionPackageLevel.System,
-                Name = "emoji",
-                ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
-                Emotions = new ObservableCollection<EmotionInfo>()
+                this.EmotionPackages.Clear();
+                this.EmotionPackages.Add(new EmotionPackageInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Level = EmotionPackageLevel.System,
+                    Name = "emoji",
+                    ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
+                    Emotions = new ObservableCollection<EmotionInfo>()
                     {
                         new EmotionInfo()
                         {
@@ -143,8 +148,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             Url="https://static.easyicon.net/preview/106/1069799.gif"
                         }
                     }
-            });
-            this.SelectedEmotionPackage = this.EmotionPackages.First();
+                });
+                this.SelectedEmotionPackage = this.EmotionPackages.First();
+            }).ExecuteInTask();
         }
         #endregion
 
@@ -175,6 +181,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.selectedEmotionPackage = value;
                 this.NotifyPropertyChange(() => this.SelectedEmotionPackage);
+            }
+        }
+        #endregion
+
+        #region 命令
+        public ICommand SelectEmotionCommand
+        {
+            get
+            {
+                return new RelayCommand<EmotionInfo>((emotion) =>
+                {
+                    this.eventAggregator.PublishAsync(new SelectEmotionEventArgs() { Emotion = emotion });
+                });
             }
         }
         #endregion

@@ -41,7 +41,7 @@ namespace EMChat2.Common
             if (string.IsNullOrEmpty(messageContent) || string.IsNullOrEmpty(messageType)) return null;
             switch (messageType)
             {
-                case MessageTypeConst.Text: return messageContent.JsonToObject<TextMessageContent>().Content;
+                case MessageTypeConst.Text: return messageContent.JsonToObject<TextMessageContent>().Content.Replace(Environment.NewLine, string.Empty);
                 case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", messageContent.JsonToObject<EmotionMessageContent>().Name);
                 case MessageTypeConst.Image: return string.Format("[图片]");
                 case MessageTypeConst.Voice: return null;

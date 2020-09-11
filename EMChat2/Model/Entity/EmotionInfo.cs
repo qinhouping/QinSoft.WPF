@@ -68,7 +68,7 @@ namespace EMChat2.Model.Entity
         /// 是否是gif动图
         /// </summary>
         private bool isGif;
-        private bool IsGif
+        public bool IsGif
         {
             get
             {

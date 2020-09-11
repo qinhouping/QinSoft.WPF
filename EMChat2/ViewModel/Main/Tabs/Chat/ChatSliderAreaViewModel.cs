@@ -19,6 +19,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.address = address;
+            this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
         }
         #endregion
 
@@ -38,11 +39,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.Address);
             }
         }
+
+        private ComputerInfoCefJsObject computerInfoCefJsObject;
+        public ComputerInfoCefJsObject ComputerInfoCefJsObject
+        {
+            get
+            {
+                return this.computerInfoCefJsObject;
+            }
+            set
+            {
+                this.computerInfoCefJsObject = value;
+                this.NotifyPropertyChange(() => this.ComputerInfoCefJsObject);
+            }
+        }
         #endregion
 
         public void Dispose()
         {
-            this.eventAggregator.Unsubscribe(this);
+            //this.eventAggregator.Unsubscribe(this);
         }
     }
 }

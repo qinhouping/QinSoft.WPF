@@ -9,6 +9,9 @@ using EMChat2.Common;
 
 namespace EMChat2.Common.Cef
 {
+    /// <summary>
+    /// CEF浏览器全局配置
+    /// </summary>
     public static class CefGlobalSetting
     {
         public static void Initialize()

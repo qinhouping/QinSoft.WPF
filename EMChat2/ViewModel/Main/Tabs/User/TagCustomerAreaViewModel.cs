@@ -1,4 +1,5 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -26,83 +27,90 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.selectedCustomer = null;
 
             //TODO 测试数据
-            this.tagGroups = new ObservableCollection<TagGroupInfo>()
+            new Action(() =>
             {
-                new TagGroupInfo(){
-                    Id="1", Name="客户类型",
-                    Level= TagLevel.System,
-                    Tags=new ObservableCollection<TagInfo>(){
-                        new TagInfo(){ Id="0", Name="决策版" },
-                        new TagInfo(){ Id="1", Name="领航版" },
-                        new TagInfo(){ Id="2", Name="大师版" },
-                        new TagInfo(){ Id="3", Name="先锋版" },
-                        new TagInfo(){ Id="4", Name="经典版" }
-                    }
-                },
-                new TagGroupInfo(){
-                    Id="2", Name="成交类型",
-                    Level= TagLevel.System,
-                    Tags=new ObservableCollection<TagInfo>(){
-                        new TagInfo(){ Id="11", Name="首次" },
-                        new TagInfo(){ Id="12", Name="升级" },
-                        new TagInfo(){ Id="13", Name="续费" }
-                    }
-                },
-                new TagGroupInfo(){
-                    Id="3", Name="是否到期",
-                    Level= TagLevel.System,
-                    Tags=new ObservableCollection<TagInfo>(){
-                        new TagInfo(){ Id="21", Name="是" },
-                        new TagInfo(){ Id="22", Name="否" }
-                    }
-                },
-                 new TagGroupInfo(){
-                    Id="3", Name="个人标签",
-                    Level= TagLevel.User,
-                    Tags=new ObservableCollection<TagInfo>(){
-                        new TagInfo(){ Id="有意向", Name="是" },
-                        new TagInfo(){ Id="无意向", Name="否" }
-                    }
-                }
-            };
-
-            this.customers = new ObservableCollection<CustomerInfo>()
-            {
-                new CustomerInfo()
+                this.TagGroups.Clear();
+                this.TagGroups.Add(new TagGroupInfo()
                 {
-                     Id="customer1",
-                     Business=BusinessEnum.Advisor,
-                     Description="测试客户1-测试描述",
-                     FollowTime=DateTime.Now,
-                     HeaderImageUrl="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3401732207,3726302783&fm=26&gp=0.jpg",
-                     ImUserId="customer1",
-                     Name="测试客户1",
-                     Remark="测试客户1-测试备注",
-                     Sex= SexEnum.Man,
-                     State= UserStateEnum.Online,
-                     Tags=new ObservableCollection<TagInfo>()
+                    Id = "1",
+                    Name = "客户类型",
+                    Level = TagLevel.System,
+                    Tags = new ObservableCollection<TagInfo>(){
+                            new TagInfo(){ Id="0", Name="决策版" },
+                            new TagInfo(){ Id="1", Name="领航版" },
+                            new TagInfo(){ Id="2", Name="大师版" },
+                            new TagInfo(){ Id="3", Name="先锋版" },
+                            new TagInfo(){ Id="4", Name="经典版" }
+                        }
+                });
+                this.TagGroups.Add(new TagGroupInfo()
+                {
+                    Id = "2",
+                    Name = "成交类型",
+                    Level = TagLevel.System,
+                    Tags = new ObservableCollection<TagInfo>(){
+                            new TagInfo(){ Id="11", Name="首次" },
+                            new TagInfo(){ Id="12", Name="升级" },
+                            new TagInfo(){ Id="13", Name="续费" }
+                        }
+                });
+                this.TagGroups.Add(new TagGroupInfo()
+                {
+                    Id = "3",
+                    Name = "是否到期",
+                    Level = TagLevel.System,
+                    Tags = new ObservableCollection<TagInfo>(){
+                            new TagInfo(){ Id="21", Name="是" },
+                            new TagInfo(){ Id="22", Name="否" }
+                        }
+                });
+                this.TagGroups.Add(new TagGroupInfo()
+                {
+                    Id = "3",
+                    Name = "个人标签",
+                    Level = TagLevel.User,
+                    Tags = new ObservableCollection<TagInfo>(){
+                            new TagInfo(){ Id="有意向", Name="是" },
+                            new TagInfo(){ Id="无意向", Name="否" }
+                        }
+                });
+
+                this.Customers.Clear();
+                this.Customers.Add(new CustomerInfo()
+                {
+                    Id = "customer1",
+                    Business = BusinessEnum.Advisor,
+                    Description = "测试客户1-测试描述",
+                    FollowTime = DateTime.Now,
+                    HeaderImageUrl = "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3401732207,3726302783&fm=26&gp=0.jpg",
+                    ImUserId = "customer1",
+                    Name = "测试客户1",
+                    Remark = "测试客户1-测试备注",
+                    Sex = SexEnum.Man,
+                    State = UserStateEnum.Online,
+                    Tags = new ObservableCollection<TagInfo>()
                      {
                          new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
                          new TagInfo(){ Id="11", Name="首次", IsSelected=true },
                          new TagInfo(){ Id="21", Name="是", IsSelected=true }
                      },
-                     Uid= "customer1"
-                },
-                 new CustomerInfo()
+                    Uid = "customer1"
+                });
+                this.Customers.Add(new CustomerInfo()
                 {
-                     Id="customer2",
-                     Business=BusinessEnum.Advisor,
-                     Description="测试客户2-测试描述",
-                     FollowTime=DateTime.Now,
-                     HeaderImageUrl="https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2156833431,1671740038&fm=26&gp=0.jpg",
-                     ImUserId="customer2",
-                     Name="测试客户2",
-                     Remark="测试客户2-测试备注",
-                     Sex= SexEnum.Man,
-                     State= UserStateEnum.Busy,
-                     Uid= "customer2"
-                }
-            };
+                    Id = "customer2",
+                    Business = BusinessEnum.Advisor,
+                    Description = "测试客户2-测试描述",
+                    FollowTime = DateTime.Now,
+                    HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2156833431,1671740038&fm=26&gp=0.jpg",
+                    ImUserId = "customer2",
+                    Name = "测试客户2",
+                    Remark = "测试客户2-测试备注",
+                    Sex = SexEnum.Man,
+                    State = UserStateEnum.Busy,
+                    Uid = "customer2"
+                });
+            }).ExecuteInTask();
         }
         #endregion
 

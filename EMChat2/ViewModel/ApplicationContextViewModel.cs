@@ -1,4 +1,5 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Common;
+using EMChat2.Model.Entity;
 using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -21,7 +22,10 @@ namespace EMChat2.ViewModel
             this.eventAggregator.Subscribe(this);
 
             //TODO 测试数据
-            this.setting = new SettingInfo();
+            new Action(() =>
+            {
+                this.Setting = new SettingInfo();
+            }).ExecuteInTask();
         }
         #endregion
 

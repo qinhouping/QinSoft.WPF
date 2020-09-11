@@ -19,7 +19,11 @@
                         <ListBox Style="{StaticResource IM-EmotionPicker-List}" ItemContainerStyle="{StaticResource IM-EmotionPicker-ListItem}" ItemsSource="{Binding Emotions}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Image Source="{Binding Url}" ToolTip="{Binding Name}" MaxWidth="32"></Image>
+                                    <Image Source="{Binding Url}" ToolTip="{Binding Name}" MaxWidth="32">
+                                        <Image.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.SelectEmotionCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" CommandParameter="{Binding}"></MouseBinding>
+                                        </Image.InputBindings>
+                                    </Image>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>

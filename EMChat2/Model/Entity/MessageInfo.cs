@@ -159,12 +159,12 @@ namespace EMChat2.Model.Entity
         #region 方法
         public override int GetHashCode()
         {
-            return this.msgId.GetHashCode();
+            return this.msgId?.GetHashCode() ?? this.id.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.msgId.Equals((obj as MessageInfo)?.msgId);
+            return this.msgId?.Equals((obj as MessageInfo)?.msgId) == true || this.id?.Equals((obj as MessageInfo)?.id) == true;
         }
         #endregion
     }
