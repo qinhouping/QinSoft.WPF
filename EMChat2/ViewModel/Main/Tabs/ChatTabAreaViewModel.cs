@@ -180,7 +180,7 @@ namespace EMChat2.ViewModel.Main.Tabs
 
         public void Handle(NotReadMessageCountChangedEventArgs Message)
         {
-            this.TotalNotReadMessageCount = ChatTabItems.ToArray().Sum(u => u.NotReadMessageCount);
+            this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
         }
 
         public void Handle(SelectEmotionEventArgs arg)

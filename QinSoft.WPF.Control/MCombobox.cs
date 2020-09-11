@@ -89,7 +89,7 @@ namespace QinSoft.WPF.Control
                     }
                 }
             }
-            return string.Join(Separator, data.ToArray());
+            return string.Join(Separator, data);
         }
     }
 }

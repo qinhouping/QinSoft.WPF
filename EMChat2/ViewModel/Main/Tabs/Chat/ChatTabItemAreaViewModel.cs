@@ -132,14 +132,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.messages.ToArray().Where(u => u.State.Equals(MessageState.Received)).Count();
+                return this.messages.Count(u => u.State.Equals(MessageState.Received));
             }
         }
         public MessageInfo LastMessage
         {
             get
             {
-                return this.messages.ToArray().LastOrDefault();
+                return this.messages.LastOrDefault();
             }
         }
         #endregion
