@@ -154,63 +154,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     FileDialog fileDialog = new SaveFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
-
-
                     fileDialog.FileName = Path.GetFileName(this.CurrentSource);
                     if (fileDialog.ShowDialog() == DialogResult.OK)
                     {
                         if (this.CurrentSource.IsNetUrl())
                         {
-                            try
-                            {
-                                HttpTools.DownloadAsync(this.CurrentSource, null, null).ContinueWith(task =>
-                                {
-                                    try
-                                    {
-                                        task.Result.StreamToFile(fileDialog.FileName);
-                                        systemService.StoreUrlMapping(new UrlMappingInfo() { Url = this.CurrentSource, LocalFilePath = fileDialog.FileName });
-                                        using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
-                                        {
-                                            new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                                        }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
-                                        {
-                                            new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                                        }
-                                    }
-                                });
-                            }
-                            catch (Exception e)
-                            {
-                                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
-                                {
-                                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                                }
-                            }
+                            DownloadImage(fileDialog.FileName);
                         }
                         else
                         {
-                            new Action(() =>
-                            {
-                                try
-                                {
-                                    this.CurrentSource.FileToStream().StreamToFile(fileDialog.FileName);
-                                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
-                                    {
-                                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
-                                    {
-                                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                                    }
-                                }
-                            }).ExecuteInTask();
+                            CopyImage(fileDialog.FileName);
                         }
                     }
                 }, () => !string.IsNullOrEmpty(this.CurrentSource));
@@ -234,9 +187,56 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         }
         #endregion
 
+        #region 方法
+        private async void DownloadImage(string filePath)
+        {
+            try
+            {
+                Stream stream = await HttpTools.DownloadAsync(this.CurrentSource, null, null);
+                stream.StreamToFile(filePath);
+                systemService.StoreUrlMapping(new UrlMappingInfo() { Url = this.CurrentSource, LocalFilePath = filePath });
+
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
+                {
+                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                }
+            }
+            catch (Exception e)
+            {
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
+                {
+                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                }
+            }
+        }
+
+        private async void CopyImage(string filePath)
+        {
+            await new Action(() =>
+            {
+                try
+                {
+                    this.CurrentSource.FileToStream().StreamToFile(filePath);
+
+                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
+                    {
+                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                    }
+                }
+                catch (Exception e)
+                {
+                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
+                    {
+                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                    }
+                }
+            }).ExecuteInTask();
+        }
+
         public void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);
         }
+        #endregion
     }
 }

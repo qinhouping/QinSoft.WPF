@@ -28,13 +28,13 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}">
+                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Command="{Binding ScreenShotCommand}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
                     </Button>
-                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}">
+                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}" Command="{Binding SelectImageCommand}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
                     </Button>
-                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}">
+                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}" Command="{Binding SelectFileCommand}">
                         <TextBlock Style="{StaticResource IconFileO}"></TextBlock>
                     </Button>
                 </StackPanel>
@@ -47,7 +47,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:RichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}"></wpfControl:AutoAdjustRichTextBox>
+                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}"></wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

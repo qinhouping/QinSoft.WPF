@@ -113,7 +113,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.InputMessageContent);
             }
         }
-
         private MessageContentInfo temporaryInputMessagContent;
         public MessageContentInfo TemporaryInputMessagContent
         {
@@ -127,19 +126,24 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryInputMessagContent);
             }
         }
-
         public int NotReadMessageCount
         {
             get
             {
-                return this.messages.Count(u => u.State.Equals(MessageState.Received));
+                lock (this.messages)
+                {
+                    return this.messages.Count(u => u.State.Equals(MessageState.Received));
+                }
             }
         }
         public MessageInfo LastMessage
         {
             get
             {
-                return this.messages.LastOrDefault();
+                lock (this.messages)
+                {
+                    return this.messages.LastOrDefault();
+                }
             }
         }
         #endregion
@@ -179,6 +183,37 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        public ICommand ScreenShotCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                });
+            }
+        }
+
+        public ICommand SelectImageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+
+                });
+            }
+        }
+
+        public ICommand SelectFileCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                });
+            }
+        }
+
         public ICommand SendMessageCommand
         {
             get
@@ -201,7 +236,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     new Action(() =>
                     {
                         this.InputMessageContent = null;
-                        this.Messages.Add(message);
+                        lock (this.Messages)
+                        {
+                            this.Messages.Add(message);
+                        }
                     }).ExecuteInUIThread();
                 });
             }
@@ -213,7 +251,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<MessageInfo>((message) =>
                 {
-
+                    MessageInfo newMessage = new MessageInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ChatId = this.Chat.Id,
+                        MsgId = null,
+                        MsgTime = DateTime.Now,
+                        FromUser = this.ApplicationContextViewModel.CurrentStaff.ImUserId,
+                        ToUsers = this.Chat.ChatUsers.Select(u => u.ImUserId).ToArray(),
+                        State = MessageState.Sending,
+                        Type = message.Type,
+                        Content = message.Content
+                    };
+                    new Action(() =>
+                    {
+                        lock (this.Messages)
+                        {
+                            this.Messages.Remove(message);
+                            this.Messages.Add(newMessage);
+                        }
+                    }).ExecuteInUIThread();
                 });
             }
         }

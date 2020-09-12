@@ -22,8 +22,7 @@ namespace QinSoft.WPF.Control
 
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (!IsMouseOver)
-                ScrollToBottom();
+            ScrollToBottom();
         }
 
         protected virtual ScrollViewer GetScrollViewerChild()

@@ -13,13 +13,20 @@
         <ContentControl Focusable="False">
             <ContentControl.Style>
                 <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="该消息类型暂不支持"></TextBlock>
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
                     <Style.Triggers>
                         <!--表情-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Emotion}">
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static entity:MessageTypeConst.Emotion}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
-                                        <Image Source="{Binding MsgContent.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
+                                        <Image Source="{Binding Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
                                             <Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
                                             </Image.InputBindings>
@@ -29,11 +36,11 @@
                             </Setter>
                         </DataTrigger>
                         <!--图片-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Image}">
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static entity:MessageTypeConst.Image}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
-                                        <Image Source="{Binding MsgContent.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
+                                        <Image Source="{Binding Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
                                             <Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenImageMessageCommand}"></MouseBinding>
                                             </Image.InputBindings>
@@ -42,28 +49,8 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        <!--音频-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Voice}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <Grid>
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="该消息类型暂不支持"></TextBlock>
-                                    </Grid>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                        <!--视频-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Video}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <Grid>
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="该消息类型暂不支持"></TextBlock>
-                                    </Grid>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
                         <!--链接-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.Link}">
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static entity:MessageTypeConst.Link}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">
@@ -78,15 +65,15 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Image Margin="2" Source="{Binding MsgContent.ThumbUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding MsgContent.Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Description}" ToolTip="{Binding MsgContent.Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"></TextBlock>
+                                        <Image Margin="2" Source="{Binding Content.ThumbUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
                         <!--文件-->
-                        <DataTrigger Binding="{Binding MsgType}" Value="{x:Static entity:MessageTypeConst.File}">
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static entity:MessageTypeConst.File}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">
@@ -102,8 +89,8 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Image Source="/Resource/Image/file.ico" Grid.RowSpan="2" Margin="5,2"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding MsgContent.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MsgContent.Extension}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#BBBBBB"></TextBlock>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Extension}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}" Foreground="#BBBBBB"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>

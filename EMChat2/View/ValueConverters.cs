@@ -29,7 +29,7 @@ namespace EMChat2.View
                 {
                     MessageInfo message = value as MessageInfo;
                     if (message == null) return null;
-                    else return MessageTools.GetMessageContentMark(message.Type, message.Content);
+                    else return MessageTools.GetMessageContentMark(message);
                 });
             }
         }
@@ -64,14 +64,14 @@ namespace EMChat2.View
         }
 
         #region 私有方法
-        private static void ParseMessageContentToDocument(FlowDocumentExt document, ref Block block, string messageType, string messageContent)
+        private static void ParseMessageContentToDocument(FlowDocumentExt document, ref Block block, MessageContentInfo messageContent)
         {
             if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
-            switch (messageType)
+            switch (messageContent.Type)
             {
                 case MessageTypeConst.Text:
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageType, messageContent) as TextMessageContent;
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
                         string[] messageContentItems = Regex.Split(textMessageContent.Content, Environment.NewLine);
                         for (int i = 0; i < messageContentItems.Length; i++)
                         {
@@ -102,7 +102,7 @@ namespace EMChat2.View
                         {
                             (block as BlockUIContainer).Child = new ChatMessageContentControlView()
                             {
-                                DataContext = new ChatMessageContentControlViewModel(messageType, MessageTools.ParseMessageContent(messageType, messageContent))
+                                DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
                             };
                             block = new Paragraph(); document.Blocks.Add(block);
                         }
@@ -110,14 +110,14 @@ namespace EMChat2.View
                         {
                             (block as Paragraph).Inlines.Add(new ChatMessageContentControlView()
                             {
-                                DataContext = new ChatMessageContentControlViewModel(messageType, MessageTools.ParseMessageContent(messageType, messageContent))
+                                DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
                             });
                         }
                     }; break;
                 case MessageTypeConst.Mixed:
                     {
-                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageType, messageContent) as MixedMessageContent).Items)
-                            ParseMessageContentToDocument(document, ref block, mixedItem.Type, mixedItem.Content);
+                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageContent) as MixedMessageContent).Items)
+                            ParseMessageContentToDocument(document, ref block, mixedItem);
                     }; break;
                 case MessageTypeConst.Tips:
                 case MessageTypeConst.Event:
@@ -139,7 +139,7 @@ namespace EMChat2.View
                     }
                     else
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
                         textMessageContent.Content += run.Text;
                         messageContent.Content = textMessageContent.ObjectToJson();
                     }
@@ -151,7 +151,7 @@ namespace EMChat2.View
                     {
                         ChatMessageContentControlView chatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.Type, Content = chatMessageContentControlViewModel.Content.ObjectToJson() };
                         messageContents.Add(messageContent);
                     }
                 }
@@ -176,7 +176,7 @@ namespace EMChat2.View
                     {
                         ChatMessageContentControlView chatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.MsgType, Content = chatMessageContentControlViewModel.MsgContent.ObjectToJson() };
+                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.Type, Content = chatMessageContentControlViewModel.Content.ObjectToJson() };
                         messageContents.Add(messageContent);
                     }
                 }
@@ -198,7 +198,7 @@ namespace EMChat2.View
                         }
                         else
                         {
-                            TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
+                            TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
                             textMessageContent.Content += Environment.NewLine;
                             messageContent.Content = textMessageContent.ObjectToJson();
                         }
@@ -215,11 +215,11 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     FlowDocumentExt flowDocument = new FlowDocumentExt();
-                    MessageContentInfo message = value as MessageContentInfo;
-                    if (message != null)
+                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    if (messageContent != null)
                     {
                         Block block = null;
-                        ParseMessageContentToDocument(flowDocument, ref block, message.Type, message.Content);
+                        ParseMessageContentToDocument(flowDocument, ref block, messageContent);
                     }
                     return flowDocument;
                 }, (value, targetType, parameter, cultInfo) =>
@@ -250,17 +250,13 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageContentInfo message = value as MessageContentInfo;
-                    if (message == null) return null;
-                    if (message.Type == MessageTypeConst.Tips)
+                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    if (messageContent != null && messageContent.Type == MessageTypeConst.Tips)
                     {
-                        TipsMessageContent tipsMessageContent = MessageTools.ParseMessageContent(message.Type, message.Content) as TipsMessageContent;
+                        TipsMessageContent tipsMessageContent = MessageTools.ParseMessageContent(messageContent) as TipsMessageContent;
                         return tipsMessageContent.Content;
                     }
-                    else
-                    {
-                        return "非提示信息";
-                    }
+                    return null;
                 });
             }
         }

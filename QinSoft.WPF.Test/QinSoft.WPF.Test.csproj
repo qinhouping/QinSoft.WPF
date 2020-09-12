@@ -69,10 +69,7 @@
       <HintPath>..\packages\QinSoft.Ioc.2.0.4\lib\net40\QinSoft.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="QinSoft.WPF">
-      <HintPath>..\QinSoft.WPF\bin\Debug\QinSoft.WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="QinSoft.WPF.Control">
-      <HintPath>..\QinSoft.WPF.Control\bin\Debug\QinSoft.WPF.Control.dll</HintPath>
+      <HintPath>..\QinSoft.WPF\bin\x64\Debug\QinSoft.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -152,6 +149,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
+      <Project>{ef5e068b-f7a6-4e04-95f7-054b2cbe1ebc}</Project>
+      <Name>QinSoft.WPF.Control</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QinSoft.WPF.Core\QinSoft.WPF.Core.csproj">
       <Project>{edb8a36f-82b6-49ca-b9b5-fb29c928a892}</Project>
       <Name>QinSoft.WPF.Core</Name>

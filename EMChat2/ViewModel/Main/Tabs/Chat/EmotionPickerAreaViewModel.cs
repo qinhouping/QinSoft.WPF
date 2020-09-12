@@ -149,8 +149,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         }
                     }
                 });
-                this.SelectedEmotionPackage = this.EmotionPackages.First();
-            }).ExecuteInTask();
+            }).ExecuteInUIThread();
         }
         #endregion
 
@@ -167,6 +166,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             set
             {
                 this.emotionPackages = value;
+                this.ChangeSelectedEmotionPackage();
+                this.emotionPackages.CollectionChanged += (s, e) =>
+                {
+                    this.ChangeSelectedEmotionPackage();
+                };
                 this.NotifyPropertyChange(() => this.EmotionPackages);
             }
         }
@@ -181,6 +185,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.selectedEmotionPackage = value;
                 this.NotifyPropertyChange(() => this.SelectedEmotionPackage);
+            }
+        }
+        #endregion
+
+        #region 方法
+        private void ChangeSelectedEmotionPackage()
+        {
+            if (this.SelectedEmotionPackage == null && this.EmotionPackages.Count > 0)
+            {
+                this.SelectedEmotionPackage = this.EmotionPackages.First();
             }
         }
         #endregion

@@ -25,7 +25,7 @@ namespace EMChat2.ViewModel
             new Action(() =>
             {
                 this.Setting = new SettingInfo();
-            }).ExecuteInTask();
+            }).ExecuteInUIThread();
         }
         #endregion
 

@@ -34,7 +34,7 @@ namespace EMChat2.View.Main.Tabs.Chat
             if (e.NewValue is ChatMessageContentControlViewModel)
             {
                 ChatMessageContentControlViewModel chatMessageContentControlViewModel = e.NewValue as ChatMessageContentControlViewModel;
-                switch (chatMessageContentControlViewModel.MsgType)
+                switch (chatMessageContentControlViewModel.Type)
                 {
                     case MessageTypeConst.Text: { } break;
                     case MessageTypeConst.Emotion: { this.MaxWidth = 64; } break;

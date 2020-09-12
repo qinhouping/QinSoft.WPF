@@ -60,9 +60,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="QinSoft.WPF">
-      <HintPath>..\QinSoft.WPF\bin\Debug\QinSoft.WPF.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -118,6 +115,10 @@
     <ProjectReference Include="..\QinSoft.WPF.Core\QinSoft.WPF.Core.csproj">
       <Project>{EDB8A36F-82B6-49CA-B9B5-FB29C928A892}</Project>
       <Name>QinSoft.WPF.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QinSoft.WPF\QinSoft.WPF.csproj">
+      <Project>{72954f12-b600-4e5e-98ba-82aa5e046adf}</Project>
+      <Name>QinSoft.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

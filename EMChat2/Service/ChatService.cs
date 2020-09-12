@@ -41,61 +41,62 @@ namespace EMChat2.Service
         #region 方法
         public async void OpenLink(string url)
         {
-            await new Func<object>(() =>
+            await new Action(() =>
             {
                 Process.Start(url);
-                return null;
             }).ExecuteInTask();
         }
 
         public async void OpenImage(string[] sources, int index)
         {
-            await new Func<object>(() =>
+            for (int i = 0; i < sources.Length; i++)
             {
-                sources = sources.Select(u => systemService.GetUrlMapping(u)).ToArray();
-                new Action(() =>
+                sources[i] = await systemService.GetUrlMapping(sources[i]);
+            }
+            new Action(() =>
+            {
+                using (PictureExplorerViewModel pictureExplorerViewModel = new PictureExplorerViewModel(this.windowManager, this.eventAggregator, systemService, sources, index))
                 {
-                    PictureExplorerViewModel pictureExplorerViewModel = new PictureExplorerViewModel(this.windowManager, this.eventAggregator, systemService, sources, index);
                     this.windowManager.ShowDialog(pictureExplorerViewModel);
-                    pictureExplorerViewModel.Dispose();
-                }).ExecuteInUIThread();
-                return null;
-            }).ExecuteInTask();
+                }
+            }).ExecuteInUIThread();
         }
 
         public async void OpenFile(string filePath, string name, string extension)
         {
-            filePath = systemService.GetUrlMapping(filePath);
+            filePath = await systemService.GetUrlMapping(filePath);
             if (filePath.IsNetUrl())
             {
                 FileDialog fileDialog = new SaveFileDialog();
-                fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 fileDialog.FileName = name;
                 fileDialog.Filter = "文件|*." + extension;
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    await HttpTools.DownloadAsync(filePath, null, null).ContinueWith(task =>
-                    {
-                        try
-                        {
-                            task.Result.StreamToFile(fileDialog.FileName);
-                            systemService.StoreUrlMapping(new UrlMappingInfo() { Url = filePath, LocalFilePath = fileDialog.FileName });
-                            Process.Start(fileDialog.FileName);
-                        }
-                        catch (Exception e)
-                        {
-                            using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, "文件下载失败" + e.Message, "提示", AlertType.Error))
-                            {
-
-                                new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                            }
-                        }
-                    });
+                    await DownloadFile(filePath, fileDialog.FileName);
+                    Process.Start(filePath);
                 }
             }
             else
             {
                 Process.Start(filePath);
+            }
+        }
+
+        private async Task DownloadFile(string url, string filePath)
+        {
+            try
+            {
+                Stream stream = await HttpTools.DownloadAsync(url, null, null);
+                stream.StreamToFile(filePath);
+                systemService.StoreUrlMapping(new UrlMappingInfo() { Url = url, LocalFilePath = filePath });
+            }
+            catch (Exception e)
+            {
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
+                {
+                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                }
             }
         }
         #endregion

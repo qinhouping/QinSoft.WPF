@@ -57,7 +57,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public void Dispose()
         {
-            //this.eventAggregator.Unsubscribe(this);
+            this.eventAggregator.Unsubscribe(this);
         }
     }
 }

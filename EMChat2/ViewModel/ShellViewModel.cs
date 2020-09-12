@@ -40,7 +40,7 @@ namespace EMChat2.ViewModel
                     Content = "测试提醒",
                     Icon = Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
                 };
-            }).ExecuteInTask();
+            }).ExecuteInUIThread();
         }
         #endregion
 

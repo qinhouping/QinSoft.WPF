@@ -49,12 +49,11 @@ namespace EMChat2.Service
 
         public async void StoreLoginInfo(LoginInfo loginInfo)
         {
-            await new Func<object>(() =>
+            await new Action(() =>
             {
                 loginInfo = loginInfo.Clone();
                 loginInfo.Password = loginInfo.Password.Base64();
                 loginInfo.ObjectToJson().StringToStream().StreamToFile(loginInfoFilePath);
-                return null;
             }).ExecuteInTask();
         }
 
@@ -66,31 +65,35 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public string GetUrlMapping(string url, bool retOrigin = true)
+        public async Task<string> GetUrlMapping(string url, bool retOrigin = true)
         {
-            UrlMappingInfo urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
-            if (urlMappingInfo == null || !urlMappingInfo.LocalFilePath.IsExistsFile())
+            return await new Func<string>(() =>
             {
-                if (retOrigin) return url;
-                else return null;
-            }
-            else
-            {
-                return urlMappingInfo.LocalFilePath;
-            }
+                lock (this.urlMappingInfos)
+                {
+                    UrlMappingInfo urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
+                    if (urlMappingInfo == null || !urlMappingInfo.LocalFilePath.IsExistsFile())
+                    {
+                        return retOrigin ? url : null;
+                    }
+                    else
+                    {
+                        return urlMappingInfo.LocalFilePath;
+                    }
+                }
+            }).ExecuteInTask();
         }
 
         public async void StoreUrlMapping(UrlMappingInfo urlMappingInfo)
         {
-            await new Func<object>(() =>
+            await new Action(() =>
             {
-                lock (this)
+                lock (this.urlMappingInfos)
                 {
                     this.urlMappingInfos.Remove(urlMappingInfo);
                     this.urlMappingInfos.Add(urlMappingInfo);
                     urlMappingInfos.ObjectToJson().StringToStream().StreamToFile(urlMappingFilePath);
                 }
-                return null;
             }).ExecuteInTask();
         }
         #endregion

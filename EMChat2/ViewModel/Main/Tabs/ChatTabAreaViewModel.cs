@@ -73,6 +73,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             set
             {
                 this.chatTabItems = value;
+                this.ChangeSelectedChatTabItem();
                 this.chatTabItems.CollectionChanged += (s, e) =>
                 {
                     this.ChangeSelectedChatTabItem();
@@ -146,28 +147,31 @@ namespace EMChat2.ViewModel.Main.Tabs
             //TODO 测试数据
             new Action(() =>
             {
-                this.ChatTabItems.Clear();
-                for (int i = 0; i < 10; i++)
+                lock (this.ChatTabItems)
                 {
-                    this.ChatTabItems.Add(
-                        new PrivateChatTabItemAreaViewModel(
-                            this.windowManager,
-                            this.eventAggregator,
-                            this.applicationContextViewModel,
-                            this.emotionPickerAreaViewModel,
-                            this.CreatePrivateChat(new CustomerInfo()
-                            {
-                                Id = Guid.NewGuid().ToString(),
-                                ImUserId = "1",
-                                Name = "私聊-投顾" + i,
-                                HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
-                                State = UserStateEnum.Online,
-                                Business = BusinessEnum.Advisor,
-                                Uid = "1"
-                            },
-                            BusinessEnum.Advisor),
-                            this.chatService,
-                            this.systemService));
+                    this.ChatTabItems.Clear();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        this.ChatTabItems.Add(
+                            new PrivateChatTabItemAreaViewModel(
+                                this.windowManager,
+                                this.eventAggregator,
+                                this.applicationContextViewModel,
+                                this.emotionPickerAreaViewModel,
+                                this.CreatePrivateChat(new CustomerInfo()
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    ImUserId = "1",
+                                    Name = "私聊-投顾" + i,
+                                    HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
+                                    State = UserStateEnum.Online,
+                                    Business = BusinessEnum.Advisor,
+                                    Uid = "1"
+                                },
+                                BusinessEnum.Advisor),
+                                this.chatService,
+                                this.systemService));
+                    }
                 }
             }).ExecuteInUIThread();
         }
@@ -175,27 +179,20 @@ namespace EMChat2.ViewModel.Main.Tabs
         public void Handle(CloseChatEventArgs arg)
         {
             new Action(() => this.ChatTabItems.Remove(arg.Chat)).ExecuteInUIThread();
-            ChangeSelectedChatTabItem();
         }
 
         public void Handle(NotReadMessageCountChangedEventArgs Message)
         {
-            this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
+            lock (this.ChatTabItems)
+            {
+                this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
+            }
         }
 
         public void Handle(SelectEmotionEventArgs arg)
         {
             if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = new MessageContentInfo()
-            {
-                Type = MessageTypeConst.Emotion,
-                Content = new EmotionMessageContent()
-                {
-                    Url = arg.Emotion.Url,
-                    Name = arg.Emotion.Name,
-                    IsGif = arg.Emotion.IsGif
-                }.ObjectToJson()
-            };
+            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateEmotionMessageContent(arg.Emotion);
         }
         #endregion
     }

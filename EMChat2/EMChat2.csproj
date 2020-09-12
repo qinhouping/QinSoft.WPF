@@ -147,7 +147,7 @@
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\RetryTools.cs" />
-    <Compile Include="Common\RichTextBoxAttach.cs" />
+    <Compile Include="Common\MessageRichTextBoxAttach.cs" />
     <Compile Include="Common\TaskbarIconAttach.cs" />
     <Compile Include="Common\VersionTools.cs" />
     <Compile Include="Common\Win32Tools.cs" />

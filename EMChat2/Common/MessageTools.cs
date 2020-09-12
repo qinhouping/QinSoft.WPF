@@ -12,23 +12,23 @@ namespace EMChat2.Common
     /// </summary>
     public static class MessageTools
     {
-        public static object ParseMessageContent(string messageType, string messageContent)
+        public static object ParseMessageContent(MessageContentInfo messageContent)
         {
-            if (string.IsNullOrEmpty(messageContent) || string.IsNullOrEmpty(messageType)) return null;
-            switch (messageType)
+            if (messageContent == null) return null;
+            switch (messageContent.Type)
             {
-                case MessageTypeConst.Text: return messageContent.JsonToObject<TextMessageContent>();
-                case MessageTypeConst.Emotion: return messageContent.JsonToObject<EmotionMessageContent>();
-                case MessageTypeConst.Image: return messageContent.JsonToObject<ImageMessageContent>();
+                case MessageTypeConst.Text: return messageContent.Content.JsonToObject<TextMessageContent>();
+                case MessageTypeConst.Emotion: return messageContent.Content.JsonToObject<EmotionMessageContent>();
+                case MessageTypeConst.Image: return messageContent.Content.JsonToObject<ImageMessageContent>();
                 case MessageTypeConst.Voice: return null;
                 case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Link: return messageContent.JsonToObject<LinkMessageContent>();
-                case MessageTypeConst.File: return messageContent.JsonToObject<FileMessageContent>();
-                case MessageTypeConst.Mixed: return messageContent.JsonToObject<MixedMessageContent>();
-                case MessageTypeConst.Tips: return messageContent.JsonToObject<TipsMessageContent>();
+                case MessageTypeConst.Link: return messageContent.Content.JsonToObject<LinkMessageContent>();
+                case MessageTypeConst.File: return messageContent.Content.JsonToObject<FileMessageContent>();
+                case MessageTypeConst.Mixed: return messageContent.Content.JsonToObject<MixedMessageContent>();
+                case MessageTypeConst.Tips: return messageContent.Content.JsonToObject<TipsMessageContent>();
                 case MessageTypeConst.Event:
                     {
-                        EventMessageContentBase eventMessageContentBase = messageContent.JsonToObject<EventMessageContentBase>();
+                        EventMessageContentBase eventMessageContentBase = messageContent.Content.JsonToObject<EventMessageContentBase>();
                         //TODO 针对不同事件反序列化不同事件对象
                         return eventMessageContentBase;
                     }
@@ -36,23 +36,51 @@ namespace EMChat2.Common
             }
         }
 
-        public static string GetMessageContentMark(string messageType, string messageContent)
+        public static string GetMessageContentMark(MessageContentInfo messageContent)
         {
-            if (string.IsNullOrEmpty(messageContent) || string.IsNullOrEmpty(messageType)) return null;
-            switch (messageType)
+            if (messageContent == null) return null;
+            switch (messageContent.Type)
             {
-                case MessageTypeConst.Text: return messageContent.JsonToObject<TextMessageContent>().Content.Replace(Environment.NewLine, string.Empty);
-                case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", messageContent.JsonToObject<EmotionMessageContent>().Name);
+                case MessageTypeConst.Text: return messageContent.Content.JsonToObject<TextMessageContent>().Content.Replace(Environment.NewLine, string.Empty);
+                case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", messageContent.Content.JsonToObject<EmotionMessageContent>().Name);
                 case MessageTypeConst.Image: return string.Format("[图片]");
                 case MessageTypeConst.Voice: return null;
                 case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Link: return string.Format("[链接-{0}]", messageContent.JsonToObject<LinkMessageContent>().Title);
-                case MessageTypeConst.File: return string.Format("[文件-{0}]", messageContent.JsonToObject<FileMessageContent>().Name);
-                case MessageTypeConst.Mixed: return string.Join("", messageContent.JsonToObject<MixedMessageContent>().Items.Select(u => GetMessageContentMark(u.Type, u.Content)));
-                case MessageTypeConst.Tips: return string.Format("[提示-{0}]", messageContent.JsonToObject<TipsMessageContent>().Content);
-                case MessageTypeConst.Event: return string.Format("[事件-{0}]", messageContent.JsonToObject<EventMessageContentBase>().Event);
+                case MessageTypeConst.Link: return string.Format("[链接-{0}]", messageContent.Content.JsonToObject<LinkMessageContent>().Title);
+                case MessageTypeConst.File: return string.Format("[文件-{0}]", messageContent.Content.JsonToObject<FileMessageContent>().Name);
+                case MessageTypeConst.Mixed: return string.Join("", messageContent.Content.JsonToObject<MixedMessageContent>().Items.Select(u => GetMessageContentMark(u)));
+                case MessageTypeConst.Tips: return string.Format("[提示-{0}]", messageContent.Content.JsonToObject<TipsMessageContent>().Content);
+                case MessageTypeConst.Event: return string.Format("[事件-{0}]", messageContent.Content.JsonToObject<EventMessageContentBase>().Event);
                 default: return null;
             }
+        }
+
+        public static MessageContentInfo CreateEmotionMessageContent(EmotionInfo emotion)
+        {
+            if (emotion == null) return null;
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Emotion,
+                Content = new EmotionMessageContent()
+                {
+                    Url = emotion.Url,
+                    Name = emotion.Name,
+                    IsGif = emotion.IsGif
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateImageMessageContent(string url)
+        {
+            if (string.IsNullOrEmpty(url)) return null;
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Image,
+                Content = new ImageMessageContent()
+                {
+                    Url = url
+                }.ObjectToJson()
+            };
         }
     }
 }

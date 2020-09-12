@@ -17,40 +17,40 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class ChatMessageContentControlViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public ChatMessageContentControlViewModel(string msgType, object msgContent)
+        public ChatMessageContentControlViewModel(string type, object content)
         {
-            this.msgType = msgType;
-            this.msgContent = msgContent;
+            this.type = type;
+            this.content = content;
             this.chatService = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<ChatService>();
         }
         #endregion
 
         #region 属性 
         private ChatService chatService;
-        private string msgType;
-        public string MsgType
+        private string type;
+        public string Type
         {
             get
             {
-                return this.msgType;
+                return this.type;
             }
             set
             {
-                this.msgType = value;
-                this.NotifyPropertyChange(() => this.MsgType);
+                this.type = value;
+                this.NotifyPropertyChange(() => this.Type);
             }
         }
-        private object msgContent;
-        public object MsgContent
+        private object content;
+        public object Content
         {
             get
             {
-                return this.msgContent;
+                return this.content;
             }
             set
             {
-                this.msgContent = value;
-                this.NotifyPropertyChange(() => this.MsgContent);
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
             }
         }
         #endregion
@@ -62,7 +62,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    ImageMessageContent imageMessageContent = MsgContent as ImageMessageContent;
+                    ImageMessageContent imageMessageContent = Content as ImageMessageContent;
                     this.chatService.OpenImage(new string[] { imageMessageContent.Url }, 0);
                 });
             }
@@ -74,7 +74,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    EmotionMessageContent emotionMessageContent = MsgContent as EmotionMessageContent;
+                    EmotionMessageContent emotionMessageContent = Content as EmotionMessageContent;
                     this.chatService.OpenImage(new string[] { emotionMessageContent.Url }, 0);
                 });
             }
@@ -86,7 +86,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    LinkMessageContent linkMessageContent = MsgContent as LinkMessageContent;
+                    LinkMessageContent linkMessageContent = Content as LinkMessageContent;
                     this.chatService.OpenLink(linkMessageContent.Url);
                 });
             }
@@ -98,7 +98,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    FileMessageContent fileMessageContent = MsgContent as FileMessageContent;
+                    FileMessageContent fileMessageContent = Content as FileMessageContent;
                     this.chatService.OpenFile(fileMessageContent.Url, fileMessageContent.Name, fileMessageContent.Extension);
                 });
             }

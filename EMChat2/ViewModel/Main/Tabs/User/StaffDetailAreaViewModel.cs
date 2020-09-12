@@ -44,9 +44,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         }
         #endregion
 
+        #region 方法
         public void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);
         }
+        #endregion
     }
 }

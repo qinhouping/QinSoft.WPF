@@ -110,7 +110,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     State = UserStateEnum.Busy,
                     Uid = "customer2"
                 });
-            }).ExecuteInTask();
+            }).ExecuteInUIThread();
         }
         #endregion
 

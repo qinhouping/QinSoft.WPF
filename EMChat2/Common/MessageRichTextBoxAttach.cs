@@ -13,10 +13,10 @@ using System.Windows.Documents;
 
 namespace EMChat2.Common
 {
-    public class RichTextBoxAttach
+    public class MessageRichTextBoxAttach
     {
         public static readonly DependencyProperty InputMessageContentProperty =
-             DependencyProperty.RegisterAttached("InputMessageContent", typeof(MessageContentInfo), typeof(RichTextBoxAttach), new PropertyMetadata(OnMessageContentInfoPropertyChangedCallback));
+             DependencyProperty.RegisterAttached("InputMessageContent", typeof(MessageContentInfo), typeof(MessageRichTextBoxAttach), new PropertyMetadata(OnMessageContentInfoPropertyChangedCallback));
         public static void SetInputMessageContent(DependencyObject dp, MessageContentInfo value)
         {
             dp.SetValue(InputMessageContentProperty, value);
@@ -32,7 +32,7 @@ namespace EMChat2.Common
             {
                 case MessageTypeConst.Text:
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as TextMessageContent;
+                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
                         new Run(textMessageContent.Content, textPointer);
                     }; break;
                 case MessageTypeConst.Emotion:
@@ -42,7 +42,7 @@ namespace EMChat2.Common
                 case MessageTypeConst.Link:
                 case MessageTypeConst.File:
                     {
-                        object tmpMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content);
+                        object tmpMessageContent = MessageTools.ParseMessageContent(messageContent);
                         ChatMessageContentControlView chatMessageContentControlView = new ChatMessageContentControlView()
                         {
                             DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
@@ -52,7 +52,7 @@ namespace EMChat2.Common
                     break;
                 case MessageTypeConst.Mixed:
                     {
-                        MixedMessageContent mixedMessageContent = MessageTools.ParseMessageContent(messageContent.Type, messageContent.Content) as MixedMessageContent;
+                        MixedMessageContent mixedMessageContent = MessageTools.ParseMessageContent(messageContent) as MixedMessageContent;
                         foreach (MessageContentInfo tmpMessageContent in mixedMessageContent.Items)
                         {
                             AppendMessageContent(tmpMessageContent, textPointer);
