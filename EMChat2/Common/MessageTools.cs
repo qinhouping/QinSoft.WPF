@@ -1,6 +1,7 @@
 ﻿using EMChat2.Model.Entity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,15 +71,30 @@ namespace EMChat2.Common
             };
         }
 
-        public static MessageContentInfo CreateImageMessageContent(string url)
+        public static MessageContentInfo CreateImageMessageContent(FileInfo file)
         {
-            if (string.IsNullOrEmpty(url)) return null;
+            if (file == null) return null;
             return new MessageContentInfo()
             {
                 Type = MessageTypeConst.Image,
                 Content = new ImageMessageContent()
                 {
-                    Url = url
+                    Url = file.FullName
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateFileMessageContent(FileInfo file)
+        {
+            if (file == null) return null;
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.File,
+                Content = new FileMessageContent()
+                {
+                    Url = file.FullName,
+                    Name = file.Name,
+                    Extension = file.Extension
                 }.ObjectToJson()
             };
         }

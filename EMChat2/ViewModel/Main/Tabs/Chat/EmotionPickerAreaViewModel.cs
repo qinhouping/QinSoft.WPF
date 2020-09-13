@@ -192,9 +192,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 方法
         private void ChangeSelectedEmotionPackage()
         {
-            if (this.SelectedEmotionPackage == null && this.EmotionPackages.Count > 0)
+            lock (this.EmotionPackages)
             {
-                this.SelectedEmotionPackage = this.EmotionPackages.First();
+                if (this.SelectedEmotionPackage == null && this.EmotionPackages.Count > 0)
+                {
+                    this.SelectedEmotionPackage = this.EmotionPackages.First();
+                }
             }
         }
         #endregion

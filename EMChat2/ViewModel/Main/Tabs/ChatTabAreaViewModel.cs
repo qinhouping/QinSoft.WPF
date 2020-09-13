@@ -14,11 +14,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<CloseChatEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
@@ -132,9 +133,30 @@ namespace EMChat2.ViewModel.Main.Tabs
 
         private void ChangeSelectedChatTabItem()
         {
-            if (this.SelectedChatTabItem == null && this.ChatTabItems.Count > 0)
+            lock (this.ChatTabItems)
             {
-                this.SelectedChatTabItem = this.ChatTabItems.First();
+                if (this.SelectedChatTabItem == null && this.ChatTabItems.Count > 0)
+                {
+                    this.SelectedChatTabItem = this.ChatTabItems.First();
+                }
+            }
+        }
+        #endregion
+
+        #region 命令
+
+        public ICommand CloseChatCommand
+        {
+            get
+            {
+                return new RelayCommand<ChatTabItemAreaViewModel>((chat) =>
+                {
+                    lock (this.ChatTabItems)
+                    {
+                        this.ChatTabItems.Remove(chat);
+                        chat.Dispose();
+                    }
+                });
             }
         }
         #endregion
@@ -176,11 +198,6 @@ namespace EMChat2.ViewModel.Main.Tabs
             }).ExecuteInUIThread();
         }
 
-        public void Handle(CloseChatEventArgs arg)
-        {
-            new Action(() => this.ChatTabItems.Remove(arg.Chat)).ExecuteInUIThread();
-        }
-
         public void Handle(NotReadMessageCountChangedEventArgs Message)
         {
             lock (this.ChatTabItems)
@@ -193,6 +210,18 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             if (this.SelectedChatTabItem == null) return;
             this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateEmotionMessageContent(arg.Emotion);
+        }
+
+        public void Handle(SelectImageEventArgs arg)
+        {
+            if (this.SelectedChatTabItem == null) return;
+            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateImageMessageContent(arg.File);
+        }
+
+        public void Handle(SelectFileEventArgs arg)
+        {
+            if (this.SelectedChatTabItem == null) return;
+            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateFileMessageContent(arg.File);
         }
         #endregion
     }

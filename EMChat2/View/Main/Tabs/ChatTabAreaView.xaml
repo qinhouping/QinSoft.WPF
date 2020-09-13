@@ -6,11 +6,16 @@
       xmlns:view="clr-namespace:EMChat2.View"
       xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
       xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+      xmlns:common="clr-namespace:EMChat2.Common"
       xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
+        <Grid.Resources>
+            <common:BindingProxy x:Key="chatTabData" Data="{Binding}"></common:BindingProxy>
+        </Grid.Resources>
+
         <TabControl Grid.ZIndex="0" ItemContainerStyle="{StaticResource IM-Chat-TabItem}" ItemsSource="{Binding ChatTabItems}" SelectedItem="{Binding SelectedChatTabItem}">
             <TabControl.Style>
                 <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource IM-Chat-Tab}">
@@ -132,6 +137,7 @@
                                                         <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
                                                     </Grid>
 
+                                                    <!--右键菜单-->
                                                     <Grid.ContextMenu>
                                                         <ContextMenu Style="{StaticResource BaseContextMenu}">
                                                             <MenuItem Command="{Binding ToggleChatIsTopCommand}">
@@ -158,7 +164,7 @@
                                                                     </Style>
                                                                 </MenuItem.Style>
                                                             </MenuItem>
-                                                            <MenuItem Header="移除" Style="{StaticResource MenuItem-H}" Command="{Binding CloseChatCommand}"></MenuItem>
+                                                            <MenuItem Header="移除" Style="{StaticResource MenuItem-H}" Command="{Binding Data.CloseChatCommand, Source={StaticResource chatTabData}}" CommandParameter="{Binding}"></MenuItem>
                                                         </ContextMenu>
                                                     </Grid.ContextMenu>
                                                 </Grid>

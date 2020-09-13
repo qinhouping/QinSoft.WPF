@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -118,7 +120,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.temporaryInputMessagContent;
+                //TODO 用完就会被清除
+                MessageContentInfo messageContent = this.temporaryInputMessagContent;
+                this.temporaryInputMessagContent = null;
+                return messageContent;
             }
             set
             {
@@ -171,18 +176,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public ICommand CloseChatCommand
-        {
-            get
-            {
-                return new RelayCommand(() =>
-                {
-                    this.eventAggregator.PublishAsync(new CloseChatEventArgs() { Chat = this });
-                    this.Dispose();
-                });
-            }
-        }
-
         public ICommand ScreenShotCommand
         {
             get
@@ -199,7 +192,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
+                    FileDialog fileDialog = new OpenFileDialog();
+                    fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                    fileDialog.Filter = "图片|*.jpg;*.jpeg;*.png;*.gif";
 
+                    if (fileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileDialog.FileName) });
+                    }
                 });
             }
         }
@@ -210,6 +210,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
+                    FileDialog fileDialog = new OpenFileDialog();
+                    fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                    fileDialog.Filter = "文件|*.*";
+
+                    if (fileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.eventAggregator.PublishAsync(new SelectFileEventArgs() { File = new FileInfo(fileDialog.FileName) });
+                    }
                 });
             }
         }
