@@ -3,12 +3,12 @@ using EMChat2.Model.Entity;
 using EMChat2.Model.Event;
 using EMChat2.Service;
 using QinSoft.Event;
-using QinSoft.Log.Utils;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -176,12 +176,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public ICommand ScreenShotCommand
+        public ICommand CaptureScreenCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
+                    if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
+                    {
+                        this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
+                    }
+
+                    //启动截图进程
+                    CaptureScreenTools.CallCaptureScreenProcess();
+
+                    if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
+                    {
+                        this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
+                    }
+                    GetImageFromClipboard();
                 });
             }
         }
@@ -211,7 +224,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
                     FileDialog fileDialog = new OpenFileDialog();
-                    fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                    fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     fileDialog.Filter = "文件|*.*";
 
                     if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -265,6 +278,21 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 方法
+
+        private async void GetImageFromClipboard()
+        {
+            Image image = Clipboard.GetImage();
+            if (image == null) return;
+            FileInfo fileInfo = await new Func<FileInfo>(() =>
+            {
+                string tempFileName = Path.Combine(Path.GetTempPath(), "EMChat2", Guid.NewGuid().ToString() + ".jpeg");
+                image.ImageToStream().StreamToFile(tempFileName);
+                return new FileInfo(tempFileName);
+            }).ExecuteInTask();
+            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = fileInfo });
+            Clipboard.Clear();
+        }
+
         public virtual void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);

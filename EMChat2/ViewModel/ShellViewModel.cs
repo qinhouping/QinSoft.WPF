@@ -16,7 +16,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class ShellViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class ShellViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<CaptureScreenEventArgs>
     {
         #region 构造函数
         public ShellViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel, UserService userService)
@@ -200,6 +200,18 @@ namespace EMChat2.ViewModel
         public void Handle(ExitEventArgs arg)
         {
             new Action(() => this.windowManager.CloseWindow(this)).ExecuteInUIThread();
+        }
+
+        public void Handle(CaptureScreenEventArgs arg)
+        {
+            if (arg.Action == CaptureScreenAction.Begin)
+            {
+                this.windowManager.HideWindow(this);
+            }
+            else if (arg.Action == CaptureScreenAction.End)
+            {
+                this.windowManager.ShowWindow(this);
+            }
         }
         #endregion
     }

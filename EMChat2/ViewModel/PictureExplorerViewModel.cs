@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace EMChat2.ViewModel.Main.Tabs.Chat
+namespace EMChat2.ViewModel
 {
     public class PictureExplorerViewModel : PropertyChangedBase, IDisposable
     {

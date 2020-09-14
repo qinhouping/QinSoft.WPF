@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace EMChat2.View.Main.Tabs.Chat
+namespace EMChat2.View
 {
     /// <summary>
     /// PictureExplorerView.xaml 的交互逻辑

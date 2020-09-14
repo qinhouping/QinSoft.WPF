@@ -28,7 +28,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Command="{Binding ScreenShotCommand}">
+                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Command="{Binding CaptureScreenCommand}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
                     </Button>
                     <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}" Command="{Binding SelectImageCommand}">

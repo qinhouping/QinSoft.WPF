@@ -45,5 +45,19 @@ namespace EMChat2.Model.Entity
                 this.NotifyPropertyChange(() => this.IsShowChatSlider);
             }
         }
+
+        private bool isHideWhenCaptureScreen = true;
+        public bool IsHideWhenCaptureScreen
+        {
+            get
+            {
+                return this.isHideWhenCaptureScreen;
+            }
+            set
+            {
+                this.isHideWhenCaptureScreen = value;
+                this.NotifyPropertyChange(() => IsHideWhenCaptureScreen);
+            }
+        }
     }
 }

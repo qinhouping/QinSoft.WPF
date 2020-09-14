@@ -78,8 +78,10 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.chatTabItems.CollectionChanged += (s, e) =>
                 {
                     this.ChangeSelectedChatTabItem();
+                    this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
                 };
                 this.NotifyPropertyChange(() => this.ChatTabItems);
+                this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
             }
         }
         private ChatTabItemAreaViewModel selectedChatTabItem;
@@ -98,17 +100,14 @@ namespace EMChat2.ViewModel.Main.Tabs
         }
         private ChatService chatService;
         private SystemService systemService;
-        private int totalNotReadMessageCount;
         public int TotalNotReadMessageCount
         {
             get
             {
-                return this.totalNotReadMessageCount;
-            }
-            set
-            {
-                this.totalNotReadMessageCount = value;
-                this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+                lock (this.ChatTabItems)
+                {
+                    return this.ChatTabItems.Sum(u => u.NotReadMessageCount);
+                }
             }
         }
         #endregion
@@ -200,10 +199,7 @@ namespace EMChat2.ViewModel.Main.Tabs
 
         public void Handle(NotReadMessageCountChangedEventArgs Message)
         {
-            lock (this.ChatTabItems)
-            {
-                this.TotalNotReadMessageCount = ChatTabItems.Sum(u => u.NotReadMessageCount);
-            }
+            this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
         }
 
         public void Handle(SelectEmotionEventArgs arg)
