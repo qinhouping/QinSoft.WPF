@@ -163,7 +163,7 @@
     <Compile Include="Model\Event\SelectFileEventArgs.cs" />
     <Compile Include="Model\Event\SelectImageEventArgs.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\ChatSliderAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatSliderAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\CustomerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\CustomerDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\DepartmentDetailAreaViewModel.cs" />
@@ -254,8 +254,8 @@
     <Compile Include="View\Main\Tabs\Chat\ChatMessageInputAreaView.xaml.cs">
       <DependentUpon>ChatMessageInputAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml.cs">
-      <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Tabs\Chat\PrivateChatSliderAreaView.xaml.cs">
+      <DependentUpon>PrivateChatSliderAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml.cs">
       <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
@@ -411,7 +411,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\ChatSliderAreaView.xaml">
+    <Page Include="View\Main\Tabs\Chat\PrivateChatSliderAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

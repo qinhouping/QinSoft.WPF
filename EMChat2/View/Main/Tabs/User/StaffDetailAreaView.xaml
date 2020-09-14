@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <!--基本信息-->
         <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1">
             <Grid Margin="0,20">
@@ -51,7 +51,7 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                    
+
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--原名称-->
                         <TextBlock x:Name="staffOriName" Text="{Binding Staff.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2">
@@ -74,7 +74,7 @@
                 <Image Source="{Binding Staff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.Column="2" Style="{StaticResource IM-Big-Header-Image}"></Image>
             </Grid>
         </Border>
-        
+
         <!--详细信息-->
         <Border Grid.Row="1" Margin="0,20">
             <StackPanel>
@@ -106,10 +106,10 @@
                 </Grid>
             </StackPanel>
         </Border>
-        
+
         <!--发送消息-->
         <Border Grid.Row="2" Margin="0,20">
-            <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Content="发消息"></Button>
+            <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Content="发消息" x:Name="allowChatBtn"></Button>
         </Border>
     </Grid>
 </UserControl>

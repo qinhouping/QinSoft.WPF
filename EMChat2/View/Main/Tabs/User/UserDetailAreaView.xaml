@@ -11,7 +11,7 @@
     <Grid>
         <!--默认显示-->
         <Border Visibility="{Binding Type,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static event:DetailType.None}}">
-            <Image Source="/Resource/Image/log.ico" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32"></Image>
+            <Image Source="/Resource/Image/log.ico" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Opacity="0.2"></Image>
         </Border>
 
         <!--标签客户详情-->

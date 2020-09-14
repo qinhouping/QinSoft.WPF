@@ -63,7 +63,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="IM-Chat-Tab" TargetType="{x:Type TabControl}">
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="BorderBrush" Value="#CCCCCC"></Setter>
@@ -183,6 +182,61 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#CCCCCC"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IM-ChatSlider-Tab" TargetType="{x:Type TabControl}">
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="ItemsControl.Padding" Value="0"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="#EEEEEE">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                    <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Horizontal" Cursor="Hand"></StackPanel>
+                                </ScrollViewer>
+                            </Border>
+                            <ContentPresenter Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IM-ChatSlider-TabItem" TargetType="{x:Type TabItem}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="MinHeight" Value="40"></Setter>
+        <Setter Property="MinWidth" Value="50"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid Margin="5,0">
+                        <Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"></Border>
+                        <ContentPresenter x:Name="PART_Content" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}"></ContentPresenter>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource DeepPurpleBrush}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

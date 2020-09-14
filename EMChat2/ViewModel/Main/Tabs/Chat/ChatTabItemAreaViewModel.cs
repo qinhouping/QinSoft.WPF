@@ -120,8 +120,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                //TODO 用完就会被清除
                 MessageContentInfo messageContent = this.temporaryInputMessagContent;
+                //用完就会被清除
                 this.temporaryInputMessagContent = null;
                 return messageContent;
             }
@@ -229,18 +229,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
 
-                    MessageInfo message = new MessageInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        ChatId = this.Chat.Id,
-                        MsgId = null,
-                        MsgTime = DateTime.Now,
-                        FromUser = this.ApplicationContextViewModel.CurrentStaff.ImUserId,
-                        ToUsers = this.Chat.ChatUsers.Select(u => u.ImUserId).ToArray(),
-                        State = MessageState.Sending,
-                        Type = this.InputMessageContent.Type,
-                        Content = this.InputMessageContent.Content
-                    };
+                    MessageInfo message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, this.InputMessageContent);
+                    if (message == null) return;
                     new Action(() =>
                     {
                         this.InputMessageContent = null;
@@ -257,26 +247,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<MessageInfo>((message) =>
+                return new RelayCommand<MessageInfo>((oldMessage) =>
                 {
-                    MessageInfo newMessage = new MessageInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        ChatId = this.Chat.Id,
-                        MsgId = null,
-                        MsgTime = DateTime.Now,
-                        FromUser = this.ApplicationContextViewModel.CurrentStaff.ImUserId,
-                        ToUsers = this.Chat.ChatUsers.Select(u => u.ImUserId).ToArray(),
-                        State = MessageState.Sending,
-                        Type = message.Type,
-                        Content = message.Content
-                    };
+                    MessageInfo message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, oldMessage);
+                    if (message == null) return;
                     new Action(() =>
                     {
                         lock (this.Messages)
                         {
-                            this.Messages.Remove(message);
-                            this.Messages.Add(newMessage);
+                            this.Messages.Remove(oldMessage);
+                            this.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
                 });

@@ -24,5 +24,24 @@ namespace EMChat2.View.Main.Tabs.User
         {
             InitializeComponent();
         }
+
+        public static DependencyProperty AllowChatProperty = DependencyProperty.Register("AllowChat", typeof(bool), typeof(CustomerDetailAreaView), new PropertyMetadata(true, (s, e) =>
+        {
+            CustomerDetailAreaView customerDetailAreaView = s as CustomerDetailAreaView;
+            if (customerDetailAreaView == null) return;
+            customerDetailAreaView.allowChatBtn.Visibility = customerDetailAreaView.AllowChat ? Visibility.Visible : Visibility.Collapsed;
+        }));
+
+        public bool AllowChat
+        {
+            get
+            {
+                return (bool)this.GetValue(AllowChatProperty);
+            }
+            set
+            {
+                this.SetValue(AllowChatProperty, value);
+            }
+        }
     }
 }

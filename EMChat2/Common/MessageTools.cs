@@ -98,5 +98,22 @@ namespace EMChat2.Common
                 }.ObjectToJson()
             };
         }
+
+        public static MessageInfo CreateMessage(StaffInfo staff, ChatInfo chat, MessageContentInfo messageContent, MessageState state = MessageState.Sending)
+        {
+            if (staff == null || chat == null || messageContent == null) return null;
+            return new MessageInfo()
+            {
+                Id = Guid.NewGuid().ToString(),
+                ChatId = chat.Id,
+                MsgId = null,
+                MsgTime = DateTime.Now,
+                FromUser = staff.ImUserId,
+                ToUsers = chat.ChatUsers.Select(u => u.ImUserId).ToArray(),
+                State = state,
+                Type = messageContent.Type,
+                Content = messageContent.Content
+            };
+        }
     }
 }

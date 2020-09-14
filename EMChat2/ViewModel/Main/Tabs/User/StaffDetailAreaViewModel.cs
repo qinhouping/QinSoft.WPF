@@ -16,6 +16,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
+            this.eventAggregator.Subscribe(this);
         }
 
         public StaffDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, StaffInfo staff)

@@ -21,7 +21,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public PrivateChatTabItemAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
-            this.chatSliderAreaViewModel = new ChatSliderAreaViewModel(this.windowManager, this.eventAggregator, Path.Combine(Directory.GetCurrentDirectory(), "emchat.html"));
+            this.privateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, chat);
 
             //TODO 测试数据
             new Action(() =>
@@ -150,17 +150,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 属性
-        private ChatSliderAreaViewModel chatSliderAreaViewModel;
-        public ChatSliderAreaViewModel ChatSliderAreaViewModel
+        private PrivateChatSliderAreaViewModel privateChatSliderAreaViewModel;
+        public PrivateChatSliderAreaViewModel PrivateChatSliderAreaViewModel
         {
             get
             {
-                return this.chatSliderAreaViewModel;
+                return this.privateChatSliderAreaViewModel;
             }
             set
             {
-                this.chatSliderAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.ChatSliderAreaViewModel);
+                this.privateChatSliderAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.PrivateChatSliderAreaViewModel);
             }
         }
         #endregion
@@ -171,7 +171,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 方法
         public override void Dispose()
         {
-            this.ChatSliderAreaViewModel.Dispose();
+            this.PrivateChatSliderAreaViewModel.Dispose();
             base.Dispose();
         }
         #endregion

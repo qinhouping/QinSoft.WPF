@@ -46,7 +46,7 @@
                                         </Grid>
                                     </Border>
                                     <Grid Grid.Column="1">
-                                        <Image Source="/Resource/Image/log.ico" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Visibility="{Binding Content, ElementName=PART_SelectedContentHost, Converter={x:Static wpf:ValueConverters.NullToVisibilityConverter}}"></Image>
+                                        <Image Source="/Resource/Image/log.ico" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Visibility="{Binding Content, ElementName=PART_SelectedContentHost, Converter={x:Static wpf:ValueConverters.NullToVisibilityConverter}}" Opacity="0.2"></Image>
                                         <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
                                     </Grid>
                                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1"></GridSplitter>
@@ -217,8 +217,8 @@
                                                     <chat:ChatMessageInputAreaView Grid.Row="2" TabIndex="1"></chat:ChatMessageInputAreaView>
 
                                                     <!--会话侧边栏-->
-                                                    <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" MinWidth="362" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
-                                                        <chat:ChatSliderAreaView DataContext="{Binding ChatSliderAreaViewModel}"></chat:ChatSliderAreaView>
+                                                    <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="362" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                                                        <chat:PrivateChatSliderAreaView DataContext="{Binding PrivateChatSliderAreaViewModel}"></chat:PrivateChatSliderAreaView>
                                                     </Grid>
                                                 </Grid>
                                             </Setter.Value>
