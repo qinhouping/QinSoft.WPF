@@ -294,7 +294,7 @@ namespace QinSoft.WPF
                         //超过一年
                         else
                         {
-                            return v.Value.ToString("yyyy-MM");
+                            return v.Value.ToString("yy-MM");
                         }
                     }
                     else return string.Empty;

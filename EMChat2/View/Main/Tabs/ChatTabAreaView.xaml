@@ -76,7 +76,7 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto" MinWidth="30"></ColumnDefinition>
+                                                        <ColumnDefinition Width="50"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition MinHeight="30"></RowDefinition>
@@ -85,17 +85,17 @@
 
                                                     <!--会话头像-->
                                                     <Grid Grid.Column="0" Grid.RowSpan="2" >
+                                                        <!--头像-->
+                                                        <Image Margin="10" Style="{StaticResource IM-Header-Image}" Source="{Binding Chat.HeaderImageUrl}"></Image>
+
                                                         <!--置顶标示-->
-                                                        <TextBlock ToolTip="置顶" Style="{StaticResource IconThumbTack}" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource OrangeBrush}" Visibility="{Binding Chat.IsTop, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}" RenderTransformOrigin="0.5,0.5">
+                                                        <TextBlock ToolTip="置顶" Style="{StaticResource IconThumbTack}" FontSize="{StaticResource SmallIconFontSize}" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource OrangeBrush}" Visibility="{Binding Chat.IsTop, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}" RenderTransformOrigin="0.5,0.5">
                                                             <TextBlock.RenderTransform>
                                                                 <TransformGroup>
                                                                     <RotateTransform Angle="-45"></RotateTransform>
                                                                 </TransformGroup>
                                                             </TextBlock.RenderTransform>
                                                         </TextBlock>
-
-                                                        <!--头像-->
-                                                        <Image Margin="10" Style="{StaticResource IM-Header-Image}" Source="{Binding Chat.HeaderImageUrl}"></Image>
 
                                                         <!--未读消息数-->
                                                         <Label HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Content="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.IntToFriendlyStringConverter}}" Visibility="{Binding NotReadMessageCount, Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
@@ -110,6 +110,7 @@
                                                         </Label>
                                                     </Grid>
 
+                                                    <!--名称相关-->
                                                     <Grid Grid.Column="1" Margin="0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -118,13 +119,8 @@
                                                         <!--会话名称-->
                                                         <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextTrimming="CharacterEllipsis"></TextBlock>
 
-                                                        <!--业务标示-->
+                                                        <!--业务名称-->
                                                         <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
-                                                    </Grid>
-
-                                                    <Grid Grid.Column="2" Grid.Row="0">
-                                                        <!--免打扰标示-->
-                                                        <TextBlock ToolTip="免打扰" Style="{StaticResource IconBellSlash}" Foreground="#AAAAAA" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" Visibility="{Binding Chat.IsInform, Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
                                                     </Grid>
 
                                                     <Grid Grid.Column="1" Grid.Row="1" Margin="0">
@@ -132,9 +128,14 @@
                                                         <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextTrimming="CharacterEllipsis" Foreground="#AAAAAA"></TextBlock>
                                                     </Grid>
 
+                                                    <Grid Grid.Column="2" Grid.Row="0">
+                                                        <!--免打扰标示-->
+                                                        <TextBlock ToolTip="免打扰" Style="{StaticResource IconBellSlash}" Foreground="#AAAAAA" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2" Visibility="{Binding Chat.IsInform, Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
+                                                    </Grid>
+
                                                     <Grid Grid.Column="2" Grid.Row="1">
                                                         <!--最后一条消息时间-->
-                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
+                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5,2" Foreground="#AAAAAA"></TextBlock>
                                                     </Grid>
 
                                                     <!--右键菜单-->
