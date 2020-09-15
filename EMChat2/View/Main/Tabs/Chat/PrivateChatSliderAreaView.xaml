@@ -48,7 +48,7 @@
                         <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-ChatSlider-TabItem}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject="{Binding ComputerInfoCefJsObject}"></cefCommon:CefWebBrowser>
+                                    <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject="{Binding ComputerInfoCefJsObject}" cefCommon:CefWebBrowserAttach.RegisterJsObject2="{Binding ChatInfoCefJsObject}"></cefCommon:CefWebBrowser>
                                 </Setter.Value>
                             </Setter>
                         </Style>

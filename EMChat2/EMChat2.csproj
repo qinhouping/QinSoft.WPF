@@ -139,6 +139,7 @@
     <Compile Include="Common\Cef\CefWebBrowser.cs" />
     <Compile Include="Common\Cef\CefJsConnector.cs" />
     <Compile Include="Common\Cef\CefWebBrowserAttach.cs" />
+    <Compile Include="Common\Cef\ChatInfoCefJsObject.cs" />
     <Compile Include="Common\Cef\ComputerInfoCefJsObject.cs" />
     <Compile Include="Common\ChineseCharactorTools.cs" />
     <Compile Include="Common\EncryptTools.cs" />

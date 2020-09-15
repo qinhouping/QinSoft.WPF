@@ -6,6 +6,7 @@ using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator);
-            this.address = "https://github.com/qinhouping";
             this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
+            this.chatInfoCefJsObject = new ChatInfoCefJsObject(ApplicationContextViewModel.CurrentStaff, chat);
+            this.address = this.chatInfoCefJsObject.AppendToken(Path.Combine(Directory.GetCurrentDirectory(), "emchat.html") + "?state=emchat2#target=staff");
         }
         #endregion
 
@@ -57,6 +59,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.computerInfoCefJsObject = value;
                 this.NotifyPropertyChange(() => this.ComputerInfoCefJsObject);
+            }
+        }
+        private ChatInfoCefJsObject chatInfoCefJsObject;
+        public ChatInfoCefJsObject ChatInfoCefJsObject
+        {
+            get
+            {
+                return this.chatInfoCefJsObject;
+            }
+            set
+            {
+                this.chatInfoCefJsObject = value;
+                this.NotifyPropertyChange(() => this.ChatInfoCefJsObject);
             }
         }
 
