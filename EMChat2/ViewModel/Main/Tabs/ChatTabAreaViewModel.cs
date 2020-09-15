@@ -19,16 +19,17 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>, IEventHandle<SelectQuickReplyEventArgs>
     {
         #region 构造函数
-        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatService chatService, SystemService systemService)
+        public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
+            this.quickReplyAreaViewModel = quickReplyAreaViewModel;
             this.ChatTabItems = new ThreadSafeObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
@@ -62,6 +63,19 @@ namespace EMChat2.ViewModel.Main.Tabs
             {
                 this.emotionPickerAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
+            }
+        }
+        private QuickReplyAreaViewModel quickReplyAreaViewModel;
+        public QuickReplyAreaViewModel QuickReplyAreaViewModel
+        {
+            get
+            {
+                return this.quickReplyAreaViewModel;
+            }
+            set
+            {
+                this.quickReplyAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
             }
         }
         private ThreadSafeObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
@@ -177,8 +191,9 @@ namespace EMChat2.ViewModel.Main.Tabs
                             new PrivateChatTabItemAreaViewModel(
                                 this.windowManager,
                                 this.eventAggregator,
-                                this.applicationContextViewModel,
-                                this.emotionPickerAreaViewModel,
+                                this.ApplicationContextViewModel,
+                                this.EmotionPickerAreaViewModel,
+                                this.QuickReplyAreaViewModel,
                                 this.CreatePrivateChat(new CustomerInfo()
                                 {
                                     Id = Guid.NewGuid().ToString(),
@@ -218,6 +233,12 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             if (this.SelectedChatTabItem == null) return;
             this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateFileMessageContent(arg.File);
+        }
+
+        public void Handle(SelectQuickReplyEventArgs arg)
+        {
+            if (this.SelectedChatTabItem == null) return;
+            this.SelectedChatTabItem.TemporaryInputMessagContent = arg.QuickReply;
         }
         #endregion
     }

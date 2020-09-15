@@ -74,6 +74,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotLiquid, Version=2.0.361.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotLiquid.2.0.361\lib\net45\DotLiquid.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -148,6 +151,7 @@
     <Compile Include="Common\HttpTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
+    <Compile Include="Model\Entity\QuickReplyGroupInfo.cs" />
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\MessageRichTextBoxAttach.cs" />
     <Compile Include="Common\TaskbarIconAttach.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="Common\WindowInfoAttach.cs" />
     <Compile Include="Model\Entity\DepartmentInfo.cs" />
     <Compile Include="Model\Entity\ISelectable.cs" />
+    <Compile Include="Model\Entity\QuickReplyInfo.cs" />
     <Compile Include="Model\Entity\SexEnum.cs" />
     <Compile Include="Model\Entity\TagGroupInfo.cs" />
     <Compile Include="Model\Entity\TagInfo.cs" />
@@ -165,8 +170,10 @@
     <Compile Include="Model\Event\SelectEmotionEventArgs.cs" />
     <Compile Include="Model\Event\SelectFileEventArgs.cs" />
     <Compile Include="Model\Event\SelectImageEventArgs.cs" />
+    <Compile Include="Model\Event\SelectQuickReplyEventArgs.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatSliderAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Tabs\Chat\QuickReplyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\CustomerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\CustomerDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\User\DepartmentDetailAreaViewModel.cs" />
@@ -176,6 +183,9 @@
     <Compile Include="ViewModel\Main\Tabs\User\UserDetailAreaViewModel.cs" />
     <Compile Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml.cs">
       <DependentUpon>ChatMessageContentControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Tabs\Chat\QuickReplyAreaView.xaml.cs">
+      <DependentUpon>QuickReplyAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Tabs\User\CustomerAreaView.xaml.cs">
       <DependentUpon>CustomerAreaView.xaml</DependentUpon>
@@ -419,6 +429,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Tabs\Chat\QuickReplyAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

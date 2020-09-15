@@ -13,7 +13,7 @@
     <Grid>
         <!--按钮列表-->
         <StackPanel Orientation="Vertical">
-            <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Button}">
+            <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Tab-Button}">
                 <TextBlock Style="{StaticResource IconBars}" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

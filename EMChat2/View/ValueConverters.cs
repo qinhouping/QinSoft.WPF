@@ -27,9 +27,9 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageInfo message = value as MessageInfo;
-                    if (message == null) return null;
-                    else return MessageTools.GetMessageContentMark(message);
+                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    if (messageContent == null) return null;
+                    else return MessageTools.GetMessageContentMark(messageContent);
                 });
             }
         }

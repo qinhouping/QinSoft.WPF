@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:user="clr-namespace:EMChat2.View.Main.Tabs.User"
+             xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
              xmlns:cefCommon="clr-namespace:EMChat2.Common.Cef"
              mc:Ignorable="d" 
@@ -13,7 +14,9 @@
         <Border BorderThickness="1,1,0,0" BorderBrush="#CCCCCC">
             <TabControl Style="{StaticResource IM-ChatSlider-Tab}">
                 <!--快捷回复-->
-                <TabItem Style="{StaticResource IM-ChatSlider-TabItem}" Header="快捷回复" IsSelected="False"></TabItem>
+                <TabItem Style="{StaticResource IM-ChatSlider-TabItem}" Header="快捷回复" IsSelected="False">
+                    <chat:QuickReplyAreaView DataContext="{Binding QuickReplyAreaViewModel}"></chat:QuickReplyAreaView>
+                </TabItem>
                 <!--详情页-->
                 <TabItem>
                     <TabItem.Style>

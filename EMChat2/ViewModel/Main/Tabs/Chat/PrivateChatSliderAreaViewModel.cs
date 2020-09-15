@@ -16,12 +16,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, ChatInfo chat)
+        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
+            this.quickReplyAreaViewModel = quickReplyAreaViewModel;
             this.chat = chat;
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator);
@@ -86,6 +87,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.applicationContextViewModel = value;
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+            }
+        }
+        private QuickReplyAreaViewModel quickReplyAreaViewModel;
+        public QuickReplyAreaViewModel QuickReplyAreaViewModel
+        {
+            get
+            {
+                return this.quickReplyAreaViewModel;
+            }
+            set
+            {
+                this.quickReplyAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
             }
         }
         private ChatInfo chat;

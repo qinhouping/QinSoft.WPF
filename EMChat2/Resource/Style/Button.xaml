@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF">
 
-    <Style x:Key="IM-Button" TargetType="{x:Type Button}">
+    <Style x:Key="IM-Tab-Button" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="#C4C4C4"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -177,7 +177,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IM-Tree-ToggleButton" TargetType="{x:Type  ToggleButton}">
+    <Style x:Key="IM-Tree-ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Foreground" Value="#999999"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -287,6 +287,27 @@
                             <Setter TargetName="overBorder" Property="Visibility" Value="Visible"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IM-Icon-Button" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <ContentPresenter x:Name="PART_Content" Margin="5,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
