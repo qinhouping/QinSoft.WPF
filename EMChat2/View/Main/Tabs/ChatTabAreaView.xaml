@@ -76,7 +76,7 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
-                                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                                        <ColumnDefinition Width="45"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition MinHeight="30"></RowDefinition>
@@ -205,10 +205,13 @@
                                                         <RowDefinition Height="200" MinHeight="170" MaxHeight="370"></RowDefinition>
                                                     </Grid.RowDefinitions>
 
-                                                    <!--会话名称-->
-                                                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                                                        <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="10" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                                    </Grid>
+                                                    <!--名称相关-->
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" >
+                                                        <!--会话名称-->
+                                                        <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                                        <!--业务名称-->
+                                                        <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
+                                                    </StackPanel>
 
                                                     <!--会话消息列表-->
                                                     <chat:ChatMessageAreaView Grid.Row="1"></chat:ChatMessageAreaView>

@@ -10,8 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace EMChat2.ViewModel
 {
@@ -40,6 +42,8 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 属性
+        private bool isMoving;
+        private Point point;
         private string[] sources;
         public string[] Sources
         {
@@ -72,6 +76,32 @@ namespace EMChat2.ViewModel
                 this.currentIndex = value;
                 this.NotifyPropertyChange(() => this.CurrentIndex);
                 this.NotifyPropertyChange(() => this.CurrentSource);
+            }
+        }
+        private double left = 0;
+        public double Left
+        {
+            get
+            {
+                return this.left;
+            }
+            set
+            {
+                this.left = value;
+                this.NotifyPropertyChange(() => this.Left);
+            }
+        }
+        private double top = 0;
+        public double Top
+        {
+            get
+            {
+                return this.top;
+            }
+            set
+            {
+                this.top = value;
+                this.NotifyPropertyChange(() => this.Top);
             }
         }
         private double scale = 1;
@@ -125,6 +155,8 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    this.Left = 0;
+                    this.Top = 0;
                     this.Angle = 0;
                     this.Scale = 1;
                     this.CurrentIndex--;
@@ -138,6 +170,8 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    this.Left = 0;
+                    this.Top = 0;
                     this.Angle = 0;
                     this.Scale = 1;
                     this.CurrentIndex++;
@@ -184,6 +218,33 @@ namespace EMChat2.ViewModel
         public void ScaleCommand(object sender, MouseWheelEventArgs e)
         {
             this.Scale += (double)e.Delta / 3000;
+        }
+        public void TranslateBeginCommand(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                isMoving = true;
+                point = e.GetPosition(sender as Image);
+            }
+        }
+        public void TranslateEndCommand(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                isMoving = false;
+                point = new Point();
+            }
+        }
+        public void TranslateCommand(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (isMoving)
+                {
+                    Left += e.GetPosition(sender as Image).X - point.X;
+                    Top += e.GetPosition(sender as Image).Y - point.Y;
+                }
+            }
         }
         #endregion
 

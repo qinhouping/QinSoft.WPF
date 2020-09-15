@@ -284,7 +284,7 @@ namespace QinSoft.WPF
                         //七天内
                         else if ((n - v.Value).TotalDays >= 1 && (n - v.Value).TotalDays < 7)
                         {
-                            return v.Value.ToString("dd HH:mm");
+                            return v.Value.ToString("dd HH");
                         }
                         //一年内
                         else if ((n - v.Value).TotalDays >= 7 && (n - v.Value).TotalDays < 31)

@@ -150,7 +150,7 @@
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\MessageRichTextBoxAttach.cs" />
     <Compile Include="Common\TaskbarIconAttach.cs" />
-    <Compile Include="Common\VersionTools.cs" />
+    <Compile Include="Common\AppTools.cs" />
     <Compile Include="Common\Win32Tools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
     <Compile Include="Model\Entity\DepartmentInfo.cs" />

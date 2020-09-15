@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -186,15 +187,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
                     }
-
-                    //启动截图进程
-                    CaptureScreenTools.CallCaptureScreenProcess();
-
+                    SelectCaptureScreenImage(CaptureScreenTools.CallCaptureScreenProcess());
                     if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
                     }
-                    GetImageFromClipboard();
                 });
             }
         }
@@ -279,18 +276,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         #region 方法
 
-        private async void GetImageFromClipboard()
+        private async void SelectCaptureScreenImage(Image image)
         {
-            Image image = Clipboard.GetImage();
             if (image == null) return;
-            FileInfo fileInfo = await new Func<FileInfo>(() =>
+            string fileName = await new Func<string>(() =>
             {
-                string tempFileName = Path.Combine(Path.GetTempPath(), "EMChat2", Guid.NewGuid().ToString() + ".jpeg");
-                image.ImageToStream().StreamToFile(tempFileName);
-                return new FileInfo(tempFileName);
+                string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
+                image.ImageToStream(ImageFormat.Png).StreamToFile(tempFileName);
+                return tempFileName;
             }).ExecuteInTask();
-            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = fileInfo });
-            Clipboard.Clear();
+            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
         }
 
         public virtual void Dispose()

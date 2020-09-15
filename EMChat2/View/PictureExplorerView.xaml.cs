@@ -22,7 +22,6 @@ namespace EMChat2.View
         public PictureExplorerView()
         {
             InitializeComponent();
-
         }
     }
 }

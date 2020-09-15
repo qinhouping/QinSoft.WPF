@@ -31,10 +31,10 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5">
+                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5" x:Name="img">
                     <Image.RenderTransform>
                         <TransformGroup>
-                            <TranslateTransform/>
+                            <TranslateTransform X="{Binding Left}" Y="{Binding Top}"/>
                             <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}"/>
                             <RotateTransform Angle="{Binding Angle}"/>
                         </TransformGroup>
@@ -43,6 +43,17 @@
                         <i:EventTrigger EventName="MouseWheel">
                             <ei:CallMethodAction TargetObject="{Binding}" MethodName="ScaleCommand"></ei:CallMethodAction>
                         </i:EventTrigger>
+
+                        <i:EventTrigger EventName="MouseDown">
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="TranslateBeginCommand"></ei:CallMethodAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseUp">
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="TranslateEndCommand"></ei:CallMethodAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseMove">
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="TranslateCommand"></ei:CallMethodAction>
+                        </i:EventTrigger>
+
                     </i:Interaction.Triggers>
                 </Image>
             </ScrollViewer>

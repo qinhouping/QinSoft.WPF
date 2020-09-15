@@ -36,7 +36,7 @@
                 </Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource BigFontSize}" VerticalAlignment="Center"></Label>
-                    <Label Content="{Binding ., Source={x:Static common:VersionTools.AppVersion}}" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Bottom"></Label>
+                    <Label Content="{Binding ., Source={x:Static common:AppTools.AppVersion}}" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Bottom"></Label>
                 </StackPanel>
                 <Label Content="上海东方财富证券投资咨询有限公司" Style="{StaticResource IM-Name-Label}" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
             </Grid>
