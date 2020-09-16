@@ -202,7 +202,7 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="62"></RowDefinition>
                                                         <RowDefinition Height="*"></RowDefinition>
-                                                        <RowDefinition Height="200" MinHeight="170" MaxHeight="370"></RowDefinition>
+                                                        <RowDefinition Height="200" MinHeight="200" MaxHeight="400"></RowDefinition>
                                                     </Grid.RowDefinitions>
 
                                                     <!--名称相关-->

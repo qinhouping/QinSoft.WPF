@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-Chat-Button}">
+                    <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-Chat-Button}" Margin="8,0">
                         <TextBlock Style="{StaticResource IconSmileO}"></TextBlock>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -28,13 +28,13 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Command="{Binding CaptureScreenCommand}">
+                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
                     </Button>
-                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}" Command="{Binding SelectImageCommand}">
+                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectImageCommand}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
                     </Button>
-                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}" Command="{Binding SelectFileCommand}">
+                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectFileCommand}">
                         <TextBlock Style="{StaticResource IconFileO}"></TextBlock>
                     </Button>
                 </StackPanel>
@@ -47,11 +47,11 @@
             </Grid>
             <Grid Grid.Row="1">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}"></wpfControl:AutoAdjustRichTextBox>
+                    <wpfControl:AutoAdjustRichTextBox  IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}"></wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}"></Button>
+                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}" Margin="5"></Button>
             </StackPanel>
         </Grid>
         <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">
