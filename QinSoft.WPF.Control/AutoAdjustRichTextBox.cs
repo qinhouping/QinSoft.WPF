@@ -49,6 +49,7 @@ namespace QinSoft.WPF.Control
             }
             autoRichTextBox.informFromSource = true;
             autoRichTextBox.Document = (e.NewValue as FlowDocumentExt) ?? new FlowDocumentExt();
+            autoRichTextBox.CaretPosition = autoRichTextBox.Document.ContentEnd;
         }
 
         private static void OnIsAutoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

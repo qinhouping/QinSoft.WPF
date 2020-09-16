@@ -26,14 +26,15 @@ namespace EMChat2.Common
             return dp.GetValue(InputMessageContentProperty) as MessageContentInfo;
         }
 
-        private static void AppendMessageContent(MessageContentInfo messageContent, TextPointer textPointer)
+        private static void AppendMessageContent(MessageContentInfo messageContent, AutoAdjustRichTextBox autoAdjustRichTextBox)
         {
+            autoAdjustRichTextBox.CaretPosition = autoAdjustRichTextBox.Document.ContentEnd; //追加在文档最后
             switch (messageContent.Type)
             {
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
-                        new Run(textMessageContent.Content, textPointer);
+                        Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.CaretPosition);
                     }; break;
                 case MessageTypeConst.Emotion:
                 case MessageTypeConst.Image:
@@ -47,7 +48,7 @@ namespace EMChat2.Common
                         {
                             DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
                         };
-                        new InlineUIContainer(chatMessageContentControlView, textPointer);
+                        new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
                     }
                     break;
                 case MessageTypeConst.Mixed:
@@ -55,7 +56,7 @@ namespace EMChat2.Common
                         MixedMessageContent mixedMessageContent = MessageTools.ParseMessageContent(messageContent) as MixedMessageContent;
                         foreach (MessageContentInfo tmpMessageContent in mixedMessageContent.Items)
                         {
-                            AppendMessageContent(tmpMessageContent, textPointer);
+                            AppendMessageContent(tmpMessageContent, autoAdjustRichTextBox);
                         }
                     }; break;
                 case MessageTypeConst.Tips:
@@ -70,8 +71,7 @@ namespace EMChat2.Common
             if (autoAdjustRichTextBox == null) return;
             MessageContentInfo messageContent = e.NewValue as MessageContentInfo;
             if (messageContent == null) return;
-            TextPointer textPointer = autoAdjustRichTextBox.Selection.Start;
-            AppendMessageContent(messageContent, textPointer);
+            AppendMessageContent(messageContent, autoAdjustRichTextBox);
         }
     }
 }
