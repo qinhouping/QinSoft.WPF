@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1F4DCFD19E1B4C4BBDDEE1162FF4066A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -466,6 +472,12 @@
         "Entry"
         {
         "MsmKey" = "8:_C3B23453DE79045F658057C7D52E6A38"
+        "OwnerKey" = "8:_A968D0C9D34C42AEAAAF1864520E59D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C3B23453DE79045F658057C7D52E6A38"
         "OwnerKey" = "8:_5898109570AF4452B7A874E49BF49CC2"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -479,12 +491,6 @@
         {
         "MsmKey" = "8:_C3B23453DE79045F658057C7D52E6A38"
         "OwnerKey" = "8:_53D37C94D61841A1BD6DDFA0998B17D7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C3B23453DE79045F658057C7D52E6A38"
-        "OwnerKey" = "8:_A968D0C9D34C42AEAAAF1864520E59D2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -640,7 +646,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F38005FBB956FD6AAC97B3C030154F4D"
+        "OwnerKey" = "8:_C1D93DC3C93D443099F529427F3380F3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A968D0C9D34C42AEAAAF1864520E59D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5898109570AF4452B7A874E49BF49CC2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_84DBAB3F00574180D9BB5FB77DAC4AAB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_53D37C94D61841A1BD6DDFA0998B17D7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_384B80582B0245CA9E10B8F2526358B4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -659,42 +695,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_720A18E95384979F276D09037953BDBE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5898109570AF4452B7A874E49BF49CC2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_84DBAB3F00574180D9BB5FB77DAC4AAB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_384B80582B0245CA9E10B8F2526358B4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_53D37C94D61841A1BD6DDFA0998B17D7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A968D0C9D34C42AEAAAF1864520E59D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C1D93DC3C93D443099F529427F3380F3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -767,6 +767,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0E1DBEC845151CF55313B6D47460A390"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F38005FBB956FD6AAC97B3C030154F4D"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1010,6 +1016,26 @@
             {
             "SourcePath" = "8:..\\packages\\cef.redist.x64.3.3325.1758\\CEF\\natives_blob.bin"
             "TargetName" = "8:natives_blob.bin"
+            "Tag" = "8:"
+            "Folder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+            {
+            "SourcePath" = "8:..\\EMChat2\\log.ico"
+            "TargetName" = "8:log.ico"
             "Tag" = "8:"
             "Folder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
             "Condition" = "8:"
@@ -2994,7 +3020,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EMChat2"
         "ProductCode" = "8:{314BC6D1-0DAF-457F-8836-5B722005EAB2}"
-        "PackageCode" = "8:{6CEB6854-7355-44B5-923F-1F6F30F29D6C}"
+        "PackageCode" = "8:{1E4659A0-941F-47C0-9523-19B21D1707F8}"
         "UpgradeCode" = "8:{B92118B4-67BD-49C9-9235-D0F640D523C6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3114,6 +3140,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0B59A50AE25E4AF5955CAC5EFFE133A4"
+            {
+            "Name" = "8:EMChat2"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C1D93DC3C93D443099F529427F3380F3"
+            "Folder" = "8:_FDBD2DA149AA4D3283DD12E30A34DF97"
+            "WorkingFolder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
+            "Icon" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BA0FCCB668C24888A979CEAC1B686692"
+            {
+            "Name" = "8:EMChat2"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C1D93DC3C93D443099F529427F3380F3"
+            "Folder" = "8:_E338C2B852564C94A14532505B9582C0"
+            "WorkingFolder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
+            "Icon" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
