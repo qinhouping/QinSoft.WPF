@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.WPF.Core", "QinSoft
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMChat2", "EMChat2\EMChat2.csproj", "{CF4699F4-3C3B-4FC4-8F1E-A1CF2D2ED6E0}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EMChat2.Setup", "EMChat2.Setup\EMChat2.Setup.vdproj", "{CA3807EF-2A27-4D05-B7D2-E9033B1B3FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -68,6 +70,10 @@ Global
 		{CF4699F4-3C3B-4FC4-8F1E-A1CF2D2ED6E0}.Release|x64.Build.0 = Release|x64
 		{CF4699F4-3C3B-4FC4-8F1E-A1CF2D2ED6E0}.Release|x86.ActiveCfg = Release|x86
 		{CF4699F4-3C3B-4FC4-8F1E-A1CF2D2ED6E0}.Release|x86.Build.0 = Release|x86
+		{CA3807EF-2A27-4D05-B7D2-E9033B1B3FDA}.Debug|x64.ActiveCfg = Debug
+		{CA3807EF-2A27-4D05-B7D2-E9033B1B3FDA}.Debug|x86.ActiveCfg = Debug
+		{CA3807EF-2A27-4D05-B7D2-E9033B1B3FDA}.Release|x64.ActiveCfg = Release
+		{CA3807EF-2A27-4D05-B7D2-E9033B1B3FDA}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

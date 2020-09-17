@@ -501,9 +501,9 @@
     <Resource Include="Resource\Image\avator.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <None Include="emchat.html">
+    <Content Include="emchat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="lib\Hardcodet.Wpf.TaskbarNotification.dll" />
     <Content Include="lib\Microsoft.Expression.Interactions.dll" />
     <Content Include="lib\Microsoft.Windows.Shell.dll" />
