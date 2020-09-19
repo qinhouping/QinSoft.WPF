@@ -8,10 +8,11 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Tabs.Chat"
              xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="400">
-    <Grid>
+    <Grid Margin="1,0,0,0">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -46,8 +47,31 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
+                <Rectangle Stroke="{StaticResource DeepPurpleBrush}" StrokeDashArray="2 2" StrokeThickness="2" Fill="Transparent" Visibility="{Binding IsDrag,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></Rectangle>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <wpfControl:AutoAdjustRichTextBox  IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}"></wpfControl:AutoAdjustRichTextBox>
+                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewDragEnter">
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragEnterCommand"></ei:CallMethodAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="PreviewDragLeave">
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragLeaveCommand"></ei:CallMethodAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="PreviewDragOver">
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragOverCommand"></ei:CallMethodAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="PreviewDrop">
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDropCommand"></ei:CallMethodAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <wpfControl:AutoAdjustRichTextBox.InputBindings>
+                            <KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding SendMessageCommand}"></KeyBinding>
+                            <KeyBinding Modifiers="Alt+Shift" Key="A" Command="{Binding CaptureScreenCommand}"></KeyBinding>
+                            <KeyBinding Modifiers="Alt+Shift" Key="I" Command="{Binding SelectImageCommand}"></KeyBinding>
+                            <KeyBinding Modifiers="Alt+Shift" Key="F" Command="{Binding SelectFileCommand}"></KeyBinding>
+                        </wpfControl:AutoAdjustRichTextBox.InputBindings>
+                    </wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

@@ -92,7 +92,7 @@
                                                                 </Setter>
                                                             </Style>
                                                         </Label.Style>
-                                                        <wpfControl:AutoAdjustRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="400" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True"></wpfControl:AutoAdjustRichTextBox>
+                                                        <wpfControl:AutoAdjustRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="410" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True"></wpfControl:AutoAdjustRichTextBox>
                                                     </Label>
 
                                                     <!--消息状态-->

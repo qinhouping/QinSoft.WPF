@@ -152,6 +152,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }
         }
+        private bool isDrag;
+        public bool IsDrag
+        {
+            get
+            {
+                return this.isDrag;
+            }
+            set
+            {
+                this.isDrag = value;
+                this.NotifyPropertyChange(() => this.IsDrag);
+            }
+        }
         #endregion
 
         #region 命令
@@ -272,6 +285,50 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 });
             }
         }
+
+        #region 输入内容拖拽
+        public void InputMessageDragEnterCommand(object sender, System.Windows.DragEventArgs e)
+        {
+            this.IsDrag = true;
+
+            e.Handled = true;
+        }
+
+        public void InputMessageDragLeaveCommand(object sender, System.Windows.DragEventArgs e)
+        {
+            this.IsDrag = false;
+
+            e.Handled = true;
+        }
+
+        public void InputMessageDragOverCommand(object sender, System.Windows.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effects = System.Windows.DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Text)) e.Effects = System.Windows.DragDropEffects.Copy;
+            else e.Effects = System.Windows.DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        public void InputMessageDropCommand(object sender, System.Windows.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                foreach (string fileName in e.Data.GetData(DataFormats.FileDrop) as string[])
+                {
+                    if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
+                    {
+                        this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+                    }
+                    else
+                    {
+                        this.eventAggregator.PublishAsync(new SelectFileEventArgs() { File = new FileInfo(fileName) });
+                    }
+                }
+                e.Handled = true;
+            }
+            this.IsDrag = false;
+        }
+        #endregion
         #endregion
 
         #region 方法

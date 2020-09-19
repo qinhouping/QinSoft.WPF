@@ -5,6 +5,7 @@ using QinSoft.WPF.Control;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,13 +29,14 @@ namespace EMChat2.Common
 
         private static void AppendMessageContent(MessageContentInfo messageContent, AutoAdjustRichTextBox autoAdjustRichTextBox)
         {
-            autoAdjustRichTextBox.CaretPosition = autoAdjustRichTextBox.Document.ContentEnd; //追加在文档最后
             switch (messageContent.Type)
             {
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
-                        Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.CaretPosition);
+                        Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.Selection.End);
+                        autoAdjustRichTextBox.CaretPosition = run.ElementEnd;
+                        run.BringIntoView();
                     }; break;
                 case MessageTypeConst.Emotion:
                 case MessageTypeConst.Image:
@@ -48,7 +50,9 @@ namespace EMChat2.Common
                         {
                             DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
                         };
-                        new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
+                        InlineUIContainer inlineUIContainer = new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.Selection.End);
+                        autoAdjustRichTextBox.CaretPosition = inlineUIContainer.ElementEnd;
+                        inlineUIContainer.BringIntoView();
                     }
                     break;
                 case MessageTypeConst.Mixed:
@@ -71,6 +75,7 @@ namespace EMChat2.Common
             if (autoAdjustRichTextBox == null) return;
             MessageContentInfo messageContent = e.NewValue as MessageContentInfo;
             if (messageContent == null) return;
+            autoAdjustRichTextBox.Focus();
             AppendMessageContent(messageContent, autoAdjustRichTextBox);
         }
     }

@@ -26,7 +26,6 @@ namespace QinSoft.WPF.Control
         {
             this.TextChanged += AutoRichTextBox_TextChanged;
         }
-
         #endregion
 
         #region 属性
@@ -158,6 +157,8 @@ namespace QinSoft.WPF.Control
                         if (double.IsNaN(width) || double.IsInfinity(width) || width == 0) width = frameworkElement.MaxWidth;
 
                         if (double.IsNaN(width) || double.IsInfinity(width) || width == 0) width = defaultWidth;
+
+                        if (widths[widths.Count - 1] + width >= this.MaxWidth) widths.Add(0);
 
                         width = widths[widths.Count - 1] + width;
                         widths[widths.Count - 1] = width;
