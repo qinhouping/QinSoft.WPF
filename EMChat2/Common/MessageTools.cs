@@ -1,4 +1,5 @@
 ﻿using EMChat2.Model.Entity;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -95,6 +96,43 @@ namespace EMChat2.Common
                     Url = file.FullName,
                     Name = file.Name,
                     Extension = file.Extension
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateMessageContentFromHtml(string html)
+        {
+            if (string.IsNullOrEmpty(html)) return null;
+            List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+            HtmlNode rootNode = htmlDocument.DocumentNode.SelectSingleNode("html");
+            HtmlNodeCollection imageHtmlNodes = rootNode.SelectNodes("//img");
+            foreach (HtmlNode imageHtmlNode in imageHtmlNodes)
+            {
+                messageContents.Add(new MessageContentInfo()
+                {
+                    Type = MessageTypeConst.Image,
+                    Content = new ImageMessageContent()
+                    {
+                        Url = imageHtmlNode.Attributes["src"]?.Value.Trim()
+                    }.ObjectToJson()
+                });
+            }
+            messageContents.Add(new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Text,
+                Content = new TextMessageContent()
+                {
+                    Content = rootNode.InnerText
+                }.ObjectToJson()
+            });
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Mixed,
+                Content = new MixedMessageContent()
+                {
+                    Items = messageContents.ToArray()
                 }.ObjectToJson()
             };
         }

@@ -60,19 +60,23 @@
 
             <Grid Grid.Row="2">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button ToolTip="上一张" Style="{StaticResource IM-Chat-Button}" Command="{Binding PreviousCommand}">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IM-Chat-Button}">
+                            <Setter Property="Margin" Value="5"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button ToolTip="上一张" Command="{Binding PreviousCommand}">
                         <TextBlock Style="{StaticResource IconLongArrowLeft}"></TextBlock>
                     </Button>
-                    <Button ToolTip="下一张" Style="{StaticResource IM-Chat-Button}" Command="{Binding NextCommand}">
+                    <Button ToolTip="下一张" Command="{Binding NextCommand}">
                         <TextBlock Style="{StaticResource IconLongArrowRight}"></TextBlock>
                     </Button>
-                    <Button ToolTip="保存" Style="{StaticResource IM-Chat-Button}" Command="{Binding SaveCommand}">
+                    <Button ToolTip="保存" Command="{Binding SaveCommand}">
                         <TextBlock Style="{StaticResource IconArrowDown}"></TextBlock>
                     </Button>
-                    <Button ToolTip="旋转" Style="{StaticResource IM-Chat-Button}" Command="{Binding RepeatCommand}">
+                    <Button ToolTip="旋转" Command="{Binding RepeatCommand}">
                         <TextBlock Style="{StaticResource IconRepeat}"></TextBlock>
                     </Button>
-                    <TextBlock Text="{Binding Scale, Converter={x:Static wpf:ValueConverters.DoubleToPercentageConverter}}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"></TextBlock>
                 </StackPanel>
             </Grid>
         </Grid>

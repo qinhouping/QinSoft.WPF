@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>, IEventHandle<SelectQuickReplyEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>, IEventHandle<SelectHtmlEventArgs>, IEventHandle<SelectQuickReplyEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -239,6 +239,12 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             if (this.SelectedChatTabItem == null) return;
             this.SelectedChatTabItem.TemporaryInputMessagContent = arg.QuickReply;
+        }
+
+        public void Handle(SelectHtmlEventArgs arg)
+        {
+            if (this.SelectedChatTabItem == null) return;
+            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateMessageContentFromHtml(arg.Html);
         }
         #endregion
     }

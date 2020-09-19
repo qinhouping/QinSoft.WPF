@@ -34,7 +34,7 @@ namespace EMChat2.Common
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
-                        Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.Selection.End);
+                        Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = run.ElementEnd;
                         run.BringIntoView();
                     }; break;
@@ -50,7 +50,7 @@ namespace EMChat2.Common
                         {
                             DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
                         };
-                        InlineUIContainer inlineUIContainer = new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.Selection.End);
+                        InlineUIContainer inlineUIContainer = new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = inlineUIContainer.ElementEnd;
                         inlineUIContainer.BringIntoView();
                     }

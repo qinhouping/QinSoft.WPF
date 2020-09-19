@@ -304,6 +304,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public void InputMessageDragOverCommand(object sender, System.Windows.DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effects = System.Windows.DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Bitmap)) e.Effects = System.Windows.DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Html)) e.Effects = System.Windows.DragDropEffects.Copy;
             else if (e.Data.GetDataPresent(DataFormats.Text)) e.Effects = System.Windows.DragDropEffects.Copy;
             else e.Effects = System.Windows.DragDropEffects.None;
             e.Handled = true;
@@ -326,6 +328,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
                 e.Handled = true;
             }
+            else if (e.Data.GetDataPresent(DataFormats.Bitmap))
+            {
+                this.SelectDragImage(e.Data.GetData(DataFormats.Bitmap) as Image);
+                e.Handled = true;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Html))
+            {
+                this.SelectDragHtml(e.Data.GetData(DataFormats.Html) as string);
+                e.Handled = true;
+            }
             this.IsDrag = false;
         }
         #endregion
@@ -343,6 +355,23 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return tempFileName;
             }).ExecuteInTask();
             await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+        }
+
+        private async void SelectDragImage(Image image)
+        {
+            if (image == null) return;
+            string fileName = await new Func<string>(() =>
+            {
+                string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
+                image.ImageToStream(ImageFormat.Png).StreamToFile(tempFileName);
+                return tempFileName;
+            }).ExecuteInTask();
+            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+        }
+
+        private async void SelectDragHtml(string html)
+        {
+            await this.eventAggregator.PublishAsync(new SelectHtmlEventArgs() { Html = html });
         }
 
         public virtual void Dispose()
