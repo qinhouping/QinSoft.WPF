@@ -92,7 +92,15 @@
                                                                 </Setter>
                                                             </Style>
                                                         </Label.Style>
-                                                        <wpfControl:AutoAdjustRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="410" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True"></wpfControl:AutoAdjustRichTextBox>
+                                                        <wpfControl:AutoAdjustRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="410" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True">
+                                                            <wpfControl:AutoAdjustRichTextBox.ContextMenu>
+                                                                <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                                                    <MenuItem Header="复制" Command="{Binding Data.CopyMessageContentCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                    <MenuItem Header="撤回" Command="{Binding Data.RollbackMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                    <MenuItem Header="重发" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                </ContextMenu>
+                                                            </wpfControl:AutoAdjustRichTextBox.ContextMenu>
+                                                        </wpfControl:AutoAdjustRichTextBox>
                                                     </Label>
 
                                                     <!--消息状态-->
@@ -163,7 +171,7 @@
                                                                                             <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
                                                                                         </TextBlock.InputBindings>
                                                                                         <TextBlock.Style>
-                                                                                            <Style BasedOn="{StaticResource IconWarning}" TargetType="{x:Type TextBlock}">
+                                                                                            <Style BasedOn="{StaticResource IconExclamationCircle}" TargetType="{x:Type TextBlock}">
                                                                                                 <Setter Property="FontSize" Value="15"></Setter>
                                                                                                 <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
                                                                                             </Style>
@@ -180,7 +188,7 @@
                                                                                             <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
                                                                                         </TextBlock.InputBindings>
                                                                                         <TextBlock.Style>
-                                                                                            <Style BasedOn="{StaticResource IconWarning}" TargetType="{x:Type TextBlock}">
+                                                                                            <Style BasedOn="{StaticResource IconExclamationCircle}" TargetType="{x:Type TextBlock}">
                                                                                                 <Setter Property="FontSize" Value="15"></Setter>
                                                                                                 <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
                                                                                             </Style>

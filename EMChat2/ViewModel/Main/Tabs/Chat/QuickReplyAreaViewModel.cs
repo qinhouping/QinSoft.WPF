@@ -156,7 +156,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-                    this.eventAggregator.PublishAsync(new SelectQuickReplyEventArgs() { QuickReply = quickReply.Clone() });
+                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply });
                 });
             }
         }

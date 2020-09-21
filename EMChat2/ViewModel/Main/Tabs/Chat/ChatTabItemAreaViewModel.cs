@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
@@ -152,17 +152,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }
         }
-        private bool isDrag;
-        public bool IsDrag
+        private bool isDragMessageContent;
+        public bool IsDragMessageContent
         {
             get
             {
-                return this.isDrag;
+                return this.isDragMessageContent;
             }
             set
             {
-                this.isDrag = value;
-                this.NotifyPropertyChange(() => this.IsDrag);
+                this.isDragMessageContent = value;
+                this.NotifyPropertyChange(() => this.IsDragMessageContent);
             }
         }
         #endregion
@@ -190,6 +190,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        public ICommand ClearInputMessageContentCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.InputMessageContent = null;
+                });
+            }
+        }
+
         public ICommand CaptureScreenCommand
         {
             get
@@ -200,7 +211,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
                     }
-                    SelectCaptureScreenImage(CaptureScreenTools.CallCaptureScreenProcess());
+                    this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
                     if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
@@ -215,13 +226,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    FileDialog fileDialog = new OpenFileDialog();
+                    System.Windows.Forms.FileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                     fileDialog.Filter = "图片|*.jpg;*.jpeg;*.png;*.gif";
 
-                    if (fileDialog.ShowDialog() == DialogResult.OK)
+                    if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileDialog.FileName) });
+                        this.InputImageMessageContent(new FileInfo(fileDialog.FileName));
                     }
                 });
             }
@@ -233,14 +244,31 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    FileDialog fileDialog = new OpenFileDialog();
+                    System.Windows.Forms.FileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     fileDialog.Filter = "文件|*.*";
 
-                    if (fileDialog.ShowDialog() == DialogResult.OK)
+                    if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        this.eventAggregator.PublishAsync(new SelectFileEventArgs() { File = new FileInfo(fileDialog.FileName) });
+                        this.InputFileMessageContent(new FileInfo(fileDialog.FileName));
                     }
+                });
+            }
+        }
+
+        public ICommand RollbackMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<MessageInfo>((oldMessage) =>
+                {
+                    new Action(() =>
+                    {
+                        lock (this.Messages)
+                        {
+                            this.Messages.Remove(oldMessage);
+                        }
+                    }).ExecuteInUIThread();
                 });
             }
         }
@@ -286,92 +314,169 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        #region 输入内容拖拽
-        public void InputMessageDragEnterCommand(object sender, System.Windows.DragEventArgs e)
+        #region 内容复制粘贴
+
+        public ICommand CopyMessageContentCommand
         {
-            this.IsDrag = true;
+            get
+            {
+                return new RelayCommand<MessageContentInfo>((messageContent) =>
+                {
+                    IDataObject dataObject = new DataObject();
+                    dataObject.SetData(typeof(MessageContentInfo).FullName, messageContent.ObjectToJson());
+                    Clipboard.SetDataObject(dataObject, false);
+                });
+            }
+        }
+
+        public ICommand PasteMessageContentCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (Clipboard.GetDataObject().GetDataPresent(typeof(MessageContentInfo).FullName))
+                    {
+                        MessageContentInfo messageContent = (Clipboard.GetDataObject().GetData(typeof(MessageContentInfo).FullName) as string).JsonToObject<MessageContentInfo>();
+                        this.InputObjectMessageContent(messageContent);
+                    }
+                    else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.FileDrop))
+                    {
+                        foreach (string fileName in Clipboard.GetDataObject().GetData(DataFormats.FileDrop) as string[])
+                        {
+                            if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
+                            {
+                                this.InputImageMessageContent(new FileInfo(fileName), true);
+                            }
+                            else
+                            {
+                                this.InputFileMessageContent(new FileInfo(fileName), true);
+                            }
+                        }
+                        this.InputImageMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Bitmap) as Image);
+                    }
+                    else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap))
+                    {
+                        this.InputImageMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Bitmap) as Image);
+                    }
+                    else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Html))
+                    {
+                        this.InputHtmlMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Html) as string);
+                    }
+                    else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+                    {
+                        this.InputTextMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Text) as string);
+                    }
+                });
+            }
+        }
+        #endregion
+
+        #region 内容拖拽
+        public void DragEnterMessageContentCommand(object sender, DragEventArgs e)
+        {
+            this.IsDragMessageContent = true;
 
             e.Handled = true;
         }
 
-        public void InputMessageDragLeaveCommand(object sender, System.Windows.DragEventArgs e)
+        public void DragLeaveMessageContentCommand(object sender, DragEventArgs e)
         {
-            this.IsDrag = false;
+            this.IsDragMessageContent = false;
 
             e.Handled = true;
         }
 
-        public void InputMessageDragOverCommand(object sender, System.Windows.DragEventArgs e)
+        public void DragOverMessageContentCommand(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effects = System.Windows.DragDropEffects.Copy;
-            else if (e.Data.GetDataPresent(DataFormats.Bitmap)) e.Effects = System.Windows.DragDropEffects.Copy;
-            else if (e.Data.GetDataPresent(DataFormats.Html)) e.Effects = System.Windows.DragDropEffects.Copy;
-            else if (e.Data.GetDataPresent(DataFormats.Text)) e.Effects = System.Windows.DragDropEffects.Copy;
-            else e.Effects = System.Windows.DragDropEffects.None;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effects = DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Bitmap)) e.Effects = DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Html)) e.Effects = DragDropEffects.Copy;
+            else if (e.Data.GetDataPresent(DataFormats.Text)) e.Effects = DragDropEffects.Copy;
+            else e.Effects = DragDropEffects.None;
             e.Handled = true;
         }
 
-        public void InputMessageDropCommand(object sender, System.Windows.DragEventArgs e)
+        public void DropMessageContentCommand(object sender, DragEventArgs e)
         {
+            this.IsDragMessageContent = false;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 foreach (string fileName in e.Data.GetData(DataFormats.FileDrop) as string[])
                 {
                     if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
                     {
-                        this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+                        this.InputImageMessageContent(new FileInfo(fileName), true);
                     }
                     else
                     {
-                        this.eventAggregator.PublishAsync(new SelectFileEventArgs() { File = new FileInfo(fileName) });
+                        this.InputFileMessageContent(new FileInfo(fileName), true);
                     }
                 }
                 e.Handled = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.Bitmap))
             {
-                this.SelectDragImage(e.Data.GetData(DataFormats.Bitmap) as Image);
+                this.InputImageMessageContent(e.Data.GetData(DataFormats.Bitmap) as Image);
                 e.Handled = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.Html))
             {
-                this.SelectDragHtml(e.Data.GetData(DataFormats.Html) as string);
+                this.InputHtmlMessageContent(e.Data.GetData(DataFormats.Html) as string);
                 e.Handled = true;
             }
-            this.IsDrag = false;
+            else if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
         #endregion
         #endregion
 
         #region 方法
 
-        private async void SelectCaptureScreenImage(Image image)
+        private async void InputTextMessageContent(string text)
+        {
+            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateTextMessageContent(text) });
+        }
+
+        private async void InputHtmlMessageContent(string html)
+        {
+            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateHtmlMessageContent(html) });
+        }
+
+        private async void InputImageMessageContent(FileInfo file, bool isSync = false)
+        {
+            if (isSync) this.eventAggregator.Publish(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+        }
+
+        private async void InputImageMessageContent(Image image)
         {
             if (image == null) return;
-            string fileName = await new Func<string>(() =>
+            FileInfo file = await new Func<FileInfo>(() =>
             {
                 string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
                 image.ImageToStream(ImageFormat.Png).StreamToFile(tempFileName);
-                return tempFileName;
+                return new FileInfo(tempFileName);
             }).ExecuteInTask();
-            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
         }
 
-        private async void SelectDragImage(Image image)
+        private async void InputFileMessageContent(FileInfo file, bool isSync = false)
         {
-            if (image == null) return;
-            string fileName = await new Func<string>(() =>
-            {
-                string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
-                image.ImageToStream(ImageFormat.Png).StreamToFile(tempFileName);
-                return tempFileName;
-            }).ExecuteInTask();
-            await this.eventAggregator.PublishAsync(new SelectImageEventArgs() { File = new FileInfo(fileName) });
+            if (isSync) this.eventAggregator.Publish(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
+            else await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
         }
 
-        private async void SelectDragHtml(string html)
+        private async void InputObjectMessageContent(MessageContentInfo messageContent)
         {
-            await this.eventAggregator.PublishAsync(new SelectHtmlEventArgs() { Html = html });
+            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = messageContent });
         }
 
         public virtual void Dispose()

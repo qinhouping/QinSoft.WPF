@@ -90,7 +90,7 @@
                                                 </ToggleButton>
                                             </Grid>
 
-                                            <wpfControl:AutoAdjustRichTextBox Grid.Row="1" HorizontalAlignment="Left" MaxWidth="250" Margin="0,5" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True" Visibility="{Binding IsChecked, ElementName=toggle, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></wpfControl:AutoAdjustRichTextBox>
+                                            <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" Grid.Row="1" HorizontalAlignment="Left" MaxWidth="250" Margin="0,5" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True" Visibility="{Binding IsChecked, ElementName=toggle, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></wpfControl:AutoAdjustRichTextBox>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

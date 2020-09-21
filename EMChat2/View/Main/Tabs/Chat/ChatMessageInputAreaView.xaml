@@ -12,6 +12,9 @@
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="400">
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
     <Grid Margin="1,0,0,0">
         <Grid>
             <Grid.RowDefinitions>
@@ -21,6 +24,9 @@
             </Grid.RowDefinitions>
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button ToolTip="清空(Alt+Shift+C)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding ClearInputMessageContentCommand}">
+                        <TextBlock Style="{StaticResource IconEraser}"></TextBlock>
+                    </Button>
                     <Button x:Name="emotionBtn" ToolTip="表情" Style="{StaticResource IM-Chat-Button}" Margin="8,0">
                         <TextBlock Style="{StaticResource IconSmileO}"></TextBlock>
                         <i:Interaction.Triggers>
@@ -29,13 +35,13 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}">
+                    <Button ToolTip="截图(Alt+Shift+A)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
                     </Button>
-                    <Button ToolTip="图片" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectImageCommand}">
+                    <Button ToolTip="图片(Alt+Shift+I)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectImageCommand}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
                     </Button>
-                    <Button ToolTip="文件" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectFileCommand}">
+                    <Button ToolTip="文件(Alt+Shift+F)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectFileCommand}">
                         <TextBlock Style="{StaticResource IconFileO}"></TextBlock>
                     </Button>
                 </StackPanel>
@@ -47,35 +53,43 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
-                <Rectangle Stroke="{StaticResource DeepPurpleBrush}" StrokeDashArray="2 2" StrokeThickness="2" Fill="Transparent" Visibility="{Binding IsDrag,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></Rectangle>
+                <Rectangle Stroke="{StaticResource DeepPurpleBrush}" StrokeDashArray="2 2" StrokeThickness="2" Fill="Transparent" Visibility="{Binding IsDragMessageContent,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></Rectangle>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewDragEnter">
-                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragEnterCommand"></ei:CallMethodAction>
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="DragEnterMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
                             <i:EventTrigger EventName="PreviewDragLeave">
-                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragLeaveCommand"></ei:CallMethodAction>
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="DragLeaveMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
                             <i:EventTrigger EventName="PreviewDragOver">
-                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDragOverCommand"></ei:CallMethodAction>
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="DragOverMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
                             <i:EventTrigger EventName="PreviewDrop">
-                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageDropCommand"></ei:CallMethodAction>
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="DropMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
+
                         </i:Interaction.Triggers>
 
                         <wpfControl:AutoAdjustRichTextBox.InputBindings>
                             <KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding SendMessageCommand}"></KeyBinding>
+                            <KeyBinding Modifiers="Alt+Shift" Key="C" Command="{Binding ClearInputMessageContentCommand}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="A" Command="{Binding CaptureScreenCommand}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="I" Command="{Binding SelectImageCommand}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="F" Command="{Binding SelectFileCommand}"></KeyBinding>
                         </wpfControl:AutoAdjustRichTextBox.InputBindings>
+
+                        <wpfControl:AutoAdjustRichTextBox.ContextMenu>
+                            <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                <MenuItem Header="粘贴" Command="{Binding Data.PasteMessageContentCommand, Source={StaticResource chatData}}"></MenuItem>
+                            </ContextMenu>
+                        </wpfControl:AutoAdjustRichTextBox.ContextMenu>
                     </wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="发送" ToolTip="发送消息" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}" Margin="5"></Button>
+                <Button Content="发送" ToolTip="发送消息(Shift+Enter)" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}" Margin="5"></Button>
             </StackPanel>
         </Grid>
         <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">

@@ -57,6 +57,19 @@ namespace EMChat2.Common
             }
         }
 
+        public static MessageContentInfo CreateTextMessageContent(string content)
+        {
+            if (string.IsNullOrEmpty(content)) return null;
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Text,
+                Content = new TextMessageContent()
+                {
+                    Content = content
+                }.ObjectToJson()
+            };
+        }
+
         public static MessageContentInfo CreateEmotionMessageContent(EmotionInfo emotion)
         {
             if (emotion == null) return null;
@@ -100,7 +113,7 @@ namespace EMChat2.Common
             };
         }
 
-        public static MessageContentInfo CreateMessageContentFromHtml(string html)
+        public static MessageContentInfo CreateHtmlMessageContent(string html)
         {
             if (string.IsNullOrEmpty(html)) return null;
             List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
@@ -108,25 +121,31 @@ namespace EMChat2.Common
             htmlDocument.LoadHtml(html);
             HtmlNode rootNode = htmlDocument.DocumentNode.SelectSingleNode("html");
             HtmlNodeCollection imageHtmlNodes = rootNode.SelectNodes("//img");
-            foreach (HtmlNode imageHtmlNode in imageHtmlNodes)
+            if (imageHtmlNodes != null)
+            {
+                foreach (HtmlNode imageHtmlNode in imageHtmlNodes)
+                {
+                    messageContents.Add(new MessageContentInfo()
+                    {
+                        Type = MessageTypeConst.Image,
+                        Content = new ImageMessageContent()
+                        {
+                            Url = imageHtmlNode.Attributes["src"]?.Value.Trim()
+                        }.ObjectToJson()
+                    });
+                }
+            }
+            if (!string.IsNullOrEmpty(rootNode.InnerText))
             {
                 messageContents.Add(new MessageContentInfo()
                 {
-                    Type = MessageTypeConst.Image,
-                    Content = new ImageMessageContent()
+                    Type = MessageTypeConst.Text,
+                    Content = new TextMessageContent()
                     {
-                        Url = imageHtmlNode.Attributes["src"]?.Value.Trim()
+                        Content = rootNode.InnerText
                     }.ObjectToJson()
                 });
             }
-            messageContents.Add(new MessageContentInfo()
-            {
-                Type = MessageTypeConst.Text,
-                Content = new TextMessageContent()
-                {
-                    Content = rootNode.InnerText
-                }.ObjectToJson()
-            });
             return new MessageContentInfo()
             {
                 Type = MessageTypeConst.Mixed,

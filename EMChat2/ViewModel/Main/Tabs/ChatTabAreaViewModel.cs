@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<SelectEmotionEventArgs>, IEventHandle<SelectImageEventArgs>, IEventHandle<SelectFileEventArgs>, IEventHandle<SelectHtmlEventArgs>, IEventHandle<SelectQuickReplyEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -217,34 +217,10 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
         }
 
-        public void Handle(SelectEmotionEventArgs arg)
+        public void Handle(InputMessageContentEventArgs arg)
         {
             if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateEmotionMessageContent(arg.Emotion);
-        }
-
-        public void Handle(SelectImageEventArgs arg)
-        {
-            if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateImageMessageContent(arg.File);
-        }
-
-        public void Handle(SelectFileEventArgs arg)
-        {
-            if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateFileMessageContent(arg.File);
-        }
-
-        public void Handle(SelectQuickReplyEventArgs arg)
-        {
-            if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = arg.QuickReply;
-        }
-
-        public void Handle(SelectHtmlEventArgs arg)
-        {
-            if (this.SelectedChatTabItem == null) return;
-            this.SelectedChatTabItem.TemporaryInputMessagContent = MessageTools.CreateMessageContentFromHtml(arg.Html);
+            this.SelectedChatTabItem.TemporaryInputMessagContent = arg.MessageContent.Clone();
         }
         #endregion
     }
