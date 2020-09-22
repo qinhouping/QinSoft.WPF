@@ -256,13 +256,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    System.Windows.Forms.FileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+                    System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                     fileDialog.Filter = "图片|*.jpg;*.jpeg;*.png;*.gif";
+                    fileDialog.Multiselect = true;
 
                     if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        this.InputImageMessageContent(new FileInfo(fileDialog.FileName));
+                        foreach (string fileName in fileDialog.FileNames)
+                        {
+                            this.InputImageMessageContent(new FileInfo(fileName), true);
+                        }
                     }
                 });
             }
@@ -274,13 +278,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    System.Windows.Forms.FileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+                    System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     fileDialog.Filter = "文件|*.*";
+                    fileDialog.Multiselect = true;
 
                     if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        this.InputFileMessageContent(new FileInfo(fileDialog.FileName));
+                        foreach (string fileName in fileDialog.FileNames)
+                        {
+                            this.InputFileMessageContent(new FileInfo(fileName), true);
+                        }
                     }
                 });
             }
@@ -401,11 +409,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
         #endregion
-
-        public void InputMessageLoadedCommand(object sender, RoutedEventArgs e)
-        {
-            (sender as UIElement).Focus();
-        }
 
         #region 内容拖拽
         public void DragEnterMessageContentCommand(object sender, DragEventArgs e)

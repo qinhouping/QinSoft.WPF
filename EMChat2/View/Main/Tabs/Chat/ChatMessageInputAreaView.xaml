@@ -69,9 +69,6 @@
                             <i:EventTrigger EventName="PreviewDrop">
                                 <ei:CallMethodAction TargetObject="{Binding}" MethodName="DropMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
-                            <i:EventTrigger EventName="Loaded">
-                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageLoadedCommand"></ei:CallMethodAction>
-                            </i:EventTrigger>
                         </i:Interaction.Triggers>
 
                         <wpfControl:AutoAdjustRichTextBox.InputBindings>
@@ -89,6 +86,7 @@
                         </wpfControl:AutoAdjustRichTextBox.ContextMenu>
                     </wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
+                
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="发送" ToolTip="发送消息(Shift+Enter)" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}" Margin="5"></Button>

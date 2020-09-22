@@ -8,6 +8,7 @@ using System.Text;
 using System.Configuration;
 using System.Threading;
 using System.Windows;
+using System.Diagnostics;
 
 namespace EMChat2
 {
@@ -21,19 +22,22 @@ namespace EMChat2
             if (Current != null) throw new InvalidProgramException("An instantiation of the applicationbooter object already exists");
             Current = this;
 
-            //程序单实例检测
-            bool isNewInstance = false;
-            string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            Mutex mutex = new Mutex(true, appName, out isNewInstance);
-            if (!allowMulitInstance && !isNewInstance)
+            if (!allowMulitInstance && IsExistsInstance())
             {
-                MessageBox.Show("The app is running now");
+                MessageBox.Show("程序已经在运行！");
                 Application.Current.Shutdown();
             }
             else
             {
                 this.OnStartUp<LoginViewModel>();
             }
+        }
+
+        private bool IsExistsInstance()
+        {
+            Process current = Process.GetCurrentProcess();
+            Process[] processes = Process.GetProcessesByName(current.ProcessName);
+            return processes.Any(u => u.Id != current.Id);
         }
     }
 }

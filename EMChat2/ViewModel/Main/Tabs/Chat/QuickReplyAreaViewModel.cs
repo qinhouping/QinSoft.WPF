@@ -125,27 +125,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             set
             {
                 this.quickReplyGroups = value;
-                ChangeSelctedQuickReplyGroup();
-                this.quickReplyGroups.CollectionChanged += (s, e) =>
-                {
-                    ChangeSelctedQuickReplyGroup();
-                };
                 this.NotifyPropertyChange(() => this.QuickReplyGroups);
             }
         }
         #endregion
 
         #region 方法
-        private void ChangeSelctedQuickReplyGroup()
-        {
-            lock (this.QuickReplyGroups)
-            {
-                if (this.SelectedQuickReplyGroup == null && this.QuickReplyGroups.Count > 0)
-                {
-                    this.SelectedQuickReplyGroup = this.QuickReplyGroups.FirstOrDefault();
-                }
-            }
-        }
+
         #endregion
 
         #region 命令

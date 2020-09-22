@@ -174,10 +174,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                if (this.selectedEmotionPackage == null && this.emotionPackages.Count > 0)
-                {
-                    this.selectedEmotionPackage = this.emotionPackages.FirstOrDefault();
-                }
                 return this.selectedEmotionPackage;
             }
             set

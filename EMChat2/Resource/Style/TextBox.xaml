@@ -20,7 +20,7 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Height" Value="25"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -36,7 +36,7 @@
 
                             <Grid Grid.Column="1" Margin="2">
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
-                                <TextBlock x:Name="searchTips" Text="搜索" Foreground="#888888" VerticalAlignment="Center" FontSize="{StaticResource DefaultFontSize}" Visibility="Collapsed"></TextBlock>
+                                <TextBlock x:Name="searchTips" Text="搜索" Foreground="#888888" VerticalAlignment="Center" Visibility="Collapsed" Style="{StaticResource BaseTextBlock}"></TextBlock>
                             </Grid>
                             <Button Margin="10,0" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource IM-ClearSearch-Button}" Visibility="{Binding Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}">
                                 <i:Interaction.Triggers>
@@ -45,7 +45,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <Button.Content>
-                                    <TextBlock Style="{StaticResource IconTimes}"></TextBlock>
+                                    <TextBlock Style="{StaticResource IconTimes}" FontSize="{StaticResource MoreSmallIconFontSize}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                 </Button.Content>
                             </Button>
                         </Grid>

@@ -14,11 +14,11 @@
         <Border BorderThickness="1,1,0,0" BorderBrush="#CCCCCC">
             <TabControl Style="{StaticResource IM-ChatSlider-Tab}">
                 <!--快捷回复-->
-                <TabItem Style="{StaticResource IM-ChatSlider-TabItem}" Header="快捷回复" IsSelected="False">
+                <TabItem Style="{StaticResource IM-ChatSlider-TabItem}" Header="快捷回复">
                     <chat:QuickReplyAreaView DataContext="{Binding QuickReplyAreaViewModel}"></chat:QuickReplyAreaView>
                 </TabItem>
                 <!--详情页-->
-                <TabItem>
+                <TabItem IsSelected="True">
                     <TabItem.Style>
                         <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-ChatSlider-TabItem}">
                             <Setter Property="Visibility" Value="Collapsed"></Setter>

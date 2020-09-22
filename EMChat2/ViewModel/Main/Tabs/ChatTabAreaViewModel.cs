@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -97,12 +98,11 @@ namespace EMChat2.ViewModel.Main.Tabs
                 };
                 this.NotifyPropertyChange(() => this.ChatTabItems);
                 this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
-                this.NotifyPropertyChange(() => this.ChatTabItemsCollectionView);
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatTabItems);
                 collectionView.SortDescriptions.Add(new SortDescription("IsTopSort", ListSortDirection.Descending));
                 collectionView.SortDescriptions.Add(new SortDescription("LastMessageTimeSort", ListSortDirection.Descending));
-                collectionView.SortDescriptions.Add(new SortDescription("CreateTimeSort", ListSortDirection.Ascending));
+                collectionView.SortDescriptions.Add(new SortDescription("CreateTimeSort", ListSortDirection.Descending));
                 this.ChatTabItemsCollectionView = collectionView;
             }
         }
@@ -111,10 +111,6 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             get
             {
-                if (this.selectedChatTabItem == null && this.chatTabItems.Count > 0)
-                {
-                    this.selectedChatTabItem = this.chatTabItems.FirstOrDefault();
-                }
                 return this.selectedChatTabItem;
             }
             set
@@ -163,7 +159,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             chat.Name = userInfo.Name;
             chat.Type = ChatType.Private;
             chat.HeaderImageUrl = userInfo.HeaderImageUrl;
-            chat.IsTop = true;
+            chat.IsTop = false;
             chat.IsInform = false;
             chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
             return chat;
@@ -242,7 +238,10 @@ namespace EMChat2.ViewModel.Main.Tabs
             if (!isRefreshingChats)
             {
                 isRefreshingChats = true;
-                new Action(() => this.ChatTabItemsCollectionView?.Refresh()).ExecuteInUIThread();
+                lock (this.ChatTabItems)
+                {
+                    new Action(() => this.ChatTabItemsCollectionView.Refresh()).ExecuteInUIThread();
+                }
                 isRefreshingChats = false;
             }
         }
