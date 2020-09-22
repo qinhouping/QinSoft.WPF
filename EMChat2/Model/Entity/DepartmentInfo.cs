@@ -16,12 +16,12 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 子部门信息
         /// </summary>
-        private ThreadSafeObservableCollection<DepartmentInfo> departments;
-        public ThreadSafeObservableCollection<DepartmentInfo> Departments
+        private ObservableCollection<DepartmentInfo> departments;
+        public ObservableCollection<DepartmentInfo> Departments
         {
             get
             {
-                return this.departments ?? new ThreadSafeObservableCollection<DepartmentInfo>();
+                return this.departments ?? new ObservableCollection<DepartmentInfo>();
             }
             set
             {
@@ -34,12 +34,12 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 员工信息
         /// </summary>
-        private ThreadSafeObservableCollection<StaffInfo> staffs;
-        public ThreadSafeObservableCollection<StaffInfo> Staffs
+        private ObservableCollection<StaffInfo> staffs;
+        public ObservableCollection<StaffInfo> Staffs
         {
             get
             {
-                return this.staffs ?? new ThreadSafeObservableCollection<StaffInfo>();
+                return this.staffs ?? new ObservableCollection<StaffInfo>();
             }
             set
             {

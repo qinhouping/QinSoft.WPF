@@ -11,15 +11,17 @@ using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs
 {
     [Component]
-    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>
+    public class ChatTabAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>
     {
         #region 构造函数
         public ChatTabAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -30,7 +32,7 @@ namespace EMChat2.ViewModel.Main.Tabs
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
-            this.ChatTabItems = new ThreadSafeObservableCollection<ChatTabItemAreaViewModel>();
+            this.ChatTabItems = new ObservableCollection<ChatTabItemAreaViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
         }
@@ -78,8 +80,8 @@ namespace EMChat2.ViewModel.Main.Tabs
                 this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
             }
         }
-        private ThreadSafeObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
-        public ThreadSafeObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
+        private ObservableCollection<ChatTabItemAreaViewModel> chatTabItems;
+        public ObservableCollection<ChatTabItemAreaViewModel> ChatTabItems
         {
             get
             {
@@ -88,14 +90,20 @@ namespace EMChat2.ViewModel.Main.Tabs
             set
             {
                 this.chatTabItems = value;
-                this.ChangeSelectedChatTabItem();
                 this.chatTabItems.CollectionChanged += (s, e) =>
                 {
-                    this.ChangeSelectedChatTabItem();
                     this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+                    this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
                 };
                 this.NotifyPropertyChange(() => this.ChatTabItems);
                 this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+                this.NotifyPropertyChange(() => this.ChatTabItemsCollectionView);
+
+                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatTabItems);
+                collectionView.SortDescriptions.Add(new SortDescription("IsTopSort", ListSortDirection.Descending));
+                collectionView.SortDescriptions.Add(new SortDescription("LastMessageTimeSort", ListSortDirection.Descending));
+                collectionView.SortDescriptions.Add(new SortDescription("CreateTimeSort", ListSortDirection.Ascending));
+                this.ChatTabItemsCollectionView = collectionView;
             }
         }
         private ChatTabItemAreaViewModel selectedChatTabItem;
@@ -103,13 +111,29 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             get
             {
+                if (this.selectedChatTabItem == null && this.chatTabItems.Count > 0)
+                {
+                    this.selectedChatTabItem = this.chatTabItems.FirstOrDefault();
+                }
                 return this.selectedChatTabItem;
             }
             set
             {
-                if (this.selectedChatTabItem?.Equals(value) == true) return;
                 this.selectedChatTabItem = value;
                 this.NotifyPropertyChange(() => this.SelectedChatTabItem);
+            }
+        }
+        private ICollectionView chatTabItemsCollectionView;
+        public ICollectionView ChatTabItemsCollectionView
+        {
+            get
+            {
+                return this.chatTabItemsCollectionView;
+            }
+            set
+            {
+                this.chatTabItemsCollectionView = value;
+                this.NotifyPropertyChange(() => this.ChatTabItemsCollectionView);
             }
         }
         private ChatService chatService;
@@ -124,6 +148,7 @@ namespace EMChat2.ViewModel.Main.Tabs
                 }
             }
         }
+        private bool isRefreshingChats;
         #endregion
 
         #region 方法
@@ -140,19 +165,8 @@ namespace EMChat2.ViewModel.Main.Tabs
             chat.HeaderImageUrl = userInfo.HeaderImageUrl;
             chat.IsTop = true;
             chat.IsInform = false;
-            chat.ChatUsers = new ThreadSafeObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
+            chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
             return chat;
-        }
-
-        private void ChangeSelectedChatTabItem()
-        {
-            lock (this.ChatTabItems)
-            {
-                if (this.SelectedChatTabItem == null && this.ChatTabItems.Count > 0)
-                {
-                    this.SelectedChatTabItem = this.ChatTabItems.First();
-                }
-            }
         }
         #endregion
 
@@ -221,6 +235,16 @@ namespace EMChat2.ViewModel.Main.Tabs
         {
             if (this.SelectedChatTabItem == null) return;
             this.SelectedChatTabItem.TemporaryInputMessagContent = arg.MessageContent.Clone();
+        }
+
+        public void Handle(RefreshChatsEventArgs Message)
+        {
+            if (!isRefreshingChats)
+            {
+                isRefreshingChats = true;
+                new Action(() => this.ChatTabItemsCollectionView?.Refresh()).ExecuteInUIThread();
+                isRefreshingChats = false;
+            }
         }
         #endregion
     }

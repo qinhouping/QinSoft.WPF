@@ -33,7 +33,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
-            this.Messages = new ThreadSafeObservableCollection<MessageInfo>();
+            this.Messages = new ObservableCollection<MessageInfo>();
         }
         #endregion
 
@@ -81,8 +81,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ThreadSafeObservableCollection<MessageInfo> messages;
-        public ThreadSafeObservableCollection<MessageInfo> Messages
+        private ObservableCollection<MessageInfo> messages;
+        public ObservableCollection<MessageInfo> Messages
         {
             get
             {
@@ -94,12 +94,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.Messages);
                 this.NotifyPropertyChange(() => this.NotReadMessageCount);
                 this.NotifyPropertyChange(() => this.LastMessage);
+                this.NotifyPropertyChange(() => this.LastMessageTimeSort);
                 this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+                this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
                 this.messages.CollectionChanged += (s, e) =>
                 {
                     this.NotifyPropertyChange(() => this.NotReadMessageCount);
                     this.NotifyPropertyChange(() => this.LastMessage);
+                    this.NotifyPropertyChange(() => this.LastMessageTimeSort);
                     this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+                    this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
                 };
             }
         }
@@ -165,6 +169,30 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.IsDragMessageContent);
             }
         }
+        #region 排序属性
+        public bool IsTopSort
+        {
+            get
+            {
+                return this.chat.IsTop;
+            }
+        }
+        public DateTime? LastMessageTimeSort
+        {
+            get
+            {
+                return this.LastMessage?.MsgTime;
+            }
+        }
+
+        public DateTime CreateTimeSort
+        {
+            get
+            {
+                return this.chat.CreateTime;
+            }
+        }
+        #endregion
         #endregion
 
         #region 命令
@@ -175,6 +203,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
                     this.Chat.IsTop = !this.Chat.IsTop;
+                    this.NotifyPropertyChange(() => this.IsTopSort);
+                    this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
                 });
             }
         }
@@ -290,7 +320,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
-                });
+                }, () => this.InputMessageContent != null);
             }
         }
 
@@ -371,6 +401,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
         #endregion
+
+        public void InputMessageLoadedCommand(object sender, RoutedEventArgs e)
+        {
+            (sender as UIElement).Focus();
+        }
 
         #region 内容拖拽
         public void DragEnterMessageContentCommand(object sender, DragEventArgs e)

@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:common="clr-namespace:EMChat2.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <common:BindingProxy Data="{Binding}" x:Key="emotionPickerData"></common:BindingProxy>
+    </UserControl.Resources>
+
     <Border Style="{StaticResource IM-Content-Border}">
         <TabControl Style="{StaticResource IM-EmotionPicker-Tab}" ItemContainerStyle="{StaticResource IM-EmotionPicker-TabItem}" ItemsSource="{Binding EmotionPackages}" SelectedItem="{Binding SelectedEmotionPackage}">
             <TabControl.ItemTemplate>
@@ -21,7 +27,7 @@
                                 <DataTemplate>
                                     <Image Source="{Binding Url}" ToolTip="{Binding Name}" MaxWidth="32">
                                         <Image.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.SelectEmotionCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabControl}}" CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Data.SelectEmotionCommand, Source={StaticResource emotionPickerData}}" CommandParameter="{Binding}"></MouseBinding>
                                         </Image.InputBindings>
                                     </Image>
                                 </DataTemplate>

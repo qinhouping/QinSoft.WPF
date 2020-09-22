@@ -152,12 +152,12 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private ThreadSafeObservableCollection<TagInfo> tags;
-        public ThreadSafeObservableCollection<TagInfo> Tags
+        private ObservableCollection<TagInfo> tags;
+        public ObservableCollection<TagInfo> Tags
         {
             get
             {
-                return this.tags ?? new ThreadSafeObservableCollection<TagInfo>();
+                return this.tags ?? new ObservableCollection<TagInfo>();
             }
             set
             {

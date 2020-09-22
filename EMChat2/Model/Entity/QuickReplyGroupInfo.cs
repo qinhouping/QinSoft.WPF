@@ -1,6 +1,7 @@
 ﻿using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,20 @@ namespace EMChat2.Model.Entity
             {
                 this.id = value;
                 this.NotifyPropertyChange(() => this.Id);
+            }
+        }
+
+        private int index;
+        public int Index
+        {
+            get
+            {
+                return this.index;
+            }
+            set
+            {
+                this.index = value;
+                this.NotifyPropertyChange(() => this.Index);
             }
         }
 
@@ -51,22 +66,8 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private BusinessEnum business;
-        public BusinessEnum Business
-        {
-            get
-            {
-                return this.business;
-            }
-            set
-            {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.Business);
-            }
-        }
-
-        private ThreadSafeObservableCollection<QuickReplyInfo> quickReplys;
-        public ThreadSafeObservableCollection<QuickReplyInfo> QuickReplys
+        private ObservableCollection<QuickReplyInfo> quickReplys;
+        public ObservableCollection<QuickReplyInfo> QuickReplys
         {
             get
             {

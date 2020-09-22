@@ -16,7 +16,7 @@
             <common:BindingProxy x:Key="chatTabData" Data="{Binding}"></common:BindingProxy>
         </Grid.Resources>
 
-        <TabControl Grid.ZIndex="0" ItemContainerStyle="{StaticResource IM-Chat-TabItem}" ItemsSource="{Binding ChatTabItems}" SelectedItem="{Binding SelectedChatTabItem}">
+        <TabControl Grid.ZIndex="0" ItemContainerStyle="{StaticResource IM-Chat-TabItem}" ItemsSource="{Binding ChatTabItemsCollectionView}" SelectedItem="{Binding SelectedChatTabItem}">
             <TabControl.Style>
                 <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource IM-Chat-Tab}">
                     <Setter Property="Background" Value="#EEEEEE"></Setter>

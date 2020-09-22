@@ -21,7 +21,7 @@
         <Border BorderThickness="0,1,0,1" BorderBrush="#CCCCCC">
             <Grid>
                 <wpfControl:AutoScrollListBox x:Name="messageList" Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding Messages}">
-                    <ListBox.ItemTemplate>
+                    <wpfControl:AutoScrollListBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl Focusable="False">
                                 <ContentControl.Style>
@@ -221,7 +221,7 @@
                                 </ContentControl.Style>
                             </ContentControl>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
+                    </wpfControl:AutoScrollListBox.ItemTemplate>
                 </wpfControl:AutoScrollListBox>
             </Grid>
         </Border>

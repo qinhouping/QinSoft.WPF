@@ -171,6 +171,7 @@
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
     <Compile Include="Model\Event\DetailChangeEventArgs.cs" />
     <Compile Include="Model\Event\InputMessageContentEventArgs.cs" />
+    <Compile Include="Model\Event\RefreshChatsEventArgs.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatSliderAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Tabs\Chat\QuickReplyAreaViewModel.cs" />

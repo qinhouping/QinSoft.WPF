@@ -6,6 +6,7 @@ using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.QuickReplyGroups = new ThreadSafeObservableCollection<QuickReplyGroupInfo>();
+            this.QuickReplyGroups = new ObservableCollection<QuickReplyGroupInfo>();
 
             // TODO 测试数据
             new Action(() =>
@@ -32,10 +33,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Business = BusinessEnum.Advisor,
                     Level = QuickReplyGroupLevel.System,
                     Name = "系统默认分组",
-                    QuickReplys = new ThreadSafeObservableCollection<QuickReplyInfo>()
+                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
                     {
                         new QuickReplyInfo()
                         {
@@ -49,10 +49,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Business = BusinessEnum.Advisor,
                     Level = QuickReplyGroupLevel.User,
                     Name = "个人默认分组",
-                    QuickReplys = new ThreadSafeObservableCollection<QuickReplyInfo>()
+                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
                     {
                         new QuickReplyInfo()
                         {
@@ -116,8 +115,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.SelectedQuickReplyGroup);
             }
         }
-        private ThreadSafeObservableCollection<QuickReplyGroupInfo> quickReplyGroups;
-        public ThreadSafeObservableCollection<QuickReplyGroupInfo> QuickReplyGroups
+        private ObservableCollection<QuickReplyGroupInfo> quickReplyGroups;
+        public ObservableCollection<QuickReplyGroupInfo> QuickReplyGroups
         {
             get
             {
@@ -157,6 +156,88 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
                     this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply });
+                });
+            }
+        }
+
+        public ICommand AddQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    lock (this.QuickReplyGroups)
+                    {
+                        this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Level = QuickReplyGroupLevel.User,
+                            Name = "新建分组",
+                            QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                        });
+                    }
+                });
+            }
+        }
+
+        public ICommand EditQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                {
+                    lock (this.QuickReplyGroups)
+                    {
+                        quickReplyGroup.Name = "编辑分组";
+                    }
+                });
+            }
+        }
+
+        public ICommand RemoveQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                {
+                    lock (this.QuickReplyGroups)
+                    {
+                        this.QuickReplyGroups.Remove(quickReplyGroup);
+                    }
+                });
+            }
+        }
+
+
+        public ICommand AddQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                {
+
+                });
+            }
+        }
+
+        public ICommand EditQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                {
+
+                });
+            }
+        }
+
+        public ICommand RemoveQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                {
+                    if (this.SelectedQuickReplyGroup != null) this.SelectedQuickReplyGroup.QuickReplys.Remove(quickReply);
                 });
             }
         }

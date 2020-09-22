@@ -20,7 +20,7 @@ namespace QinSoft.WPF.Control
     {
         private ListBox DataListBox;
         public static readonly DependencyProperty SelectedItemsProperty =
-           DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MCombobox), new PropertyMetadata(new ThreadSafeObservableCollection<object>()));
+           DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MCombobox), new PropertyMetadata(new ObservableCollection<object>()));
 
         public IList SelectedItems
         {

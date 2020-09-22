@@ -69,7 +69,9 @@
                             <i:EventTrigger EventName="PreviewDrop">
                                 <ei:CallMethodAction TargetObject="{Binding}" MethodName="DropMessageContentCommand"></ei:CallMethodAction>
                             </i:EventTrigger>
-
+                            <i:EventTrigger EventName="Loaded">
+                                <ei:CallMethodAction TargetObject="{Binding}" MethodName="InputMessageLoadedCommand"></ei:CallMethodAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
 
                         <wpfControl:AutoAdjustRichTextBox.InputBindings>

@@ -84,7 +84,7 @@
                                 <ColumnDefinition Width="12"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <ToggleButton x:Name="PART_Toggle" Grid.Column="0" Style="{StaticResource IM-Tree-ToggleButton}" HorizontalAlignment="Center" VerticalAlignment="Top" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,5,0,0"></ToggleButton>
+                            <ToggleButton x:Name="PART_Toggle" Grid.Column="0" Style="{StaticResource IM-Tree-ToggleButton}" HorizontalAlignment="Center" VerticalAlignment="Top" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,2,0,0"></ToggleButton>
                             <ContentPresenter Margin="2" x:Name="PART_Header" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>
                             <ItemsPresenter x:Name="PART_Items" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"></ItemsPresenter>
                         </Grid>

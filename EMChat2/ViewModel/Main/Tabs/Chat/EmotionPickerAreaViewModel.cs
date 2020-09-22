@@ -25,7 +25,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.emotionPackages = new ThreadSafeObservableCollection<EmotionPackageInfo>();
+            this.emotionPackages = new ObservableCollection<EmotionPackageInfo>();
 
             //TODO 测试数据
             new Action(() =>
@@ -37,7 +37,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     Level = EmotionPackageLevel.System,
                     Name = "emoji",
                     ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
-                    Emotions = new ThreadSafeObservableCollection<EmotionInfo>()
+                    Emotions = new ObservableCollection<EmotionInfo>()
                     {
                         new EmotionInfo()
                         {
@@ -156,8 +156,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ThreadSafeObservableCollection<EmotionPackageInfo> emotionPackages;
-        public ThreadSafeObservableCollection<EmotionPackageInfo> EmotionPackages
+        private ObservableCollection<EmotionPackageInfo> emotionPackages;
+        public ObservableCollection<EmotionPackageInfo> EmotionPackages
         {
             get
             {
@@ -166,11 +166,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             set
             {
                 this.emotionPackages = value;
-                this.ChangeSelectedEmotionPackage();
-                this.emotionPackages.CollectionChanged += (s, e) =>
-                {
-                    this.ChangeSelectedEmotionPackage();
-                };
                 this.NotifyPropertyChange(() => this.EmotionPackages);
             }
         }
@@ -179,6 +174,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
+                if (this.selectedEmotionPackage == null && this.emotionPackages.Count > 0)
+                {
+                    this.selectedEmotionPackage = this.emotionPackages.FirstOrDefault();
+                }
                 return this.selectedEmotionPackage;
             }
             set
@@ -190,16 +189,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 方法
-        private void ChangeSelectedEmotionPackage()
-        {
-            lock (this.EmotionPackages)
-            {
-                if (this.SelectedEmotionPackage == null && this.EmotionPackages.Count > 0)
-                {
-                    this.SelectedEmotionPackage = this.EmotionPackages.First();
-                }
-            }
-        }
+
         #endregion
 
         #region 命令
