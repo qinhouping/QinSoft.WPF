@@ -5,5 +5,4 @@
     <FontFamily x:Key="IM-Name-FontFamily">楷体</FontFamily>
 
     <sys:Double x:Key="IM-Login-IconFontSize">80</sys:Double>
-    <sys:Double x:Key="IM-Tab-IconFontSize">20</sys:Double>
 </ResourceDictionary>

@@ -1,10 +1,13 @@
-﻿using QinSoft.WPF.Core;
+﻿using Newtonsoft.Json;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace EMChat2.Model.Entity
 {
@@ -87,12 +90,30 @@ namespace EMChat2.Model.Entity
         {
             get
             {
-                return this.emotions ?? new ObservableCollection<EmotionInfo>();
+                return this.emotions;
             }
             set
             {
                 this.emotions = value;
                 this.NotifyPropertyChange(() => this.Emotions);
+
+                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.emotions);
+                this.EmotionsCollectionView = collectionView;
+            }
+        }
+
+        private ICollectionView emotionsCollectionView;
+        [JsonIgnore]
+        public ICollectionView EmotionsCollectionView
+        {
+            get
+            {
+                return this.emotionsCollectionView;
+            }
+            set
+            {
+                this.emotionsCollectionView = value;
+                this.NotifyPropertyChange(() => this.EmotionsCollectionView);
             }
         }
         #endregion

@@ -1,11 +1,13 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.Entity;
-using EMChat2.View.Main.Tabs.Chat;
+using EMChat2.View.Main.Body.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.WPF;
 using QinSoft.WPF.Control;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -149,9 +151,10 @@ namespace EMChat2.View
                     InlineUIContainer inlineUIContainer = inline as InlineUIContainer;
                     if (inlineUIContainer.Child is ChatMessageContentControlView)
                     {
-                        ChatMessageContentControlView chatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
-                        ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.Type, Content = chatMessageContentControlViewModel.Content.ObjectToJson() };
+                        ChatMessageContentControlView ChatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
+                        ChatMessageContentControlViewModel ChatMessageContentControlViewModel = ChatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
+                        if (ChatMessageContentControlViewModel == null) continue;
+                        messageContent = new MessageContentInfo { Type = ChatMessageContentControlViewModel.Type, Content = ChatMessageContentControlViewModel.Content.ObjectToJson() };
                         messageContents.Add(messageContent);
                     }
                 }
@@ -174,9 +177,9 @@ namespace EMChat2.View
                     BlockUIContainer blockUIContainer = block as BlockUIContainer;
                     if (blockUIContainer.Child is ChatMessageContentControlView)
                     {
-                        ChatMessageContentControlView chatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
-                        ChatMessageContentControlViewModel chatMessageContentControlViewModel = chatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContent = new MessageContentInfo { Type = chatMessageContentControlViewModel.Type, Content = chatMessageContentControlViewModel.Content.ObjectToJson() };
+                        ChatMessageContentControlView ChatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
+                        ChatMessageContentControlViewModel ChatMessageContentControlViewModel = ChatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
+                        messageContent = new MessageContentInfo { Type = ChatMessageContentControlViewModel.Type, Content = ChatMessageContentControlViewModel.Content.ObjectToJson() };
                         messageContents.Add(messageContent);
                     }
                 }
@@ -257,6 +260,22 @@ namespace EMChat2.View
                         return tipsMessageContent.Content;
                     }
                     return null;
+                });
+            }
+        }
+
+        public static IMultiValueConverter ChatFilterQuickReplyGroupConvter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    if (values.Length != 2) return null;
+                    ChatInfo chat = values[0] as ChatInfo;
+                    ICollectionView collectionView = values[1] as ICollectionView;
+                    if (chat == null || collectionView == null) return null;
+                    collectionView.Filter = (item) => (item as QuickReplyGroupInfo).Business == chat.Business;
+                    return collectionView;
                 });
             }
         }

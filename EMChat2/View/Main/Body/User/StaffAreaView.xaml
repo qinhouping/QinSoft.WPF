@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Body.User.StaffAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EMChat2.View.Main.Body.User"
+             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="240">
+    <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,1,0,0">
+        <TreeView ItemsSource="{Binding Departments}" Style="{StaticResource IM-Tree}" ItemContainerStyle="{StaticResource IM-Staff-TreeItem}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Departments}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Cursor="Hand">
+                            <Grid.InputBindings>
+                                <MouseBinding  MouseAction="LeftClick" Command="{Binding DataContext.OpenDepartmentDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
+                            </Grid.InputBindings>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <!--树图标-->
+                            <TextBlock x:Name="icon" Style="{StaticResource IconFolder}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
+
+                            <!--部门名称-->
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlock}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" TextTrimming="CharacterEllipsis"></TextBlock>
+                        </Grid>
+
+                        <!--员工列表-->
+                        <ListBox ItemsSource="{Binding Staffs}" Grid.Row="1" x:Name="staffs" Visibility="Collapsed" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="6,0,0,0" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Grid.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenStaffDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
+                                        </Grid.InputBindings>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <!--员工头像-->
+                                        <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
+
+                                        <!--员工名称-->
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+
+                                        <!--员工在线状态-->
+                                        <Grid Grid.Column="2" Width="8" Height="8">
+                                            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
+                                            <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
+                                            <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
+                                            <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeViewItem}}" Value="True">
+                            <Setter TargetName="icon" Property="Style" Value="{StaticResource IconFolderOpen}"></Setter>
+                            <Setter TargetName="staffs" Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Border>
+</UserControl>

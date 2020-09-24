@@ -15,17 +15,17 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 是否置顶显示主窗口
         /// </summary>
-        private bool isTopmostShellView;
-        public bool IsTopmostShellView
+        private bool isTopmostMainView;
+        public bool IsTopmostMainView
         {
             get
             {
-                return this.isTopmostShellView;
+                return this.isTopmostMainView;
             }
             set
             {
-                this.isTopmostShellView = value;
-                this.NotifyPropertyChange(() => this.IsTopmostShellView);
+                this.isTopmostMainView = value;
+                this.NotifyPropertyChange(() => this.IsTopmostMainView);
             }
         }
 

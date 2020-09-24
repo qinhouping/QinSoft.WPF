@@ -20,13 +20,13 @@ namespace EMChat2.ViewModel
     public class LoginViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
-        public LoginViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, ShellViewModel shellViewModel, UserService userService, SystemService systemService)
+        public LoginViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, MainViewModel MainViewModel, UserService userService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.shellViewModel = shellViewModel;
+            this.MainViewModel = MainViewModel;
             this.userService = userService;
             this.systemService = systemService;
 
@@ -50,17 +50,17 @@ namespace EMChat2.ViewModel
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        private ShellViewModel shellViewModel;
-        public ShellViewModel ShellViewModel
+        private MainViewModel mainViewModel;
+        public MainViewModel MainViewModel
         {
             get
             {
-                return this.shellViewModel;
+                return this.mainViewModel;
             }
             set
             {
-                this.shellViewModel = value;
-                this.NotifyPropertyChange(() => this.ShellViewModel);
+                this.mainViewModel = value;
+                this.NotifyPropertyChange(() => this.MainViewModel);
             }
         }
         private UserService userService;

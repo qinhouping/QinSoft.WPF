@@ -22,20 +22,6 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private int index;
-        public int Index
-        {
-            get
-            {
-                return this.index;
-            }
-            set
-            {
-                this.index = value;
-                this.NotifyPropertyChange(() => this.Index);
-            }
-        }
-
         private string name;
         public string Name
         {

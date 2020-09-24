@@ -4,12 +4,12 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Button.xaml"></ResourceDictionary>
         <ResourceDictionary Source="CheckBox.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Font.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Global.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Image.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Label.xaml"></ResourceDictionary>
         <ResourceDictionary Source="ListBox.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="Popup.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
         <ResourceDictionary Source="TextBlock.xaml"></ResourceDictionary>

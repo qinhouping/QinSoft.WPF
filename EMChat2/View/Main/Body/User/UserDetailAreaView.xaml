@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Body.User.UserDetailAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
+             xmlns:event="clr-namespace:EMChat2.Model.Event"
+             xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="userDetailData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+
+    <Grid>
+        <ContentControl>
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.TagCustomer}">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <user:TagCustomerAreaView DataContext="{Binding Data.TagCustomerAreaViewModel, Source={StaticResource userDetailData}}"></user:TagCustomerAreaView>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.Department}">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <user:DepartmentDetailAreaView HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Data.DepartmentDetailAreaViewModel, Source={StaticResource userDetailData}}"></user:DepartmentDetailAreaView>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.Staff}">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <user:StaffDetailAreaView Margin="0,100,0,0" DataContext="{Binding Data.StaffDetailAreaViewModel, Source={StaticResource userDetailData}}"></user:StaffDetailAreaView>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+    </Grid>
+</UserControl>

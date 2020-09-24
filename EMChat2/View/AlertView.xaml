@@ -27,7 +27,7 @@
             </Grid>
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
+                <view:TaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:TaskbarAreaView>
             </Grid>
 
             <Grid Grid.Row="1" Margin="30,0">

@@ -168,45 +168,57 @@
     <Compile Include="Model\Entity\TagGroupInfo.cs" />
     <Compile Include="Model\Entity\TagInfo.cs" />
     <Compile Include="Model\Event\CaptureScreenEventArgs.cs" />
+    <Compile Include="Model\Event\ChatDetailEventArgs.cs" />
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
-    <Compile Include="Model\Event\DetailChangeEventArgs.cs" />
+    <Compile Include="Model\Event\UseDetailEventArgs.cs" />
     <Compile Include="Model\Event\InputMessageContentEventArgs.cs" />
     <Compile Include="Model\Event\RefreshChatsEventArgs.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\ChatMessageContentControlViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatSliderAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\QuickReplyAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\CustomerAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\CustomerDetailAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\DepartmentDetailAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\StaffAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\StaffDetailAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\TagCustomerAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\User\UserDetailAreaViewModel.cs" />
-    <Compile Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml.cs">
+    <Compile Include="ViewModel\Main\Body\Chat\ChatDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\ChatListAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\ChatMessageContentControlViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\ChatSliderAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\QuickReplyAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\CustomerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\CustomerDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\DepartmentDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\StaffAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\StaffDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\TagCustomerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\UserDetailAreaViewModel.cs" />
+    <Compile Include="View\Main\Body\Chat\ChatDetailAreaView.xaml.cs">
+      <DependentUpon>ChatDetailAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Body\Chat\ChatListAreaView.xaml.cs">
+      <DependentUpon>ChatListAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Body\Chat\ChatMessageContentControlView.xaml.cs">
       <DependentUpon>ChatMessageContentControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\QuickReplyAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\Chat\PrivateChatDetailAreaView.xaml.cs">
+      <DependentUpon>PrivateChatDetailAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main\Body\Chat\QuickReplyAreaView.xaml.cs">
       <DependentUpon>QuickReplyAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\CustomerAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\CustomerAreaView.xaml.cs">
       <DependentUpon>CustomerAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\CustomerDetailAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\CustomerDetailAreaView.xaml.cs">
       <DependentUpon>CustomerDetailAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\DepartmentDetailAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\DepartmentDetailAreaView.xaml.cs">
       <DependentUpon>DepartmentDetailAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\StaffAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\StaffAreaView.xaml.cs">
       <DependentUpon>StaffAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\StaffDetailAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\StaffDetailAreaView.xaml.cs">
       <DependentUpon>StaffDetailAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\TagCustomerAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\TagCustomerAreaView.xaml.cs">
       <DependentUpon>TagCustomerAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\User\UserDetailAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\User\UserDetailAreaView.xaml.cs">
       <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
@@ -236,14 +248,14 @@
     <Compile Include="ViewModel\Main\BodyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\BottomAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Bottom\BottomSettingAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\ChatTabAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\ChatTabItemAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\EmotionPickerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\ChatTabAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\ChatViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\EmotionPickerAreaViewModel.cs" />
     <Compile Include="ViewModel\PictureExplorerViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\Chat\PrivateChatTabItemAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Tabs\UserTabAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\PrivateChatViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\UserTabAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\TopAreaViewModel.cs" />
-    <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
     </Compile>
@@ -259,35 +271,35 @@
     <Compile Include="View\Main\Bottom\BottomSettingAreaView.xaml.cs">
       <DependentUpon>BottomSettingAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\ChatTabAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\ChatTabAreaView.xaml.cs">
       <DependentUpon>ChatTabAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\ChatMessageAreaView.xaml.cs">
-      <DependentUpon>ChatMessageAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Body\Chat\ChatMessagesAreaView.xaml.cs">
+      <DependentUpon>ChatMessagesAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\ChatMessageInputAreaView.xaml.cs">
-      <DependentUpon>ChatMessageInputAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Body\Chat\ChatInputAreaView.xaml.cs">
+      <DependentUpon>ChatInputAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\PrivateChatSliderAreaView.xaml.cs">
-      <DependentUpon>PrivateChatSliderAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Body\Chat\ChatSliderAreaView.xaml.cs">
+      <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\Chat\EmotionPickerAreaView.xaml.cs">
       <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PictureExplorerView.xaml.cs">
       <DependentUpon>PictureExplorerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Tabs\UserTabAreaView.xaml.cs">
+    <Compile Include="View\Main\Body\UserTabAreaView.xaml.cs">
       <DependentUpon>UserTabAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
+    <Compile Include="View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\TopAreaView.xaml.cs">
       <DependentUpon>TopAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ShellTaskbarAreaView.xaml.cs">
-      <DependentUpon>ShellTaskbarAreaView.xaml</DependentUpon>
+    <Compile Include="View\TaskbarAreaView.xaml.cs">
+      <DependentUpon>TaskbarAreaView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +353,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resource\Style\Color.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resource\Style\Font.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -348,10 +364,6 @@
     <Page Include="Resource\Style\ListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resource\Style\Popup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Resource\Style\Global.xaml">
       <SubType>Designer</SubType>
@@ -393,6 +405,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Main\Body\Chat\ChatDetailAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Body\Chat\ChatListAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main\Body\Chat\PrivateChatDetailAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Main\BottomAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -409,31 +433,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\ChatTabAreaView.xaml">
+    <Page Include="View\Main\Body\ChatTabAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\ChatMessageAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\ChatMessagesAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\ChatMessageContentControlView.xaml">
+    <Page Include="View\Main\Body\Chat\ChatMessageContentControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\ChatMessageInputAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\ChatInputAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\PrivateChatSliderAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\ChatSliderAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\EmotionPickerAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\EmotionPickerAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\Chat\QuickReplyAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\QuickReplyAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -441,39 +465,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\UserTabAreaView.xaml">
+    <Page Include="View\Main\Body\UserTabAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\CustomerAreaView.xaml">
+    <Page Include="View\Main\Body\User\CustomerAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\CustomerDetailAreaView.xaml">
+    <Page Include="View\Main\Body\User\CustomerDetailAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\DepartmentDetailAreaView.xaml">
+    <Page Include="View\Main\Body\User\DepartmentDetailAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\StaffAreaView.xaml">
+    <Page Include="View\Main\Body\User\StaffAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\StaffDetailAreaView.xaml">
+    <Page Include="View\Main\Body\User\StaffDetailAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\TagCustomerAreaView.xaml">
+    <Page Include="View\Main\Body\User\TagCustomerAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Tabs\User\UserDetailAreaView.xaml">
+    <Page Include="View\Main\Body\User\UserDetailAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ShellView.xaml">
+    <Page Include="View\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -481,7 +505,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ShellTaskbarAreaView.xaml">
+    <Page Include="View\TaskbarAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

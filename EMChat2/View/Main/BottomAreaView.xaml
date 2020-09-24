@@ -9,12 +9,12 @@
              xmlns:bottom="clr-namespace:EMChat2.View.Main.Bottom"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="60">
+             d:DesignHeight="80" d:DesignWidth="50" Width="50">
     <Grid>
-        <!--按钮列表-->
         <StackPanel Orientation="Vertical">
+            <!--菜单-->
             <Button x:Name="bottomSettingBtn" ToolTip="设置" Style="{StaticResource IM-Tab-Button}">
-                <TextBlock Style="{StaticResource IconBars}" FontSize="{StaticResource IM-Tab-IconFontSize}"/>
+                <TextBlock Style="{StaticResource IconBars}" FontSize="{StaticResource BigIconFontSize}"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:ChangePropertyAction PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=bottomSettingPopup}"/>
@@ -24,8 +24,8 @@
             <Label Content="东财通" HorizontalAlignment="Center" Margin="0,2" Style="{StaticResource IM-Name-Label}"></Label>
         </StackPanel>
 
-        <!--弹窗菜单-->
-        <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" MinWidth="150">
+        <!--弹出式菜单-->
+        <Popup x:Name="bottomSettingPopup" PlacementTarget="{Binding ElementName=bottomSettingBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade">
             <bottom:BottomSettingAreaView DataContext="{Binding BottomSettingAreaViewModel}"></bottom:BottomSettingAreaView>
         </Popup>
     </Grid>

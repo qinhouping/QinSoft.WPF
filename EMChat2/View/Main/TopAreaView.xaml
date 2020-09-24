@@ -7,60 +7,62 @@
              xmlns:entity="clr-namespace:EMChat2.Model.Entity"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="50">
-    <StackPanel Orientation="Vertical">
-        <!--头像-->
-        <Border VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Grid>
-                <Image Style="{StaticResource IM-Header-Image}" Margin="4" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
-                <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="8" Height="8">
-                    <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
-                    <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
-                    <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
-                    <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+             d:DesignHeight="50" d:DesignWidth="50" Width="50">
+    <Grid Margin="0,22,0,0">
+        <StackPanel Orientation="Vertical">
+            <!--头像-->
+            <Border HorizontalAlignment="Center">
+                <Grid>
+                    <Image Style="{StaticResource IM-Header-Image}" Margin="4" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="8" Height="8">
+                        <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
+                        <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
+                        <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
+                        <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
 
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem ToolTip="在线" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Online}">
-                                <MenuItem.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Style="{StaticResource Chip-Success}" Width="10" Height="10" Margin="5,0"></Label>
-                                        <TextBlock Grid.Column="1" Text="在线" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                    </Grid>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem ToolTip="忙碌" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Busy}">
-                                <MenuItem.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Style="{StaticResource Chip-Warning}" Width="10" Height="10" Margin="5,0"></Label>
-                                        <TextBlock Grid.Column="1" Text="忙碌" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                    </Grid>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem ToolTip="离开" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Leave}">
-                                <MenuItem.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Style="{StaticResource Chip}" Width="10" Height="10" Margin="5,0"></Label>
-                                        <TextBlock Grid.Column="1" Text="离开" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                    </Grid>
-                                </MenuItem.Header>
-                            </MenuItem>
-                        </ContextMenu>
-                    </Grid.ContextMenu>
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem ToolTip="在线" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Online}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Style="{StaticResource Chip-Success}" Width="10" Height="10" Margin="5,0"></Label>
+                                            <TextBlock Grid.Column="1" Text="在线" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        </Grid>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem ToolTip="忙碌" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Busy}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Style="{StaticResource Chip-Warning}" Width="10" Height="10" Margin="5,0"></Label>
+                                            <TextBlock Grid.Column="1" Text="忙碌" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        </Grid>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem ToolTip="离开" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static entity:UserStateEnum.Leave}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Style="{StaticResource Chip}" Width="10" Height="10" Margin="5,0"></Label>
+                                            <TextBlock Grid.Column="1" Text="离开" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        </Grid>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Border>
-    </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
 </UserControl>

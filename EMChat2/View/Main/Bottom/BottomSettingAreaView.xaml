@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="150">
+             d:DesignHeight="150" d:DesignWidth="150" MinWidth="150">
     <Border Style="{StaticResource IM-Content-Border}">
         <Grid>
             <Grid.RowDefinitions>
@@ -38,11 +38,11 @@
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip}" Height="{StaticResource IM-Tab-IconFontSize}" Width="{StaticResource IM-Tab-IconFontSize}">
+                            <Label Style="{StaticResource Chip}" Height="{StaticResource BigIconFontSize}" Width="{StaticResource BigIconFontSize}">
                                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallIconFontSize}">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCog}">
-                                            <Setter Property="FontSize" Value="{StaticResource IM-Login-IconFontSize}"></Setter>
+                                            <Setter Property="FontSize" Value="{StaticResource BigIconFontSize}"></Setter>
                                             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
                                             <Setter Property="RenderTransform">
                                                 <Setter.Value>

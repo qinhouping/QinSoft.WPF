@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <view:ShellTaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellTaskbarAreaView>
+                <view:TaskbarAreaView></view:TaskbarAreaView>
             </Grid>
 
             <!--背景-->
@@ -38,7 +38,7 @@
                     <Label Content="东财通" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource BigFontSize}" VerticalAlignment="Center"></Label>
                     <Label Content="{Binding ., Source={x:Static common:AppTools.AppVersion}}" Style="{StaticResource IM-Name-Label}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Bottom"></Label>
                 </StackPanel>
-                <Label Content="上海东方财富证券投资咨询有限公司" Style="{StaticResource IM-Name-Label}" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
+                <Label Content="上海东方财富证券投资咨询有限公司" Style="{StaticResource IM-Company-Label}" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
             </Grid>
 
             <!--主体内容-->
@@ -168,7 +168,7 @@
                         <!--登录中提示-->
                         <Grid Visibility="{Binding IsLogging,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#AAAAAA">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Gray3Brush}">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
                                             <Setter Property="FontSize" Value="{StaticResource IM-Login-IconFontSize}"></Setter>
@@ -194,7 +194,7 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <TextBlock Text="登录中" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Foreground="#AAAAAA"></TextBlock>
+                                <TextBlock Text="登录中" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray4Brush}"></TextBlock>
                             </Grid>
                         </Grid>
                     </Grid>

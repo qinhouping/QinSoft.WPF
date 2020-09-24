@@ -1,5 +1,5 @@
 ﻿using EMChat2.Model.Entity;
-using EMChat2.View.Main.Tabs.Chat;
+using EMChat2.View.Main.Body.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.WPF.Control;
 using System;
@@ -46,11 +46,11 @@ namespace EMChat2.Common
                 case MessageTypeConst.File:
                     {
                         object tmpMessageContent = MessageTools.ParseMessageContent(messageContent);
-                        ChatMessageContentControlView chatMessageContentControlView = new ChatMessageContentControlView()
+                        ChatMessageContentControlView ChatMessageContentControlView = new ChatMessageContentControlView()
                         {
                             DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
                         };
-                        InlineUIContainer inlineUIContainer = new InlineUIContainer(chatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
+                        InlineUIContainer inlineUIContainer = new InlineUIContainer(ChatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = inlineUIContainer.ElementEnd;
                         inlineUIContainer.BringIntoView();
                     }

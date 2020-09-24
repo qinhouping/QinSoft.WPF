@@ -1,0 +1,229 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Body.Chat.ChatMessagesAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
+             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+    <Grid>
+        <Border BorderThickness="0,1,0,1" BorderBrush="{StaticResource Gray3Brush}">
+            <Grid>
+                <wpfControl:AutoScrollListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding MessagesCollectionView}">
+                    <wpfControl:AutoScrollListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Focusable="False">
+                                <ContentControl.Style>
+                                    <Style TargetType="{x:Type ContentControl}">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <!--正常显示消息-->
+                                                <Grid Margin="5">
+                                                    <Grid.Resources>
+                                                        <common:BindingProxy x:Key="messageData" Data="{Binding}"></common:BindingProxy>
+                                                    </Grid.Resources>
+                                                    <!--显示左右控制-->
+                                                    <Grid.Style>
+                                                        <Style TargetType="{x:Type Grid}">
+                                                            <Setter Property="ToolTip" Value="{Binding MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}"></Setter>
+                                                            <Setter Property="HorizontalAlignment">
+                                                                <Setter.Value>
+                                                                    <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">
+                                                                        <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                        <Binding Path="Data.ApplicationContextViewModel.CurrentStaff" Source="{StaticResource chatData}"></Binding>
+                                                                    </MultiBinding>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Grid.Style>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition Height="*"></RowDefinition>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!--发送者-->
+                                                    <Label Grid.Row="0">
+                                                        <Label.Style>
+                                                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource IM-MessageUser-Label}">
+                                                                <Setter Property="HorizontalAlignment">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">
+                                                                            <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                            <Binding Path="Data.ApplicationContextViewModel.CurrentStaff" Source="{StaticResource chatData}"></Binding>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Content">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{x:Static view:ValueConverters.MessageToUserConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                            <Binding Path="Data.Chat" Source="{StaticResource chatData}"></Binding>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Label.Style>
+                                                    </Label>
+
+                                                    <!--消息内容-->
+                                                    <Label Grid.Row="1">
+                                                        <Label.Style>
+                                                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource IM-MessageContent-Label}">
+                                                                <Setter Property="HorizontalAlignment">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">
+                                                                            <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                            <Binding Path="Data.ApplicationContextViewModel.CurrentStaff" Source="{StaticResource chatData}"></Binding>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Label.Style>
+                                                        <wpfControl:AutoAdjustRichTextBox Style="{StaticResource IM-Message-RichTextBox}" HorizontalAlignment="Left" MaxWidth="410" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True">
+                                                            <wpfControl:AutoAdjustRichTextBox.ContextMenu>
+                                                                <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                                                    <MenuItem Header="复制" Command="{Binding Data.CopyMessageContentCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                    <MenuItem Header="撤回" Command="{Binding Data.RollbackMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                    <MenuItem Header="重发" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MenuItem>
+                                                                </ContextMenu>
+                                                            </wpfControl:AutoAdjustRichTextBox.ContextMenu>
+                                                        </wpfControl:AutoAdjustRichTextBox>
+                                                    </Label>
+
+                                                    <!--消息状态-->
+                                                    <Label Grid.Row="2">
+                                                        <Label.Style>
+                                                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource IM-MessageState-Label}">
+                                                                <Setter Property="HorizontalAlignment">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">
+                                                                            <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                            <Binding Path="Data.ApplicationContextViewModel.CurrentStaff" Source="{StaticResource chatData}"></Binding>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Label.Style>
+                                                        <ContentControl Focusable="False">
+                                                            <ContentControl.Style>
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="Content">
+                                                                        <Setter.Value>
+                                                                            <TextBlock Margin="2" Text="{Binding State, Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}">
+                                                                                <TextBlock.Style>
+                                                                                    <Style BasedOn="{StaticResource BaseTextBlock}" TargetType="{x:Type TextBlock}">
+                                                                                        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"></Setter>
+                                                                                        <Setter Property="Foreground" Value="Gray"></Setter>
+                                                                                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                                                                    </Style>
+                                                                                </TextBlock.Style>
+                                                                            </TextBlock>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding State}" Value="{x:Static entity:MessageState.Sending}">
+                                                                            <Setter Property="Content">
+                                                                                <Setter.Value>
+                                                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="2" ToolTip="消息正在发送中...">
+                                                                                        <TextBlock.RenderTransform>
+                                                                                            <TransformGroup>
+                                                                                                <RotateTransform Angle="0"/>
+                                                                                            </TransformGroup>
+                                                                                        </TextBlock.RenderTransform>
+                                                                                        <TextBlock.Style>
+                                                                                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
+                                                                                                <Setter Property="FontSize" Value="15"></Setter>
+                                                                                                <Style.Triggers>
+                                                                                                    <EventTrigger RoutedEvent="Loaded">
+                                                                                                        <EventTrigger.Actions>
+                                                                                                            <BeginStoryboard>
+                                                                                                                <Storyboard>
+                                                                                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" From="0" To="360" BeginTime="0:0:0" Duration="0:0:1" RepeatBehavior="Forever"/>
+                                                                                                                </Storyboard>
+                                                                                                            </BeginStoryboard>
+                                                                                                        </EventTrigger.Actions>
+                                                                                                    </EventTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </TextBlock.Style>
+                                                                                    </TextBlock>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding State}" Value="{x:Static entity:MessageState.SendFailure}">
+                                                                            <Setter Property="Content">
+                                                                                <Setter.Value>
+                                                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">
+                                                                                        <TextBlock.InputBindings>
+                                                                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
+                                                                                        </TextBlock.InputBindings>
+                                                                                        <TextBlock.Style>
+                                                                                            <Style BasedOn="{StaticResource IconExclamationCircle}" TargetType="{x:Type TextBlock}">
+                                                                                                <Setter Property="FontSize" Value="15"></Setter>
+                                                                                                <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
+                                                                                            </Style>
+                                                                                        </TextBlock.Style>
+                                                                                    </TextBlock>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding State}" Value="{x:Static entity:MessageState.Refused}">
+                                                                            <Setter Property="Content">
+                                                                                <Setter.Value>
+                                                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">
+                                                                                        <TextBlock.InputBindings>
+                                                                                            <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
+                                                                                        </TextBlock.InputBindings>
+                                                                                        <TextBlock.Style>
+                                                                                            <Style BasedOn="{StaticResource IconExclamationCircle}" TargetType="{x:Type TextBlock}">
+                                                                                                <Setter Property="FontSize" Value="15"></Setter>
+                                                                                                <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
+                                                                                            </Style>
+                                                                                        </TextBlock.Style>
+                                                                                    </TextBlock>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                    </Label>
+                                                </Grid>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static entity:MessageTypeConst.Tips}">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <!--系统提示信息-->
+                                                        <Grid Margin="5">
+                                                            <Label Style="{StaticResource IM-TipMessage-Label}" HorizontalAlignment="Center" Content="{Binding .,Converter={x:Static view:ValueConverters.TipsMessageToStringConverter}}"></Label>
+                                                        </Grid>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </DataTemplate>
+                    </wpfControl:AutoScrollListBox.ItemTemplate>
+                </wpfControl:AutoScrollListBox>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

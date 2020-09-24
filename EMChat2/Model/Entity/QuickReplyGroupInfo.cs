@@ -1,10 +1,13 @@
-﻿using QinSoft.WPF.Core;
+﻿using Newtonsoft.Json;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace EMChat2.Model.Entity
 {
@@ -21,20 +24,6 @@ namespace EMChat2.Model.Entity
             {
                 this.id = value;
                 this.NotifyPropertyChange(() => this.Id);
-            }
-        }
-
-        private int index;
-        public int Index
-        {
-            get
-            {
-                return this.index;
-            }
-            set
-            {
-                this.index = value;
-                this.NotifyPropertyChange(() => this.Index);
             }
         }
 
@@ -66,6 +55,20 @@ namespace EMChat2.Model.Entity
             }
         }
 
+        private BusinessEnum? business;
+        public BusinessEnum? Business
+        {
+            get
+            {
+                return this.business;
+            }
+            set
+            {
+                this.business = value;
+                this.NotifyPropertyChange(() => this.Business);
+            }
+        }
+
         private ObservableCollection<QuickReplyInfo> quickReplys;
         public ObservableCollection<QuickReplyInfo> QuickReplys
         {
@@ -77,6 +80,24 @@ namespace EMChat2.Model.Entity
             {
                 this.quickReplys = value;
                 this.NotifyPropertyChange(() => this.QuickReplys);
+
+                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.quickReplys);
+                this.QuickReplysCollectionView = collectionView;
+            }
+        }
+
+        private ICollectionView quickReplysCollectionView;
+        [JsonIgnore]
+        public ICollectionView QuickReplysCollectionView
+        {
+            get
+            {
+                return this.quickReplysCollectionView;
+            }
+            set
+            {
+                this.quickReplysCollectionView = value;
+                this.NotifyPropertyChange(() => this.QuickReplysCollectionView);
             }
         }
     }

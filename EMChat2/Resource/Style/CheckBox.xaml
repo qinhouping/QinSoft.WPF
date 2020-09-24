@@ -1,8 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Color.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style TargetType="{x:Type CheckBox}" x:Key="IM-Tag-CheckBox">
-        <Setter Property="Background" Value="#EEEEEE"></Setter>
+        <Setter Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="BorderBrush" Value="Transparent"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
