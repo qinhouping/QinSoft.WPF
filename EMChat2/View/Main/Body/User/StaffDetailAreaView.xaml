@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
-             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="320" Width="320">
@@ -38,11 +38,11 @@
                                     <Setter Property="Foreground" Value="Transparent"></Setter>
                                     <Setter Property="FontSize" Value="16"></Setter>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Staff.Sex}" Value="{x:Static entity:SexEnum.Man}">
+                                        <DataTrigger Binding="{Binding Staff.Sex}" Value="{x:Static baseInfo:SexEnum.Man}">
                                             <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
                                             <Setter Property="ToolTip" Value="男"></Setter>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Staff.Sex}" Value="{x:Static entity:SexEnum.Women}">
+                                        <DataTrigger Binding="{Binding Staff.Sex}" Value="{x:Static baseInfo:SexEnum.Women}">
                                             <Setter Property="Foreground" Value="{StaticResource DeepOrangeBrush}"></Setter>
                                             <Setter Property="ToolTip" Value="女"></Setter>
                                         </DataTrigger>

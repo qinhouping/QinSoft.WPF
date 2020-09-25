@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 会话信息实体
@@ -93,8 +93,8 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 会话类型
         /// </summary>
-        private ChatType type;
-        public ChatType Type
+        private ChatTypeEnum type;
+        public ChatTypeEnum Type
         {
             get
             {
@@ -204,21 +204,5 @@ namespace EMChat2.Model.Entity
             return this.chatId.Equals((obj as ChatInfo)?.chatId);
         }
         #endregion
-    }
-
-    public enum ChatType
-    {
-        /// <summary>
-        /// 私聊
-        /// </summary>
-        Private,
-        /// <summary>
-        /// 群聊
-        /// </summary>
-        Group,
-        /// <summary>
-        /// 群发，只是提交一个群发任务给后台
-        /// </summary>
-        GroupSend
     }
 }

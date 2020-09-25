@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 用户信息
@@ -101,8 +101,8 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 用户类型
         /// </summary>
-        private UserType type;
-        public virtual UserType Type
+        private UserTypeEnum type;
+        public virtual UserTypeEnum Type
         {
             get
             {
@@ -127,47 +127,5 @@ namespace EMChat2.Model.Entity
             return this.imUserId.Equals((obj as UserInfo)?.imUserId);
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 用户状态枚举
-    /// </summary>
-    public enum UserStateEnum
-    {
-        /// <summary>
-        /// 在线
-        /// </summary>
-        Online,
-        /// <summary>
-        /// 忙碌
-        /// </summary>
-        Busy,
-        /// <summary>
-        /// 离开
-        /// </summary>
-        Leave,
-        /// <summary>
-        /// 离线
-        /// </summary>
-        Offline
-    }
-
-    /// <summary>
-    /// 用户类型
-    /// </summary>
-    public enum UserType
-    {
-        /// <summary>
-        /// 外部客户
-        /// </summary>
-        Customer,
-        /// <summary>
-        /// 内部员工
-        /// </summary>
-        Staff,
-        /// <summary>
-        /// 系统用户
-        /// </summary>
-        SystemUser
     }
 }

@@ -57,12 +57,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1F4DCFD19E1B4C4BBDDEE1162FF4066A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -239,12 +233,6 @@
         {
         "MsmKey" = "8:_71E63E9DCEFB44678B10D1601242FA4F"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_720A18E95384979F276D09037953BDBE"
-        "OwnerKey" = "8:_A7012FB0500F2B17298485CE297E517B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -615,6 +603,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F38005FBB956FD6AAC97B3C030154F4D"
+        "OwnerKey" = "8:_F3ABA8321167E7206EFF8BBE6E394C10"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F3ABA8321167E7206EFF8BBE6E394C10"
+        "OwnerKey" = "8:_C1D93DC3C93D443099F529427F3380F3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F3FD8294ABA84776BC911CC94441A184"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -688,13 +688,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A7012FB0500F2B17298485CE297E517B"
+        "OwnerKey" = "8:_720A18E95384979F276D09037953BDBE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_720A18E95384979F276D09037953BDBE"
+        "OwnerKey" = "8:_A7012FB0500F2B17298485CE297E517B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -719,6 +719,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E3D3D627A6D4967AD4B0A8FF3FC695FB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F3ABA8321167E7206EFF8BBE6E394C10"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1016,26 +1022,6 @@
             {
             "SourcePath" = "8:..\\packages\\cef.redist.x64.3.3325.1758\\CEF\\natives_blob.bin"
             "TargetName" = "8:natives_blob.bin"
-            "Tag" = "8:"
-            "Folder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
-            {
-            "SourcePath" = "8:..\\EMChat2\\log.ico"
-            "TargetName" = "8:log.ico"
             "Tag" = "8:"
             "Folder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
             "Condition" = "8:"
@@ -2841,6 +2827,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F3ABA8321167E7206EFF8BBE6E394C10"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:HtmlAgilityPack, Version=1.11.24.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F3ABA8321167E7206EFF8BBE6E394C10"
+                    {
+                    "Name" = "8:HtmlAgilityPack.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:HtmlAgilityPack.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F3FD8294ABA84776BC911CC94441A184"
             {
             "SourcePath" = "8:..\\packages\\cef.redist.x64.3.3325.1758\\CEF\\locales\\el.pak"
@@ -3151,7 +3168,7 @@
             "Target" = "8:_C1D93DC3C93D443099F529427F3380F3"
             "Folder" = "8:_FDBD2DA149AA4D3283DD12E30A34DF97"
             "WorkingFolder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
-            "Icon" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BA0FCCB668C24888A979CEAC1B686692"
@@ -3165,7 +3182,7 @@
             "Target" = "8:_C1D93DC3C93D443099F529427F3380F3"
             "Folder" = "8:_E338C2B852564C94A14532505B9582C0"
             "WorkingFolder" = "8:_54A274581B5B48B3ABF0F3B2959A6383"
-            "Icon" = "8:_1ED23E9ECFB84CA8A6DB03A5976AB3BE"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }

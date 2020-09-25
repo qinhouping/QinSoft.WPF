@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.View.Main.Body.Chat;
 using QinSoft.Event;
@@ -36,7 +36,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.EmotionPackages.Add(new EmotionPackageInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Level = EmotionPackageLevel.System,
+                    Level = EmotionPackageLevelEnum.System,
                     Name = "emoji",
                     ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
                     Emotions = new ObservableCollection<EmotionInfo>()
@@ -169,22 +169,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.emotionPackages = value;
                 this.NotifyPropertyChange(() => this.EmotionPackages);
-
-                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.emotionPackages);
-                this.EmotionPackagesCollectionView = collectionView;
-            }
-        }
-        private ICollectionView emotionPackagesCollectionView;
-        public ICollectionView EmotionPackagesCollectionView
-        {
-            get
-            {
-                return this.emotionPackagesCollectionView;
-            }
-            set
-            {
-                this.emotionPackagesCollectionView = value;
-                this.NotifyPropertyChange(() => this.EmotionPackagesCollectionView);
             }
         }
         private EmotionPackageInfo selectedEmotionPackage;

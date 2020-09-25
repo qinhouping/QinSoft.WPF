@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.View.Main.Body.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.WPF;
@@ -264,17 +264,52 @@ namespace EMChat2.View
             }
         }
 
-        public static IMultiValueConverter ChatFilterQuickReplyGroupConvter
+        public static IMultiValueConverter QuickReplyGroupFilterConvter
         {
             get
             {
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
-                    if (values.Length != 2) return null;
-                    ChatInfo chat = values[0] as ChatInfo;
-                    ICollectionView collectionView = values[1] as ICollectionView;
-                    if (chat == null || collectionView == null) return null;
-                    collectionView.Filter = (item) => (item as QuickReplyGroupInfo).Business == chat.Business;
+                    ObservableCollection<QuickReplyGroupInfo> quickReplyGroups = values[0] as ObservableCollection<QuickReplyGroupInfo>;
+                    BusinessEnum? business = values[1] as BusinessEnum?;
+                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyGroups);
+                    if (collectionView == null) return null;
+                    collectionView.Filter = (item) =>
+                    {
+                        QuickReplyGroupInfo quickReplyGroup = item as QuickReplyGroupInfo;
+                        return quickReplyGroup.Business == business;
+                    };
+                    return collectionView;
+                });
+            }
+        }
+
+        public static IMultiValueConverter QuickReplyFilterConvter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    ObservableCollection<QuickReplyInfo> quickReplyInfos = values[0] as ObservableCollection<QuickReplyInfo>;
+                    string condition = values[1] as string;
+                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyInfos);
+                    if (collectionView == null) return null;
+                    collectionView.Filter = (item) =>
+                    {
+                        QuickReplyInfo quickReply = item as QuickReplyInfo;
+                        string name = quickReply.Name;
+                        string content = MessageTools.GetMessageContentMark(quickReply);
+
+                        string contentPinYin = ChineseCharactorTools.ToPinyin(content, true);
+                        string contentFullPinYin = ChineseCharactorTools.ToPinyin(content);
+
+                        return name.ToLower().Contains(condition.ToLower()) ||
+                        ChineseCharactorTools.ToPinyin(name, true).ToLower().Contains(condition.ToLower()) ||
+                        ChineseCharactorTools.ToPinyin(name).ToLower().Contains(condition.ToLower()) ||
+                        content.ToLower().Contains(condition.ToLower()) ||
+                        ChineseCharactorTools.ToPinyin(content, true).ToLower().Contains(condition.ToLower()) ||
+                        ChineseCharactorTools.ToPinyin(content).ToLower().Contains(condition.ToLower());
+                    };
                     return collectionView;
                 });
             }

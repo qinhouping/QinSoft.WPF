@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
-    public interface ISelectable
+    public interface IExpandable
     {
-        bool IsSelected { get; set; }
+        bool IsExpanded { get; set; }
     }
 }

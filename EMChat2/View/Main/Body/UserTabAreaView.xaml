@@ -15,17 +15,19 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Border Background="{StaticResource Gray1Brush}" BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,1,0">
+        <Border Background="{StaticResource Gray1Brush}" BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="62"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
-                <!--搜索-->
-                <Grid>
-                    <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10"></TextBox>
-                </Grid>
+
+                <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+                    <!--搜索-->
+                    <Grid>
+                        <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10"></TextBox>
+                    </Grid>
+                </Border>
 
                 <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <Grid>
@@ -33,18 +35,22 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <!--客户树-->
-                        <user:CustomerAreaView  Grid.Row="0" DataContext="{Binding CustomerAreaViewModel}"></user:CustomerAreaView>
 
-                        <!--员工树-->
-                        <user:StaffAreaView Grid.Row="1" DataContext="{Binding StaffAreaViewModel}"></user:StaffAreaView>
+                        <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+                            <!--客户树-->
+                            <user:CustomerAreaView  Grid.Row="0" DataContext="{Binding CustomerAreaViewModel}"></user:CustomerAreaView>
+                        </Border>
+
+                        <Border Grid.Row="1">
+                            <!--员工树-->
+                            <user:StaffAreaView Grid.Row="1" DataContext="{Binding StaffAreaViewModel}"></user:StaffAreaView>
+                        </Border>
                     </Grid>
                 </ScrollViewer>
             </Grid>
         </Border>
 
-
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1" Grid.ZIndex="1"></GridSplitter>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1"></GridSplitter>
         <!--用户详情-->
         <user:UserDetailAreaView Grid.Column="1" DataContext="{Binding UserDetailAreaViewModel}"></user:UserDetailAreaView>
     </Grid>

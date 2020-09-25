@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
-    public enum SexEnum
+    /// <summary>
+    /// 表情包级别
+    /// </summary>
+    public enum EmotionPackageLevelEnum
     {
         /// <summary>
-        /// 未知
+        /// 系统表情包
         /// </summary>
-        Unknown,
-
+        System,
         /// <summary>
-        /// 男生
+        /// 收藏表情包
         /// </summary>
-        Man,
-
+        Favorite,
         /// <summary>
-        /// 女生
+        /// 自定义表情包
         /// </summary>
-        Women
+        User
     }
 }

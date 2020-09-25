@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Model.BaseInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;

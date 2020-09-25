@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 系统账号信息实体，用于广播，事件推送等
@@ -14,7 +14,7 @@ namespace EMChat2.Model.Entity
         #region 构造函数
         public SystemUserInfo()
         {
-            this.Type = UserType.SystemUser;
+            this.Type = UserTypeEnum.SystemUser;
         }
         #endregion
     }

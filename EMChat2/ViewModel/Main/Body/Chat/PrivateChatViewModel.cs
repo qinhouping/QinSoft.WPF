@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.Service;
 using QinSoft.Event;
@@ -20,8 +20,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 构造函数
         public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
-            if (this.Chat.Type != ChatType.Private) throw new ArgumentOutOfRangeException("is not private chat");
-            this.ChatSliderAreaViewModel = new ChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, chat);
+            if (this.Chat.Type != ChatTypeEnum.Private) throw new ArgumentOutOfRangeException("is not private chat");
+            this.PrivateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, chat);
 
             //TODO 测试数据
             new Action(() =>
@@ -150,8 +150,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 属性
-        private ChatSliderAreaViewModel chatSliderAreaViewModel;
-        public ChatSliderAreaViewModel ChatSliderAreaViewModel
+        private PrivateChatSliderAreaViewModel chatSliderAreaViewModel;
+        public PrivateChatSliderAreaViewModel PrivateChatSliderAreaViewModel
         {
             get
             {
@@ -160,7 +160,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             set
             {
                 this.chatSliderAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.ChatSliderAreaViewModel);
+                this.NotifyPropertyChange(() => this.PrivateChatSliderAreaViewModel);
             }
         }
         #endregion
@@ -171,7 +171,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 方法
         public override void Dispose()
         {
-            this.ChatSliderAreaViewModel.Dispose();
+            this.PrivateChatSliderAreaViewModel.Dispose();
             base.Dispose();
         }
         #endregion

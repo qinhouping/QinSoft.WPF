@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
-             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
@@ -22,7 +22,7 @@
                             <Style TargetType="{x:Type ContentControl}">
                                 <Style.Triggers>
                                     <!--私聊会话数据模板-->
-                                    <DataTrigger Binding="{Binding Chat.Type}" Value="{x:Static entity:ChatType.Private}">
+                                    <DataTrigger Binding="{Binding Chat.Type}" Value="{x:Static baseInfo:ChatTypeEnum.Private}">
                                         <Setter Property="Content">
                                             <Setter.Value>
                                                 <Grid>

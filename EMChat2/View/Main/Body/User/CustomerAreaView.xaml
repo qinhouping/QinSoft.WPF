@@ -7,7 +7,6 @@
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="240">
-    <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,1,0,0">
         <TreeView Style="{StaticResource IM-Tree}">
             <TreeViewItem Style="{StaticResource IM-TreeItem}">
                 <TreeViewItem.Header>
@@ -49,5 +48,4 @@
                 </TreeViewItem.Header>
             </TreeViewItem>
         </TreeView>
-    </Border>
 </UserControl>

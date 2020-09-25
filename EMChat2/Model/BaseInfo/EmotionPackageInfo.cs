@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 表情包信息实体
@@ -69,8 +69,8 @@ namespace EMChat2.Model.Entity
         /// <summary>
         /// 表情包级别
         /// </summary>
-        private EmotionPackageLevel level;
-        public EmotionPackageLevel Level
+        private EmotionPackageLevelEnum level;
+        public EmotionPackageLevelEnum Level
         {
             get
             {
@@ -96,24 +96,6 @@ namespace EMChat2.Model.Entity
             {
                 this.emotions = value;
                 this.NotifyPropertyChange(() => this.Emotions);
-
-                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.emotions);
-                this.EmotionsCollectionView = collectionView;
-            }
-        }
-
-        private ICollectionView emotionsCollectionView;
-        [JsonIgnore]
-        public ICollectionView EmotionsCollectionView
-        {
-            get
-            {
-                return this.emotionsCollectionView;
-            }
-            set
-            {
-                this.emotionsCollectionView = value;
-                this.NotifyPropertyChange(() => this.EmotionsCollectionView);
             }
         }
         #endregion
@@ -129,24 +111,5 @@ namespace EMChat2.Model.Entity
             return this.id.Equals((obj as EmotionPackageInfo)?.id);
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 表情包级别
-    /// </summary>
-    public enum EmotionPackageLevel
-    {
-        /// <summary>
-        /// 系统表情包
-        /// </summary>
-        System,
-        /// <summary>
-        /// 收藏表情包
-        /// </summary>
-        Favorite,
-        /// <summary>
-        /// 自定义表情包
-        /// </summary>
-        User
     }
 }

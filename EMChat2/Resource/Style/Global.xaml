@@ -32,4 +32,9 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="LineHeight" Value="1"></Setter>
     </Style>
+
+    <Style TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="IsTabStop" Value="False"></Setter>
+    </Style>
 </ResourceDictionary>

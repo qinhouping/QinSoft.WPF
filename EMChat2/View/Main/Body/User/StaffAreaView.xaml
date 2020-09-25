@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EMChat2.View.Main.Body.User"
-             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="240">
-    <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,1,0,0">
         <TreeView ItemsSource="{Binding Departments}" Style="{StaticResource IM-Tree}" ItemContainerStyle="{StaticResource IM-Staff-TreeItem}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Departments}">
@@ -54,10 +53,10 @@
 
                                         <!--员工在线状态-->
                                         <Grid Grid.Column="2" Width="8" Height="8">
-                                            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Online}}"></Label>
-                                            <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Busy}}"></Label>
-                                            <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Leave}}"></Label>
-                                            <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static entity:UserStateEnum.Offline}}"></Label>
+                                            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Online}}"></Label>
+                                            <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Busy}}"></Label>
+                                            <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Leave}}"></Label>
+                                            <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Offline}}"></Label>
                                         </Grid>
                                     </Grid>
                                 </DataTemplate>
@@ -74,5 +73,5 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-    </Border>
+
 </UserControl>

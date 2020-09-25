@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.Service;
 using EMChat2.ViewModel.Main.Tabs.Chat;
@@ -153,7 +153,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.ChatId = string.Join("_", ids).MD5();
             chat.Business = business;
             chat.Name = userInfo.Name;
-            chat.Type = ChatType.Private;
+            chat.Type = ChatTypeEnum.Private;
             chat.HeaderImageUrl = userInfo.HeaderImageUrl;
             chat.IsTop = false;
             chat.IsInform = false;

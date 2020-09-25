@@ -85,7 +85,8 @@
                             <Setter Property="Foreground" Value="{StaticResource DeepPurpleBrush}"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource Gray1Brush}"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource Gray3Brush}"></Setter>
+                            <Setter Property="Cursor" Value="None"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

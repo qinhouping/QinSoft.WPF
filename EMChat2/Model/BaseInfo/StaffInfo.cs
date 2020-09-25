@@ -6,36 +6,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
-    /// 外部客户信息实体
+    /// 内部员工信息实体
     /// </summary>
-    public class CustomerInfo : UserInfo
+    public class StaffInfo : UserInfo
     {
         #region 构造函数
-        public CustomerInfo()
+
+        public StaffInfo()
         {
-            this.Type = UserType.Customer;
+            this.Type = UserTypeEnum.Staff;
         }
         #endregion
 
         #region 属性
-        /// <summary>
-        /// 通信证id
-        /// </summary>
-        private string uid;
 
-        public string Uid
+        /// <summary>
+        /// 工号
+        /// </summary>
+        private string workCode;
+        public string WorkCode
         {
             get
             {
-                return this.uid;
+                return this.workCode;
             }
             set
             {
-                this.uid = value;
-                this.NotifyPropertyChange(() => this.Uid);
+                this.workCode = value;
+                this.NotifyPropertyChange(() => this.WorkCode);
             }
         }
 
@@ -59,7 +60,7 @@ namespace EMChat2.Model.Entity
         }
 
         /// <summary>
-        /// 重写获取Name逻辑
+        /// 重新Name获取逻辑
         /// </summary>
         public override string Name
         {
@@ -122,47 +123,19 @@ namespace EMChat2.Model.Entity
         }
 
         /// <summary>
-        /// 业务
+        /// 业务列表
         /// </summary>
-        private BusinessEnum business;
-        public BusinessEnum Business
+        private ObservableCollection<BusinessEnum> businessList;
+        public ObservableCollection<BusinessEnum> BusinessList
         {
             get
             {
-                return this.business;
+                return this.businessList ?? new ObservableCollection<BusinessEnum>();
             }
             set
             {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.business);
-            }
-        }
-
-        private DateTime followTime;
-        public DateTime FollowTime
-        {
-            get
-            {
-                return this.followTime;
-            }
-            set
-            {
-                this.followTime = value;
-                this.NotifyPropertyChange(() => this.FollowTime);
-            }
-        }
-
-        private ObservableCollection<TagInfo> tags;
-        public ObservableCollection<TagInfo> Tags
-        {
-            get
-            {
-                return this.tags ?? new ObservableCollection<TagInfo>();
-            }
-            set
-            {
-                this.tags = value;
-                this.NotifyPropertyChange(() => this.Tags);
+                this.businessList = value;
+                this.NotifyPropertyChange(() => this.BusinessList);
             }
         }
         #endregion

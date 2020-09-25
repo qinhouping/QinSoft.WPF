@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common.Cef;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.ViewModel.Main.Tabs.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public class ChatSliderAreaViewModel : PropertyChangedBase, IDisposable
+    public class PrivateChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public ChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat)
+        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -158,9 +158,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public void Dispose()
         {
-            this.eventAggregator.Unsubscribe(this);
             this.customerDetailAreaViewModel.Dispose();
             this.staffDetailAreaViewModel.Dispose();
+            this.eventAggregator.Unsubscribe(this);
         }
     }
 }

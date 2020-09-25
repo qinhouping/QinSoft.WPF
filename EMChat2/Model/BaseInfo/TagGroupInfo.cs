@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 标签组信息实体
@@ -53,8 +53,8 @@ namespace EMChat2.Model.Entity
         /// 标签级别
         /// </summary>
 
-        private TagLevel level;
-        public TagLevel Level
+        private TagGroupLevelEnum level;
+        public TagGroupLevelEnum Level
         {
             get
             {
@@ -96,22 +96,5 @@ namespace EMChat2.Model.Entity
             return this.id.Equals((obj as TagGroupInfo)?.id);
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 标签级别
-    /// </summary>
-    public enum TagLevel
-    {
-        /// <summary>
-        /// 系统级别
-        /// </summary>
-        [Description("系统")]
-        System,
-        /// <summary>
-        /// 用户级别
-        /// </summary>
-        [Description("用户")]
-        User
     }
 }

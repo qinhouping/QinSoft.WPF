@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMChat2.Model.BaseInfo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,20 @@ namespace EMChat2.View.Main.Body.Chat
     /// </summary>
     public partial class QuickReplyAreaView : UserControl
     {
+        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum?), typeof(QuickReplyAreaView));
+
+        public BusinessEnum? Business
+        {
+            get
+            {
+                return this.GetValue(BusinessProperty) as BusinessEnum?;
+            }
+            set
+            {
+                this.SetValue(BusinessProperty, value);
+            }
+        }
+
         public QuickReplyAreaView()
         {
             InitializeComponent();

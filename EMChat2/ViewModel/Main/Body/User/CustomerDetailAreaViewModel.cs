@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Model.BaseInfo;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
 using System;
@@ -17,12 +17,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-        }
-        public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, CustomerInfo customer)
-        {
-            this.windowManager = windowManager;
-            this.eventAggregator = eventAggregator;
-            this.customer = customer;
         }
         #endregion
 

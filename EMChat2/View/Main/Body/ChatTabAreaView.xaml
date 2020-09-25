@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:view="clr-namespace:EMChat2.View"
       xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-      xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+      xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
       xmlns:common="clr-namespace:EMChat2.Common"
       xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
       mc:Ignorable="d" 
@@ -21,24 +21,26 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Border Background="{StaticResource Gray1Brush}" BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,1,0">
+        <Border Background="{StaticResource Gray1Brush}" BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="62"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <!--搜索-->
-                <Grid>
-                    <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10"></TextBox>
-                </Grid>
+                <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+                    <!--搜索-->
+                    <Grid>
+                        <TextBox VerticalAlignment="Bottom" Style="{StaticResource IM-Search-TextBox}" Margin="15,0,40,10" ContextMenu="{x:Null}"></TextBox>
+                    </Grid>
+                </Border>
 
                 <!--会话列表-->
                 <chat:ChatListAreaView Grid.Row="1" DataContext="{Binding ChatListAreaViewModel}"></chat:ChatListAreaView>
             </Grid>
         </Border>
 
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="1" Grid.ZIndex="1"></GridSplitter>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1"></GridSplitter>
         <!--会话详情-->
         <chat:ChatDetailAreaView Grid.Column="1" DataContext="{Binding ChatDetailAreaViewModel}"></chat:ChatDetailAreaView>
     </Grid>

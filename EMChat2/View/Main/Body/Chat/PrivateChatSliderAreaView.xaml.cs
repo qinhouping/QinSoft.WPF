@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EMChat2.View.Main.Body.Chat
 {
     /// <summary>
-    /// ChatSliderAreaView.xaml 的交互逻辑
+    /// PrivateChatSliderAreaView.xaml 的交互逻辑
     /// </summary>
-    public partial class ChatSliderAreaView : UserControl
+    public partial class PrivateChatSliderAreaView : UserControl
     {
-        public ChatSliderAreaView()
+        public PrivateChatSliderAreaView()
         {
             InitializeComponent();
         }

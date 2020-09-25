@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     public class QuickReplyGroupInfo : PropertyChangedBase
     {
@@ -41,8 +41,8 @@ namespace EMChat2.Model.Entity
             }
         }
 
-        private QuickReplyGroupLevel level;
-        public QuickReplyGroupLevel Level
+        private QuickReplyGroupLevelEnum level;
+        public QuickReplyGroupLevelEnum Level
         {
             get
             {
@@ -80,37 +80,7 @@ namespace EMChat2.Model.Entity
             {
                 this.quickReplys = value;
                 this.NotifyPropertyChange(() => this.QuickReplys);
-
-                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.quickReplys);
-                this.QuickReplysCollectionView = collectionView;
             }
         }
-
-        private ICollectionView quickReplysCollectionView;
-        [JsonIgnore]
-        public ICollectionView QuickReplysCollectionView
-        {
-            get
-            {
-                return this.quickReplysCollectionView;
-            }
-            set
-            {
-                this.quickReplysCollectionView = value;
-                this.NotifyPropertyChange(() => this.QuickReplysCollectionView);
-            }
-        }
-    }
-
-    public enum QuickReplyGroupLevel
-    {
-        /// <summary>
-        /// 系统级别
-        /// </summary>
-        System,
-        /// <summary>
-        /// 用户级别
-        /// </summary>
-        User
     }
 }

@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.ViewModel;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;

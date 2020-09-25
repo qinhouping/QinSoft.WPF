@@ -19,13 +19,20 @@ namespace EMChat2.Model.Event
         /// 标签客户
         /// </summary>
         TagCustomer,
+
         /// <summary>
         /// 部门
         /// </summary>
         Department,
+
         /// <summary>
         /// 员工
         /// </summary>
-        Staff
+        Staff,
+
+        /// <summary>
+        /// 客户
+        /// </summary>
+        Customer
     }
 }

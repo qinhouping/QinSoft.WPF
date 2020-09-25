@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 标签实体
@@ -63,7 +63,6 @@ namespace EMChat2.Model.Entity
             }
         }
         #endregion
-
 
         #region 方法
         public override int GetHashCode()

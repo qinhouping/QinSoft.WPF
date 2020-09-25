@@ -43,7 +43,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>log.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -154,19 +154,26 @@
     <Compile Include="Common\HttpTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
-    <Compile Include="Model\Entity\QuickReplyGroupInfo.cs" />
+    <Compile Include="Model\BaseInfo\ChatType.cs" />
+    <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
+    <Compile Include="Model\BaseInfo\IExpandable.cs" />
+    <Compile Include="Model\BaseInfo\QuickReplyGroupInfo.cs" />
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\MessageRichTextBoxAttach.cs" />
     <Compile Include="Common\TaskbarIconAttach.cs" />
     <Compile Include="Common\AppTools.cs" />
     <Compile Include="Common\Win32Tools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
-    <Compile Include="Model\Entity\DepartmentInfo.cs" />
-    <Compile Include="Model\Entity\ISelectable.cs" />
-    <Compile Include="Model\Entity\QuickReplyInfo.cs" />
-    <Compile Include="Model\Entity\SexEnum.cs" />
-    <Compile Include="Model\Entity\TagGroupInfo.cs" />
-    <Compile Include="Model\Entity\TagInfo.cs" />
+    <Compile Include="Model\BaseInfo\DepartmentInfo.cs" />
+    <Compile Include="Model\BaseInfo\ISelectable.cs" />
+    <Compile Include="Model\BaseInfo\QuickReplyGroupLevelEnum.cs" />
+    <Compile Include="Model\BaseInfo\QuickReplyInfo.cs" />
+    <Compile Include="Model\BaseInfo\SexEnum.cs" />
+    <Compile Include="Model\BaseInfo\TagGroupInfo.cs" />
+    <Compile Include="Model\BaseInfo\TagGroupLevelEnum.cs" />
+    <Compile Include="Model\BaseInfo\TagInfo.cs" />
+    <Compile Include="Model\BaseInfo\UserStateEnum.cs" />
+    <Compile Include="Model\BaseInfo\UserTypeEnum.cs" />
     <Compile Include="Model\Event\CaptureScreenEventArgs.cs" />
     <Compile Include="Model\Event\ChatDetailEventArgs.cs" />
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
@@ -176,7 +183,7 @@
     <Compile Include="ViewModel\Main\Body\Chat\ChatDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatListAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatMessageContentControlViewModel.cs" />
-    <Compile Include="ViewModel\Main\Body\Chat\ChatSliderAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\Chat\PrivateChatSliderAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\QuickReplyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\CustomerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\CustomerDetailAreaViewModel.cs" />
@@ -222,19 +229,18 @@
       <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
-    <Compile Include="Model\Entity\BusinessEnum.cs" />
-    <Compile Include="Model\Entity\ChatInfo.cs" />
-    <Compile Include="Model\Entity\CustomerInfo.cs" />
-    <Compile Include="Model\Entity\EmotionInfo.cs" />
-    <Compile Include="Model\Entity\EmotionPackageInfo.cs" />
-    <Compile Include="Model\Entity\LoginInfo.cs" />
-    <Compile Include="Model\Entity\MessageInfo.cs" />
-    <Compile Include="Model\Entity\RoomInfo.cs" />
-    <Compile Include="Model\Entity\SettingInfo.cs" />
-    <Compile Include="Model\Entity\StaffInfo.cs" />
-    <Compile Include="Model\Entity\SystemUserInfo.cs" />
-    <Compile Include="Model\Entity\UrlMappingInfo.cs" />
-    <Compile Include="Model\Entity\UserInfo.cs" />
+    <Compile Include="Model\BaseInfo\BusinessEnum.cs" />
+    <Compile Include="Model\BaseInfo\ChatInfo.cs" />
+    <Compile Include="Model\BaseInfo\CustomerInfo.cs" />
+    <Compile Include="Model\BaseInfo\EmotionInfo.cs" />
+    <Compile Include="Model\BaseInfo\EmotionPackageInfo.cs" />
+    <Compile Include="Model\BaseInfo\LoginInfo.cs" />
+    <Compile Include="Model\BaseInfo\MessageInfo.cs" />
+    <Compile Include="Model\BaseInfo\SettingInfo.cs" />
+    <Compile Include="Model\BaseInfo\StaffInfo.cs" />
+    <Compile Include="Model\BaseInfo\SystemUserInfo.cs" />
+    <Compile Include="Model\BaseInfo\UrlMappingInfo.cs" />
+    <Compile Include="Model\BaseInfo\UserInfo.cs" />
     <Compile Include="Model\Event\CallbackEventArgs.cs" />
     <Compile Include="Model\Event\ExitEventArgs.cs" />
     <Compile Include="Model\Event\LoginEventArgs.cs" />
@@ -280,8 +286,8 @@
     <Compile Include="View\Main\Body\Chat\ChatInputAreaView.xaml.cs">
       <DependentUpon>ChatInputAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Body\Chat\ChatSliderAreaView.xaml.cs">
-      <DependentUpon>ChatSliderAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Body\Chat\PrivateChatSliderAreaView.xaml.cs">
+      <DependentUpon>PrivateChatSliderAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Body\Chat\EmotionPickerAreaView.xaml.cs">
       <DependentUpon>EmotionPickerAreaView.xaml</DependentUpon>
@@ -328,7 +334,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\api\" />
+    <Folder Include="Model\Api\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
@@ -449,7 +455,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Body\Chat\ChatSliderAreaView.xaml">
+    <Page Include="View\Main\Body\Chat\PrivateChatSliderAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -511,12 +517,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\Image\log.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="log.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resource\Image\taskbarLogo.ico" />
+    <Resource Include="logo.ico" />
     <Content Include="Tools\CaptureScreen.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -4,140 +4,132 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
-             xmlns:entity="clr-namespace:EMChat2.Model.Entity"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
-             mc:Ignorable="d" 
+             xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
+             mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="340">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="sliderData" Data="{Binding DataContext, RelativeSource={RelativeSource Mode= FindAncestor, AncestorType=TabControl}}"></common:BindingProxy>
         <common:BindingProxy x:Key="quickReplyGroupData" Data="{Binding}"></common:BindingProxy>
     </UserControl.Resources>
     <Grid>
-        <TabControl ItemContainerStyle="{StaticResource IM-QuickReply-TabItem}" SelectedItem="{Binding SelectedQuickReplyGroup}">
-            <TabControl.Style>
-                <Style TargetType="{x:Type  TabControl}" BasedOn="{StaticResource IM-QuickReply-Tab}">
-                    <Setter Property="ItemsSource">
-                        <Setter.Value>
-                            <MultiBinding Converter="{x:Static view:ValueConverters.ChatFilterQuickReplyGroupConvter}">
-                                <Binding Path="Data.Chat" Source="{StaticResource sliderData}"></Binding>
-                                <Binding Path="Data.QuickReplyGroupsCollectionView" Source="{StaticResource quickReplyGroupData}"></Binding>
-                            </MultiBinding>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TabControl}">
-                                <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                                    <DockPanel>
-                                        <Border DockPanel.Dock="Left" BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray2Brush}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"></RowDefinition>
-                                                    <RowDefinition Height="*"></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Text="分组" Style="{StaticResource BaseTextBlock}" Margin="5" VerticalAlignment="Center"></TextBlock>
-                                                    <Button Grid.Column="2" Style="{StaticResource IM-Icon-Button}" VerticalAlignment="Center" Command="{Binding Data.AddQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding Data.Chat, Source={StaticResource sliderData}}">
-                                                        <TextBlock Style="{StaticResource IconPlus}" FontSize="{StaticResource MoreSmallIconFontSize}" TextTrimming="CharacterEllipsis"></TextBlock>
-                                                    </Button>
-                                                </Grid>
-                                                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                                    <StackPanel x:Name="PART_Tabs" IsItemsHost="True" Orientation="Vertical" Cursor="Hand" Width="90"></StackPanel>
-                                                </ScrollViewer>
-                                            </Grid>
-                                        </Border>
-                                        <ContentPresenter Grid.Column="1" Name="PART_SelectedContentHost" Margin="{TemplateBinding Control.Padding}" Content="{TemplateBinding TabControl.SelectedContent}" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}" ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                                    </DockPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Style>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:Name="grid">
-                        <TextBlock ToolTip="{Binding Name}" Text="{Binding Name}" Style="{StaticResource BaseTextBlock}" TextTrimming="CharacterEllipsis"></TextBlock>
-                        <Grid.ContextMenu>
-                            <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData} }" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static entity:QuickReplyGroupLevel.User}}"></MenuItem>
-                                <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static entity:QuickReplyGroupLevel.User}}"></MenuItem>
-                            </ContextMenu>
-                        </Grid.ContextMenu>
-                    </Grid>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
+        <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.Resources>
-                            <common:BindingProxy x:Key="quickReplyData" Data="{Binding}"></common:BindingProxy>
-                        </Grid.Resources>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <ListBox ItemsSource="{Binding QuickReplysCollectionView}" Style="{StaticResource IM-QuickReply-List}" ItemContainerStyle="{StaticResource IM-QuickReply-ListItem}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border>
-                                        <Grid>
-                                            <Grid.InputBindings>
-                                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Data.SelectQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MouseBinding>
-                                            </Grid.InputBindings>
+                <ListBox Style="{StaticResource IM-QuickReplyGroup-List}" ItemContainerStyle="{StaticResource IM-QuickReplyGroup-ListItem}" SelectedItem="{Binding SelectedQuickReplyGroup}">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyGroupFilterConvter}">
+                            <Binding Path="QuickReplyGroups"></Binding>
+                            <Binding Path="Business" ElementName="_this"></Binding>
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
 
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="25"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="分组已锁定"></TextBlock>
+                                <Grid.ContextMenu>
+                                    <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Gray3Brush}">
+                    <Button Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding Data.AddQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding Business, ElementName=_this}">
+                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="增加分组" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1" Visibility="{Binding SelectedQuickReplyGroup, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}">
+            <Grid DataContext="{Binding SelectedQuickReplyGroup}">
+                <Grid.Resources>
+                    <common:BindingProxy x:Key="quickReplyData" Data="{Binding}"></common:BindingProxy>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+                    <TextBox x:Name="quickReplySearchCondition" Style="{StaticResource IM-Search-TextBox}" Margin="2" ContextMenu="{x:Null}"></TextBox>
+                </Border>
+
+                <ListBox Grid.Row="1" Style="{StaticResource IM-QuickReply-List}" ItemContainerStyle="{StaticResource IM-QuickReply-ListItem}">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyFilterConvter}">
+                            <Binding Path="QuickReplys"></Binding>
+                            <Binding Path="Text" ElementName="quickReplySearchCondition"></Binding>
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Data.SelectQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MouseBinding>
+                                </Grid.InputBindings>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
                                                         <Run Text="{Binding Name}" FontWeight="Bold"></Run>
                                                         <Run Text=":" FontWeight="Bold"></Run>
                                                         <Run Text="{Binding ., Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding ., Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}"></Run>
-                                                </TextBlock>
-                                                <ToggleButton Grid.Column="1" Style="{StaticResource IM-QuickReply-ToggleButton}" x:Name="toggle" HorizontalAlignment="Center" VerticalAlignment="Center"></ToggleButton>
-                                            </Grid>
+                                    </TextBlock>
+                                    <ToggleButton Grid.Column="1" Style="{StaticResource IM-QuickReply-ToggleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsExpanded}"></ToggleButton>
+                                </Grid>
 
-                                            <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" Grid.Row="1" HorizontalAlignment="Left" MaxWidth="250" Margin="0,5" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True" Visibility="{Binding IsChecked, ElementName=toggle, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></wpfControl:AutoAdjustRichTextBox>
+                                <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" Grid.Row="1" HorizontalAlignment="Left" MaxWidth="250" Margin="0,5" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding .,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True" Visibility="{Binding IsExpanded, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></wpfControl:AutoAdjustRichTextBox>
 
-                                            <Grid.ContextMenu>
-                                                <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                                    <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static entity:QuickReplyGroupLevel.User}}"></MenuItem>
-                                                    <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static entity:QuickReplyGroupLevel.User}}"></MenuItem>
-                                                </ContextMenu>
-                                            </Grid.ContextMenu>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                <Grid.ContextMenu>
+                                    <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
-                        <Border Grid.Row="1" BorderBrush="{StaticResource Gray1Brush}" BorderThickness="0,1,0,0">
-                            <Button Style="{StaticResource IM-Icon-Button}" Margin="5" Command="{Binding Data.AddQuickReplyCommand, Source={StaticResource quickReplyGroupData}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource IconPlus}" FontSize="{StaticResource MoreSmallIconFontSize}" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                                    <TextBlock Text="添加快捷回复" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Margin="5,0"></TextBlock>
-                                </StackPanel>
-                            </Button>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+                <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Gray3Brush}">
+                    <Button Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding Data.AddQuickReplyCommand, Source={StaticResource quickReplyGroupData}}">
+                        <TextBlock Text="增加快捷回复" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

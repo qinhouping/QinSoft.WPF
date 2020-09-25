@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.Entity
+namespace EMChat2.Model.BaseInfo
 {
-    public class QuickReplyInfo : MessageContentInfo
+    public class QuickReplyInfo : MessageContentInfo, IExpandable
     {
         private string id;
         public string Id
@@ -33,6 +33,20 @@ namespace EMChat2.Model.Entity
             {
                 this.name = value;
                 this.NotifyPropertyChange(() => this.Name);
+            }
+        }
+
+        private bool isExpanded;
+        public bool IsExpanded
+        {
+            get
+            {
+                return this.isExpanded;
+            }
+            set
+            {
+                this.isExpanded = value;
+                this.NotifyPropertyChange(() => this.IsExpanded);
             }
         }
     }

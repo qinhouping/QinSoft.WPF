@@ -1,5 +1,5 @@
 ﻿using EMChat2.Common;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -35,7 +35,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevel.System,
+                    Level = QuickReplyGroupLevelEnum.System,
                     Name = "系统默认分组",
                     Business = BusinessEnum.Advisor,
                     QuickReplys = new ObservableCollection<QuickReplyInfo>()
@@ -52,7 +52,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevel.User,
+                    Level = QuickReplyGroupLevelEnum.User,
                     Name = "个人默认分组",
                     Business = BusinessEnum.PreSale,
                     QuickReplys = new ObservableCollection<QuickReplyInfo>()
@@ -117,22 +117,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.quickReplyGroups = value;
                 this.NotifyPropertyChange(() => this.QuickReplyGroups);
-
-                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.quickReplyGroups);
-                this.QuickReplyGroupsCollectionView = collectionView;
-            }
-        }
-        private ICollectionView quickReplyGroupsCollectionView;
-        public ICollectionView QuickReplyGroupsCollectionView
-        {
-            get
-            {
-                return this.quickReplyGroupsCollectionView;
-            }
-            set
-            {
-                this.quickReplyGroupsCollectionView = value;
-                this.NotifyPropertyChange(() => this.QuickReplyGroupsCollectionView);
             }
         }
         private QuickReplyGroupInfo selectedQuickReplyGroup;
@@ -170,15 +154,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<ChatInfo>((chat) =>
+                return new RelayCommand<BusinessEnum?>((business) =>
                 {
                     lock (this.QuickReplyGroups)
                     {
                         this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Level = QuickReplyGroupLevel.User,
-                            Business = chat.Business,
+                            Level = QuickReplyGroupLevelEnum.User,
+                            Business = business,
                             Name = "新建分组",
                             QuickReplys = new ObservableCollection<QuickReplyInfo>()
                         });

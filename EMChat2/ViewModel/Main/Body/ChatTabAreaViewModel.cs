@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.Cef;
-using EMChat2.Model.Entity;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.Service;
 using EMChat2.View.Main.Body.Chat;

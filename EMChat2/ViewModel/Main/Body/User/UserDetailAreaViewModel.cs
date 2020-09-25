@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Entity;
+﻿using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.View.Main.Body.User;
 using QinSoft.Event;
@@ -24,6 +24,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.tagCustomerAreaViewModel = tagCustomerAreaViewModel;
             this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel(this.windowManager, this.eventAggregator);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator);
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator);
         }
         #endregion
 
@@ -82,6 +83,19 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.StaffDetailAreaViewModel);
             }
         }
+        private CustomerDetailAreaViewModel customerDetailAreaViewModel;
+        public CustomerDetailAreaViewModel CustomerDetailAreaViewModel
+        {
+            get
+            {
+                return this.customerDetailAreaViewModel;
+            }
+            set
+            {
+                this.customerDetailAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerDetailAreaViewModel);
+            }
+        }
         #endregion
 
         #region 事件处理
@@ -91,14 +105,17 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.Type = arg.Type;
             switch (arg.Type)
             {
+                case UserDetailType.TagCustomer:
+                    this.TagCustomerAreaViewModel.Business = (BusinessEnum)arg.Data;
+                    break;
                 case UserDetailType.Department:
                     this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentInfo;
                     break;
                 case UserDetailType.Staff:
                     this.StaffDetailAreaViewModel.Staff = arg.Data as StaffInfo;
                     break;
-                case UserDetailType.TagCustomer:
-                    this.TagCustomerAreaViewModel.Business = (BusinessEnum)arg.Data;
+                case UserDetailType.Customer:
+                    this.CustomerDetailAreaViewModel.Customer = arg.Data as CustomerInfo;
                     break;
             }
         }

@@ -18,24 +18,31 @@
             <RowDefinition Height="200" MinHeight="200" MaxHeight="400"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <!--名称相关-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" >
-            <!--会话名称-->
-            <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
-            <!--业务名称-->
-            <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
-        </StackPanel>
+        <Border Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+            <!--名称相关-->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" >
+                <!--会话名称-->
+                <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                <!--业务名称-->
+                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
+            </StackPanel>
+        </Border>
 
-        <!--会话消息列表-->
-        <chat:ChatMessagesAreaView Grid.Row="1"></chat:ChatMessagesAreaView>
+        <Border Grid.Row="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+            <!--会话消息列表-->
+            <chat:ChatMessagesAreaView></chat:ChatMessagesAreaView>
+        </Border>
 
-        <GridSplitter Grid.Row="2" Height="1" HorizontalAlignment ="Stretch" VerticalAlignment="Top" Grid.ZIndex="1"></GridSplitter>
-        <!--会话消息输入-->
-        <chat:ChatInputAreaView Grid.Row="2" TabIndex="1"></chat:ChatInputAreaView>
+        <GridSplitter Grid.Row="2" Height="2" HorizontalAlignment ="Stretch" VerticalAlignment="Top" Grid.ZIndex="1"></GridSplitter>
+
+        <Border Grid.Row="2">
+            <!--会话消息输入-->
+            <chat:ChatInputAreaView></chat:ChatInputAreaView>
+        </Border>
 
         <!--会话侧边栏-->
-        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="362" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
-            <chat:ChatSliderAreaView DataContext="{Binding ChatSliderAreaViewModel}"></chat:ChatSliderAreaView>
-        </Grid>
+        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderThickness="1,0,0,0" BorderBrush="{StaticResource Gray3Brush}" Visibility="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+            <chat:PrivateChatSliderAreaView DataContext="{Binding PrivateChatSliderAreaViewModel}"></chat:PrivateChatSliderAreaView>
+        </Border>
     </Grid>
 </UserControl>
