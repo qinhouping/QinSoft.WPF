@@ -44,7 +44,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"></TextBlock>
-                                <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="分组已锁定"></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="系统分组"></TextBlock>
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
                                         <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
@@ -81,7 +81,7 @@
 
                 <ListBox Grid.Row="1" Style="{StaticResource IM-QuickReply-List}" ItemContainerStyle="{StaticResource IM-QuickReply-ListItem}">
                     <ListBox.ItemsSource>
-                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyFilterConvter}">
+                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyFilterConverter}">
                             <Binding Path="QuickReplys"></Binding>
                             <Binding Path="Text" ElementName="quickReplySearchCondition"></Binding>
                         </MultiBinding>

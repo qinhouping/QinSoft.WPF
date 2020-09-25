@@ -20,7 +20,11 @@
         <shell:WindowChrome CaptionHeight="25" CornerRadius="0" UseNoneWindowStyle="True"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource IM-App-Border}">
+    <Window.Background>
+        <ImageBrush ImageSource="{Binding ApplicationContextViewModel.CurrentStaff, Converter={x:Static view:ValueConverters.StaffToImageConverter}}" TileMode="Tile"  Stretch="Fill"  ViewportUnits="Absolute"  Viewport="0,0,200,200"></ImageBrush>
+    </Window.Background>
+
+    <Border Style="{StaticResource IM-App-Border}" Background="Transparent">
         <Grid>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                 <view:TaskbarAreaView></view:TaskbarAreaView>

@@ -160,6 +160,21 @@ namespace EMChat2.Common
             }
         }
 
+        public static Image StreamToImage(this Stream stream)
+        {
+            if (stream == null) return null;
+            try
+            {
+                Bitmap bitmap = new Bitmap(stream);
+                return bitmap;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("StreamToImage Error:" + e.ToString());
+                return null;
+            }
+        }
+
         public static Stream StringToStream(this string content, Encoding encoding = null)
         {
             if (content == null) return null;

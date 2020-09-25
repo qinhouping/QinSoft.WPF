@@ -19,15 +19,15 @@ namespace EMChat2.ViewModel
     public class MainViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<CaptureScreenEventArgs>
     {
         #region 构造函数
-        public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, TopAreaViewModel topAreaViewModel, UserService userService)
+        public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, TopAreaViewModel topAreaViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
+            this.topAreaViewModel = topAreaViewModel;
             this.bodyAreaViewModel = bodyAreaViewModel;
             this.bottomAreaViewModel = bottomAreaViewModel;
-            this.topAreaViewModel = topAreaViewModel;
             this.userService = userService;
 
             //TODO 测试数据

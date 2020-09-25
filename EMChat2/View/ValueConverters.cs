@@ -8,15 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace EMChat2.View
@@ -284,7 +281,7 @@ namespace EMChat2.View
             }
         }
 
-        public static IMultiValueConverter QuickReplyFilterConvter
+        public static IMultiValueConverter QuickReplyFilterConverter
         {
             get
             {
@@ -311,6 +308,25 @@ namespace EMChat2.View
                         ChineseCharactorTools.ToPinyin(content).ToLower().Contains(condition.ToLower());
                     };
                     return collectionView;
+                });
+            }
+        }
+
+        public static IValueConverter StaffToImageConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    StaffInfo staff = value as StaffInfo;
+                    string content = string.Format("{0}{1}{2}", AppTools.AppName, staff?.WorkCode, staff.Name);
+                    Image image = DrawTools.CreateWaterMark(content);
+
+                    BitmapImage bitmapImage = new BitmapImage { CacheOption = BitmapCacheOption.None, CreateOptions = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreImageCache };
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = image.ImageToStream();
+                    bitmapImage.EndInit();
+                    return bitmapImage;
                 });
             }
         }
