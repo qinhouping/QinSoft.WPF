@@ -13,6 +13,7 @@ namespace EMChat2.Model.BaseInfo
 {
     public class QuickReplyGroupInfo : PropertyChangedBase
     {
+        #region 属性
         private string id;
         public string Id
         {
@@ -82,5 +83,18 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.QuickReplys);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as QuickReplyGroupInfo)?.id);
+        }
+        #endregion
     }
 }

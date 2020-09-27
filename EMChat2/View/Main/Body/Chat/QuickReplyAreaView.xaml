@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:common="clr-namespace:EMChat2.Common"
@@ -28,7 +30,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <ListBox Style="{StaticResource IM-QuickReplyGroup-List}" ItemContainerStyle="{StaticResource IM-QuickReplyGroup-ListItem}" SelectedItem="{Binding SelectedQuickReplyGroup}">
+                <ListBox x:Name="quickReplyGroupList" Style="{StaticResource IM-QuickReplyGroup-List}" ItemContainerStyle="{StaticResource IM-QuickReplyGroup-ListItem}" SelectedItem="{Binding SelectedQuickReplyGroup}">
                     <ListBox.ItemsSource>
                         <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyGroupFilterConvter}">
                             <Binding Path="QuickReplyGroups"></Binding>
@@ -55,12 +57,73 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-
+                
                 <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Gray3Brush}">
-                    <Button Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding Data.AddQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding Business, ElementName=_this}">
-                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="增加分组" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
-                    </Button>
+                    <Grid>
+                        <Button x:Name="addQuickReplyGroupBtn" Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding AddQuickReplyGroupCommand}" CommandParameter="{Binding Business,ElementName=_this}">
+                            <TextBlock Style="{StaticResource BaseTextBlock}" Text="增加分组" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
+                        </Button>
+
+                    </Grid>
                 </Border>
+
+                <wpfControl:PopupExt PlacementTarget="{Binding ElementName=addQuickReplyGroupBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top" PopupAnimation="Fade" Width="250" IsOpen="{Binding IsAddingQuickReplyGroup}">
+                    <Border Style="{StaticResource IM-Content-Border}">
+                        <Grid DataContext="{Binding TemporaryAddQuickReplyGroup}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid Margin="2">
+                                <TextBlock Text="增加分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="分组名称"></Label>
+                                <TextBox Style="{StaticResource InputText}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0" HorizontalAlignment="Right">
+                                <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmAddQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </wpfControl:PopupExt>
+                
+                <wpfControl:PopupExt PlacementTarget="{Binding ElementName=quickReplyGroupList}" StaysOpen="False" AllowsTransparency="True" Placement="MousePoint"  PopupAnimation="Fade" Width="250" IsOpen="{Binding IsEditingQuickReplyGroup}">
+                    <Border Style="{StaticResource IM-Content-Border}">
+                        <Grid DataContext="{Binding TemporaryEditQuickReplyGroup}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid Margin="2">
+                                <TextBlock Text="编辑分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="分组名称"></Label>
+                                <TextBox Style="{StaticResource InputText}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0" HorizontalAlignment="Right">
+                                <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmEditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </wpfControl:PopupExt>
             </Grid>
         </Border>
 

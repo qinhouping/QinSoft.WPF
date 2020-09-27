@@ -11,6 +11,7 @@ namespace EMChat2.Model.BaseInfo
     /// </summary>
     public class UrlMappingInfo
     {
+        #region 属性
         /// <summary>
         /// 网络路径
         /// </summary>
@@ -20,8 +21,9 @@ namespace EMChat2.Model.BaseInfo
         /// 本地文件路径
         /// </summary>
         public string LocalFilePath { get; set; }
+        #endregion
 
-
+        #region 方法
         public override int GetHashCode()
         {
             return this.Url.GetHashCode();
@@ -31,5 +33,6 @@ namespace EMChat2.Model.BaseInfo
         {
             return this.Url.Equals((obj as UrlMappingInfo).Url);
         }
+        #endregion
     }
 }

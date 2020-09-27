@@ -132,6 +132,60 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.SelectedQuickReplyGroup);
             }
         }
+        private bool isAddingQuickReplyGroup;
+        public bool IsAddingQuickReplyGroup
+        {
+            get
+            {
+                return this.isAddingQuickReplyGroup;
+            }
+            set
+            {
+                this.isAddingQuickReplyGroup = value;
+                this.NotifyPropertyChange(() => this.IsAddingQuickReplyGroup);
+                if (!this.isAddingQuickReplyGroup) this.TemporaryAddQuickReplyGroup = null;
+            }
+        }
+        private QuickReplyGroupInfo temporaryAddQuickReplyGroup;
+        public QuickReplyGroupInfo TemporaryAddQuickReplyGroup
+        {
+            get
+            {
+                return this.temporaryAddQuickReplyGroup;
+            }
+            set
+            {
+                this.temporaryAddQuickReplyGroup = value;
+                this.NotifyPropertyChange(() => this.TemporaryAddQuickReplyGroup);
+            }
+        }
+        private bool isEditingQuickReplyGroup;
+        public bool IsEditingQuickReplyGroup
+        {
+            get
+            {
+                return this.isEditingQuickReplyGroup;
+            }
+            set
+            {
+                this.isEditingQuickReplyGroup = value;
+                this.NotifyPropertyChange(() => this.IsEditingQuickReplyGroup);
+                if (!this.isEditingQuickReplyGroup) this.TemporaryEditQuickReplyGroup = null;
+            }
+        }
+        private QuickReplyGroupInfo temporaryEditQuickReplyGroup;
+        public QuickReplyGroupInfo TemporaryEditQuickReplyGroup
+        {
+            get
+            {
+                return this.temporaryEditQuickReplyGroup;
+            }
+            set
+            {
+                this.temporaryEditQuickReplyGroup = value;
+                this.NotifyPropertyChange(() => this.TemporaryEditQuickReplyGroup);
+            }
+        }
         #endregion
 
         #region 方法
@@ -156,18 +210,38 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<BusinessEnum?>((business) =>
                 {
+                    this.IsAddingQuickReplyGroup = true;
+                    this.TemporaryAddQuickReplyGroup = new QuickReplyGroupInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = string.Empty,
+                        Level = QuickReplyGroupLevelEnum.User,
+                        Business = business,
+                        QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                    };
+                });
+            }
+        }
+
+        public ICommand ConfirmAddQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
                     lock (this.QuickReplyGroups)
                     {
-                        this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                        if (this.SelectedQuickReplyGroup != null)
                         {
-                            Id = Guid.NewGuid().ToString(),
-                            Level = QuickReplyGroupLevelEnum.User,
-                            Business = business,
-                            Name = "新建分组",
-                            QuickReplys = new ObservableCollection<QuickReplyInfo>()
-                        });
+                            this.QuickReplyGroups.Insert(this.QuickReplyGroups.IndexOf(this.SelectedQuickReplyGroup), this.TemporaryAddQuickReplyGroup);
+                        }
+                        else
+                        {
+                            this.QuickReplyGroups.Add(this.TemporaryAddQuickReplyGroup);
+                        }
                     }
-                });
+                    this.IsAddingQuickReplyGroup = false;
+                }, () => !string.IsNullOrEmpty(this.TemporaryAddQuickReplyGroup?.Name));
             }
         }
 
@@ -177,11 +251,24 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
                 {
+                    this.IsEditingQuickReplyGroup = true;
+                    this.TemporaryEditQuickReplyGroup = quickReplyGroup.Clone();
+                });
+            }
+        }
+
+        public ICommand ConfirmEditQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
                     lock (this.QuickReplyGroups)
                     {
-                        quickReplyGroup.Name = "编辑分组";
+                        this.QuickReplyGroups.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReplyGroup)).Assign(this.TemporaryEditQuickReplyGroup);
                     }
-                });
+                    this.IsEditingQuickReplyGroup = false;
+                }, () => !string.IsNullOrEmpty(this.TemporaryEditQuickReplyGroup?.Name));
             }
         }
 
@@ -204,7 +291,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                return new RelayCommand(() =>
+                {
+
+                });
+            }
+        }
+
+        public ICommand ConfirmAddQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
                 {
 
                 });
@@ -228,8 +326,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-                    if (this.SelectedQuickReplyGroup == null) return;
-                    this.SelectedQuickReplyGroup.QuickReplys.Remove(quickReply);
+
                 });
             }
         }

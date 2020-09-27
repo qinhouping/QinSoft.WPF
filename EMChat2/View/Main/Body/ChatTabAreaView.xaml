@@ -21,12 +21,14 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Border Background="{StaticResource Gray1Brush}" BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
+        <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="62"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
+
+                <Border Background="{StaticResource Gray1Brush}" Grid.RowSpan="2" Opacity="0.6"></Border>
 
                 <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
                     <!--搜索-->

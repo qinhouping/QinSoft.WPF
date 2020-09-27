@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.BaseInfo
 {
+    #region 属性
     /// <summary>
     /// 登录信息实体
     /// </summary>
@@ -113,5 +114,18 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.IsRememberPassword);
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.userName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.userName.Equals((obj as LoginInfo)?.userName);
+        }
+        #endregion
     }
 }

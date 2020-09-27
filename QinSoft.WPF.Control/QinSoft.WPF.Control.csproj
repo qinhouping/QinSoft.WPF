@@ -79,6 +79,7 @@
     <Compile Include="AutoAdjustRichTextBox.cs" />
     <Compile Include="AutoScrollListBox.cs" />
     <Compile Include="MCombobox.cs" />
+    <Compile Include="PopupExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -49,6 +49,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             if (!arg.IsSuccess) return;
             this.departments = new ObservableCollection<DepartmentInfo>() {
                 new DepartmentInfo() {
+                    Id = Guid.NewGuid().ToString(),
                     Name = "东财咨询",
                     Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
                     {
@@ -64,11 +65,13 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     {
                         new DepartmentInfo()
                         {
+                            Id = Guid.NewGuid().ToString(),
                             Name = "业务组",
                             Departments=new ObservableCollection<DepartmentInfo>()
                             {
                                 new DepartmentInfo()
                                 {
+                                    Id = Guid.NewGuid().ToString(),
                                     Name = "业务一部",
                                     Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
                                     {

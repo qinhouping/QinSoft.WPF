@@ -262,5 +262,23 @@ namespace EMChat2.Common
             }
             return (T)newObj;
         }
+
+        public static T Assign<T>(this T obj, T value)
+        {
+            if (obj == null) return value;
+            else if (value == null) return default;
+            else
+            {
+                Type type = obj.GetType();
+                foreach (PropertyInfo propertyInfo in type.GetProperties())
+                {
+                    if (propertyInfo.CanRead && propertyInfo.CanWrite)
+                    {
+                        propertyInfo.SetValue(obj, propertyInfo.GetValue(value));
+                    }
+                }
+                return obj;
+            }
+        }
     }
 }

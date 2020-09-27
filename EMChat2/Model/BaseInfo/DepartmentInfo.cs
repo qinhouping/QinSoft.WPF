@@ -13,6 +13,7 @@ namespace EMChat2.Model.BaseInfo
     /// </summary>
     public class DepartmentInfo : PropertyChangedBase
     {
+        #region 属性
         /// <summary>
         /// 子部门信息
         /// </summary>
@@ -110,5 +111,18 @@ namespace EMChat2.Model.BaseInfo
                 return staffInfos.Distinct().ToArray();
             }
         }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as DepartmentInfo)?.id);
+        }
+        #endregion
     }
 }
