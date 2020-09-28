@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QinSoft.WPF.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.BaseInfo
 {
-    public class QuickReplyInfo : MessageContentInfo, IExpandable
+    public class QuickReplyInfo : PropertyChangedBase, IExpandable
     {
         #region 属性
         private string id;
@@ -48,6 +49,20 @@ namespace EMChat2.Model.BaseInfo
             {
                 this.isExpanded = value;
                 this.NotifyPropertyChange(() => this.IsExpanded);
+            }
+        }
+
+        private MessageContentInfo content;
+        public MessageContentInfo Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
             }
         }
         #endregion

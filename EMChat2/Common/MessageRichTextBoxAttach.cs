@@ -34,6 +34,7 @@ namespace EMChat2.Common
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                        if (string.IsNullOrEmpty(textMessageContent.Content)) return;
                         Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = run.ElementEnd;
                         run.BringIntoView();

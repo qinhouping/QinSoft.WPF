@@ -71,6 +71,7 @@ namespace EMChat2.View
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                        if (string.IsNullOrEmpty(textMessageContent.Content)) return;
                         string[] messageContentItems = Regex.Split(textMessageContent.Content, Environment.NewLine);
                         for (int i = 0; i < messageContentItems.Length; i++)
                         {
@@ -131,6 +132,7 @@ namespace EMChat2.View
                 if (inline is Run)
                 {
                     Run run = inline as Run;
+                    if (string.IsNullOrEmpty(run.Text)) continue;
                     if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
                     {
                         messageContent = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };
@@ -295,7 +297,7 @@ namespace EMChat2.View
                     {
                         QuickReplyInfo quickReply = item as QuickReplyInfo;
                         string name = quickReply.Name;
-                        string content = MessageTools.GetMessageContentMark(quickReply);
+                        string content = MessageTools.GetMessageContentMark(quickReply.Content);
 
                         string contentPinYin = ChineseCharactorTools.ToPinyin(content, true);
                         string contentFullPinYin = ChineseCharactorTools.ToPinyin(content);

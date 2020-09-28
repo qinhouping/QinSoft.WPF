@@ -44,8 +44,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         {
                             Id = Guid.NewGuid().ToString(),
                             Name="问候",
-                            Content= new TextMessageContent(){ Content="你好！"}.ObjectToJson(),
-                            Type= MessageTypeConst.Text
+                            Content=new MessageContentInfo(){
+                                Type= MessageTypeConst.Text,
+                                Content= new TextMessageContent(){ Content="你好！"}.ObjectToJson()
+                            }
                         }
                     }
                 });
@@ -61,28 +63,30 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         {
                             Id = Guid.NewGuid().ToString(),
                             Name="问候",
-                            Content= new MixedMessageContent() {
-                                Items = new MessageContentInfo[] {
-                                    new MessageContentInfo()
-                                    {
-                                        Type=MessageTypeConst.Text,
-                                        Content= new TextMessageContent(){
-                                            Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                        }.ObjectToJson()
-                                    },
-                                    new MessageContentInfo()
-                                    {
-                                        Type=MessageTypeConst.Link,
-                                        Content= new LinkMessageContent {
-                                            Url = "https://www.baidu.com/",
-                                            ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
-                                            Title = "测试链接",
-                                            Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                        }.ObjectToJson()
+                            Content=new MessageContentInfo(){
+                                Type= MessageTypeConst.Mixed,
+                                Content= new MixedMessageContent() {
+                                    Items = new MessageContentInfo[] {
+                                        new MessageContentInfo()
+                                        {
+                                            Type=MessageTypeConst.Text,
+                                            Content= new TextMessageContent(){
+                                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                                            }.ObjectToJson()
+                                        },
+                                        new MessageContentInfo()
+                                        {
+                                            Type=MessageTypeConst.Link,
+                                            Content= new LinkMessageContent {
+                                                Url = "https://www.baidu.com/",
+                                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
+                                                Title = "测试链接",
+                                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                                            }.ObjectToJson()
+                                        }
                                     }
-                                }
-                            }.ObjectToJson(),
-                            Type= MessageTypeConst.Mixed
+                                }.ObjectToJson()
+                            }
                         }
                     }
                 });
@@ -186,6 +190,60 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryEditQuickReplyGroup);
             }
         }
+        private bool isAddingQuickReply;
+        public bool IsAddingQuickReply
+        {
+            get
+            {
+                return this.isAddingQuickReply;
+            }
+            set
+            {
+                this.isAddingQuickReply = value;
+                this.NotifyPropertyChange(() => this.IsAddingQuickReply);
+                if (!this.isAddingQuickReply) this.TemporaryAddQuickReply = null;
+            }
+        }
+        private QuickReplyInfo temporaryAddQuickReply;
+        public QuickReplyInfo TemporaryAddQuickReply
+        {
+            get
+            {
+                return this.temporaryAddQuickReply;
+            }
+            set
+            {
+                this.temporaryAddQuickReply = value;
+                this.NotifyPropertyChange(() => this.TemporaryAddQuickReply);
+            }
+        }
+        private bool isEditingQuickReply;
+        public bool IsEditingQuickReply
+        {
+            get
+            {
+                return this.isEditingQuickReply;
+            }
+            set
+            {
+                this.isEditingQuickReply = value;
+                this.NotifyPropertyChange(() => this.IsEditingQuickReply);
+                if (!this.isEditingQuickReply) this.TemporaryEditQuickReply = null;
+            }
+        }
+        private QuickReplyInfo temporaryEditQuickReply;
+        public QuickReplyInfo TemporaryEditQuickReply
+        {
+            get
+            {
+                return this.temporaryEditQuickReply;
+            }
+            set
+            {
+                this.temporaryEditQuickReply = value;
+                this.NotifyPropertyChange(() => this.TemporaryEditQuickReply);
+            }
+        }
         #endregion
 
         #region 方法
@@ -193,17 +251,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 命令
-        public ICommand SelectQuickReplyCommand
-        {
-            get
-            {
-                return new RelayCommand<QuickReplyInfo>((quickReply) =>
-                {
-                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply });
-                });
-            }
-        }
-
+        #region 快捷回复组
         public ICommand AddQuickReplyGroupCommand
         {
             get
@@ -214,7 +262,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.TemporaryAddQuickReplyGroup = new QuickReplyGroupInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        Name = string.Empty,
+                        Name = null,
                         Level = QuickReplyGroupLevelEnum.User,
                         Business = business,
                         QuickReplys = new ObservableCollection<QuickReplyInfo>()
@@ -231,17 +279,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     lock (this.QuickReplyGroups)
                     {
-                        if (this.SelectedQuickReplyGroup != null)
-                        {
-                            this.QuickReplyGroups.Insert(this.QuickReplyGroups.IndexOf(this.SelectedQuickReplyGroup), this.TemporaryAddQuickReplyGroup);
-                        }
-                        else
-                        {
-                            this.QuickReplyGroups.Add(this.TemporaryAddQuickReplyGroup);
-                        }
+                        this.QuickReplyGroups.Add(this.TemporaryAddQuickReplyGroup);
                     }
                     this.IsAddingQuickReplyGroup = false;
-                }, () => !string.IsNullOrEmpty(this.TemporaryAddQuickReplyGroup?.Name));
+                }, () =>
+                {
+                    return this.TemporaryAddQuickReplyGroup != null && !string.IsNullOrEmpty(this.TemporaryAddQuickReplyGroup.Name);
+
+                });
+            }
+        }
+
+        public ICommand CancelAddQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.IsAddingQuickReplyGroup = false;
+                });
             }
         }
 
@@ -268,7 +324,21 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         this.QuickReplyGroups.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReplyGroup)).Assign(this.TemporaryEditQuickReplyGroup);
                     }
                     this.IsEditingQuickReplyGroup = false;
-                }, () => !string.IsNullOrEmpty(this.TemporaryEditQuickReplyGroup?.Name));
+                }, () =>
+                {
+                    return this.TemporaryEditQuickReplyGroup != null && !string.IsNullOrEmpty(this.TemporaryEditQuickReplyGroup.Name);
+                });
+            }
+        }
+
+        public ICommand CancelEditQuickReplyGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.IsEditingQuickReplyGroup = false;
+                });
             }
         }
 
@@ -285,15 +355,22 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 });
             }
         }
+        #endregion
 
-
+        #region 快捷回复
         public ICommand AddQuickReplyCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-
+                    this.IsAddingQuickReply = true;
+                    this.TemporaryAddQuickReply = new QuickReplyInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = null,
+                        Content = null
+                    };
                 });
             }
         }
@@ -304,7 +381,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
+                    if (this.SelectedQuickReplyGroup == null) return;
+                    lock (this.SelectedQuickReplyGroup.QuickReplys)
+                    {
+                        this.SelectedQuickReplyGroup.QuickReplys.Add(this.TemporaryAddQuickReply);
+                    }
+                    this.IsAddingQuickReply = false;
+                }, () =>
+                {
+                    return this.TemporaryAddQuickReply != null && !string.IsNullOrEmpty(this.TemporaryAddQuickReply.Name) && this.TemporaryAddQuickReply.Content != null;
+                });
+            }
+        }
 
+        public ICommand CancelAddQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.IsAddingQuickReply = false;
                 });
             }
         }
@@ -315,7 +411,38 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
+                    this.IsEditingQuickReply = true;
+                    this.TemporaryEditQuickReply = quickReply.Clone();
+                });
+            }
+        }
 
+        public ICommand ConfirmEditQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (this.SelectedQuickReplyGroup == null) return;
+                    lock (this.SelectedQuickReplyGroup.QuickReplys)
+                    {
+                        this.SelectedQuickReplyGroup.QuickReplys.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReply)).Assign(this.TemporaryEditQuickReply);
+                    }
+                    this.IsEditingQuickReply = false;
+                }, () =>
+                {
+                    return this.TemporaryEditQuickReply != null && !string.IsNullOrEmpty(this.TemporaryEditQuickReply.Name) && this.TemporaryEditQuickReply.Content != null;
+                });
+            }
+        }
+
+        public ICommand CancelEditQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                {
+                    this.IsEditingQuickReply = false;
                 });
             }
         }
@@ -326,10 +453,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-
+                    if (this.SelectedQuickReplyGroup == null) return;
+                    lock (this.SelectedQuickReplyGroup.QuickReplys)
+                    {
+                        this.SelectedQuickReplyGroup.QuickReplys.Remove(quickReply);
+                    }
                 });
             }
         }
+
+        public ICommand SelectQuickReplyCommand
+        {
+            get
+            {
+                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                {
+                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply.Content });
+                });
+            }
+        }
+        #endregion
         #endregion
     }
 }

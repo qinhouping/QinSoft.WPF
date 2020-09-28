@@ -9,7 +9,7 @@
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
-        Title="东财通2.0" Height="350" Width="420"
+        Title="东财通2.0" Height="360" Width="420"
         WindowStartupLocation="CenterScreen" ResizeMode ="NoResize">
 
     <shell:WindowChrome.WindowChrome>
@@ -154,10 +154,10 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Text="用户名:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                            <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource InputText}" Margin="0,5" Text="{Binding LoginInfo.UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource IM-TextBox}" Margin="0,5" Text="{Binding LoginInfo.UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
                             <TextBlock Grid.Row="1" Text="密   码:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"></TextBlock>
-                            <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource InputPassword}" Margin="0,5" common:PasswordBoxAttach.Attach="True" common:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
+                            <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource IM-PasswordBox}" Margin="0,5" common:PasswordBoxAttach.Attach="True" common:PasswordBoxAttach.Password="{Binding LoginInfo.Password,Mode=TwoWay}"></PasswordBox>
 
                             <CheckBox Grid.Row="2" Grid.Column="1" Content="自动登录" HorizontalAlignment="Left" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsAutoLogin, Mode=TwoWay}"></CheckBox>
                             <CheckBox Grid.Row="2" Grid.Column="1" Content="记录密码" HorizontalAlignment="Right" Style="{StaticResource InputCheck}" Margin="0,5" IsChecked="{Binding LoginInfo.IsRememberPassword, Mode=TwoWay}"></CheckBox>
