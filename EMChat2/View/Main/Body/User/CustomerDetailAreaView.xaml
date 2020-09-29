@@ -165,13 +165,24 @@
                             </Border>
                             
                             <StackPanel Margin="5">
-                                <Label Content="备注"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Remark, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="备注"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Remark, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
 
                             <StackPanel Margin="5">
-                                <Label Content="描述"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="描述"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Margin="5">
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="标签"></TextBlock>
+                                <ListBox Grid.Column="1" Style="{StaticResource IM-Tag-List}" Margin="0,5" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" IsChecked="{Binding IsSelected}"></CheckBox>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">

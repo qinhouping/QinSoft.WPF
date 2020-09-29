@@ -243,8 +243,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="PART_Content" Text="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" TextTrimming="CharacterEllipsis"></TextBlock>
-                        <TextBlock Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="{StaticResource MoreSmallIconFontSize}" Style="{StaticResource IconChevronRight}" Foreground="{TemplateBinding Foreground}"></TextBlock>
+                        <ContentPresenter x:Name="PART_Content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource MoreSmallIconFontSize}" Style="{StaticResource IconChevronRight}" Foreground="{TemplateBinding Foreground}"></TextBlock>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

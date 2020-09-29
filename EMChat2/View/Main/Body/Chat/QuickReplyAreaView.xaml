@@ -78,8 +78,8 @@
                             </Border>
 
                             <StackPanel Margin="5">
-                                <Label Content="分组名称"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="分组名称"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
@@ -99,8 +99,8 @@
                             </Border>
 
                             <StackPanel Margin="5">
-                                <Label Content="分组名称"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="分组名称"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
@@ -195,12 +195,12 @@
                             </Border>
 
                             <StackPanel Margin="5">
-                                <Label Content="名称"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="名称"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
 
                             <StackPanel Margin="5">
-                                <Label Content="内容"></Label>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="内容"></TextBlock>
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" Height="100">
                                     <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding Content,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoAdjustRichTextBox>
                                 </ScrollViewer>
@@ -223,12 +223,12 @@
                             </Border>
 
                             <StackPanel Margin="5">
-                                <Label Content="名称"></Label>
-                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="名称"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
 
                             <StackPanel Margin="5">
-                                <Label Content="内容"></Label>
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="内容"></TextBlock>
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" Height="100">
                                     <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding Content,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoAdjustRichTextBox>
                                 </ScrollViewer>

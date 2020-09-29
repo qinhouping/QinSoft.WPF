@@ -68,6 +68,23 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
+        /// 业务类型
+        /// </summary>
+        private BusinessEnum business;
+        public BusinessEnum Business
+        {
+            get
+            {
+                return this.business;
+            }
+            set
+            {
+                this.business = value;
+                this.NotifyPropertyChange(() => this.Business);
+            }
+        }
+
+        /// <summary>
         /// 标签列表
         /// </summary>
         private ObservableCollection<TagInfo> tags;
