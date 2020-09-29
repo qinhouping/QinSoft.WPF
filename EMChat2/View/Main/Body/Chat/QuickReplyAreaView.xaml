@@ -47,7 +47,7 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"></TextBlock>
+                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"></TextBlock>
                                 <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="系统分组"></TextBlock>
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
@@ -73,18 +73,14 @@
                 <wpfControl:PopupExt PlacementTarget="{Binding ElementName=addQuickReplyGroupBtn}" StaysOpen="True" AllowsTransparency="True" Placement="Top" PopupAnimation="Fade" Width="250" IsOpen="{Binding IsAddingQuickReplyGroup}">
                     <Border Style="{StaticResource IM-Content-Border}">
                         <StackPanel Orientation="Vertical" DataContext="{Binding TemporaryAddQuickReplyGroup}">
-                            <Grid Margin="5">
-                                <TextBlock Text="增加分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
-                            </Grid>
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="增加分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="分组名称"></Label>
                                 <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </Grid>
+                            </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
                                 <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmAddQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>
@@ -98,18 +94,14 @@
                 <wpfControl:PopupExt PlacementTarget="{Binding ElementName=quickReplyGroupList}" StaysOpen="True" AllowsTransparency="True" Placement="MousePoint"  PopupAnimation="Fade" Width="250" IsOpen="{Binding IsEditingQuickReplyGroup}">
                     <Border Style="{StaticResource IM-Content-Border}">
                         <StackPanel Orientation="Vertical" DataContext="{Binding TemporaryEditQuickReplyGroup}">
-                            <Grid Margin="5">
-                                <TextBlock Text="编辑分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
-                            </Grid>
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="编辑分组" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="分组名称"></Label>
                                 <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </Grid>
+                            </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
                                 <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmEditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>
@@ -164,7 +156,7 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                                    <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center">
                                                         <Run Text="{Binding Name}" FontWeight="Bold"></Run>
                                                         <Run Text=":" FontWeight="Bold"></Run>
                                                         <Run Text="{Binding Content, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding ., Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}"></Run>
@@ -198,29 +190,21 @@
                 <wpfControl:PopupExt PlacementTarget="{Binding ElementName=addQuickReplyBtn}" StaysOpen="True" AllowsTransparency="True" Placement="Top" PopupAnimation="Fade" Width="362" IsOpen="{Binding Data.IsAddingQuickReply, Source={StaticResource quickReplyGroupData}}">
                     <Border Style="{StaticResource IM-Content-Border}">
                         <StackPanel Orientation="Vertical" DataContext="{Binding Data.TemporaryAddQuickReply, Source={StaticResource quickReplyGroupData}}">
-                            <Grid Margin="5">
-                                <TextBlock Text="增加快捷回复" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
-                            </Grid>
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="增加快捷回复" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="名称"></Label>
                                 <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </Grid>
+                            </StackPanel>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="内容"></Label>
-                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" MinHeight="50" MaxHeight="100">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" Height="100">
                                     <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding Content,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoAdjustRichTextBox>
                                 </ScrollViewer>
-                            </Grid>
+                            </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
                                 <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmAddQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>
@@ -234,30 +218,21 @@
                 <wpfControl:PopupExt PlacementTarget="{Binding ElementName=quickReplyList}" StaysOpen="True" AllowsTransparency="True" Placement="MousePoint" PopupAnimation="Fade" Width="362" IsOpen="{Binding Data.IsEditingQuickReply, Source={StaticResource quickReplyGroupData}}">
                     <Border Style="{StaticResource IM-Content-Border}">
                         <StackPanel Orientation="Vertical" DataContext="{Binding Data.TemporaryEditQuickReply, Source={StaticResource quickReplyGroupData}}">
-                            <Grid Margin="5">
-                                <TextBlock Text="编辑快捷回复" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
-                            </Grid>
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="编辑快捷回复" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="名称"></Label>
-
                                 <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </Grid>
+                            </StackPanel>
 
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="5">
                                 <Label Content="内容"></Label>
-                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" MinHeight="50" MaxHeight="100">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Background="{StaticResource Gray2Brush}" Grid.Column="1" Margin="0,5" Height="100">
                                     <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding Content,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}"></wpfControl:AutoAdjustRichTextBox>
                                 </ScrollViewer>
-                            </Grid>
+                            </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
                                 <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2" Command="{Binding Data.ConfirmEditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" IsDefault="True"></Button>

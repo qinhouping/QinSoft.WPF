@@ -29,7 +29,7 @@
                             <TextBlock x:Name="icon" Style="{StaticResource IconFolder}" Foreground="{StaticResource DeepPurpleBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
 
                             <!--部门名称-->
-                            <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlock}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" TextTrimming="CharacterEllipsis"></TextBlock>
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource BaseTextBlock}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"></TextBlock>
                         </Grid>
 
                         <!--员工列表-->
@@ -49,7 +49,7 @@
                                         <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
 
                                         <!--员工名称-->
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0"></TextBlock>
 
                                         <!--员工在线状态-->
                                         <Grid Grid.Column="2" Width="8" Height="8">

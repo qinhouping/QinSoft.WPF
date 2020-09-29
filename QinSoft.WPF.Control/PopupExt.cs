@@ -17,11 +17,7 @@ namespace QinSoft.WPF.Control
 
         static PopupExt()
         {
-            EventManager.RegisterClassHandler(
-                typeof(PopupExt),
-                Popup.PreviewGotKeyboardFocusEvent,
-                new KeyboardFocusChangedEventHandler(OnPreviewGotKeyboardFocus),
-                true);
+            EventManager.RegisterClassHandler(typeof(PopupExt), Popup.PreviewGotKeyboardFocusEvent, new KeyboardFocusChangedEventHandler(OnPreviewGotKeyboardFocus), true);
         }
 
         private static void OnPreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

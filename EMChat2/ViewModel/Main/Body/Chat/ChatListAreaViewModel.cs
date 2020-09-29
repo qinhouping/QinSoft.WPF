@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<CustomerEditEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -152,8 +152,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.Id = Guid.NewGuid().ToString();
             chat.ChatId = string.Join("_", ids).MD5();
             chat.Business = business;
-            chat.Name = userInfo.Name;
             chat.Type = ChatTypeEnum.Private;
+            chat.Name = userInfo.Name;
             chat.HeaderImageUrl = userInfo.HeaderImageUrl;
             chat.IsTop = false;
             chat.IsInform = false;
@@ -223,7 +223,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                             this.CreatePrivateChat(new CustomerInfo()
                             {
                                 Id = Guid.NewGuid().ToString(),
-                                ImUserId = "1",
+                                ImUserId = "2",
                                 Name = "私聊-售前",
                                 HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3497889296,4029642021&fm=111&gp=0.jpg",
                                 State = UserStateEnum.Online,
@@ -263,6 +263,30 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 }).ExecuteInUIThread();
 
                 isRefreshingChats = false;
+            }
+        }
+
+        public void Handle(CustomerEditEventArgs arg)
+        {
+            lock (this.ChatItems)
+            {
+                foreach (ChatViewModel chatItem in this.ChatItems)
+                {
+                    switch (chatItem.Chat.Type)
+                    {
+                        case ChatTypeEnum.Private:
+                            {
+                                if (!chatItem.Chat.ChatUsers.Contains(arg.Customer)) continue;
+                                chatItem.Chat.Name = arg.Customer.Name;
+                                chatItem.Chat.HeaderImageUrl = arg.Customer.HeaderImageUrl;
+                                new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();
+                            }
+                            break;
+                        case ChatTypeEnum.Group:
+                        case ChatTypeEnum.GroupSend:
+                            break;
+                    }
+                }
             }
         }
         #endregion

@@ -116,7 +116,7 @@
                                         <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
 
                                         <!--客户名称-->
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0"></TextBlock>
 
                                         <!--客户业务-->
                                         <Label Style="{StaticResource IM-Chip}" VerticalAlignment="Center" Content="{Binding Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Grid.Column="2" Margin="10,0"></Label>

@@ -81,7 +81,7 @@
                         </Border.Style>
 
                         <Grid>
-                            <Border Style="{StaticResource IM-Content-Border}" Margin="4">
+                            <Border Style="{StaticResource IM-Content-Border}" BorderBrush="{StaticResource Gray5Brush}" Margin="4">
                                 <Grid>
                                     <Image Source="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Style="{StaticResource IM-Big-Header-Image}"></Image>
                                     <Image Source="/Resource/Image/avator.ico" Style="{StaticResource IM-Big-Header-Image}" Visibility="{Binding LoginInfo.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}"></Image>

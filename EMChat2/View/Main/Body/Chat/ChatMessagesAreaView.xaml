@@ -35,7 +35,7 @@
                                                 <!--显示左右控制-->
                                                 <Grid.Style>
                                                     <Style TargetType="{x:Type Grid}">
-                                                        <Setter Property="ToolTip" Value="{Binding MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}"></Setter>
+                                                        <Setter Property="ToolTip" Value="{Binding MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}"></Setter>
                                                         <Setter Property="HorizontalAlignment">
                                                             <Setter.Value>
                                                                 <MultiBinding Converter="{x:Static view:ValueConverters.MessageToHorizontalAlignment}">

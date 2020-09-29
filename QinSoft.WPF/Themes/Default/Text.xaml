@@ -10,6 +10,8 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+        <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"></Setter>
     </Style>
 
     <Style x:Key="Tip" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">

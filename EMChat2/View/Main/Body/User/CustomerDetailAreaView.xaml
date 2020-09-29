@@ -3,11 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="320" Width="320">
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="customerDetailData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+    
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -30,8 +36,9 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
                         <!--客户名称-->
-                        <TextBlock x:Name="staffName" Text="{Binding Customer.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2"></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2">
+                        <TextBlock Text="{Binding Customer.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2,5" MaxWidth="200"></TextBlock>
+                        <!--客户性别-->
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,5">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource IconUser}">
                                     <Setter Property="Foreground" Value="Transparent"></Setter>
@@ -53,14 +60,14 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--原名称-->
-                        <TextBlock x:Name="staffOriName" Text="{Binding Customer.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2">
+                        <TextBlock Text="{Binding Customer.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,5" MaxWidth="200">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
                                     <Setter Property="Visibility">
                                         <Setter.Value>
                                             <MultiBinding Converter="{x:Static wpf:ValueConverters.NotEqualsToVisibilityMultiConverter}">
-                                                <Binding Path="Text" ElementName="staffName"></Binding>
-                                                <Binding Path="Text" ElementName="staffOriName" ></Binding>
+                                                <Binding Path="Customer.OriName"></Binding>
+                                                <Binding Path="Customer.Name"></Binding>
                                             </MultiBinding>
                                         </Setter.Value>
                                     </Setter>
@@ -76,26 +83,30 @@
 
         <!--详细信息-->
         <Border Grid.Row="1" Margin="0,20">
-            <StackPanel>
-                <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Content="设置备注和描述" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+            <StackPanel Orientation="Vertical">
+                <!--备注信息-->
+                <Grid>
+                    <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}" Margin="2,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
+                        <Button Margin="5,0" Grid.Column="1" Content="设置备注和描述" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditCustomerCommand}"></Button>
+                    </Grid>
+
+                    <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
+                        <Button Margin="5,0" Grid.Column="1" Content="{Binding Customer.Description}" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditCustomerCommand}"></Button>
+                    </Grid>
                 </Grid>
 
-                <Grid Visibility="{Binding Customer.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Content="{Binding Customer.Description}" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
-                </Grid>
-
-                <Grid Margin="2">
+                <!--通信证ID-->
+                <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -104,7 +115,8 @@
                     <TextBlock Margin="5,0" Text="{Binding Customer.Uid}" Grid.Column="1" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}" VerticalAlignment="Center"></TextBlock>
                 </Grid>
 
-                <Grid Margin="2">
+                <!--好友添加时间-->
+                <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -113,33 +125,62 @@
                     <TextBlock Margin="5,0" Text="{Binding Customer.FollowTime, Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" Grid.Column="1" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}" VerticalAlignment="Center"></TextBlock>
                 </Grid>
 
-                <Grid Margin="2" Visibility="{Binding Customer.Tags.Count,Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="标签" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center" ></TextBlock>
-                    <Button Grid.Column="1" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center">
-                        <Button.Content>
-                            <ListBox Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Customer.Tags}" IsEnabled="False">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" IsChecked="{Binding IsSelected}"></CheckBox>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Button.Content>
-                    </Button>
+                <!--客户标签-->
+                <Grid>
+                    <Grid Margin="2,5" Visibility="{Binding Customer.Tags.Count,Converter={x:Static wpf:ValueConverters.NotZeroToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="标签" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center" ></TextBlock>
+                        <Button Margin="5,0" Grid.Column="1" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditCustomerCommand}">
+                            <Button.Content>
+                                <ListBox Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Customer.Tags}" IsEnabled="False">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" IsChecked="{Binding IsSelected}"></CheckBox>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+
+                    <Grid Margin="2,5" Visibility="{Binding Customer.Tags.Count,Converter={x:Static wpf:ValueConverters.ZeroToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="标签" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center" ></TextBlock>
+                        <Button Margin="5,0" Grid.Column="1" Content="设置标签" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditCustomerCommand}"></Button>
+                    </Grid>
                 </Grid>
 
-                <Grid Margin="2" Visibility="{Binding Customer.Tags.Count,Converter={x:Static wpf:ValueConverters.ZeroToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="标签" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center" ></TextBlock>
-                    <Button Grid.Column="1" Content="设置标签" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
-                </Grid>
+                <!--客户信息编辑Popup-->
+                <wpfControl:PopupExt PlacementTarget="{Binding ., RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}" IsOpen="{Binding IsEditingCustomer}" StaysOpen="True" AllowsTransparency="True" Placement="MousePoint" PopupAnimation="Fade" Width="300">
+                    <Border Style="{StaticResource IM-Content-Border}">
+                        <StackPanel Orientation="Vertical" DataContext="{Binding TemporaryEditCustomer}">
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="客户信息编辑" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
+                            
+                            <StackPanel Margin="5">
+                                <Label Content="备注"></Label>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Remark, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Margin="5">
+                                <Label Content="描述"></Label>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
+                                <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2,5" Command="{Binding Data.ConfirmEditCustomerCommand, Source={StaticResource customerDetailData}}" IsDefault="True"></Button>
+                                <Button Content="取消" Style="{StaticResource IM-Chat-Button}" Margin="2,5" Command="{Binding Data.CancelEditCustomerCommand, Source={StaticResource customerDetailData}}" IsCancel="True"></Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </wpfControl:PopupExt>
             </StackPanel>
         </Border>
 

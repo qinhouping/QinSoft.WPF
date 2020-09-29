@@ -13,7 +13,14 @@ namespace EMChat2.Model.Event
 
     public enum CaptureScreenAction
     {
+        /// <summary>
+        /// 开始截屏
+        /// </summary>
         Begin,
+
+        /// <summary>
+        /// 结束截屏
+        /// </summary>
         End
     }
 }

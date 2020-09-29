@@ -66,8 +66,8 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Image Margin="2" Source="{Binding Content.ThumbUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Title}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>
@@ -89,8 +89,8 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Image Source="/Resource/Image/file.ico" Grid.RowSpan="2" Margin="5,2"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Extension}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Name}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Extension}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>

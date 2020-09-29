@@ -70,7 +70,7 @@
                                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         </Grid.ColumnDefinitions>
                                                         <!--会话名称-->
-                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" ToolTip="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2" TextTrimming="CharacterEllipsis"></TextBlock>
+                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2"></TextBlock>
 
                                                         <!--业务名称-->
                                                         <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
@@ -78,7 +78,7 @@
 
                                                     <Grid Grid.Column="1" Grid.Row="1" Margin="0">
                                                         <!--最后一条消息内容-->
-                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" TextTrimming="CharacterEllipsis" Foreground="{StaticResource Gray7Brush}"></TextBlock>
+                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="{StaticResource Gray7Brush}"></TextBlock>
                                                     </Grid>
 
                                                     <Grid Grid.Column="2" Grid.Row="0">

@@ -39,7 +39,7 @@
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Style="{StaticResource IconUser}" Foreground="{StaticResource DeepPurpleBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"></TextBlock>
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding .,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Grid.Column="1" Margin="10,0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding .,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Grid.Column="1" Margin="10,0"></TextBlock>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
