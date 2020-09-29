@@ -113,7 +113,7 @@ namespace EMChat2.ViewModel
                 }
             };
 
-            if (this.loginInfo.IsAutoLogin)
+            if (this.LoginInfo.IsAutoLogin)
             {
                 this.LoginCommand.Execute(null);
             }
@@ -139,7 +139,10 @@ namespace EMChat2.ViewModel
                 return new RelayCommand(() =>
                 {
                     this.IsLogging = true;
-                    this.userService.Login(this.loginInfo);
+                    this.userService.Login(this.LoginInfo);
+                }, () =>
+                {
+                    return !string.IsNullOrEmpty(this.LoginInfo.UserName) && !string.IsNullOrEmpty(this.LoginInfo.Password);
                 });
             }
         }
@@ -162,7 +165,7 @@ namespace EMChat2.ViewModel
             IsLogging = false;
             if (arg.IsSuccess)
             {
-                this.loginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
+                this.LoginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
                 this.systemService.StoreLoginInfo(this.LoginInfo);
                 new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }

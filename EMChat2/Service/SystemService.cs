@@ -52,7 +52,8 @@ namespace EMChat2.Service
             await new Action(() =>
             {
                 loginInfo = loginInfo.Clone();
-                loginInfo.Password = loginInfo.Password.Base64();
+                if (loginInfo.IsRememberPassword) loginInfo.Password = loginInfo.Password.Base64();
+                else loginInfo.Password = null;
                 loginInfo.ObjectToJson().StringToStream().StreamToFile(loginInfoFilePath);
             }).ExecuteInTask();
         }
