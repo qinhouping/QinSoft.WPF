@@ -258,7 +258,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<BusinessEnum?>((business) =>
                 {
-                    this.IsAddingQuickReplyGroup = true;
+                    this.IsAddingQuickReplyGroup = false;
                     this.TemporaryAddQuickReplyGroup = new QuickReplyGroupInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
@@ -267,6 +267,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         Business = business,
                         QuickReplys = new ObservableCollection<QuickReplyInfo>()
                     };
+                    this.IsAddingQuickReplyGroup = true;
                 });
             }
         }
@@ -307,8 +308,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
                 {
-                    this.IsEditingQuickReplyGroup = true;
+                    this.IsEditingQuickReplyGroup = false;
                     this.TemporaryEditQuickReplyGroup = quickReplyGroup.Clone();
+                    this.IsEditingQuickReplyGroup = true;
                 });
             }
         }
@@ -364,13 +366,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    this.IsAddingQuickReply = true;
+                    this.IsAddingQuickReply = false;
                     this.TemporaryAddQuickReply = new QuickReplyInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Content = null
                     };
+                    this.IsAddingQuickReply = true;
                 });
             }
         }
@@ -411,8 +414,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-                    this.IsEditingQuickReply = true;
+                    this.IsEditingQuickReply = false;
                     this.TemporaryEditQuickReply = quickReply.Clone();
+                    this.IsEditingQuickReply = true;
                 });
             }
         }

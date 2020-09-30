@@ -3,6 +3,7 @@ using EMChat2.Common.Cef;
 using EMChat2.ViewModel;
 using QinSoft.Event;
 using QinSoft.Ioc;
+using QinSoft.Log;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -73,9 +74,10 @@ namespace EMChat2
         {
             try
             {
-                if (!showGloalError) return;
                 IWindowManager windowManager = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
                 EventAggregator eventAggregator = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<QinSoft.WPF.Core.EventAggregatorImp>();
+                new InvalidProgramException(error).Fatal();
+                if (!showGloalError) return;
                 using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, error, title, AlertType.Error))
                 {
                     new Action(() => windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();

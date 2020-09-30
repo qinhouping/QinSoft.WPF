@@ -16,21 +16,35 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<UseDetailEventArgs>
     {
         #region 构造函数
-        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, TagCustomerAreaViewModel tagCustomerAreaViewModel)
+        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerListAreaViewModel customerListAreaViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.tagCustomerAreaViewModel = tagCustomerAreaViewModel;
+            this.applicationContextViewModel = applicationContextViewModel;
+            this.customerListAreaViewModel = customerListAreaViewModel;
             this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel(this.windowManager, this.eventAggregator);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator);
-            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator);
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private ApplicationContextViewModel applicationContextViewModel;
+        public ApplicationContextViewModel ApplicationContextViewModel
+        {
+            get
+            {
+                return this.applicationContextViewModel;
+            }
+            set
+            {
+                this.applicationContextViewModel = value;
+                this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+            }
+        }
         private UserDetailType? type;
         public UserDetailType? Type
         {
@@ -44,17 +58,17 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.Type);
             }
         }
-        private TagCustomerAreaViewModel tagCustomerAreaViewModel;
-        public TagCustomerAreaViewModel TagCustomerAreaViewModel
+        private CustomerListAreaViewModel customerListAreaViewModel;
+        public CustomerListAreaViewModel CustomerListAreaViewModel
         {
             get
             {
-                return this.tagCustomerAreaViewModel;
+                return this.customerListAreaViewModel;
             }
             set
             {
-                this.tagCustomerAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.TagCustomerAreaViewModel);
+                this.customerListAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerListAreaViewModel);
             }
         }
         private DepartmentDetailAreaViewModel departmentDetailAreaViewModel;
@@ -105,8 +119,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.Type = arg.Type;
             switch (arg.Type)
             {
-                case UserDetailType.TagCustomer:
-                    this.TagCustomerAreaViewModel.Business = (BusinessEnum)arg.Data;
+                case UserDetailType.CustomerList:
+                    this.CustomerListAreaViewModel.Business = (BusinessEnum)arg.Data;
                     break;
                 case UserDetailType.Department:
                     this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentInfo;

@@ -309,9 +309,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border x:Name="PART_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <WrapPanel IsItemsHost="True" Orientation="Horizontal"></WrapPanel>
-                        </ScrollViewer>
+                        <WrapPanel IsItemsHost="True" Orientation="Horizontal"></WrapPanel>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

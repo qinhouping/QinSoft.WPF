@@ -52,7 +52,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 {
                     this.eventAggregator.PublishAsync(new UseDetailEventArgs()
                     {
-                        Type = UserDetailType.TagCustomer,
+                        Type = UserDetailType.CustomerList,
                         Data = business
                     });
                 });

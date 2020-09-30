@@ -24,7 +24,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.applicationContextViewModel = applicationContextViewModel;
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
             this.chat = chat;
-            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator);
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator);
             this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
             this.chatInfoCefJsObject = new ChatInfoCefJsObject(ApplicationContextViewModel.CurrentStaff, this.chat);

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
@@ -13,7 +14,7 @@
     <UserControl.Resources>
         <common:BindingProxy x:Key="customerDetailData" Data="{Binding}"></common:BindingProxy>
     </UserControl.Resources>
-    
+
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -163,7 +164,7 @@
                             <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
                                 <TextBlock Margin="5" Text="客户信息编辑" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
                             </Border>
-                            
+
                             <StackPanel Margin="5">
                                 <TextBlock Style="{StaticResource BaseTextBlock}" Text="备注"></TextBlock>
                                 <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Remark, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
@@ -176,13 +177,10 @@
 
                             <StackPanel Margin="5">
                                 <TextBlock Style="{StaticResource BaseTextBlock}" Text="标签"></TextBlock>
-                                <ListBox Grid.Column="1" Style="{StaticResource IM-Tag-List}" Margin="0,5" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" IsChecked="{Binding IsSelected}"></CheckBox>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                <Grid>
+                                    <Border Background="{StaticResource Gray1Brush}" Opacity="0.5"></Border>
+                                    <user:CustomerTagAreaView DataContext="{Binding Data.TemporaryCustomerTagAreaViewModel, Source={StaticResource customerDetailData}}" MaxHeight="300"></user:CustomerTagAreaView>
+                                </Grid>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">

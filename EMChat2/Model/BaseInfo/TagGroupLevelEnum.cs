@@ -17,6 +17,7 @@ namespace EMChat2.Model.BaseInfo
         /// </summary>
         [Description("系统")]
         System,
+
         /// <summary>
         /// 用户级别
         /// </summary>

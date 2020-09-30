@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace EMChat2.View.Main.Body.User
 {
     /// <summary>
-    /// TagCustomerAreaView.xaml 的交互逻辑
+    /// CustomerTagAreaView.xaml 的交互逻辑
     /// </summary>
-    public partial class TagCustomerAreaView : UserControl
+    public partial class CustomerTagAreaView : UserControl
     {
-        public TagCustomerAreaView()
+        public CustomerTagAreaView()
         {
             InitializeComponent();
         }

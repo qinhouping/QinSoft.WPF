@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
+using EMChat2.ViewModel.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -13,68 +14,22 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class TagCustomerAreaViewModel : PropertyChangedBase
+    public class CustomerListAreaViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public TagCustomerAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator);
-            this.tagGroups = new ObservableCollection<TagGroupInfo>();
+            this.applicationContextViewModel = applicationContextViewModel;
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
             this.customers = new ObservableCollection<CustomerInfo>();
             this.selectedCustomer = null;
 
             //TODO 测试数据
             new Action(() =>
             {
-                this.TagGroups.Clear();
-                this.TagGroups.Add(new TagGroupInfo()
-                {
-                    Id = "1",
-                    Name = "客户类型",
-                    Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="0", Name="决策版" },
-                            new TagInfo(){ Id="1", Name="领航版" },
-                            new TagInfo(){ Id="2", Name="大师版" },
-                            new TagInfo(){ Id="3", Name="先锋版" },
-                            new TagInfo(){ Id="4", Name="经典版" }
-                        }
-                });
-                this.TagGroups.Add(new TagGroupInfo()
-                {
-                    Id = "2",
-                    Name = "成交类型",
-                    Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="11", Name="首次" },
-                            new TagInfo(){ Id="12", Name="升级" },
-                            new TagInfo(){ Id="13", Name="续费" }
-                        }
-                });
-                this.TagGroups.Add(new TagGroupInfo()
-                {
-                    Id = "3",
-                    Name = "是否到期",
-                    Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="21", Name="是" },
-                            new TagInfo(){ Id="22", Name="否" }
-                        }
-                });
-                this.TagGroups.Add(new TagGroupInfo()
-                {
-                    Id = "3",
-                    Name = "个人标签",
-                    Level = TagGroupLevelEnum.User,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="有意向", Name="是" },
-                            new TagInfo(){ Id="无意向", Name="否" }
-                        }
-                });
-
                 this.Customers.Clear();
                 this.Customers.Add(new CustomerInfo()
                 {
@@ -117,24 +72,30 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<TagGroupInfo> tagGroups;
-        public ObservableCollection<TagGroupInfo> TagGroups
+        private ApplicationContextViewModel applicationContextViewModel;
+        public ApplicationContextViewModel ApplicationContextViewModel
         {
             get
             {
-                return this.tagGroups;
+                return this.applicationContextViewModel;
             }
             set
             {
-                this.tagGroups = value;
-                this.NotifyPropertyChange(() => this.TagGroups);
+                this.applicationContextViewModel = value;
+                this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        public IEnumerable<TagInfo> SelectedTags
+        private CustomerTagAreaViewModel customerTagAreaViewModel;
+        public CustomerTagAreaViewModel CustomerTagAreaViewModel
         {
             get
             {
-                return this.TagGroups.SelectMany(u => u.Tags.Where(t => t.IsSelected == true));
+                return this.customerTagAreaViewModel;
+            }
+            set
+            {
+                this.customerTagAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerTagAreaViewModel);
             }
         }
         private ObservableCollection<CustomerInfo> customers;
@@ -189,6 +150,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.business = value;
                 this.NotifyPropertyChange(() => this.Business);
+                this.CustomerTagAreaViewModel?.Dispose();
+                this.CustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.business);
             }
         }
         #endregion

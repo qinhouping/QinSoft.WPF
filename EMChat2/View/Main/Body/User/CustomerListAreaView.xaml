@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="EMChat2.View.Main.Body.User.CustomerListAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="62"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" MaxWidth="400"></ColumnDefinition>
+            <ColumnDefinition MinWidth="200" MaxWidth="300"></ColumnDefinition>
+            <ColumnDefinition Width="*" MinWidth="340"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <!--名称相关-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" >
+                    <TextBlock Text="我的客户" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                    <Label Content="{Binding Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
+                    <Grid  ToolTip="新建自定义标签组">
+                        <TextBlock Style="{StaticResource IconPlus}" Foreground="{StaticResource DeepPurpleBrush}" FontSize="{StaticResource MoreSmallIconFontSize}" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBlock>
+                        <TextBlock Style="{StaticResource IconTags}" Foreground="{StaticResource DeepPurpleBrush}" VerticalAlignment="Center" Margin="5,5,0,0"></TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1">
+            <!--标签组列表-->
+            <user:CustomerTagAreaView DataContext="{Binding CustomerTagAreaViewModel}"></user:CustomerTagAreaView>
+        </Border>
+        <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
+
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1,0,1,0" BorderBrush="{StaticResource Gray3Brush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!--搜索框-->
+                <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
+                    <TextBox x:Name="quickReplySearchCondition" Style="{StaticResource IM-Search-TextBox}" Margin="2" ContextMenu="{x:Null}"></TextBox>
+                </Border>
+                
+                <ListBox Grid.Row="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="border">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="20"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Margin="5" Cursor="Hand" HorizontalAlignment="Left">
+                                        <Grid.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenStaffDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
+                                        </Grid.InputBindings>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <!--客户头像-->
+                                        <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
+
+                                        <!--客户名称-->
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0"></TextBlock>
+
+                                        <!--客户在线状态-->
+                                        <Grid Grid.Column="2" Width="8" Height="8">
+                                            <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Online}}"></Label>
+                                            <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Busy}}"></Label>
+                                            <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Leave}}"></Label>
+                                            <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Offline}}"></Label>
+                                        </Grid>
+                                    </Grid>
+                                    <TextBlock x:Name="selectedMark" Grid.Column="1" Margin="5" VerticalAlignment="Center" Style="{StaticResource IconAngleRight}" Foreground="{StaticResource DeepPurpleBrush}" Visibility="Collapsed"></TextBlock>
+                                </Grid>
+                            </Border>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" Value="True">
+                                    <Setter TargetName="selectedMark" Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <!--客户列表-->
+            </Border>
+        <GridSplitter Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
+
+        <!--客户详情-->
+        <Border Grid.Row="1" Grid.Column="2" Margin="0,100,0,0" Visibility="{Binding SelectedCustomer, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}">
+            <user:CustomerDetailAreaView DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
+        </Border>
+    </Grid>
+</UserControl>

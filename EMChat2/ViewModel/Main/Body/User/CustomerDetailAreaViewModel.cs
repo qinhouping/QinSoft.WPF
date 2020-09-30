@@ -1,10 +1,12 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
+using EMChat2.ViewModel.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,17 +17,31 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class CustomerDetailAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
+            this.applicationContextViewModel = applicationContextViewModel;
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private ApplicationContextViewModel applicationContextViewModel;
+        public ApplicationContextViewModel ApplicationContextViewModel
+        {
+            get
+            {
+                return this.applicationContextViewModel;
+            }
+            set
+            {
+                this.applicationContextViewModel = value;
+                this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+            }
+        }
         private CustomerInfo customer;
         public CustomerInfo Customer
         {
@@ -37,6 +53,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.customer = value;
                 this.NotifyPropertyChange(() => this.Customer);
+                this.IsEditingCustomer = false;
             }
         }
         private bool isEditingCustomer;
@@ -50,7 +67,12 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.isEditingCustomer = value;
                 this.NotifyPropertyChange(() => this.IsEditingCustomer);
-                if (!this.IsEditingCustomer) this.TemporaryEditCustomer = null;
+                if (!this.IsEditingCustomer)
+                {
+                    this.TemporaryCustomerTagAreaViewModel?.Dispose();
+                    this.TemporaryCustomerTagAreaViewModel = null;
+                    this.TemporaryEditCustomer = null;
+                }
             }
         }
         private CustomerInfo temporaryEditCustomer;
@@ -66,6 +88,19 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.TemporaryEditCustomer);
             }
         }
+        private CustomerTagAreaViewModel temporaryCustomerTagAreaViewModel;
+        public CustomerTagAreaViewModel TemporaryCustomerTagAreaViewModel
+        {
+            get
+            {
+                return this.temporaryCustomerTagAreaViewModel;
+            }
+            set
+            {
+                this.temporaryCustomerTagAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.TemporaryCustomerTagAreaViewModel);
+            }
+        }
         #endregion
 
         #region 命令
@@ -75,7 +110,10 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
+                    this.IsEditingCustomer = false;
                     this.TemporaryEditCustomer = this.Customer.Clone();
+                    this.TemporaryCustomerTagAreaViewModel?.Dispose();
+                    this.TemporaryCustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.TemporaryEditCustomer.Business, this.TemporaryEditCustomer.Tags.CloneArray());
                     this.IsEditingCustomer = true;
                 });
             }
@@ -87,6 +125,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
+                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagInfo>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
                     this.Customer.Assign(this.TemporaryEditCustomer);
                     this.eventAggregator.PublishAsync(new CustomerEditEventArgs() { Customer = this.Customer });
                     this.IsEditingCustomer = false;

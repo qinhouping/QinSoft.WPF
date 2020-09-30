@@ -19,10 +19,10 @@
             <ContentControl.Style>
                 <Style TargetType="{x:Type ContentControl}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.TagCustomer}">
+                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.CustomerList}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <user:TagCustomerAreaView DataContext="{Binding Data.TagCustomerAreaViewModel, Source={StaticResource userDetailData}}"></user:TagCustomerAreaView>
+                                    <user:CustomerListAreaView DataContext="{Binding Data.CustomerListAreaViewModel, Source={StaticResource userDetailData}}"></user:CustomerListAreaView>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>

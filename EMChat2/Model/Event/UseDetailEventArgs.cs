@@ -16,9 +16,9 @@ namespace EMChat2.Model.Event
     public enum UserDetailType
     {
         /// <summary>
-        /// 标签客户
+        /// 客户列表
         /// </summary>
-        TagCustomer,
+        CustomerList,
 
         /// <summary>
         /// 部门

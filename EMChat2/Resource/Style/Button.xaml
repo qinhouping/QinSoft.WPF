@@ -244,7 +244,7 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <ContentPresenter x:Name="PART_Content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource MoreSmallIconFontSize}" Style="{StaticResource IconChevronRight}" Foreground="{TemplateBinding Foreground}"></TextBlock>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource MoreSmallIconFontSize}" Style="{StaticResource IconChevronRight}" Foreground="{TemplateBinding Foreground}" Margin="10,0,0,0"></TextBlock>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

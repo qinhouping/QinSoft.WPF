@@ -189,10 +189,11 @@
     <Compile Include="ViewModel\Main\Body\Chat\QuickReplyAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\CustomerAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\CustomerDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\CustomerTagAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\DepartmentDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\StaffAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\StaffDetailAreaViewModel.cs" />
-    <Compile Include="ViewModel\Main\Body\User\TagCustomerAreaViewModel.cs" />
+    <Compile Include="ViewModel\Main\Body\User\CustomerListAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\UserDetailAreaViewModel.cs" />
     <Compile Include="View\Main\Body\Chat\ChatDetailAreaView.xaml.cs">
       <DependentUpon>ChatDetailAreaView.xaml</DependentUpon>
@@ -215,6 +216,9 @@
     <Compile Include="View\Main\Body\User\CustomerDetailAreaView.xaml.cs">
       <DependentUpon>CustomerDetailAreaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Main\Body\User\CustomerTagAreaView.xaml.cs">
+      <DependentUpon>CustomerTagAreaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Main\Body\User\DepartmentDetailAreaView.xaml.cs">
       <DependentUpon>DepartmentDetailAreaView.xaml</DependentUpon>
     </Compile>
@@ -224,8 +228,8 @@
     <Compile Include="View\Main\Body\User\StaffDetailAreaView.xaml.cs">
       <DependentUpon>StaffDetailAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Main\Body\User\TagCustomerAreaView.xaml.cs">
-      <DependentUpon>TagCustomerAreaView.xaml</DependentUpon>
+    <Compile Include="View\Main\Body\User\CustomerListAreaView.xaml.cs">
+      <DependentUpon>CustomerListAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\Body\User\UserDetailAreaView.xaml.cs">
       <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
@@ -425,6 +429,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Main\Body\User\CustomerTagAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Main\BottomAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -497,7 +505,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Main\Body\User\TagCustomerAreaView.xaml">
+    <Page Include="View\Main\Body\User\CustomerListAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

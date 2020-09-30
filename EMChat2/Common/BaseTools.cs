@@ -263,6 +263,14 @@ namespace EMChat2.Common
             return (T)newObj;
         }
 
+        public static IEnumerable<T> CloneArray<T>(this IEnumerable<T> obj)
+        {
+            if (obj == null) return default;
+            List<T> data = new List<T>();
+            obj.ToList().ForEach(u => data.Add(u.Clone()));
+            return data;
+        }
+
         public static T Assign<T>(this T obj, T value)
         {
             if (obj == null) return value;
@@ -282,6 +290,10 @@ namespace EMChat2.Common
         }
     }
 
+    /// <summary>
+    /// Assign方法忽略
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class AssignIgnoreAttribute : Attribute
     {
 
