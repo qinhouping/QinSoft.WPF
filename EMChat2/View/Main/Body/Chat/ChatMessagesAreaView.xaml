@@ -133,7 +133,7 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageState.Sending}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Sending}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="2" ToolTip="消息正在发送中...">
@@ -162,7 +162,7 @@
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageState.SendFailure}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.SendFailure}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">
@@ -179,7 +179,7 @@
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageState.Refused}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Refused}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">

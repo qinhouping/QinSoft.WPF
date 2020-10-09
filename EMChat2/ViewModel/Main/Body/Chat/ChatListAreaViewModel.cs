@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<CustomerEditEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -144,20 +144,20 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 方法
-        private ChatInfo CreatePrivateChat(UserInfo userInfo, BusinessEnum? business = null)
+        private ChatInfo CreatePrivateChat(UserInfo user, BusinessEnum? business = null)
         {
-            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, userInfo.ImUserId, business?.ToString() };
+            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, user.ImUserId, business?.ToString() };
             ids.Sort();
             ChatInfo chat = new ChatInfo();
             chat.Id = Guid.NewGuid().ToString();
             chat.ChatId = string.Join("_", ids).MD5();
             chat.Business = business;
             chat.Type = ChatTypeEnum.Private;
-            chat.Name = userInfo.Name;
-            chat.HeaderImageUrl = userInfo.HeaderImageUrl;
+            chat.Name = user.Name;
+            chat.HeaderImageUrl = user.HeaderImageUrl;
             chat.IsTop = false;
             chat.IsInform = false;
-            chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, userInfo });
+            chat.ChatUsers = new ObservableCollection<UserInfo>(new UserInfo[] { applicationContextViewModel.CurrentStaff, user });
             return chat;
         }
         #endregion
@@ -266,7 +266,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }
         }
 
-        public void Handle(CustomerEditEventArgs arg)
+        public void Handle(UserEditEventArgs arg)
         {
             lock (this.ChatItems)
             {
@@ -276,10 +276,13 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                     {
                         case ChatTypeEnum.Private:
                             {
-                                if (!chatItem.Chat.ChatUsers.Contains(arg.Customer)) continue;
-                                chatItem.Chat.Name = arg.Customer.Name;
-                                chatItem.Chat.HeaderImageUrl = arg.Customer.HeaderImageUrl;
-                                new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();
+                                if (chatItem.Chat.ChatUsers.Contains(arg.User))
+                                {
+                                    chatItem.Chat.ChatUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
+                                    chatItem.Chat.Name = arg.User.Name;
+                                    chatItem.Chat.HeaderImageUrl = arg.User.HeaderImageUrl;
+                                    new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();
+                                }
                             }
                             break;
                         case ChatTypeEnum.Group:

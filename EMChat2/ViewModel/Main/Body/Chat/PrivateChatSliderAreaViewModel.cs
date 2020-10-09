@@ -1,4 +1,5 @@
-﻿using EMChat2.Common.Cef;
+﻿using EMChat2.Common;
+using EMChat2.Common.Cef;
 using EMChat2.Model.BaseInfo;
 using EMChat2.ViewModel.Main.Tabs.User;
 using QinSoft.Event;
@@ -25,7 +26,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
             this.chat = chat;
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
-            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator);
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
             this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
             this.chatInfoCefJsObject = new ChatInfoCefJsObject(ApplicationContextViewModel.CurrentStaff, this.chat);
             this.address = this.chatInfoCefJsObject.AppendToken(Path.Combine(Directory.GetCurrentDirectory(), "emchat.html") + "?state=emchat2#target=staff");
@@ -120,7 +121,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.chat.ChatUsers.FirstOrDefault(u => !u.Equals(ApplicationContextViewModel.CurrentStaff));
+                return this.chat.ChatUsers.FirstOrDefault(u => !u.Equals(ApplicationContextViewModel.CurrentStaff)).Clone();
             }
         }
         private CustomerDetailAreaViewModel customerDetailAreaViewModel;

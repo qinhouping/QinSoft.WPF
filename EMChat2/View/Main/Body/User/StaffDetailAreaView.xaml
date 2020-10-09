@@ -5,10 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
              xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
+             xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="320" Width="320">
-
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="staffDetailData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -31,7 +35,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
                         <!--员工名称-->
-                        <TextBlock x:Name="staffName" Text="{Binding Staff.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2"></TextBlock>
+                        <TextBlock x:Name="staffName" Text="{Binding Staff.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2" MaxWidth="200"></TextBlock>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource IconUser}">
@@ -54,7 +58,7 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--原名称-->
-                        <TextBlock x:Name="staffOriName" Text="{Binding Staff.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2">
+                        <TextBlock x:Name="staffOriName" Text="{Binding Staff.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" MaxWidth="200">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
                                     <Setter Property="Visibility">
@@ -78,25 +82,29 @@
         <!--详细信息-->
         <Border Grid.Row="1" Margin="0,20">
             <StackPanel>
-                <Grid Visibility="{Binding Staff.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Content="设置备注和描述" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
+                <!--备注-->
+                <Grid>
+                    <Grid Visibility="{Binding Staff.Description,Converter= {x:Static wpf:ValueConverters.EmptyToVisibilityConverter}}" Margin="2,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Content="设置备注和描述" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditStaffCommand}"></Button>
+                    </Grid>
+
+                    <Grid Visibility="{Binding Staff.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
+                        <Button Grid.Column="1" Margin="5,0" Content="{Binding Staff.Description}" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center" Command="{Binding EditStaffCommand}"></Button>
+                    </Grid>
                 </Grid>
 
-                <Grid Visibility="{Binding Staff.Description,Converter= {x:Static wpf:ValueConverters.NotEmptyToVisibilityConverter}}" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="描述" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center"></TextBlock>
-                    <Button Grid.Column="1" Margin="5,0" Content="{Binding Staff.Description}" Style="{StaticResource IM-Text-Button}" VerticalAlignment="Center"></Button>
-                </Grid>
-
-                <Grid Margin="2">
+                <!--工号-->
+                <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -104,6 +112,31 @@
                     <TextBlock Text="工号" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}"  VerticalAlignment="Center" ></TextBlock>
                     <TextBlock Margin="5,0" Text="{Binding Staff.WorkCode}" Grid.Column="1" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource Gray7Brush}" VerticalAlignment="Center"></TextBlock>
                 </Grid>
+
+                <wpfControl:PopupExt PlacementTarget="{Binding ., RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}" IsOpen="{Binding IsEditingStaff}" StaysOpen="True" AllowsTransparency="True" Placement="MousePoint" PopupAnimation="Fade" Width="300">
+                    <Border Style="{StaticResource IM-Content-Border}">
+                        <StackPanel Orientation="Vertical" DataContext="{Binding TemporaryEditStaff}">
+                            <Border BorderBrush="{StaticResource Gray3Brush}" BorderThickness="0,0,0,1">
+                                <TextBlock Margin="5" Text="员工信息编辑" Style="{StaticResource BaseTextBlock}" FontWeight="Bold"></TextBlock>
+                            </Border>
+
+                            <StackPanel Margin="5">
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="备注"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Remark, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Margin="5">
+                                <TextBlock Style="{StaticResource BaseTextBlock}" Text="描述"></TextBlock>
+                                <TextBox Style="{StaticResource IM-TextBox}" Grid.Column="1" Margin="0,5" Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Right">
+                                <Button Content="保存" Style="{StaticResource IM-Chat-Button}" Margin="2,5" Command="{Binding Data.ConfirmEditStaffCommand, Source={StaticResource staffDetailData}}" IsDefault="True"></Button>
+                                <Button Content="取消" Style="{StaticResource IM-Chat-Button}" Margin="2,5" Command="{Binding Data.CancelEditStaffCommand, Source={StaticResource staffDetailData}}" IsCancel="True"></Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </wpfControl:PopupExt>
             </StackPanel>
         </Border>
 

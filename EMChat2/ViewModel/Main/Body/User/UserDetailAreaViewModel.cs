@@ -24,7 +24,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.applicationContextViewModel = applicationContextViewModel;
             this.customerListAreaViewModel = customerListAreaViewModel;
             this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel(this.windowManager, this.eventAggregator);
-            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator);
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
         }
         #endregion

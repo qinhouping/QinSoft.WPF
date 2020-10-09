@@ -161,7 +161,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 lock (this.messages)
                 {
-                    return this.messages.Count(u => u.State.Equals(MessageState.Received));
+                    return this.messages.Count(u => u.State.Equals(MessageStateEnum.Received));
                 }
             }
         }

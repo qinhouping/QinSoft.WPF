@@ -168,5 +168,22 @@ namespace EMChat2.Model.BaseInfo
             }
         }
         #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return (this.ImUserId + business).GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is CustomerInfo)) return false;
+            else
+            {
+                CustomerInfo customer = obj as CustomerInfo;
+                return this.ImUserId.Equals(customer.ImUserId) && this.business.Equals(customer.business);
+            }
+        }
+        #endregion
     }
 }

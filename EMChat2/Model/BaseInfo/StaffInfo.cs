@@ -1,4 +1,5 @@
-﻿using QinSoft.WPF.Core;
+﻿using EMChat2.Common;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -62,6 +63,7 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 重新Name获取逻辑
         /// </summary>
+        [AssignIgnore]
         public override string Name
         {
             get

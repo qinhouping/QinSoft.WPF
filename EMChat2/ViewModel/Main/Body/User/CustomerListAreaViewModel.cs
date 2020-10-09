@@ -65,6 +65,16 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     State = UserStateEnum.Busy,
                     Uid = "customer2"
                 });
+                this.Customers.Add(new CustomerInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ImUserId = "2",
+                    Name = "私聊-售前",
+                    HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3497889296,4029642021&fm=111&gp=0.jpg",
+                    State = UserStateEnum.Online,
+                    Business = BusinessEnum.PreSale,
+                    Uid = "1"
+                });
             }).ExecuteInUIThread();
         }
         #endregion

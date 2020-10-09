@@ -13,9 +13,8 @@ using System.Threading.Tasks;
 namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
-    /// 消息内容子项
+    /// 消息内容实体
     /// </summary>
-    [Serializable]
     public class MessageContentInfo : PropertyChangedBase
     {
         private string type;
@@ -50,7 +49,6 @@ namespace EMChat2.Model.BaseInfo
     /// <summary>
     /// 消息信息实体
     /// </summary>
-    [Serializable]
     public class MessageInfo : MessageContentInfo
     {
         #region 属性
@@ -141,8 +139,8 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
-        private MessageState state;
-        public MessageState State
+        private MessageStateEnum state;
+        public MessageStateEnum State
         {
             get
             {
@@ -169,7 +167,10 @@ namespace EMChat2.Model.BaseInfo
         #endregion
     }
 
-    public enum MessageState
+    /// <summary>
+    /// 消息状态枚举
+    /// </summary>
+    public enum MessageStateEnum
     {
         /// <summary>
         /// 发送中
@@ -235,8 +236,9 @@ namespace EMChat2.Model.BaseInfo
         public const string Event = "event";
     }
 
-    [Serializable]
-
+    /// <summary>
+    /// 文本消息内容
+    /// </summary>
     public class TextMessageContent : PropertyChangedBase
     {
         private string content;
@@ -254,7 +256,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 图片消息内容
+    /// </summary>
     public class ImageMessageContent : PropertyChangedBase
     {
         private string url;
@@ -272,8 +276,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-
-    [Serializable]
+    /// <summary>
+    /// 标签消息内容
+    /// </summary>
     public class EmotionMessageContent : PropertyChangedBase
     {
         private string url;
@@ -318,7 +323,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 文件消息内容
+    /// </summary>
     public class FileMessageContent : PropertyChangedBase
     {
         private string url;
@@ -362,7 +369,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 链接消息内容
+    /// </summary>
     public class LinkMessageContent : PropertyChangedBase
     {
         private string url;
@@ -422,7 +431,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 混合消息内容
+    /// </summary>
     public class MixedMessageContent : PropertyChangedBase
     {
         private MessageContentInfo[] items;
@@ -440,7 +451,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 提示消息内容
+    /// </summary>
     public class TipsMessageContent : PropertyChangedBase
     {
         private string content;
@@ -458,7 +471,9 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
-    [Serializable]
+    /// <summary>
+    /// 事件消息内容
+    /// </summary>
     public class EventMessageContentBase : PropertyChangedBase
     {
         private string _event;

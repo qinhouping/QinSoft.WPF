@@ -38,7 +38,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now,
                         ChatId = "123123123",
-                        State = MessageState.SendFailure,
+                        State = MessageStateEnum.SendFailure,
                         Content = new ImageMessageContent
                         {
                             Url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1598607415218&di=18fe58bd0a17a50d39f7e321e5d7cd85&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F9c16fdfaaf51f3de9ba8ee1194eef01f3a2979a8.jpg"
@@ -53,7 +53,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now.AddSeconds(1),
                         ChatId = "123123123",
-                        State = MessageState.Received,
+                        State = MessageStateEnum.Received,
                         Content = new EmotionMessageContent
                         {
                             Url = "https://static.easyicon.net/preview/106/1069782.gif",
@@ -70,7 +70,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now.AddSeconds(2),
                         ChatId = "123123123",
-                        State = MessageState.Received,
+                        State = MessageStateEnum.Received,
                         Content = new FileMessageContent
                         {
                             Url = "http://swdlcdn.eastmoney.com/swchighexper/highexper.exe",
@@ -87,7 +87,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now.AddSeconds(3),
                         ChatId = "123123123",
-                        State = MessageState.Received,
+                        State = MessageStateEnum.Received,
                         Content = new LinkMessageContent
                         {
                             Url = "https://www.baidu.com/",
@@ -105,7 +105,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now.AddSeconds(4),
                         ChatId = "123123123",
-                        State = MessageState.Sending,
+                        State = MessageStateEnum.Sending,
                         Content = new MixedMessageContent()
                         {
                             Items = new MessageContentInfo[] {
@@ -138,7 +138,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         ToUsers = new string[] { "1" },
                         MsgTime = DateTime.Now.AddSeconds(5),
                         ChatId = "123123123",
-                        State = MessageState.Readed,
+                        State = MessageStateEnum.Readed,
                         Content = new TipsMessageContent()
                         {
                             Content = "测试提示"

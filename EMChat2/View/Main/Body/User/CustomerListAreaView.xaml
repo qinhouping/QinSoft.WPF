@@ -109,7 +109,7 @@
         <GridSplitter Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
 
         <!--客户详情-->
-        <Border Grid.Row="1" Grid.Column="2" Margin="0,100,0,0" Visibility="{Binding SelectedCustomer, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}">
+        <Border Grid.Row="1" Grid.Column="2" Visibility="{Binding SelectedCustomer, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}">
             <user:CustomerDetailAreaView DataContext="{Binding CustomerDetailAreaViewModel}"></user:CustomerDetailAreaView>
         </Border>
     </Grid>

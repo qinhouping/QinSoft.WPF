@@ -156,7 +156,7 @@ namespace EMChat2.Common
             };
         }
 
-        public static MessageInfo CreateMessage(StaffInfo staff, ChatInfo chat, MessageContentInfo messageContent, MessageState state = MessageState.Sending)
+        public static MessageInfo CreateMessage(StaffInfo staff, ChatInfo chat, MessageContentInfo messageContent, MessageStateEnum state = MessageStateEnum.Sending)
         {
             if (staff == null || chat == null || messageContent == null) return null;
             return new MessageInfo()

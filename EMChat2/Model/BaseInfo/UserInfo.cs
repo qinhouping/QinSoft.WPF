@@ -1,4 +1,5 @@
-﻿using QinSoft.WPF.Core;
+﻿using EMChat2.Common;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +86,7 @@ namespace EMChat2.Model.BaseInfo
         /// 用户状态
         /// </summary>
         private UserStateEnum state;
+        [AssignIgnore]
         public virtual UserStateEnum State
         {
             get
