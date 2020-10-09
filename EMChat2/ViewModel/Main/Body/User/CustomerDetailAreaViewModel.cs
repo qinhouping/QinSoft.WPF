@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
-    public class CustomerDetailAreaViewModel : PropertyChangedBase, IEventHandle<UserEditEventArgs>, IDisposable
+    public class CustomerDetailAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
         public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, bool isInform = true)
@@ -128,8 +128,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.TemporaryEditCustomer.Tags = new ObservableCollection<TagInfo>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
+                    this.Customer.Assign(this.TemporaryEditCustomer);
                     if (isInform) this.eventAggregator.PublishAsync(new UserEditEventArgs() { User = this.TemporaryEditCustomer });
-                    else this.Customer.Assign(this.TemporaryEditCustomer);
                     this.IsEditingCustomer = false;
                 });
             }
@@ -162,16 +162,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         public void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);
-        }
-        #endregion
-
-        #region 事件处理
-        public void Handle(UserEditEventArgs arg)
-        {
-            if (!(arg.User is CustomerInfo)) return;
-            CustomerInfo newCustomer = arg.User as CustomerInfo;
-            if (!newCustomer.Equals(this.Customer)) return;
-            this.Customer.Assign(newCustomer);
         }
         #endregion
     }

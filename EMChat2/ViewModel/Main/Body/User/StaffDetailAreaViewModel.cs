@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
-    public class StaffDetailAreaViewModel : PropertyChangedBase, IEventHandle<UserEditEventArgs>, IDisposable
+    public class StaffDetailAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
         public StaffDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, bool isInform = true)
@@ -53,6 +53,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.staff = value;
                 this.NotifyPropertyChange(() => this.Staff);
+                this.IsEditingStaff = false;
             }
         }
         private bool isEditingStaff;
@@ -107,8 +108,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
+                    this.Staff.Assign(this.TemporaryEditStaff);
                     if (isInform) this.eventAggregator.PublishAsync(new UserEditEventArgs() { User = this.TemporaryEditStaff });
-                    else this.Staff.Assign(this.TemporaryEditStaff);
                     this.IsEditingStaff = false;
                 });
             }
@@ -141,16 +142,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         public void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);
-        }
-        #endregion
-
-        #region 事件处理
-        public void Handle(UserEditEventArgs arg)
-        {
-            if (!(arg.User is StaffInfo)) return;
-            StaffInfo newStaff = arg.User as StaffInfo;
-            if (!newStaff.Equals(this.Staff)) return;
-            this.Staff.Assign(newStaff);
         }
         #endregion
     }

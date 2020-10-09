@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Event;
 using EMChat2.ViewModel.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class CustomerListAreaViewModel : PropertyChangedBase
+    public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<UserEditEventArgs>
     {
         #region 构造函数
         public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
@@ -163,6 +164,13 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.CustomerTagAreaViewModel?.Dispose();
                 this.CustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.business);
             }
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(UserEditEventArgs arg)
+        {
+            this.Customers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
         }
         #endregion
     }
