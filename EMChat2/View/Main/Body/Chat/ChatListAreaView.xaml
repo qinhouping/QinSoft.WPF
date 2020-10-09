@@ -14,7 +14,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <ListBox Style="{StaticResource IM-Chat-List}" ItemContainerStyle="{StaticResource IM-Chat-ListItem}" ItemsSource="{Binding ChatItemsCollectionView}" SelectedItem="{Binding SelectedChatItem}">
+        <ListBox x:Name="chatList" Style="{StaticResource IM-Chat-List}" ItemContainerStyle="{StaticResource IM-Chat-ListItem}" ItemsSource="{Binding ChatItemsCollectionView}" SelectedItem="{Binding SelectedChatItem}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ContentControl>

@@ -55,7 +55,7 @@
                     <TextBox x:Name="quickReplySearchCondition" Style="{StaticResource IM-Search-TextBox}" Margin="2" ContextMenu="{x:Null}"></TextBox>
                 </Border>
                 
-                <ListBox Grid.Row="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}">
+                <ListBox x:Name="customerList" Grid.Row="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border x:Name="border">
@@ -65,9 +65,6 @@
                                         <ColumnDefinition Width="20"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Grid Margin="5" Cursor="Hand" HorizontalAlignment="Left">
-                                        <Grid.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenStaffDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
-                                        </Grid.InputBindings>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>

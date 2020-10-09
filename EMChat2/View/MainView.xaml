@@ -15,6 +15,10 @@
         common:WindowInfoAttach.WindowInfo="" 
         common:WindowInfoAttach.IsFlash="{Binding IsFlash}" 
         Topmost="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}">
+    
+    <Window.Resources>
+        <common:BindingProxy x:Key="mainData" Data="{Binding}"></common:BindingProxy>
+    </Window.Resources>
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="25" CornerRadius="0" UseNoneWindowStyle="True"/>
@@ -45,7 +49,7 @@
             </Grid>
 
 
-            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding ApplicationContextViewModel.CurrentStaff.Name}" LeftClickCommand="{Binding OpenCommand}" DoubleClickCommand="{Binding OpenCommand}" common:TaskbarIconAttach.BalloonTip="{Binding BalloonTip}">
+            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" LeftClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">
@@ -58,26 +62,26 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                         <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding ApplicationContextViewModel.CurrentStaff.WorkCode}" VerticalAlignment="Bottom" Margin="10,0"></TextBlock>
-                                    <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Row="1" Text="{Binding ApplicationContextViewModel.CurrentStaff.Name}" VerticalAlignment="Top" Margin="10,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Data.ApplicationContextViewModel.CurrentStaff.WorkCode, Source={StaticResource mainData}}" VerticalAlignment="Bottom" Margin="10,0"></TextBlock>
+                                    <TextBlock Style="{StaticResource BaseTextBlock}" Grid.Row="1" Text="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" VerticalAlignment="Top" Margin="10,0"></TextBlock>
                                 </Grid>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Command="{Binding ToggleTopmostCommand}">
+                        <MenuItem Command="{Binding Data.ToggleTopmostCommand, Source={StaticResource mainData}}">
                             <MenuItem.Style>
                                 <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}">
                                     <Setter Property="Header" Value="置顶主窗口"></Setter>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}" Value="True">
+                                        <DataTrigger Binding="{Binding Data.ApplicationContextViewModel.Setting.IsTopmostMainView, Source={StaticResource mainData}}" Value="True">
                                             <Setter Property="Header" Value="取消置顶主窗口"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </MenuItem.Style>
                         </MenuItem>
-                        <MenuItem Style="{StaticResource MenuItem-H}" Header="打开主窗口" Command="{Binding OpenCommand}"></MenuItem>
-                        <MenuItem Style="{StaticResource MenuItem-H}" Header="退出登录" Command="{Binding LogoutCommand}"></MenuItem>
-                        <MenuItem Style="{StaticResource MenuItem-H}" Header="退出程序" Command="{Binding ExitCommand}"></MenuItem>
+                        <MenuItem Style="{StaticResource MenuItem-H}" Header="打开主窗口" Command="{Binding Data.OpenCommand, Source={StaticResource mainData}}"></MenuItem>
+                        <MenuItem Style="{StaticResource MenuItem-H}" Header="退出登录" Command="{Binding Data.LogoutCommand, Source={StaticResource mainData}}"></MenuItem>
+                        <MenuItem Style="{StaticResource MenuItem-H}" Header="退出程序" Command="{Binding Data.ExitCommand, Source={StaticResource mainData}}"></MenuItem>
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
             </tb:TaskbarIcon>
