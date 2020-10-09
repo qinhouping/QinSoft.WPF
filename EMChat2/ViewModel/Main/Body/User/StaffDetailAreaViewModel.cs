@@ -124,6 +124,17 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 });
             }
         }
+
+        public ICommand OpenPrivateChatCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.eventAggregator.PublishAsync(new OpenPrivateChatEventArgs() { ChatUser = this.Staff, IsActive = true });
+                });
+            }
+        }
         #endregion
 
         #region 方法

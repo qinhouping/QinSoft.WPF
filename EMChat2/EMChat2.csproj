@@ -177,6 +177,7 @@
     <Compile Include="Model\BaseInfo\UserTypeEnum.cs" />
     <Compile Include="Model\Event\CaptureScreenEventArgs.cs" />
     <Compile Include="Model\Event\ChatDetailEventArgs.cs" />
+    <Compile Include="Model\Event\OpenPrivateChatEventArgs.cs" />
     <Compile Include="Model\Event\UserEditEventArgs.cs" />
     <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
     <Compile Include="Model\Event\UseDetailEventArgs.cs" />

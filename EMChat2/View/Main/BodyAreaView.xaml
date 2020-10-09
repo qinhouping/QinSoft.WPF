@@ -9,9 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TabControl Style="{StaticResource IM-Tab}">
+        <TabControl Style="{StaticResource IM-Tab}" SelectedIndex="{Binding SelectedIndex}">
             <!--消息模块选项卡-->
-            <TabItem IsSelected="True">
+            <TabItem>
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-TabItem}">
                         <Setter Property="Header">

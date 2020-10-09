@@ -1,4 +1,5 @@
-﻿using EMChat2.ViewModel.Main.Tabs;
+﻿using EMChat2.Model.Event;
+using EMChat2.ViewModel.Main.Tabs;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main
 {
     [Component]
-    public class BodyAreaViewModel : PropertyChangedBase
+    public class BodyAreaViewModel : PropertyChangedBase, IEventHandle<OpenPrivateChatEventArgs>
     {
         #region 构造函数
         public BodyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ChatTabAreaViewModel chatTabAreaViewModel, UserTabAreaViewModel userTabAreaViewModel)
@@ -21,12 +22,26 @@ namespace EMChat2.ViewModel.Main
             this.eventAggregator.Subscribe(this);
             this.chatTabAreaViewModel = chatTabAreaViewModel;
             this.userTabAreaViewModel = userTabAreaViewModel;
+            this.SelectedIndex = 0;
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private int selectedIndex;
+        public int SelectedIndex
+        {
+            get
+            {
+                return this.selectedIndex;
+            }
+            set
+            {
+                this.selectedIndex = value;
+                this.NotifyPropertyChange(() => this.SelectedIndex);
+            }
+        }
         private ChatTabAreaViewModel chatTabAreaViewModel;
         public ChatTabAreaViewModel ChatTabAreaViewModel
         {
@@ -52,6 +67,13 @@ namespace EMChat2.ViewModel.Main
                 this.userTabAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.UserTabAreaViewModel);
             }
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(OpenPrivateChatEventArgs arg)
+        {
+            if (arg.IsActive) this.SelectedIndex = 0;
         }
         #endregion
     }

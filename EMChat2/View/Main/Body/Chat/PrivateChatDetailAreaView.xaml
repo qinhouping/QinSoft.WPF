@@ -24,7 +24,7 @@
                 <!--会话名称-->
                 <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}" MaxWidth="200"></TextBlock>
                 <!--业务名称-->
-                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
+                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotNullToVisibilityConverter}}"></Label>
             </StackPanel>
         </Border>
 

@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>, IEventHandle<OpenPrivateChatEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -291,6 +291,49 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                     }
                 }
             }
+        }
+
+        public void Handle(OpenPrivateChatEventArgs arg)
+        {
+            new Action(() =>
+            {
+                PrivateChatViewModel privateChatViewModel = null;
+                if (arg.ChatUser is CustomerInfo)
+                {
+                    CustomerInfo customer = arg.ChatUser as CustomerInfo;
+                    privateChatViewModel = new PrivateChatViewModel(
+                       this.windowManager,
+                       this.eventAggregator,
+                       this.ApplicationContextViewModel,
+                       this.EmotionPickerAreaViewModel,
+                       this.QuickReplyAreaViewModel,
+                       this.CreatePrivateChat(customer, customer.Business),
+                       this.chatService,
+                       this.systemService);
+                }
+                else if (arg.ChatUser is StaffInfo)
+                {
+                    StaffInfo staff = arg.ChatUser as StaffInfo;
+                    privateChatViewModel = new PrivateChatViewModel(
+                       this.windowManager,
+                       this.eventAggregator,
+                       this.ApplicationContextViewModel,
+                       this.EmotionPickerAreaViewModel,
+                       this.QuickReplyAreaViewModel,
+                       this.CreatePrivateChat(staff),
+                       this.chatService,
+                       this.systemService);
+                }
+                else if (arg.ChatUser is SystemUserInfo)
+                {
+                    return;
+                }
+                lock (this.ChatItems)
+                {
+                    if (!this.ChatItems.Contains(privateChatViewModel)) this.ChatItems.Add(privateChatViewModel);
+                    if (arg.IsActive) this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(privateChatViewModel));
+                }
+            }).ExecuteInUIThread();
         }
         #endregion
     }

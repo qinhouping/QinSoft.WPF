@@ -142,7 +142,7 @@
 
         <!--发送消息-->
         <Border Grid.Row="2" Margin="0,20">
-            <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Content="发消息" x:Name="allowChatBtn"></Button>
+            <Button Margin="30,0" Style="{StaticResource IM-OpenChat-Button}" Content="发消息" x:Name="allowChatBtn" Command="{Binding OpenPrivateChatCommand}"></Button>
         </Border>
     </Grid>
 </UserControl>

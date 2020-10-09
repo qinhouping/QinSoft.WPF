@@ -537,6 +537,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = messageContent });
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.chat.Equals((obj as ChatViewModel)?.chat);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.chat.GetHashCode();
+        }
+
         public virtual void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);

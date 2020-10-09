@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Body.User
 {
@@ -85,6 +86,61 @@ namespace EMChat2.ViewModel.Main.Body.User
         }
         #endregion
 
+        #region 命令
+        #region 标签组相关
+        public ICommand AddTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() => { });
+            }
+        }
+        public ICommand RemoveTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand<TagGroupInfo>((tagGroup) =>
+                {
+                    if (tagGroup.Tags.Count > 0)
+                    {
+                        using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "无法删除非空标签组", "提示", AlertType.Warning))
+                        {
+                            new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
+                            return;
+                        }
+                    }
+                    lock (this.TagGroups)
+                    {
+                        this.TagGroups.Remove(tagGroup);
+                    }
+                });
+            }
+        }
+        #endregion
+
+        #region 标签相关
+        public ICommand RemoveTagCommand
+        {
+            get
+            {
+                return new RelayCommand<TagInfo>((tag) =>
+                {
+                    lock (this.TagGroups)
+                    {
+                        foreach (TagGroupInfo tagGroup in this.TagGroups)
+                        {
+                            lock (tagGroup.Tags)
+                            {
+                                tagGroup.Tags.Remove(tag);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        #endregion
+        #endregion
+
         #region 方法
         private async void LoadTagGroups()
         {
@@ -127,7 +183,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                 });
                 data.Add(new TagGroupInfo()
                 {
-                    Id = "3",
+                    Id = "4",
                     Name = "是否有意向",
                     Level = TagGroupLevelEnum.User,
                     Tags = new ObservableCollection<TagInfo>(){
