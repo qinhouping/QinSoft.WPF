@@ -44,7 +44,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #endregion
 
         #region 命令
-        public ICommand OpenTagCustomerDetailCommand
+        public ICommand OpenCustomerListCommand
         {
             get
             {

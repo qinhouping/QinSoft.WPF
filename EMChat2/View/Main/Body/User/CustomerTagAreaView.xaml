@@ -17,7 +17,7 @@
         <ListBox x:Name="tagGroupList" Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}" ItemsSource="{Binding TagGroups}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="2">
+                    <Grid>
                         <Grid.Resources>
                             <common:BindingProxy x:Key="customerTagData" Data="{Binding}"></common:BindingProxy>
                         </Grid.Resources>
@@ -28,25 +28,27 @@
                         </Grid.RowDefinitions>
 
                         <!--标签组信息-->
-                        <Grid x:Name="grid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource IconTags}" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}" Margin="5,0"></TextBlock>
-                            <Button x:Name="addTag" Grid.Column="2" Style="{StaticResource IM-Icon-Button}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}" Opacity="0.0" ToolTip="新建自定义标签">
-                                <TextBlock Style="{StaticResource IconPlus}" Foreground="{StaticResource DeepPurpleBrush}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
-                            </Button>
+                        <Border x:Name="border">
+                            <Grid Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{StaticResource IconTags}" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}" Margin="5,0"></TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                <Button x:Name="addTag" Grid.Column="2" Style="{StaticResource IM-Icon-Button}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}" Opacity="0.0" ToolTip="新建自定义标签">
+                                    <TextBlock Style="{StaticResource IconPlus}" Foreground="{StaticResource DeepPurpleBrush}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
+                                </Button>
 
-                            <Grid.ContextMenu>
-                                <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                    <MenuItem Header="移除" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}" Command="{Binding Data.RemoveTagGroupCommand, Source={StaticResource customerTagGroupData}}" CommandParameter="{Binding}"></MenuItem>
-                                    <MenuItem Header="编辑" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}"></MenuItem>
-                                </ContextMenu>
-                            </Grid.ContextMenu>
-                        </Grid>
+                                <Grid.ContextMenu>
+                                    <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                        <MenuItem Header="移除" Command="{Binding Data.RemoveTagGroupCommand, Source={StaticResource customerTagGroupData}}" CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Header="编辑"></MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </Border>
 
                         <!--标签列表-->
                         <ListBox x:Name="tagList" Grid.Row="1" Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
@@ -55,8 +57,8 @@
                                     <CheckBox x:Name="tag" Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" Padding="5,0" IsChecked="{Binding IsSelected}">
                                         <CheckBox.ContextMenu>
                                             <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                                <MenuItem Header="移除" IsEnabled="{Binding Data.Level, Source={StaticResource customerTagData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}" Command="{Binding Data.RemoveTagCommand, Source={StaticResource customerTagGroupData}}" CommandParameter="{Binding}"></MenuItem>
-                                                <MenuItem Header="编辑" IsEnabled="{Binding Data.Level, Source={StaticResource customerTagData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}"></MenuItem>
+                                                <MenuItem Header="移除" Command="{Binding Data.RemoveTagCommand, Source={StaticResource customerTagGroupData}}" CommandParameter="{Binding}"></MenuItem>
+                                                <MenuItem Header="编辑"></MenuItem>
                                             </ContextMenu>
                                         </CheckBox.ContextMenu>
                                     </CheckBox>
@@ -68,11 +70,11 @@
                     <DataTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="addTag" Property="Opacity" Value="1.0"></Setter>
-                            <Setter TargetName="grid" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
                         </Trigger>
                         
                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" Value="True">
-                            <Setter TargetName="grid" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

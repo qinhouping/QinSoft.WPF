@@ -121,7 +121,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.chat.ChatUsers.FirstOrDefault(u => !u.Equals(ApplicationContextViewModel.CurrentStaff)).Clone();
+                return this.chat.ChatUsers.FirstOrDefault(u => !u.Equals(ApplicationContextViewModel.CurrentStaff));
             }
         }
         private CustomerDetailAreaViewModel customerDetailAreaViewModel;

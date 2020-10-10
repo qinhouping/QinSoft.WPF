@@ -64,6 +64,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     ImageMessageContent imageMessageContent = Content as ImageMessageContent;
                     this.chatService.OpenImage(new string[] { imageMessageContent.Url }, 0);
+                }, () =>
+                {
+                    return Content is ImageMessageContent;
                 });
             }
         }
@@ -76,6 +79,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     EmotionMessageContent emotionMessageContent = Content as EmotionMessageContent;
                     this.chatService.OpenImage(new string[] { emotionMessageContent.Url }, 0);
+                }, () =>
+                {
+                    return Content is EmotionMessageContent;
                 });
             }
         }
@@ -88,6 +94,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     LinkMessageContent linkMessageContent = Content as LinkMessageContent;
                     this.chatService.OpenLink(linkMessageContent.Url);
+                }, () =>
+                {
+                    return Content is LinkMessageContent;
                 });
             }
         }
@@ -100,6 +109,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     FileMessageContent fileMessageContent = Content as FileMessageContent;
                     this.chatService.OpenFile(fileMessageContent.Url, fileMessageContent.Name, fileMessageContent.Extension);
+                }, () =>
+                {
+                    return Content is FileMessageContent;
                 });
             }
         }

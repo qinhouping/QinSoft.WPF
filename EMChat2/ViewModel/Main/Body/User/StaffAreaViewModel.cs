@@ -106,6 +106,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         Type = UserDetailType.Department,
                         Data = department
                     });
+                }, (department) =>
+                {
+                    return department != null;
                 });
             }
         }
@@ -121,6 +124,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         Type = UserDetailType.Staff,
                         Data = staff
                     });
+                }, (staff) =>
+                {
+                    return staff != null;
                 });
             }
         }

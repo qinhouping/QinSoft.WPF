@@ -190,6 +190,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryEditQuickReplyGroup);
             }
         }
+        private QuickReplyGroupInfo temporaryQuickReplyGroup;
+        public QuickReplyGroupInfo TemporaryQuickReplyGroup
+        {
+            get
+            {
+                return this.temporaryQuickReplyGroup;
+            }
+            set
+            {
+                this.temporaryQuickReplyGroup = value;
+                this.NotifyPropertyChange(() => this.TemporaryQuickReplyGroup);
+            }
+        }
         private bool isAddingQuickReply;
         public bool IsAddingQuickReply
         {
@@ -201,7 +214,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.isAddingQuickReply = value;
                 this.NotifyPropertyChange(() => this.IsAddingQuickReply);
-                if (!this.isAddingQuickReply) this.TemporaryAddQuickReply = null;
+                if (!this.isAddingQuickReply)
+                {
+                    this.TemporaryAddQuickReply = null;
+                    this.TemporaryQuickReplyGroup = null;
+                }
             }
         }
         private QuickReplyInfo temporaryAddQuickReply;
@@ -217,6 +234,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryAddQuickReply);
             }
         }
+        private QuickReplyGroupInfo temporaryQuickReplyGroup2;
+        public QuickReplyGroupInfo TemporaryQuickReplyGroup2
+        {
+            get
+            {
+                return this.temporaryQuickReplyGroup2;
+            }
+            set
+            {
+                this.temporaryQuickReplyGroup2 = value;
+                this.NotifyPropertyChange(() => this.TemporaryQuickReplyGroup2);
+            }
+        }
         private bool isEditingQuickReply;
         public bool IsEditingQuickReply
         {
@@ -228,7 +258,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.isEditingQuickReply = value;
                 this.NotifyPropertyChange(() => this.IsEditingQuickReply);
-                if (!this.isEditingQuickReply) this.TemporaryEditQuickReply = null;
+                if (!this.isEditingQuickReply)
+                {
+                    this.TemporaryEditQuickReply = null;
+                    this.TemporaryQuickReplyGroup2 = null;
+                }
             }
         }
         private QuickReplyInfo temporaryEditQuickReply;
@@ -286,7 +320,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }, () =>
                 {
                     return this.TemporaryAddQuickReplyGroup != null && !string.IsNullOrEmpty(this.TemporaryAddQuickReplyGroup.Name);
-
                 });
             }
         }
@@ -311,6 +344,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.IsEditingQuickReplyGroup = false;
                     this.TemporaryEditQuickReplyGroup = quickReplyGroup.Clone();
                     this.IsEditingQuickReplyGroup = true;
+                }, (quickReplyGroup) =>
+                {
+                    return quickReplyGroup != null && quickReplyGroup.Level == QuickReplyGroupLevelEnum.User;
                 });
             }
         }
@@ -354,6 +390,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     {
                         this.QuickReplyGroups.Remove(quickReplyGroup);
                     }
+                }, (quickReplyGroup) =>
+                {
+                    return quickReplyGroup != null && quickReplyGroup.Level == QuickReplyGroupLevelEnum.User;
                 });
             }
         }
@@ -367,6 +406,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
                     this.IsAddingQuickReply = false;
+                    this.TemporaryQuickReplyGroup = this.SelectedQuickReplyGroup;
                     this.TemporaryAddQuickReply = new QuickReplyInfo()
                     {
                         Id = Guid.NewGuid().ToString(),
@@ -374,6 +414,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         Content = null
                     };
                     this.IsAddingQuickReply = true;
+                }, () =>
+                {
+                    return this.SelectedQuickReplyGroup != null && this.SelectedQuickReplyGroup.Level == QuickReplyGroupLevelEnum.User;
                 });
             }
         }
@@ -384,15 +427,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    if (this.SelectedQuickReplyGroup == null) return;
-                    lock (this.SelectedQuickReplyGroup.QuickReplys)
+                    lock (this.TemporaryQuickReplyGroup.QuickReplys)
                     {
-                        this.SelectedQuickReplyGroup.QuickReplys.Add(this.TemporaryAddQuickReply);
+                        this.TemporaryQuickReplyGroup.QuickReplys.Add(this.TemporaryAddQuickReply);
                     }
                     this.IsAddingQuickReply = false;
                 }, () =>
                 {
-                    return this.TemporaryAddQuickReply != null && !string.IsNullOrEmpty(this.TemporaryAddQuickReply.Name) && this.TemporaryAddQuickReply.Content != null;
+                    return this.TemporaryQuickReplyGroup != null && this.TemporaryAddQuickReply != null && !string.IsNullOrEmpty(this.TemporaryAddQuickReply.Name) && this.TemporaryAddQuickReply.Content != null;
                 });
             }
         }
@@ -415,8 +457,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
                     this.IsEditingQuickReply = false;
+                    this.TemporaryQuickReplyGroup2 = this.SelectedQuickReplyGroup;
                     this.TemporaryEditQuickReply = quickReply.Clone();
                     this.IsEditingQuickReply = true;
+                }, (quickReply) =>
+                {
+                    return this.SelectedQuickReplyGroup != null && this.SelectedQuickReplyGroup.Level == QuickReplyGroupLevelEnum.User && quickReply != null;
                 });
             }
         }
@@ -427,15 +473,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    if (this.SelectedQuickReplyGroup == null) return;
-                    lock (this.SelectedQuickReplyGroup.QuickReplys)
+                    lock (this.TemporaryQuickReplyGroup2.QuickReplys)
                     {
-                        this.SelectedQuickReplyGroup.QuickReplys.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReply)).Assign(this.TemporaryEditQuickReply);
+                        this.TemporaryQuickReplyGroup2.QuickReplys.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReply)).Assign(this.TemporaryEditQuickReply);
                     }
                     this.IsEditingQuickReply = false;
                 }, () =>
                 {
-                    return this.TemporaryEditQuickReply != null && !string.IsNullOrEmpty(this.TemporaryEditQuickReply.Name) && this.TemporaryEditQuickReply.Content != null;
+                    return this.TemporaryQuickReplyGroup2 != null && this.TemporaryEditQuickReply != null && !string.IsNullOrEmpty(this.TemporaryEditQuickReply.Name) && this.TemporaryEditQuickReply.Content != null;
                 });
             }
         }
@@ -457,11 +502,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-                    if (this.SelectedQuickReplyGroup == null) return;
                     lock (this.SelectedQuickReplyGroup.QuickReplys)
                     {
                         this.SelectedQuickReplyGroup.QuickReplys.Remove(quickReply);
                     }
+                }, (quickReply) =>
+                {
+                    return this.SelectedQuickReplyGroup != null && this.SelectedQuickReplyGroup.Level == QuickReplyGroupLevelEnum.User && quickReply != null;
                 });
             }
         }

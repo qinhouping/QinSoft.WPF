@@ -175,6 +175,9 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                         this.ChatItems.Remove(chat);
                     }
                     chat.Dispose();
+                }, (chat) =>
+                {
+                    return chat != null;
                 });
             }
         }

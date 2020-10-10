@@ -247,6 +247,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
                     this.InputMessageContent = null;
+                }, () =>
+                {
+                    return this.InputMessageContent != null;
                 });
             }
         }
@@ -327,6 +330,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Remove(oldMessage);
                         }
                     }).ExecuteInUIThread();
+                }, (oldMessage) =>
+                {
+                    return oldMessage != null && (DateTime.Now - oldMessage.MsgTime).TotalMinutes < ApplicationContextViewModel.Setting?.MaxRollbackMessageTotalMinutes;
                 });
             }
         }
@@ -348,7 +354,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
-                }, () => this.InputMessageContent != null);
+                }, () =>
+                {
+                    return this.InputMessageContent != null;
+                });
             }
         }
 
@@ -368,6 +377,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
+                }, (oldMessage) =>
+                {
+                    return oldMessage != null && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
                 });
             }
         }
@@ -520,7 +532,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             FileInfo file = await new Func<FileInfo>(() =>
             {
                 string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
-                image.ImageToStream(ImageFormat.Png).StreamToFile(tempFileName);
+                image.ImageToStream().StreamToFile(tempFileName);
                 return new FileInfo(tempFileName);
             }).ExecuteInTask();
             await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });

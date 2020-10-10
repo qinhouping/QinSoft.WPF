@@ -198,6 +198,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<EmotionInfo>((emotion) =>
                 {
                     this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
+                }, (emotion) =>
+                {
+                    return emotion != null;
                 });
             }
         }

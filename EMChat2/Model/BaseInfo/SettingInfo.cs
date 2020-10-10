@@ -46,6 +46,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 截图时是否隐藏主窗口
+        /// </summary>
         private bool isHideWhenCaptureScreen = true;
         public bool IsHideWhenCaptureScreen
         {
@@ -57,6 +60,23 @@ namespace EMChat2.Model.BaseInfo
             {
                 this.isHideWhenCaptureScreen = value;
                 this.NotifyPropertyChange(() => IsHideWhenCaptureScreen);
+            }
+        }
+
+        /// <summary>
+        /// 允许最大消息撤回的时间间隔（单位分钟，默认2分钟）
+        /// </summary>
+        private int maxRollbackMessageTotalMinutes = 2;
+        public int MaxRollbackMessageTotalMinutes
+        {
+            get
+            {
+                return this.maxRollbackMessageTotalMinutes;
+            }
+            set
+            {
+                this.maxRollbackMessageTotalMinutes = value;
+                this.NotifyPropertyChange(() => MaxRollbackMessageTotalMinutes);
             }
         }
     }

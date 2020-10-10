@@ -32,7 +32,7 @@
                                 <DataTemplate>
                                     <Grid Margin="6,0,0,0" HorizontalAlignment="Left" x:Name="grid" Cursor="Hand">
                                         <Grid.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenTagCustomerDetailCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.OpenCustomerListCommand,RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"></MouseBinding>
                                         </Grid.InputBindings>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="24"></ColumnDefinition>

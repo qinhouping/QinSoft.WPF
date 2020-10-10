@@ -146,7 +146,7 @@ namespace EMChat2.Common
                 if (image == null) throw new ArgumentNullException();
                 if (format == null)
                 {
-                    format = ImageFormat.Jpeg;
+                    format = ImageFormat.Png;
                 }
                 MemoryStream stream = new MemoryStream();
                 image.Save(stream, format);

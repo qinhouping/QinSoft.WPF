@@ -133,4 +133,13 @@ namespace QinSoft.WPF.Core
 
         #endregion
     }
+
+
+    public static class CommandTools
+    {
+        public static void ActiveExecute(this ICommand command, object parameter = null)
+        {
+            if (command.CanExecute(parameter)) command.Execute(parameter);
+        }
+    }
 }

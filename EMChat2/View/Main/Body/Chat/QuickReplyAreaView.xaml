@@ -51,8 +51,8 @@
                                 <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="系统分组"></TextBlock>
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
-                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                             </Grid>
@@ -170,8 +170,8 @@
                                 
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
-                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}"></MenuItem>
+                                        <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                             </Grid>
@@ -181,7 +181,7 @@
 
                 <!--增加快捷回复按钮-->
                 <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Gray3Brush}">
-                    <Button x:Name="addQuickReplyBtn" Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding Data.AddQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" IsEnabled="{Binding Data.Level, Source={StaticResource quickReplyData}, Converter={x:Static wpf:ValueConverters.EqualsToBooleanConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.User}}">
+                    <Button x:Name="addQuickReplyBtn" Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding Data.AddQuickReplyCommand, Source={StaticResource quickReplyGroupData}}">
                         <TextBlock Text="增加快捷回复" Style="{StaticResource BaseTextBlock}" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
                     </Button>
                 </Border>

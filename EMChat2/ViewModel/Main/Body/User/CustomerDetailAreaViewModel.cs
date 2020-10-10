@@ -117,6 +117,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.TemporaryCustomerTagAreaViewModel?.Dispose();
                     this.TemporaryCustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.TemporaryEditCustomer.Business, this.TemporaryEditCustomer.Tags.CloneArray());
                     this.IsEditingCustomer = true;
+                }, () =>
+                {
+                    return this.Customer != null;
                 });
             }
         }
@@ -153,6 +156,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.eventAggregator.PublishAsync(new OpenPrivateChatEventArgs() { ChatUser = this.Customer, IsActive = true });
+                }, () =>
+                {
+                    return this.Customer != null && this.ApplicationContextViewModel.IsLogin;
                 });
             }
         }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Input;
 
@@ -115,7 +116,7 @@ namespace EMChat2.ViewModel
 
             if (this.LoginInfo.IsAutoLogin)
             {
-                this.LoginCommand.Execute(null);
+                this.LoginCommand.ActiveExecute();
             }
         }
         #endregion
@@ -142,7 +143,7 @@ namespace EMChat2.ViewModel
                     this.userService.Login(this.LoginInfo);
                 }, () =>
                 {
-                    return !string.IsNullOrEmpty(this.LoginInfo.UserName) && !string.IsNullOrEmpty(this.LoginInfo.Password);
+                    return this.LoginInfo != null && !string.IsNullOrEmpty(this.LoginInfo.UserName) && !string.IsNullOrEmpty(this.LoginInfo.Password);
                 });
             }
         }
@@ -154,6 +155,9 @@ namespace EMChat2.ViewModel
                 return new RelayCommand<UserStateEnum>((state) =>
                 {
                     this.LoginInfo.State = state;
+                }, (state) =>
+                {
+                    return this.LoginInfo != null && this.LoginInfo.State != state;
                 });
             }
         }

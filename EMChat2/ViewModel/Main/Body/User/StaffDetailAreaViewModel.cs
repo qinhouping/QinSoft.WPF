@@ -98,6 +98,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.IsEditingStaff = false;
                     this.TemporaryEditStaff = this.Staff.Clone();
                     this.IsEditingStaff = true;
+                }, () =>
+                {
+                    return this.Staff != null && this.ApplicationContextViewModel.IsLogin && !this.Staff.Equals(this.ApplicationContextViewModel.CurrentStaff);
                 });
             }
         }
@@ -133,6 +136,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.eventAggregator.PublishAsync(new OpenPrivateChatEventArgs() { ChatUser = this.Staff, IsActive = true });
+                }, () =>
+                {
+                    return this.Staff != null && this.ApplicationContextViewModel.IsLogin && !this.Staff.Equals(this.ApplicationContextViewModel.CurrentStaff);
                 });
             }
         }

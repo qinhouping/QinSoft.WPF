@@ -45,6 +45,13 @@ namespace EMChat2.ViewModel
                 this.NotifyPropertyChange(() => this.CurrentStaff);
             }
         }
+        public bool IsLogin
+        {
+            get
+            {
+                return this.CurrentStaff != null;
+            }
+        }
         private SettingInfo setting;
         public SettingInfo Setting
         {

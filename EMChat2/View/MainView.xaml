@@ -15,7 +15,7 @@
         common:WindowInfoAttach.WindowInfo="" 
         common:WindowInfoAttach.IsFlash="{Binding IsFlash}" 
         Topmost="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}">
-    
+
     <Window.Resources>
         <common:BindingProxy x:Key="mainData" Data="{Binding}"></common:BindingProxy>
     </Window.Resources>
@@ -49,7 +49,7 @@
             </Grid>
 
 
-            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" LeftClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}">
+            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" LeftClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}" common:TaskbarIconAttach.IsFlash="{Binding Data.IsFlash, Source={StaticResource mainData}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">

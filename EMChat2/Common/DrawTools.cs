@@ -27,5 +27,15 @@ namespace EMChat2.Common
             }
             return bitmap;
         }
+
+        public static Image CreateBlank(int width = 24, int height = 24)
+        {
+            Bitmap bitmap = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+            }
+            return bitmap;
+        }
     }
 }

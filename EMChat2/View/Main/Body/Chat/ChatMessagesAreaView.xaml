@@ -19,7 +19,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid>
-            <wpfControl:AutoScrollListBox x:Name="messageList" Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding MessagesCollectionView}">
+            <wpfControl:AutoScrollListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding MessagesCollectionView}">
                 <wpfControl:AutoScrollListBox.ItemTemplate>
                     <DataTemplate>
                         <ContentControl Focusable="False">

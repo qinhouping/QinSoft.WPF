@@ -57,8 +57,7 @@
                             <Setter TargetName="PART_Border" Property="Background" Value="{Binding Background,RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource Gray1Brush}"></Setter>
-                            <Setter Property="Cursor" Value="No"></Setter>
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -91,6 +90,9 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource Gray3Brush}"></Setter>
                             <Setter Property="Cursor" Value="No"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -315,7 +317,7 @@
                             <Setter TargetName="overBorder" Property="Visibility" Value="Visible"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Cursor" Value="No"></Setter>
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

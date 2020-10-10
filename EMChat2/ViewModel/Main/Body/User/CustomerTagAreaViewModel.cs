@@ -84,6 +84,60 @@ namespace EMChat2.ViewModel.Main.Body.User
                 }
             }
         }
+        private bool isAddingTagGroup;
+        public bool IsAddingTagGroup
+        {
+            get
+            {
+                return this.isAddingTagGroup;
+            }
+            set
+            {
+                this.isAddingTagGroup = value;
+                this.NotifyPropertyChange(() => this.IsAddingTagGroup);
+                if (!isAddingTagGroup) this.TemporaryAddTagGroup = null;
+            }
+        }
+        private TagGroupInfo temporaryAddTagGroup;
+        public TagGroupInfo TemporaryAddTagGroup
+        {
+            get
+            {
+                return this.temporaryAddTagGroup;
+            }
+            set
+            {
+                this.temporaryAddTagGroup = value;
+                this.NotifyPropertyChange(() => this.TemporaryAddTagGroup);
+            }
+        }
+        private bool isEditingTagGroup;
+        public bool IsEditingTagGroup
+        {
+            get
+            {
+                return this.isEditingTagGroup;
+            }
+            set
+            {
+                this.isEditingTagGroup = value;
+                this.NotifyPropertyChange(() => this.IsEditingTagGroup);
+                if (!this.isEditingTagGroup) this.TemporaryEditTagGroup = null;
+            }
+        }
+        private TagGroupInfo temporaryEditTagGroup;
+        public TagGroupInfo TemporaryEditTagGroup
+        {
+            get
+            {
+                return this.temporaryAddTagGroup;
+            }
+            set
+            {
+                this.temporaryAddTagGroup = value;
+                this.NotifyPropertyChange(() => this.TemporaryEditTagGroup);
+            }
+        }
         #endregion
 
         #region 命令
@@ -92,7 +146,86 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand(() => { });
+                return new RelayCommand(() =>
+                {
+                    this.IsAddingTagGroup = false;
+                    this.TemporaryAddTagGroup = new TagGroupInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = null,
+                        Level = TagGroupLevelEnum.User,
+                        Business = this.Business,
+                        Tags = new ObservableCollection<TagInfo>()
+                    };
+                    this.IsAddingTagGroup = true;
+                });
+            }
+        }
+        public ICommand ConfirmAddTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    lock (this.TagGroups)
+                    {
+                        this.TagGroups.Add(this.TemporaryAddTagGroup);
+                    }
+                    this.IsAddingTagGroup = false;
+                }, () =>
+                {
+                    return this.TemporaryAddTagGroup != null && !string.IsNullOrEmpty(this.TemporaryAddTagGroup.Name);
+                });
+            }
+        }
+        public ICommand CancelAddTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.IsAddingTagGroup = false;
+                });
+            }
+        }
+
+        public ICommand EditTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand<TagGroupInfo>((tagGroup) =>
+                {
+                    this.IsEditingTagGroup = false;
+                    this.temporaryEditTagGroup = tagGroup.Clone();
+                    this.IsEditingTagGroup = true;
+                }, (tagGroup) =>
+                {
+                    return tagGroup != null && tagGroup.Level == TagGroupLevelEnum.User;
+                });
+            }
+        }
+        public ICommand ConfirmEditTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    lock (this.TagGroups)
+                    {
+                        this.TagGroups.FirstOrDefault(u => u.Equals(this.TemporaryEditTagGroup)).Assign(this.TemporaryEditTagGroup);
+                    }
+                    this.IsAddingTagGroup = false;
+                });
+            }
+        }
+        public ICommand CancelEditTagGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.IsEditingTagGroup = false;
+                });
             }
         }
         public ICommand RemoveTagGroupCommand
@@ -101,18 +234,13 @@ namespace EMChat2.ViewModel.Main.Body.User
             {
                 return new RelayCommand<TagGroupInfo>((tagGroup) =>
                 {
-                    if (tagGroup.Tags.Count > 0)
-                    {
-                        using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "无法删除非空标签组", "提示", AlertType.Warning))
-                        {
-                            new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                            return;
-                        }
-                    }
                     lock (this.TagGroups)
                     {
                         this.TagGroups.Remove(tagGroup);
                     }
+                }, (tagGroup) =>
+                {
+                    return tagGroup != null && tagGroup.Level == TagGroupLevelEnum.User && tagGroup.Tags.Count == 0;
                 });
             }
         }
@@ -134,6 +262,12 @@ namespace EMChat2.ViewModel.Main.Body.User
                                 tagGroup.Tags.Remove(tag);
                             }
                         }
+                    }
+                }, (tag) =>
+                {
+                    lock (this.TagGroups)
+                    {
+                        return tag != null && !this.TagGroups.Any(u => u.Tags.Contains(tag) && u.Level != TagGroupLevelEnum.User);
                     }
                 });
             }

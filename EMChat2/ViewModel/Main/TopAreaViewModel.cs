@@ -47,9 +47,12 @@ namespace EMChat2.ViewModel.Main
         {
             get
             {
-                return new RelayCommand<UserStateEnum>(userStateEnum =>
+                return new RelayCommand<UserStateEnum>(state =>
                 {
-                    this.applicationContextViewModel.CurrentStaff.State = userStateEnum;
+                    this.ApplicationContextViewModel.CurrentStaff.State = state;
+                }, (state) =>
+                {
+                    return this.ApplicationContextViewModel.IsLogin && this.ApplicationContextViewModel.CurrentStaff.State != state;
                 });
             }
         }

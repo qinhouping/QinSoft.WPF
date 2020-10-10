@@ -94,7 +94,7 @@
                                 <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding LoginInfo.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Offline}}"></Label>
 
                                 <Grid.ContextMenu>
-                                    <ContextMenu>
+                                    <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
                                         <MenuItem ToolTip="在线" Command="{Binding ChangeStateCommand}" CommandParameter="{x:Static baseInfo:UserStateEnum.Online}">
                                             <MenuItem.Header>
                                                 <Grid>
