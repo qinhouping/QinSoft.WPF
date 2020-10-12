@@ -78,8 +78,7 @@
       <HintPath>..\packages\DotLiquid.2.0.361\lib\net45\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.24.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.24\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -543,7 +542,6 @@
     <Content Include="emchat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\Hardcodet.Wpf.TaskbarNotification.dll" />
     <Content Include="lib\Microsoft.Expression.Interactions.dll" />
     <Content Include="lib\Microsoft.Windows.Shell.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
