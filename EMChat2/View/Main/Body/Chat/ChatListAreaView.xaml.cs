@@ -20,6 +20,19 @@ namespace EMChat2.View.Main.Body.Chat
     /// </summary>
     public partial class ChatListAreaView : UserControl
     {
+        public static readonly DependencyProperty OnlyShowUnreadProperty = DependencyProperty.Register("OnlyShowUnread", typeof(bool), typeof(QuickReplyAreaView), new PropertyMetadata(false));
+
+        public bool OnlyShowUnread
+        {
+            get
+            {
+                return (bool)this.GetValue(OnlyShowUnreadProperty);
+            }
+            set
+            {
+                this.SetValue(OnlyShowUnreadProperty, value);
+            }
+        }
         public ChatListAreaView()
         {
             InitializeComponent();

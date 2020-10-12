@@ -7,6 +7,7 @@
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:main="clr-namespace:EMChat2.View.Main"
         xmlns:common="clr-namespace:EMChat2.Common"
+        xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"  
         mc:Ignorable="d"
@@ -49,7 +50,7 @@
             </Grid>
 
 
-            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" LeftClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}" common:TaskbarIconAttach.IsFlash="{Binding Data.IsFlash, Source={StaticResource mainData}}">
+            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" PopupActivation="LeftClick" MenuActivation="RightClick" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}" common:TaskbarIconAttach.IsFlash="{Binding Data.IsFlash, Source={StaticResource mainData}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">
@@ -67,6 +68,7 @@
                                 </Grid>
                             </MenuItem.Header>
                         </MenuItem>
+                        <Separator></Separator>
                         <MenuItem Command="{Binding Data.ToggleTopmostCommand, Source={StaticResource mainData}}">
                             <MenuItem.Style>
                                 <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}">
@@ -80,10 +82,17 @@
                             </MenuItem.Style>
                         </MenuItem>
                         <MenuItem Style="{StaticResource MenuItem-H}" Header="打开主窗口" Command="{Binding Data.OpenCommand, Source={StaticResource mainData}}"></MenuItem>
+                        <Separator></Separator>
                         <MenuItem Style="{StaticResource MenuItem-H}" Header="退出登录" Command="{Binding Data.LogoutCommand, Source={StaticResource mainData}}"></MenuItem>
                         <MenuItem Style="{StaticResource MenuItem-H}" Header="退出程序" Command="{Binding Data.ExitCommand, Source={StaticResource mainData}}"></MenuItem>
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
+
+                <tb:TaskbarIcon.TrayPopup>
+                    <Border Style="{StaticResource IM-Content-Border}" MaxHeight="300" Width="240" MinWidth="240" MaxWidth="280">
+                        <chat:ChatListAreaView Margin="2" DataContext="{Binding Data.BodyAreaViewModel.ChatTabAreaViewModel.ChatListAreaViewModel, Source={StaticResource mainData}}" OnlyShowUnread="True"></chat:ChatListAreaView>
+                    </Border>
+                </tb:TaskbarIcon.TrayPopup>
             </tb:TaskbarIcon>
         </Grid>
     </Border>

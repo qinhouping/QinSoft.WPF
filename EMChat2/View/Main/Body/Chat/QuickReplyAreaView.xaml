@@ -34,7 +34,7 @@
                 <!--快捷快捷分组列表-->
                 <ListBox x:Name="quickReplyGroupList" Style="{StaticResource IM-QuickReplyGroup-List}" ItemContainerStyle="{StaticResource IM-QuickReplyGroup-ListItem}" SelectedItem="{Binding SelectedQuickReplyGroup}">
                     <ListBox.ItemsSource>
-                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyGroupFilterConvter}">
+                        <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyGroupFilterConverter}">
                             <Binding Path="QuickReplyGroups"></Binding>
                             <Binding Path="Business" ElementName="_this"></Binding>
                         </MultiBinding>

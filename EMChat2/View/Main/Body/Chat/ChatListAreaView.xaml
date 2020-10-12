@@ -8,13 +8,21 @@
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
+             x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="300">
     <UserControl.Resources>
         <common:BindingProxy x:Key="chatListData" Data="{Binding}"></common:BindingProxy>
     </UserControl.Resources>
 
     <Grid>
-        <ListBox x:Name="chatList" Style="{StaticResource IM-Chat-List}" ItemContainerStyle="{StaticResource IM-Chat-ListItem}" ItemsSource="{Binding ChatItemsCollectionView}" SelectedItem="{Binding SelectedChatItem}">
+        <ListBox x:Name="chatList" Style="{StaticResource IM-Chat-List}" ItemContainerStyle="{StaticResource IM-Chat-ListItem}" SelectedItem="{Binding SelectedChatItem}">
+            <ListBox.ItemsSource>
+                <MultiBinding Converter="{x:Static view:ValueConverters.ChatFilterConverter}">
+                    <Binding Path="ChatItemsCollectionView"></Binding>
+                    <Binding Path="OnlyShowUnread" ElementName="_this"></Binding>
+                </MultiBinding>
+            </ListBox.ItemsSource>
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ContentControl>

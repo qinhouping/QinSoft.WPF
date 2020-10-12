@@ -263,7 +263,29 @@ namespace EMChat2.View
             }
         }
 
-        public static IMultiValueConverter QuickReplyGroupFilterConvter
+        public static IMultiValueConverter ChatFilterConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    ICollectionView collectionView = values[0] as ICollectionView;
+                    bool onlyShowUnread = (bool)values[1];
+                    if (collectionView == null) return null;
+                    if (onlyShowUnread)
+                    {
+                        collectionView.Filter = (item) =>
+                        {
+                            ChatViewModel chat = item as ChatViewModel;
+                            return chat.NotReadMessageCount > 0;
+                        };
+                    }
+                    return collectionView;
+                });
+            }
+        }
+
+        public static IMultiValueConverter QuickReplyGroupFilterConverter
         {
             get
             {
