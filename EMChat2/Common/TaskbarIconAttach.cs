@@ -100,9 +100,9 @@ namespace EMChat2.Common
     }
     public class BalloonTipInfo
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = "系统提示";
         public string Content { get; set; }
-        public BalloonIcon Icon { get; set; }
+        public BalloonIcon Icon { get; set; } = BalloonIcon.Info;
     }
 
     public class FlashTimerInfo

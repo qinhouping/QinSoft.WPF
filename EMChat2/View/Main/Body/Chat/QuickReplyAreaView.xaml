@@ -157,9 +157,9 @@
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center">
-                                                        <Run Text="{Binding Name}" FontWeight="Bold"></Run>
-                                                        <Run Text=":" FontWeight="Bold"></Run>
-                                                        <Run Text="{Binding Content, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}" ToolTip="{Binding ., Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}"></Run>
+                                        <Run Text="{Binding Name}" FontWeight="Bold"></Run>
+                                        <Run Text=":" FontWeight="Bold"></Run>
+                                        <Run Text="{Binding Content, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}"></Run>
                                     </TextBlock>
                                     <ToggleButton Grid.Column="1" Style="{StaticResource IM-QuickReply-ToggleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsExpanded}"></ToggleButton>
                                 </Grid>

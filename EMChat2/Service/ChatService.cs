@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Event;
 using EMChat2.ViewModel;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;
@@ -62,7 +63,7 @@ namespace EMChat2.Service
             }).ExecuteInUIThread();
         }
 
-        public async void OpenFile(string filePath, string name, string extension)
+        public async void OpenFile(string filePath, string name)
         {
             filePath = await systemService.GetUrlMapping(filePath);
             if (filePath.IsNetUrl())
@@ -70,11 +71,10 @@ namespace EMChat2.Service
                 FileDialog fileDialog = new SaveFileDialog();
                 fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 fileDialog.FileName = name;
-                fileDialog.Filter = "文件|*." + extension;
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     await DownloadFile(filePath, fileDialog.FileName);
-                    Process.Start(filePath);
+                    Process.Start(fileDialog.FileName);
                 }
             }
             else
@@ -88,8 +88,9 @@ namespace EMChat2.Service
             try
             {
                 Stream stream = await HttpTools.DownloadAsync(url, null, null);
-                stream.StreamToFile(filePath);
+                await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
                 systemService.StoreUrlMapping(new UrlMappingInfo() { Url = url, LocalFilePath = filePath });
+                await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("文件[" + url + "]下载完成") } });
             }
             catch (Exception e)
             {

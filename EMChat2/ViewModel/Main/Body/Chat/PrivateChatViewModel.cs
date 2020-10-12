@@ -74,8 +74,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         Content = new FileMessageContent
                         {
                             Url = "http://swdlcdn.eastmoney.com/swchighexper/highexper.exe",
-                            Name = "操盘密码",
-                            Extension = "exe"
+                            Name = "操盘密码.exe",
+                            Extension = ".exe"
                         }.ObjectToJson()
                     });
                     this.Messages.Add(new MessageInfo()

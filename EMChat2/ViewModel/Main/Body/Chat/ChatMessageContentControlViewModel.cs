@@ -108,7 +108,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand(() =>
                 {
                     FileMessageContent fileMessageContent = Content as FileMessageContent;
-                    this.chatService.OpenFile(fileMessageContent.Url, fileMessageContent.Name, fileMessageContent.Extension);
+                    this.chatService.OpenFile(fileMessageContent.Url, fileMessageContent.Name);
                 }, () =>
                 {
                     return Content is FileMessageContent;

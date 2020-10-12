@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace EMChat2.Common
 {

@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Controls;
+using EMChat2.Model.Event;
 
 namespace EMChat2.ViewModel
 {
@@ -254,13 +255,9 @@ namespace EMChat2.ViewModel
             try
             {
                 Stream stream = await HttpTools.DownloadAsync(this.CurrentSource, null, null);
-                stream.StreamToFile(filePath);
+                await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
                 systemService.StoreUrlMapping(new UrlMappingInfo() { Url = this.CurrentSource, LocalFilePath = filePath });
-
-                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
-                {
-                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                }
+                await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("图片[" + this.CurrentSource + "]下载完成") } });
             }
             catch (Exception e)
             {
