@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EMChat2.Common
@@ -43,7 +44,8 @@ namespace EMChat2.Common
             if (messageContent == null) return null;
             switch (messageContent.Type)
             {
-                case MessageTypeConst.Text: return messageContent.Content.JsonToObject<TextMessageContent>().Content.Replace(Environment.NewLine, string.Empty);
+
+                case MessageTypeConst.Text: return Regex.Replace(messageContent.Content.JsonToObject<TextMessageContent>().Content, @"\s", string.Empty);
                 case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", messageContent.Content.JsonToObject<EmotionMessageContent>().Name);
                 case MessageTypeConst.Image: return string.Format("[图片]");
                 case MessageTypeConst.Voice: return null;
@@ -119,7 +121,7 @@ namespace EMChat2.Common
             List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
-            HtmlNode rootNode = htmlDocument.DocumentNode.SelectSingleNode("html");
+            HtmlNode rootNode = htmlDocument.DocumentNode;
             HtmlNodeCollection imageHtmlNodes = rootNode.SelectNodes("//img");
             if (imageHtmlNodes != null)
             {
