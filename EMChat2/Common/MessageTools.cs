@@ -127,12 +127,14 @@ namespace EMChat2.Common
             {
                 foreach (HtmlNode imageHtmlNode in imageHtmlNodes)
                 {
+                    string url = imageHtmlNode.Attributes["src"]?.Value;
+                    if (string.IsNullOrEmpty(url) || !url.IsNetUrl()) continue;
                     messageContents.Add(new MessageContentInfo()
                     {
                         Type = MessageTypeConst.Image,
                         Content = new ImageMessageContent()
                         {
-                            Url = imageHtmlNode.Attributes["src"]?.Value.Trim()
+                            Url = url
                         }.ObjectToJson()
                     });
                 }

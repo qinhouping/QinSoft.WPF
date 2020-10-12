@@ -71,19 +71,21 @@ namespace EMChat2.View
                 case MessageTypeConst.Text:
                     {
                         TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
-                        if (string.IsNullOrEmpty(textMessageContent.Content)) return;
                         string[] messageContentItems = Regex.Split(textMessageContent.Content, Environment.NewLine);
                         for (int i = 0; i < messageContentItems.Length; i++)
                         {
                             string messageContentItem = messageContentItems[i];
-                            if (block is BlockUIContainer)
+                            if (!string.IsNullOrEmpty(messageContentItem))
                             {
-                                block = new Paragraph(); document.Blocks.Add(block);
-                                (block as Paragraph).Inlines.Add(messageContentItem.Trim());
-                            }
-                            else if (block is Paragraph)
-                            {
-                                (block as Paragraph).Inlines.Add(messageContentItem.Trim());
+                                if (block is BlockUIContainer)
+                                {
+                                    block = new Paragraph(); document.Blocks.Add(block);
+                                    (block as Paragraph).Inlines.Add(messageContentItem);
+                                }
+                                else if (block is Paragraph)
+                                {
+                                    (block as Paragraph).Inlines.Add(messageContentItem);
+                                }
                             }
                             if (i < messageContentItems.Length - 1)
                             {
@@ -132,7 +134,6 @@ namespace EMChat2.View
                 if (inline is Run)
                 {
                     Run run = inline as Run;
-                    if (string.IsNullOrEmpty(run.Text)) continue;
                     if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
                     {
                         messageContent = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };

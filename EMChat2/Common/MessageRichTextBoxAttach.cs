@@ -46,10 +46,9 @@ namespace EMChat2.Common
                 case MessageTypeConst.Link:
                 case MessageTypeConst.File:
                     {
-                        object tmpMessageContent = MessageTools.ParseMessageContent(messageContent);
                         ChatMessageContentControlView ChatMessageContentControlView = new ChatMessageContentControlView()
                         {
-                            DataContext = new ChatMessageContentControlViewModel(messageContent.Type, tmpMessageContent)
+                            DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
                         };
                         InlineUIContainer inlineUIContainer = new InlineUIContainer(ChatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = inlineUIContainer.ElementEnd;
