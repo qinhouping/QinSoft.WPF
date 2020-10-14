@@ -15,7 +15,7 @@
         WindowStartupLocation="CenterScreen" ResizeMode ="NoResize">
 
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="25" CornerRadius="0" GlassFrameThickness="2" ResizeBorderThickness="2"/>
+        <shell:WindowChrome CaptionHeight="25" CornerRadius="0"/>
     </shell:WindowChrome.WindowChrome>
 
     <Border Style="{StaticResource IM-App-Border}">
@@ -33,7 +33,7 @@
             <Grid Grid.Row="0" Grid.RowSpan="2">
                 <Grid Name="layout" Background="{StaticResource DeepPurpleBrush}">
                     <Grid.Clip>
-                        <RectangleGeometry Rect="0,0,420,145"/>
+                        <RectangleGeometry Rect="-1,0,420,145"/>
                     </Grid.Clip>
                 </Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -140,7 +140,7 @@
                     </Border>
 
                     <!--登录数据-->
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Margin="1">
                         <!--登录表单-->
                         <Grid Visibility="{Binding IsLogging,Converter={x:Static wpf:ValueConverters.ReverseBooleanToVisibilityConverter}}">
                             <Grid.RowDefinitions>
