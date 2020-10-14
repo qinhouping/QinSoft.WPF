@@ -30,8 +30,8 @@
                 <view:ShellbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellbarAreaView>
             </Grid>
 
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5" x:Name="img" Margin="1">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Margin="1">
+                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5" x:Name="img">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <TranslateTransform X="{Binding Left}" Y="{Binding Top}"/>
