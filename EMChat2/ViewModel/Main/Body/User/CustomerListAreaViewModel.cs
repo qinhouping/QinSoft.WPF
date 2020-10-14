@@ -109,6 +109,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }
             set
             {
+                if (this.business == value) return;
                 this.business = value;
                 this.NotifyPropertyChange(() => this.Business);
                 this.CustomerTagAreaViewModel?.Dispose();

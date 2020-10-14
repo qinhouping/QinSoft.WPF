@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EMChat2.View
 {
     /// <summary>
-    /// TaskbarAreaView.xaml 的交互逻辑
+    /// ShellbarAreaView.xaml 的交互逻辑
     /// </summary>
-    public partial class TaskbarAreaView : UserControl
+    public partial class ShellbarAreaView : UserControl
     {
-        public TaskbarAreaView()
+        public ShellbarAreaView()
         {
             InitializeComponent();
         }

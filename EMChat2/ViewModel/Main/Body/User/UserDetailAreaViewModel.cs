@@ -138,6 +138,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(LogoutEventArgs arg)
         {
+            this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
             this.CustomerDetailAreaViewModel.Customer = null;
             this.Type = null;
@@ -145,6 +146,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(ExitEventArgs arg)
         {
+            this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
             this.CustomerDetailAreaViewModel.Customer = null;
             this.Type = null;

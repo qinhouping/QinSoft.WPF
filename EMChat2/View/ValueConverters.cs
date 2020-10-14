@@ -20,6 +20,40 @@ namespace EMChat2.View
 {
     public static class ValueConverters
     {
+        public static IMultiValueConverter ShellbarButtonIsEnabledConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    ResizeMode resize = (ResizeMode)values[0];
+                    WindowState currentState = (WindowState)values[1];
+                    WindowState targetState = (WindowState)parameter;
+                    switch (resize)
+                    {
+                        case ResizeMode.CanMinimize:
+                            {
+                                return targetState == WindowState.Minimized;
+                            }
+                        case ResizeMode.CanResize:
+                            {
+                                return targetState != currentState;
+                            }
+                        case ResizeMode.CanResizeWithGrip:
+                            {
+                                return targetState != currentState;
+                            }
+                        case ResizeMode.NoResize:
+                            {
+                                return targetState == WindowState.Minimized;
+                            }
+                        default:
+                            return false;
+                    }
+                });
+            }
+        }
+
         public static IValueConverter MessageToContentMarkConverter
         {
             get

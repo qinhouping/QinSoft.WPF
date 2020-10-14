@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
         xmlns:common="clr-namespace:EMChat2.Common"
@@ -24,7 +26,7 @@
             </Grid.RowDefinitions>
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <view:TaskbarAreaView></view:TaskbarAreaView>
+                <view:ShellbarAreaView></view:ShellbarAreaView>
             </Grid>
 
             <!--背景-->

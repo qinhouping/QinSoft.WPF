@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:main="clr-namespace:EMChat2.View.Main"
@@ -15,7 +17,7 @@
         WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip"
         common:WindowInfoAttach.WindowInfo="" 
         common:WindowInfoAttach.IsFlash="{Binding IsFlash}" 
-        Topmost="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}">
+        Topmost="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}" Closing="Window_Closing">
 
     <Window.Resources>
         <common:BindingProxy x:Key="mainData" Data="{Binding}"></common:BindingProxy>
@@ -32,7 +34,7 @@
     <Border Style="{StaticResource IM-App-Border}" Background="Transparent">
         <Grid>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <view:TaskbarAreaView></view:TaskbarAreaView>
+                <view:ShellbarAreaView></view:ShellbarAreaView>
             </Grid>
 
             <Grid>

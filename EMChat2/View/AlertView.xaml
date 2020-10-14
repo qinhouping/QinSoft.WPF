@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:view="clr-namespace:EMChat2.View"
         xmlns:viewModel="clr-namespace:EMChat2.ViewModel"
         xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
@@ -10,6 +12,7 @@
         mc:Ignorable="d"
         Title="{Binding Title}" MinHeight="120" Height="120" Width="250" MinWidth="250" MaxWidth="350"
         WindowStartupLocation="CenterOwner" ResizeMode ="NoResize" Topmost="True">
+
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="25" CornerRadius="0" GlassFrameThickness="2" ResizeBorderThickness="2"/>
     </shell:WindowChrome.WindowChrome>
@@ -27,7 +30,7 @@
             </Grid>
 
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <view:TaskbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:TaskbarAreaView>
+                <view:ShellbarAreaView x:Name="windowBar" VerticalAlignment="Top"></view:ShellbarAreaView>
             </Grid>
 
             <Grid Grid.Row="1" Margin="30,0">

@@ -122,6 +122,7 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 命令
+
         public ICommand CloseCommand
         {
             get

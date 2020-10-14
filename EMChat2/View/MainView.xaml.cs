@@ -1,7 +1,10 @@
 ﻿using EMChat2.Common;
+using EMChat2.ViewModel;
+using QinSoft.WPF.Core;
 using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -24,6 +27,12 @@ namespace EMChat2.View
         public MainView()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            (this.DataContext as MainViewModel).CloseCommand.ActiveExecute();
         }
     }
 }

@@ -311,8 +311,8 @@
     <Compile Include="View\Main\TopAreaView.xaml.cs">
       <DependentUpon>TopAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TaskbarAreaView.xaml.cs">
-      <DependentUpon>TaskbarAreaView.xaml</DependentUpon>
+    <Compile Include="View\ShellbarAreaView.xaml.cs">
+      <DependentUpon>ShellbarAreaView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -522,7 +522,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TaskbarAreaView.xaml">
+    <Page Include="View\ShellbarAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
