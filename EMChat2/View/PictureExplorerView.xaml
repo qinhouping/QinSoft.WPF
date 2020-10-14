@@ -31,7 +31,7 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5" x:Name="img">
+                <Image Source="{Binding CurrentSource}" RenderTransformOrigin="0.5,0.5" x:Name="img" Margin="1">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <TranslateTransform X="{Binding Left}" Y="{Binding Top}"/>
