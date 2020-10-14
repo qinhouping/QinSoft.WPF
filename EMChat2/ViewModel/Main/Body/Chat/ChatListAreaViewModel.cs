@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>, IEventHandle<OpenPrivateChatEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>, IEventHandle<OpenPrivateChatEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -91,6 +91,19 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 this.chatItems.CollectionChanged += (s, e) =>
                 {
                     this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+
+                    //自动选择第一项
+                    if (this.SelectedChatItem == null)
+                    {
+                        lock (this.ChatItems)
+                        {
+                            if (!this.ChatItemsCollectionView.IsEmpty)
+                            {
+                                this.ChatItemsCollectionView.MoveCurrentToFirst();
+                                this.SelectedChatItem = this.ChatItemsCollectionView.CurrentItem as ChatViewModel;
+                            }
+                        }
+                    }
                 };
                 this.NotifyPropertyChange(() => this.ChatItems);
                 this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
@@ -173,8 +186,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                     lock (this.ChatItems)
                     {
                         this.ChatItems.Remove(chat);
+                        chat.Dispose();
                     }
-                    chat.Dispose();
                 }, (chat) =>
                 {
                     return chat != null;
@@ -240,7 +253,38 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(NotReadMessageCountChangedEventArgs Message)
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    foreach (ChatViewModel chat in this.ChatItems.ToArray())
+                    {
+                        this.ChatItems.Remove(chat);
+                        chat.Dispose();
+                    }
+                }
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    foreach (ChatViewModel chat in this.ChatItems.ToArray())
+                    {
+                        this.ChatItems.Remove(chat);
+                        chat.Dispose();
+                    }
+                }
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(NotReadMessageCountChangedEventArgs arg)
         {
             this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
         }
@@ -251,7 +295,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             this.SelectedChatItem.TemporaryInputMessagContent = arg.MessageContent.Clone();
         }
 
-        public void Handle(RefreshChatsEventArgs Message)
+        public void Handle(RefreshChatsEventArgs arg)
         {
             if (!isRefreshingChats)
             {

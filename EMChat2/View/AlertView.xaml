@@ -11,7 +11,7 @@
         Title="{Binding Title}" MinHeight="120" Height="120" Width="250" MinWidth="250" MaxWidth="350"
         WindowStartupLocation="CenterOwner" ResizeMode ="NoResize" Topmost="True">
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="30" CornerRadius="0" UseNoneWindowStyle="True"/>
+        <shell:WindowChrome CaptionHeight="25" CornerRadius="0" GlassFrameThickness="2" ResizeBorderThickness="2"/>
     </shell:WindowChrome.WindowChrome>
 
     <Border Style="{StaticResource IM-App-Border}">

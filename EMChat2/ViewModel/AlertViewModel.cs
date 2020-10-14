@@ -1,4 +1,5 @@
-﻿using QinSoft.Event;
+﻿using EMChat2.Common;
+using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
 using System;
@@ -91,7 +92,7 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.CloseWindow(this, true);
+                    new Action(() => this.windowManager.CloseWindow(this, true)).ExecuteInUIThread();
                 });
             }
         }
@@ -102,7 +103,7 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.CloseWindow(this, null);
+                    new Action(() => this.windowManager.CloseWindow(this, null)).ExecuteInUIThread();
                 });
             }
         }

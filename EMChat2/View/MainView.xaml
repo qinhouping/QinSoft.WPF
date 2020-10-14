@@ -22,7 +22,7 @@
     </Window.Resources>
 
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="25" CornerRadius="0" UseNoneWindowStyle="True"/>
+        <shell:WindowChrome CaptionHeight="25" CornerRadius="0" GlassFrameThickness="2" ResizeBorderThickness="2"/>
     </shell:WindowChrome.WindowChrome>
 
     <Window.Background>
@@ -50,7 +50,7 @@
             </Grid>
 
 
-            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" PopupActivation="LeftClick" MenuActivation="RightClick" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}" common:TaskbarIconAttach.IsFlash="{Binding Data.IsFlash, Source={StaticResource mainData}}">
+            <tb:TaskbarIcon IconSource="/Resource/Image/taskbarLogo.ico" ToolTipText="{Binding Data.ApplicationContextViewModel.CurrentStaff.Name, Source={StaticResource mainData}}" LeftClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" DoubleClickCommand="{Binding Data.OpenCommand, Source={StaticResource mainData}}" PopupActivation="LeftClick" MenuActivation="RightClick" common:TaskbarIconAttach.BalloonTip="{Binding Data.BalloonTip, Source={StaticResource mainData}}" common:TaskbarIconAttach.IsFlash="{Binding Data.IsFlash, Source={StaticResource mainData}}" Visibility="{Binding Data.ApplicationContextViewModel.IsLogin, Source={StaticResource mainData}, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource BaseContextMenu}">
                         <MenuItem Style="{StaticResource MenuItem-H}">
@@ -88,11 +88,11 @@
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
 
-                <tb:TaskbarIcon.TrayPopup>
+                <tb:TaskbarIcon.TrayToolTip>
                     <Border Style="{StaticResource IM-Content-Border}" MaxHeight="300" Width="240" MinWidth="240" MaxWidth="280">
                         <chat:ChatListAreaView Margin="2" DataContext="{Binding Data.BodyAreaViewModel.ChatTabAreaViewModel.ChatListAreaViewModel, Source={StaticResource mainData}}" OnlyShowUnread="True"></chat:ChatListAreaView>
                     </Border>
-                </tb:TaskbarIcon.TrayPopup>
+                </tb:TaskbarIcon.TrayToolTip>
             </tb:TaskbarIcon>
         </Grid>
     </Border>

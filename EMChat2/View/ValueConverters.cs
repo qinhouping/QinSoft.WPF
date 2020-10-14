@@ -344,7 +344,7 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     StaffInfo staff = value as StaffInfo;
-                    string content = string.Format("{0}{1}{2}", AppTools.AppName, staff?.WorkCode, staff.Name);
+                    string content = string.Format("{0}{1}{2}", AppTools.AppName, staff?.WorkCode, staff?.Name);
                     Image image = DrawTools.CreateWaterMark(content);
 
                     BitmapImage bitmapImage = new BitmapImage { CacheOption = BitmapCacheOption.None, CreateOptions = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreImageCache };

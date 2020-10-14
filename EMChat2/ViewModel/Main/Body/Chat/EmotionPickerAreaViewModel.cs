@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     [Component]
-    public class EmotionPickerAreaViewModel : PropertyChangedBase
+    public class EmotionPickerAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
         public EmotionPickerAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -28,7 +28,66 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.EmotionPackages = new ObservableCollection<EmotionPackageInfo>();
+        }
+        #endregion
 
+        #region 属性
+        private IWindowManager windowManager;
+        private EventAggregator eventAggregator;
+        private ObservableCollection<EmotionPackageInfo> emotionPackages;
+        public ObservableCollection<EmotionPackageInfo> EmotionPackages
+        {
+            get
+            {
+                return this.emotionPackages;
+            }
+            set
+            {
+                this.emotionPackages = value;
+                this.NotifyPropertyChange(() => this.EmotionPackages);
+            }
+        }
+        private EmotionPackageInfo selectedEmotionPackage;
+        public EmotionPackageInfo SelectedEmotionPackage
+        {
+            get
+            {
+                return this.selectedEmotionPackage;
+            }
+            set
+            {
+                this.selectedEmotionPackage = value;
+                this.NotifyPropertyChange(() => this.SelectedEmotionPackage);
+            }
+        }
+        #endregion
+
+        #region 方法
+
+        #endregion
+
+        #region 命令
+        public ICommand SelectEmotionCommand
+        {
+            get
+            {
+                return new RelayCommand<EmotionInfo>((emotion) =>
+                {
+                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
+                }, (emotion) =>
+                {
+                    return emotion != null;
+                });
+            }
+        }
+        #endregion
+
+        #region 事件处理
+
+
+        public void Handle(LoginEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
             //TODO 测试数据
             new Action(() =>
             {
@@ -153,56 +212,21 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 });
             }).ExecuteInUIThread();
         }
-        #endregion
 
-        #region 属性
-        private IWindowManager windowManager;
-        private EventAggregator eventAggregator;
-        private ObservableCollection<EmotionPackageInfo> emotionPackages;
-        public ObservableCollection<EmotionPackageInfo> EmotionPackages
+        public void Handle(LogoutEventArgs arg)
         {
-            get
+            new Action(() =>
             {
-                return this.emotionPackages;
-            }
-            set
-            {
-                this.emotionPackages = value;
-                this.NotifyPropertyChange(() => this.EmotionPackages);
-            }
+                this.EmotionPackages.Clear();
+            }).ExecuteInUIThread();
         }
-        private EmotionPackageInfo selectedEmotionPackage;
-        public EmotionPackageInfo SelectedEmotionPackage
+
+        public void Handle(ExitEventArgs arg)
         {
-            get
+            new Action(() =>
             {
-                return this.selectedEmotionPackage;
-            }
-            set
-            {
-                this.selectedEmotionPackage = value;
-                this.NotifyPropertyChange(() => this.SelectedEmotionPackage);
-            }
-        }
-        #endregion
-
-        #region 方法
-
-        #endregion
-
-        #region 命令
-        public ICommand SelectEmotionCommand
-        {
-            get
-            {
-                return new RelayCommand<EmotionInfo>((emotion) =>
-                {
-                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
-                }, (emotion) =>
-                {
-                    return emotion != null;
-                });
-            }
+                this.EmotionPackages.Clear();
+            }).ExecuteInUIThread();
         }
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿using EMChat2.Model.BaseInfo;
+﻿using DotLiquid.Util;
+using EMChat2.Common;
+using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.View.Main.Body.User;
 using QinSoft.Event;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<UseDetailEventArgs>
+    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<UseDetailEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
         public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerListAreaViewModel customerListAreaViewModel)
@@ -132,6 +134,20 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.CustomerDetailAreaViewModel.Customer = arg.Data as CustomerInfo;
                     break;
             }
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            this.StaffDetailAreaViewModel.Staff = null;
+            this.CustomerDetailAreaViewModel.Customer = null;
+            this.Type = null;
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            this.StaffDetailAreaViewModel.Staff = null;
+            this.CustomerDetailAreaViewModel.Customer = null;
+            this.Type = null;
         }
         #endregion
     }

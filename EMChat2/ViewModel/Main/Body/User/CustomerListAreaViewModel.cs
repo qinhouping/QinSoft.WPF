@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<UserEditEventArgs>
+    public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<UserEditEventArgs>
     {
         #region 构造函数
         public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
@@ -27,56 +27,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
             this.customers = new ObservableCollection<CustomerInfo>();
             this.selectedCustomer = null;
-
-            //TODO 测试数据
-            new Action(() =>
-            {
-                this.Customers.Clear();
-                this.Customers.Add(new CustomerInfo()
-                {
-                    Id = "customer1",
-                    Business = BusinessEnum.Advisor,
-                    Description = "测试客户1-测试描述",
-                    FollowTime = DateTime.Now,
-                    HeaderImageUrl = "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3401732207,3726302783&fm=26&gp=0.jpg",
-                    ImUserId = "customer1",
-                    Name = "测试客户1",
-                    Remark = "测试客户1-测试备注",
-                    Sex = SexEnum.Man,
-                    State = UserStateEnum.Online,
-                    Tags = new ObservableCollection<TagInfo>()
-                     {
-                         new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
-                         new TagInfo(){ Id="11", Name="首次", IsSelected=true },
-                         new TagInfo(){ Id="21", Name="是", IsSelected=true }
-                     },
-                    Uid = "customer1"
-                });
-                this.Customers.Add(new CustomerInfo()
-                {
-                    Id = "customer2",
-                    Business = BusinessEnum.Advisor,
-                    Description = "测试客户2-测试描述",
-                    FollowTime = DateTime.Now,
-                    HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2156833431,1671740038&fm=26&gp=0.jpg",
-                    ImUserId = "customer2",
-                    Name = "测试客户2",
-                    Remark = "测试客户2-测试备注",
-                    Sex = SexEnum.Man,
-                    State = UserStateEnum.Busy,
-                    Uid = "customer2"
-                });
-                this.Customers.Add(new CustomerInfo()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    ImUserId = "2",
-                    Name = "私聊-售前",
-                    HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3497889296,4029642021&fm=111&gp=0.jpg",
-                    State = UserStateEnum.Online,
-                    Business = BusinessEnum.PreSale,
-                    Uid = "1"
-                });
-            }).ExecuteInUIThread();
         }
         #endregion
 
@@ -163,11 +113,87 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.Business);
                 this.CustomerTagAreaViewModel?.Dispose();
                 this.CustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.business);
+
+
+                //TODO 测试数据
+                new Action(() =>
+                {
+                    this.Customers.Clear();
+                    this.Customers.Add(new CustomerInfo()
+                    {
+                        Id = "customer1",
+                        Business = BusinessEnum.Advisor,
+                        Description = "测试客户1-测试描述",
+                        FollowTime = DateTime.Now,
+                        HeaderImageUrl = "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3401732207,3726302783&fm=26&gp=0.jpg",
+                        ImUserId = "customer1",
+                        Name = "测试客户1",
+                        Remark = "测试客户1-测试备注",
+                        Sex = SexEnum.Man,
+                        State = UserStateEnum.Online,
+                        Tags = new ObservableCollection<TagInfo>()
+                     {
+                         new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
+                         new TagInfo(){ Id="11", Name="首次", IsSelected=true },
+                         new TagInfo(){ Id="21", Name="是", IsSelected=true }
+                     },
+                        Uid = "customer1"
+                    });
+                    this.Customers.Add(new CustomerInfo()
+                    {
+                        Id = "customer2",
+                        Business = BusinessEnum.Advisor,
+                        Description = "测试客户2-测试描述",
+                        FollowTime = DateTime.Now,
+                        HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2156833431,1671740038&fm=26&gp=0.jpg",
+                        ImUserId = "customer2",
+                        Name = "测试客户2",
+                        Remark = "测试客户2-测试备注",
+                        Sex = SexEnum.Man,
+                        State = UserStateEnum.Busy,
+                        Uid = "customer2"
+                    });
+                    this.Customers.Add(new CustomerInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ImUserId = "2",
+                        Name = "私聊-售前",
+                        HeaderImageUrl = "https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3497889296,4029642021&fm=111&gp=0.jpg",
+                        State = UserStateEnum.Online,
+                        Business = BusinessEnum.PreSale,
+                        Uid = "1"
+                    });
+                }).ExecuteInUIThread();
             }
         }
         #endregion
 
         #region 事件处理
+
+        public void Handle(LoginEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            this.CustomerTagAreaViewModel?.Dispose();
+            this.CustomerTagAreaViewModel = null;
+            new Action(() =>
+            {
+                this.Customers.Clear();
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            this.CustomerTagAreaViewModel?.Dispose();
+            this.CustomerTagAreaViewModel = null;
+            new Action(() =>
+            {
+                this.Customers.Clear();
+            }).ExecuteInUIThread();
+        }
         public void Handle(UserEditEventArgs arg)
         {
             this.Customers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);

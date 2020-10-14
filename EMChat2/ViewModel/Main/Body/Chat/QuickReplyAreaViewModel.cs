@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     [Component]
-    public class QuickReplyAreaViewModel : PropertyChangedBase
+    public class QuickReplyAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region  构造函数   
         public QuickReplyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
@@ -27,70 +27,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.QuickReplyGroups = new ObservableCollection<QuickReplyGroupInfo>();
-
-            // TODO 测试数据
-            new Action(() =>
-            {
-                this.QuickReplyGroups.Clear();
-                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevelEnum.System,
-                    Name = "系统默认分组",
-                    Business = BusinessEnum.Advisor,
-                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
-                    {
-                        new QuickReplyInfo()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name="问候",
-                            Content=new MessageContentInfo(){
-                                Type= MessageTypeConst.Text,
-                                Content= new TextMessageContent(){ Content="你好！"}.ObjectToJson()
-                            }
-                        }
-                    }
-                });
-                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevelEnum.User,
-                    Name = "个人默认分组",
-                    Business = BusinessEnum.PreSale,
-                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
-                    {
-                        new QuickReplyInfo()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name="问候",
-                            Content=new MessageContentInfo(){
-                                Type= MessageTypeConst.Mixed,
-                                Content= new MixedMessageContent() {
-                                    Items = new MessageContentInfo[] {
-                                        new MessageContentInfo()
-                                        {
-                                            Type=MessageTypeConst.Text,
-                                            Content= new TextMessageContent(){
-                                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                            }.ObjectToJson()
-                                        },
-                                        new MessageContentInfo()
-                                        {
-                                            Type=MessageTypeConst.Link,
-                                            Content= new LinkMessageContent {
-                                                Url = "https://www.baidu.com/",
-                                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
-                                                Title = "测试链接",
-                                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                            }.ObjectToJson()
-                                        }
-                                    }
-                                }.ObjectToJson()
-                            }
-                        }
-                    }
-                });
-            }).ExecuteInUIThread();
         }
         #endregion
 
@@ -522,6 +458,90 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply.Content });
                 });
             }
+        }
+
+        public void Handle(LoginEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
+            // TODO 测试数据
+            new Action(() =>
+            {
+                this.QuickReplyGroups.Clear();
+                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Level = QuickReplyGroupLevelEnum.System,
+                    Name = "系统默认分组",
+                    Business = BusinessEnum.Advisor,
+                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                    {
+                        new QuickReplyInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name="问候",
+                            Content=new MessageContentInfo(){
+                                Type= MessageTypeConst.Text,
+                                Content= new TextMessageContent(){ Content="你好！"}.ObjectToJson()
+                            }
+                        }
+                    }
+                });
+                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Level = QuickReplyGroupLevelEnum.User,
+                    Name = "个人默认分组",
+                    Business = BusinessEnum.PreSale,
+                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                    {
+                        new QuickReplyInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name="问候",
+                            Content=new MessageContentInfo(){
+                                Type= MessageTypeConst.Mixed,
+                                Content= new MixedMessageContent() {
+                                    Items = new MessageContentInfo[] {
+                                        new MessageContentInfo()
+                                        {
+                                            Type=MessageTypeConst.Text,
+                                            Content= new TextMessageContent(){
+                                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                                            }.ObjectToJson()
+                                        },
+                                        new MessageContentInfo()
+                                        {
+                                            Type=MessageTypeConst.Link,
+                                            Content= new LinkMessageContent {
+                                                Url = "https://www.baidu.com/",
+                                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
+                                                Title = "测试链接",
+                                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
+                                            }.ObjectToJson()
+                                        }
+                                    }
+                                }.ObjectToJson()
+                            }
+                        }
+                    }
+                });
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            new Action(() =>
+            {
+                this.QuickReplyGroups.Clear();
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            new Action(() =>
+            {
+                this.QuickReplyGroups.Clear();
+            }).ExecuteInUIThread();
         }
         #endregion
         #endregion

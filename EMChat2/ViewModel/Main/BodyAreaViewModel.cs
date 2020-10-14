@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main
 {
     [Component]
-    public class BodyAreaViewModel : PropertyChangedBase, IEventHandle<OpenPrivateChatEventArgs>
+    public class BodyAreaViewModel : PropertyChangedBase, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
     {
         #region 构造函数
         public BodyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ChatTabAreaViewModel chatTabAreaViewModel, UserTabAreaViewModel userTabAreaViewModel)
@@ -74,6 +74,16 @@ namespace EMChat2.ViewModel.Main
         public void Handle(OpenPrivateChatEventArgs arg)
         {
             if (arg.IsActive) this.SelectedIndex = 0;
+        }
+
+        public void Handle(LogoutEventArgs arg)
+        {
+            this.SelectedIndex = 0;
+        }
+
+        public void Handle(ExitEventArgs arg)
+        {
+            this.SelectedIndex = 0;
         }
         #endregion
     }

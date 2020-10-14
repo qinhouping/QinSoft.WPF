@@ -29,18 +29,6 @@ namespace EMChat2.ViewModel
             this.bodyAreaViewModel = bodyAreaViewModel;
             this.bottomAreaViewModel = bottomAreaViewModel;
             this.userService = userService;
-
-            //TODO 测试数据
-            new Action(() =>
-            {
-                this.IsFlash = true;
-                this.BalloonTip = new BalloonTipInfo()
-                {
-                    Title = "Test",
-                    Content = "测试提醒",
-                    Icon = Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
-                };
-            }).ExecuteInUIThread();
         }
         #endregion
 
@@ -135,7 +123,7 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.ShowWindow(this);
+                    new Action(() => this.windowManager.ShowWindow(this)).ExecuteInUIThread();
                 });
             }
         }
@@ -146,7 +134,7 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.HideWindow(this);
+                    new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
                 });
             }
         }
@@ -206,11 +194,11 @@ namespace EMChat2.ViewModel
         {
             if (arg.Action == CaptureScreenAction.Begin)
             {
-                this.windowManager.HideWindow(this);
+                new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }
             else if (arg.Action == CaptureScreenAction.End)
             {
-                this.windowManager.ShowWindow(this);
+                new Action(() => this.windowManager.ShowWindow(this)).ExecuteInUIThread();
             }
         }
 

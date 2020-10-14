@@ -128,7 +128,7 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    this.windowManager.CloseWindow(this);
+                    new Action(() => this.windowManager.CloseWindow(this)).ExecuteInUIThread();
                 });
             }
         }
@@ -170,6 +170,7 @@ namespace EMChat2.ViewModel
             if (arg.IsSuccess)
             {
                 this.LoginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
+                this.oldLoginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
                 this.systemService.StoreLoginInfo(this.LoginInfo);
                 new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }

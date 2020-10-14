@@ -159,8 +159,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public void Dispose()
         {
-            this.customerDetailAreaViewModel.Dispose();
-            this.staffDetailAreaViewModel.Dispose();
+            this.CustomerDetailAreaViewModel.Dispose();
+            this.StaffDetailAreaViewModel.Dispose();
             this.eventAggregator.Unsubscribe(this);
         }
     }
