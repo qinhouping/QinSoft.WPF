@@ -51,7 +51,7 @@ namespace EMChat2
             base.OnExit(e);
         }
 
-        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Debug.WriteLine(string.Format("App_DispatcherUnhandledException:{0}", e.Exception));
             e.Handled = true;

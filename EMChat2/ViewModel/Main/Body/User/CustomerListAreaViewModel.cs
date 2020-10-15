@@ -109,12 +109,10 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }
             set
             {
-                if (this.business == value) return;
                 this.business = value;
                 this.NotifyPropertyChange(() => this.Business);
                 this.CustomerTagAreaViewModel?.Dispose();
                 this.CustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.business);
-
 
                 //TODO 测试数据
                 new Action(() =>

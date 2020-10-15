@@ -530,6 +530,8 @@
   <ItemGroup>
     <Resource Include="Resource\Image\taskbarLogo.ico" />
     <Resource Include="logo.ico" />
+    <Resource Include="Resource\Image\exit.ico" />
+    <Resource Include="Resource\Image\logout.ico" />
     <Content Include="Tools\CaptureScreen.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

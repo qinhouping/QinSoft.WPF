@@ -31,6 +31,15 @@
         <ImageBrush ImageSource="{Binding ApplicationContextViewModel.CurrentStaff, Converter={x:Static view:ValueConverters.StaffToImageConverter}}" TileMode="Tile"  Stretch="Fill"  ViewportUnits="Absolute"  Viewport="0,0,200,200"></ImageBrush>
     </Window.Background>
 
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo ImageSource="/Resource/Image/logout.ico" Description="退出登录" Command="{Binding Data.LogoutCommand, Source={StaticResource mainData}}"></ThumbButtonInfo>
+                <ThumbButtonInfo ImageSource="/Resource/Image/exit.ico" Description="结束程序" Command="{Binding Data.ExitCommand, Source={StaticResource mainData}}"></ThumbButtonInfo>
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
     <Border Style="{StaticResource IM-App-Border}" Background="Transparent">
         <Grid>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">

@@ -156,7 +156,7 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" ToolTip="{Binding Content, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}">
                                         <Run Text="{Binding Name}" FontWeight="Bold"></Run>
                                         <Run Text=":" FontWeight="Bold"></Run>
                                         <Run Text="{Binding Content, Converter={x:Static view:ValueConverters.MessageToContentMarkConverter}}"></Run>
@@ -167,9 +167,10 @@
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="0,5" MaxHeight="100" Visibility="{Binding IsExpanded, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
                                     <wpfControl:AutoAdjustRichTextBox ContextMenu="{x:Null}" HorizontalAlignment="Left" IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding Content,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=OneWay}" IsReadOnly="True" Width="250" MaxWidth="250"></wpfControl:AutoAdjustRichTextBox>
                                 </ScrollViewer>
-                                
+
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                        <MenuItem Header="发送" Command="{Binding Data.SelectQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
                                         <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
                                         <MenuItem Header="移除" Command="{Binding Data.RemoveQuickReplyCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>
                                     </ContextMenu>
