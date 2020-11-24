@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<InputMessageContentEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserEditEventArgs>, IEventHandle<OpenPrivateChatEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -138,7 +138,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 this.selectedChatItem = value;
                 this.NotifyPropertyChange(() => this.SelectedChatItem);
-                this.eventAggregator.PublishAsync(new ChatDetailEventArgs() { ChatItem = this.selectedChatItem });
+                this.eventAggregator.PublishAsync(new SelectChatDetailEventArgs() { ChatItem = this.selectedChatItem });
             }
         }
         private ChatService chatService;
@@ -197,7 +197,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 事件处理
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
 
@@ -254,7 +254,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         }
 
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -269,7 +269,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -289,7 +289,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
         }
 
-        public void Handle(InputMessageContentEventArgs arg)
+        public void Handle(TemporaryInputMessagContentChangedEventArgs arg)
         {
             if (this.SelectedChatItem == null) return;
             this.SelectedChatItem.TemporaryInputMessagContent = arg.MessageContent.Clone();
@@ -313,7 +313,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }
         }
 
-        public void Handle(UserEditEventArgs arg)
+        public void Handle(UserInfoChangedEventArgs arg)
         {
             lock (this.ChatItems)
             {
@@ -381,6 +381,16 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                     if (arg.IsActive) this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(privateChatViewModel));
                 }
             }).ExecuteInUIThread();
+        }
+
+        public void Handle(MessageStateChangedEventArgs arg)
+        {
+            ChatViewModel chat = this.ChatItems.FirstOrDefault(u => u.Chat.ChatId.Equals(arg.Message.ChatId));
+            if (chat == null) return;
+            MessageInfo message = chat.Messages.FirstOrDefault(u => u.Equals(arg.Message));
+            if (message == null) return;
+            message.MsgId = arg.Message.MsgId;
+            message.State = arg.Message.State;
         }
         #endregion
     }

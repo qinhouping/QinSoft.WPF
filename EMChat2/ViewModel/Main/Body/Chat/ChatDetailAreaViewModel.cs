@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatDetailAreaViewModel : PropertyChangedBase, IEventHandle<ChatDetailEventArgs>
+    public class ChatDetailAreaViewModel : PropertyChangedBase, IEventHandle<SelectChatDetailEventArgs>
     {
         #region 构造函数
         public ChatDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -44,7 +44,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 事件处理
-        public void Handle(ChatDetailEventArgs arg)
+        public void Handle(SelectChatDetailEventArgs arg)
         {
             this.CurrentChatItem = arg.ChatItem;
         }

@@ -100,6 +100,14 @@ namespace EMChat2.Service
                 }
             }
         }
+
+        public async void SendMessage(MessageInfo message)
+        {
+            await Task.Delay(1000);
+            message.MsgId = Guid.NewGuid().ToString();
+            message.State = MessageStateEnum.SendSuccess;
+            await this.eventAggregator.PublishAsync(new MessageStateChangedEventArgs() { Message = message });
+        }
         #endregion
     }
 }

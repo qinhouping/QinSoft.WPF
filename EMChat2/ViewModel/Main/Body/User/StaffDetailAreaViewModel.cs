@@ -112,7 +112,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.Staff.Assign(this.TemporaryEditStaff);
-                    if (isInform) this.eventAggregator.PublishAsync(new UserEditEventArgs() { User = this.TemporaryEditStaff });
+                    if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditStaff });
                     this.IsEditingStaff = false;
                 });
             }

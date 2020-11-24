@@ -36,7 +36,7 @@ namespace EMChat2.Service
         public async void Login(LoginInfo loginInfo)
         {
             await Task.Delay(1000);
-            await eventAggregator.PublishAsync(new LoginEventArgs()
+            await eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
                 IsSuccess = true,
                 Staff = new StaffInfo()
@@ -57,12 +57,12 @@ namespace EMChat2.Service
 
         public async void Logout()
         {
-            await eventAggregator.PublishAsync(new LogoutEventArgs());
+            await eventAggregator.PublishAsync(new LogoutCallbackEventArgs());
         }
 
         public async void Exit()
         {
-            await eventAggregator.PublishAsync(new ExitEventArgs());
+            await eventAggregator.PublishAsync(new ExitCallbackEventArgs());
         }
         #endregion
     }

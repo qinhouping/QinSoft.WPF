@@ -8,10 +8,8 @@ namespace EMChat2.Model.Event
 {
     public class CallbackEventArgs : EventArgs
     {
-        public bool IsSuccess { get; set; }
+        public bool IsSuccess { get; set; } = true;
 
-        public int Code { get; set; }
-
-        public string Message { get; set; }
+        public string Message { get; set; } = "成功";
     }
 }

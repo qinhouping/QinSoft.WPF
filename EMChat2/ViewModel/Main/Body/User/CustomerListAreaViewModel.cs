@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<UserEditEventArgs>
+    public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<UserInfoChangedEventArgs>
     {
         #region 构造函数
         public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
@@ -169,12 +169,12 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         #region 事件处理
 
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             this.CustomerTagAreaViewModel?.Dispose();
             this.CustomerTagAreaViewModel = null;
@@ -184,7 +184,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             this.CustomerTagAreaViewModel?.Dispose();
             this.CustomerTagAreaViewModel = null;
@@ -193,7 +193,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.Customers.Clear();
             }).ExecuteInUIThread();
         }
-        public void Handle(UserEditEventArgs arg)
+
+        public void Handle(UserInfoChangedEventArgs arg)
         {
             this.Customers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
         }

@@ -1,4 +1,4 @@
-﻿using EMChat2.ViewModel.Main.Tabs.Chat;
+﻿using EMChat2.Model.BaseInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class ChatDetailEventArgs : EventArgs
+    public class MessageStateChangedEventArgs : EventArgs
     {
-        public ChatViewModel ChatItem { get; set; }
+        public MessageInfo Message { get; set; }
     }
 }

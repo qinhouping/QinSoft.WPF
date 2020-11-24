@@ -232,8 +232,9 @@ namespace EMChat2.Model.BaseInfo
         public const string Tips = "tips";
         #endregion
 
-        //消息消息不可见
+        #region 不可见消息
         public const string Event = "event";
+        #endregion
     }
 
     /// <summary>

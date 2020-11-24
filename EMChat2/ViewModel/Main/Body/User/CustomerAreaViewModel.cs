@@ -50,7 +50,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand<BusinessEnum>((business) =>
                 {
-                    this.eventAggregator.PublishAsync(new UseDetailEventArgs()
+                    this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {
                         Type = UserDetailType.CustomerList,
                         Data = business

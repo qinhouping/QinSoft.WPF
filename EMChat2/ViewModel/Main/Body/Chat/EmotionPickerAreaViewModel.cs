@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     [Component]
-    public class EmotionPickerAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class EmotionPickerAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
         public EmotionPickerAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -73,7 +73,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<EmotionInfo>((emotion) =>
                 {
-                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
+                    this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
                 }, (emotion) =>
                 {
                     return emotion != null;
@@ -85,7 +85,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 事件处理
 
 
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             //TODO 测试数据
@@ -213,7 +213,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -221,7 +221,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() =>
             {

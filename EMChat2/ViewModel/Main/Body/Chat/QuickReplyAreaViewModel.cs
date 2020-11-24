@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
     [Component]
-    public class QuickReplyAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class QuickReplyAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region  构造函数   
         public QuickReplyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
@@ -455,12 +455,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
-                    this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = quickReply.Content });
+                    this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
                 });
             }
         }
 
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             // TODO 测试数据
@@ -528,7 +528,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -536,7 +536,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() =>
             {

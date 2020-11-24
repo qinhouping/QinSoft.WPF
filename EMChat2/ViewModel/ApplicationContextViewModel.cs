@@ -12,7 +12,7 @@ using System.Text;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
         public ApplicationContextViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -63,7 +63,7 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 事件处理
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             this.CurrentStaff = arg.Staff;
@@ -71,13 +71,13 @@ namespace EMChat2.ViewModel
             this.Setting = new SettingInfo();
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             this.CurrentStaff = null;
             this.Setting = null;
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             this.CurrentStaff = null;
             this.Setting = null;

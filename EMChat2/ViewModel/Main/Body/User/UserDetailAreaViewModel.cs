@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<UseDetailEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<SelectUseDetailEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
         public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerListAreaViewModel customerListAreaViewModel)
@@ -116,7 +116,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         #region 事件处理
 
-        public void Handle(UseDetailEventArgs arg)
+        public void Handle(SelectUseDetailEventArgs arg)
         {
             this.Type = arg.Type;
             switch (arg.Type)
@@ -136,7 +136,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
@@ -144,7 +144,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.Type = null;
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;

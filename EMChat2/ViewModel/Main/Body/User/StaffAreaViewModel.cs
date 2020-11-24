@@ -15,7 +15,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class StaffAreaViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>
+    public class StaffAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
         public StaffAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
@@ -52,7 +52,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand<DepartmentInfo>((department) =>
                 {
-                    this.eventAggregator.PublishAsync(new UseDetailEventArgs()
+                    this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {
                         Type = UserDetailType.Department,
                         Data = department
@@ -70,7 +70,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand<StaffInfo>((staff) =>
                 {
-                    this.eventAggregator.PublishAsync(new UseDetailEventArgs()
+                    this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {
                         Type = UserDetailType.Staff,
                         Data = staff
@@ -84,7 +84,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #endregion
 
         #region 事件处理
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             new Action(() =>
@@ -139,7 +139,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }).ExecuteInUIThread();
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -150,7 +150,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() =>
             {

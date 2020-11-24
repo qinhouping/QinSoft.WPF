@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class UseDetailEventArgs : EventArgs
+    public class SelectUseDetailEventArgs : EventArgs
     {
         public UserDetailType Type { get; set; }
 

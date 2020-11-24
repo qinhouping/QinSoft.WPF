@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Event
 {
-    public class UserEditEventArgs : EventArgs
+    public class TemporaryInputMessagContentChangedEventArgs : EventArgs
     {
-        public UserInfo User { get; set; }
+        public MessageContentInfo MessageContent { get; set; }
     }
 }

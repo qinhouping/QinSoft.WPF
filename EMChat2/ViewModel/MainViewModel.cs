@@ -18,7 +18,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginEventArgs>, IEventHandle<LogoutEventArgs>, IEventHandle<ExitEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>
+    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>
     {
         #region 构造函数
         public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, TopAreaViewModel topAreaViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, UserService userService)
@@ -176,18 +176,18 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 事件处理
-        public void Handle(LoginEventArgs arg)
+        public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             new Action(() => this.windowManager.ShowWindow(this)).ExecuteInUIThread();
         }
 
-        public void Handle(LogoutEventArgs arg)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
         }
 
-        public void Handle(ExitEventArgs arg)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() => this.windowManager.CloseWindow(this)).ExecuteInUIThread();
         }

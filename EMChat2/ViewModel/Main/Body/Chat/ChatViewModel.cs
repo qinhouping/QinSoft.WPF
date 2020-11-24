@@ -354,6 +354,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
+                    chatService.SendMessage(message);
                 }, () =>
                 {
                     return this.InputMessageContent != null;
@@ -512,18 +513,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         private async void InputTextMessageContent(string text)
         {
-            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateTextMessageContent(text) });
+            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateTextMessageContent(text) });
         }
 
         private async void InputHtmlMessageContent(string html)
         {
-            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateHtmlMessageContent(html) });
+            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateHtmlMessageContent(html) });
         }
 
         private async void InputImageMessageContent(FileInfo file, bool isSync = false)
         {
-            if (isSync) this.eventAggregator.Publish(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
-            else await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+            if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+            else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
         }
 
         private async void InputImageMessageContent(Image image)
@@ -535,18 +536,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 image.ImageToStream().StreamToFile(tempFileName);
                 return new FileInfo(tempFileName);
             }).ExecuteInTask();
-            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
         }
 
         private async void InputFileMessageContent(FileInfo file, bool isSync = false)
         {
-            if (isSync) this.eventAggregator.Publish(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
-            else await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
+            if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
+            else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
         }
 
         private async void InputObjectMessageContent(MessageContentInfo messageContent)
         {
-            await this.eventAggregator.PublishAsync(new InputMessageContentEventArgs() { MessageContent = messageContent });
+            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
         }
 
         public override bool Equals(object obj)

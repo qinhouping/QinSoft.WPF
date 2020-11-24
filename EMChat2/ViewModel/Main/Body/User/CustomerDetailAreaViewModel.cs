@@ -132,7 +132,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 {
                     this.TemporaryEditCustomer.Tags = new ObservableCollection<TagInfo>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
                     this.Customer.Assign(this.TemporaryEditCustomer);
-                    if (isInform) this.eventAggregator.PublishAsync(new UserEditEventArgs() { User = this.TemporaryEditCustomer });
+                    if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditCustomer });
                     this.IsEditingCustomer = false;
                 });
             }
