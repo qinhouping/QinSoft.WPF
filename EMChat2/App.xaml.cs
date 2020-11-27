@@ -55,37 +55,38 @@ namespace EMChat2
         {
             Debug.WriteLine(string.Format("App_DispatcherUnhandledException:{0}", e.Exception));
             e.Handled = true;
-            ShowErrorInfo(e.Exception.Message);
+            ShowErrorInfo(e.Exception);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Debug.WriteLine(string.Format("CurrentDomain_UnhandledException:{0}", e.ExceptionObject));
-            ShowErrorInfo(e.ExceptionObject.ToString());
+            ShowErrorInfo(new Exception(e.ExceptionObject.ToString()));
         }
 
         private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Debug.WriteLine(string.Format("TaskScheduler_UnobservedTaskException:{0}", e.Exception));
-            ShowErrorInfo(e.Exception.Message);
+            ShowErrorInfo(e.Exception);
         }
 
-        private void ShowErrorInfo(string error, string title = "系统异常")
+        private void ShowErrorInfo(Exception error, string title = "系统异常")
         {
             try
             {
+                if (error == null) return;
                 IWindowManager windowManager = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
                 EventAggregator eventAggregator = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<QinSoft.WPF.Core.EventAggregatorImp>();
-                new InvalidProgramException(error).Fatal();
+                error.Fatal();
                 if (!showGloalError) return;
-                using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, error, title, AlertType.Error))
+                using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, error.Message, title, AlertType.Error))
                 {
                     new Action(() => windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(string.Format("发生未处理异常:{0}，请通知管理员！", e.Message));
             }
         }
     }

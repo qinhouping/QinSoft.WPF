@@ -1,6 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
+using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -15,17 +16,19 @@ namespace EMChat2.ViewModel
     public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
-        public ApplicationContextViewModel(IWindowManager windowManager, EventAggregator eventAggregator)
+        public ApplicationContextViewModel(IWindowManager windowManager, EventAggregator eventAggregator, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
+            this.userService = userService;
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private UserService userService;
         private StaffInfo currentStaff;
         public StaffInfo CurrentStaff
         {
@@ -67,8 +70,8 @@ namespace EMChat2.ViewModel
         {
             if (!arg.IsSuccess) return;
             this.CurrentStaff = arg.Staff;
-            //TODO 测试数据
-            this.Setting = new SettingInfo();
+
+            this.Setting = this.userService.LoadSetting(CurrentStaff);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)

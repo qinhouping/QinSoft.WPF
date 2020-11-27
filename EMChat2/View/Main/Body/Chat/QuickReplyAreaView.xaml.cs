@@ -21,13 +21,13 @@ namespace EMChat2.View.Main.Body.Chat
     /// </summary>
     public partial class QuickReplyAreaView : UserControl
     {
-        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum?), typeof(QuickReplyAreaView));
+        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum), typeof(QuickReplyAreaView));
 
-        public BusinessEnum? Business
+        public BusinessEnum Business
         {
             get
             {
-                return this.GetValue(BusinessProperty) as BusinessEnum?;
+                return (BusinessEnum)this.GetValue(BusinessProperty);
             }
             set
             {

@@ -26,6 +26,20 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 属性
+        private bool isShowChatSlider = true;
+        public bool IsShowChatSlider
+        {
+            get
+            {
+                return this.isShowChatSlider;
+            }
+            set
+            {
+                this.isShowChatSlider = value;
+                this.NotifyPropertyChange(() => IsShowChatSlider);
+            }
+        }
+
         private PrivateChatSliderAreaViewModel chatSliderAreaViewModel;
         public PrivateChatSliderAreaViewModel PrivateChatSliderAreaViewModel
         {

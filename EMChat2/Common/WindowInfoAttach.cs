@@ -59,6 +59,7 @@ namespace EMChat2.Common
                 window.Width = windowInfo.Width;
                 window.Height = windowInfo.Height;
                 window.WindowState = windowInfo.State;
+                window.Topmost = windowInfo.IsTopmost;
             }
             window.StateChanged += Window_StateChanged;
             window.SizeChanged += Window_SizeChanged;
@@ -139,5 +140,7 @@ namespace EMChat2.Common
         public double Width { get; set; }
         public double Height { get; set; }
         public WindowState State { get; set; }
+
+        public bool IsTopmost { get; set; }
     }
 }

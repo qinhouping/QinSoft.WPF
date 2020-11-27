@@ -56,8 +56,8 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
-        private BusinessEnum? business;
-        public BusinessEnum? Business
+        private BusinessEnum business;
+        public BusinessEnum Business
         {
             get
             {

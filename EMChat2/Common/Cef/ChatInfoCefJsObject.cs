@@ -65,13 +65,10 @@ namespace EMChat2.Common.Cef
 
     class ActionResponse<T>
     {
-        [JsonProperty("code")]
         public int Code;
 
-        [JsonProperty("errmsg")]
         public string ErrorMessage;
 
-        [JsonProperty("data")]
         public T Data;
     }
 }

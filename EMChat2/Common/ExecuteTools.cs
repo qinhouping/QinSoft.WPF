@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace EMChat2.Common
 {
@@ -38,6 +39,11 @@ namespace EMChat2.Common
         public static void ExecuteInUIThread(this Action action)
         {
             Application.Current.Dispatcher.Invoke(action);
+        }
+
+        public static void ActiveExecute(this ICommand command, object parameter = null)
+        {
+            if (command.CanExecute(parameter)) command.Execute(parameter);
         }
     }
 }

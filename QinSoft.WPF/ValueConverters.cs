@@ -53,6 +53,28 @@ namespace QinSoft.WPF
                 });
             }
         }
+        public static IValueConverter ReverseBooleanConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    bool? v = value as bool?;
+                    if (v == false)
+                    {
+                        return true;
+                    }
+                    else if (v == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                });
+            }
+        }
 
         public static IValueConverter NotNullToVisibilityConverter
         {

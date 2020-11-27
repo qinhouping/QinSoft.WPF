@@ -226,7 +226,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<BusinessEnum?>((business) =>
+                return new RelayCommand<BusinessEnum>((business) =>
                 {
                     this.IsAddingQuickReplyGroup = false;
                     this.TemporaryAddQuickReplyGroup = new QuickReplyGroupInfo()
@@ -456,6 +456,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<QuickReplyInfo>((quickReply) =>
                 {
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
+                }, (quickReply) =>
+                {
+                    BusinessSettingInfo businessSetting = null;
+                    if (this.SelectedQuickReplyGroup != null && ApplicationContextViewModel.Setting.BusinessSettings.TryGetValue(this.SelectedQuickReplyGroup.Business, out businessSetting))
+                    {
+                        return businessSetting.AllowSelectQuickReply;
+                    }
+                    return false;
                 });
             }
         }

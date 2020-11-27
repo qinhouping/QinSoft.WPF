@@ -157,9 +157,9 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 方法
-        private ChatInfo CreatePrivateChat(UserInfo user, BusinessEnum? business = null)
+        private ChatInfo CreatePrivateChat(UserInfo user, BusinessEnum business = BusinessEnum.None)
         {
-            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, user.ImUserId, business?.ToString() };
+            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, user.ImUserId, business.ToString() };
             ids.Sort();
             ChatInfo chat = new ChatInfo();
             chat.Id = Guid.NewGuid().ToString();

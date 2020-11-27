@@ -17,7 +17,7 @@
         WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip"
         common:WindowInfoAttach.WindowInfo="" 
         common:WindowInfoAttach.IsFlash="{Binding IsFlash}" 
-        Topmost="{Binding ApplicationContextViewModel.Setting.IsTopmostMainView}" Closing="Window_Closing">
+        Closing="Window_Closing">
 
     <Window.Resources>
         <common:BindingProxy x:Key="mainData" Data="{Binding}"></common:BindingProxy>
@@ -80,18 +80,6 @@
                             </MenuItem.Header>
                         </MenuItem>
                         <Separator></Separator>
-                        <MenuItem Command="{Binding Data.ToggleTopmostCommand, Source={StaticResource mainData}}">
-                            <MenuItem.Style>
-                                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItem-H}">
-                                    <Setter Property="Header" Value="置顶主窗口"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Data.ApplicationContextViewModel.Setting.IsTopmostMainView, Source={StaticResource mainData}}" Value="True">
-                                            <Setter Property="Header" Value="取消置顶主窗口"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </MenuItem.Style>
-                        </MenuItem>
                         <MenuItem Style="{StaticResource MenuItem-H}" Header="打开主窗口" Command="{Binding Data.OpenCommand, Source={StaticResource mainData}}"></MenuItem>
                         <Separator></Separator>
                         <MenuItem Style="{StaticResource MenuItem-H}" Header="退出登录" Command="{Binding Data.LogoutCommand, Source={StaticResource mainData}}"></MenuItem>

@@ -9,41 +9,13 @@ namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
     /// 设置信息实体
+    /// 包括全局配置和业务相关配置
     /// </summary>
     public class SettingInfo : PropertyChangedBase
     {
-        /// <summary>
-        /// 是否置顶显示主窗口
-        /// </summary>
-        private bool isTopmostMainView;
-        public bool IsTopmostMainView
+        public SettingInfo()
         {
-            get
-            {
-                return this.isTopmostMainView;
-            }
-            set
-            {
-                this.isTopmostMainView = value;
-                this.NotifyPropertyChange(() => this.IsTopmostMainView);
-            }
-        }
-
-        /// <summary>
-        /// 是否显示会话侧边栏
-        /// </summary>
-        private bool isShowChatSlider = true;
-        public bool IsShowChatSlider
-        {
-            get
-            {
-                return this.isShowChatSlider;
-            }
-            set
-            {
-                this.isShowChatSlider = value;
-                this.NotifyPropertyChange(() => this.IsShowChatSlider);
-            }
+            this.businessSettings = new Dictionary<BusinessEnum, BusinessSettingInfo>();
         }
 
         /// <summary>
@@ -64,19 +36,19 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 允许最大消息撤回的时间间隔（单位分钟，默认2分钟）
+        /// 业务相关配置信息
         /// </summary>
-        private int maxRollbackMessageTotalMinutes = 2;
-        public int MaxRollbackMessageTotalMinutes
+        private IDictionary<BusinessEnum, BusinessSettingInfo> businessSettings;
+        public IDictionary<BusinessEnum, BusinessSettingInfo> BusinessSettings
         {
             get
             {
-                return this.maxRollbackMessageTotalMinutes;
+                return this.businessSettings;
             }
             set
             {
-                this.maxRollbackMessageTotalMinutes = value;
-                this.NotifyPropertyChange(() => MaxRollbackMessageTotalMinutes);
+                this.businessSettings = value;
+                this.NotifyPropertyChange(() => BusinessSettings);
             }
         }
     }

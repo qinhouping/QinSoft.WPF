@@ -1,4 +1,5 @@
-﻿using EMChat2.Common;
+﻿using DotLiquid.Util;
+using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.Service;
@@ -189,6 +190,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.IsDragMessageContent);
             }
         }
+        private BusinessSettingInfo BusinessSetting
+        {
+            get
+            {
+                BusinessSettingInfo value = null;
+                if (!ApplicationContextViewModel.Setting.BusinessSettings.TryGetValue(Chat.Business, out value))
+                {
+                    value = new BusinessSettingInfo();
+                }
+                return value;
+            }
+        }
+        public bool AllowInputText
+        {
+            get
+            {
+                return BusinessSetting.AllowInputText;
+            }
+        }
         #region 排序属性
         public bool IsTopSort
         {
@@ -263,12 +283,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
-                    }
-                    this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
-                    if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
-                    {
+                        this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
                     }
+                    else
+                    {
+                        this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
+                    }
+                }, () =>
+                {
+                    return BusinessSetting.AllowCaptureScreen;
                 });
             }
         }
@@ -291,6 +315,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.InputImageMessageContent(new FileInfo(fileName), true);
                         }
                     }
+                }, () =>
+                {
+                    return BusinessSetting.AllowSelectImage;
                 });
             }
         }
@@ -313,6 +340,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.InputFileMessageContent(new FileInfo(fileName), true);
                         }
                     }
+                }, () =>
+                {
+                    return BusinessSetting.AllowSelectFile;
                 });
             }
         }
@@ -332,7 +362,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     }).ExecuteInUIThread();
                 }, (oldMessage) =>
                 {
-                    return oldMessage != null && (DateTime.Now - oldMessage.MsgTime).TotalMinutes < ApplicationContextViewModel.Setting?.MaxRollbackMessageTotalMinutes;
+                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.MsgTime).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes;
                 });
             }
         }
@@ -357,7 +387,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     chatService.SendMessage(message);
                 }, () =>
                 {
-                    return this.InputMessageContent != null;
+                    return BusinessSetting.AllowSendMessage && this.InputMessageContent != null;
                 });
             }
         }
@@ -377,10 +407,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Remove(oldMessage);
                             this.Messages.Add(message);
                         }
+                        chatService.SendMessage(message);
                     }).ExecuteInUIThread();
                 }, (oldMessage) =>
                 {
-                    return oldMessage != null && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
+                    return BusinessSetting.AllowSendMessage && oldMessage != null && oldMessage.FromUser == ApplicationContextViewModel.CurrentStaff?.ImUserId && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
                 });
             }
         }
@@ -400,6 +431,28 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        protected virtual bool CanPaste(MessageContentInfo messageContent)
+        {
+            bool canPaste = false;
+            switch (messageContent.Type)
+            {
+                case MessageTypeConst.Text: canPaste = BusinessSetting.AllowInputText; break;
+                case MessageTypeConst.Emotion: canPaste = true; break;
+                case MessageTypeConst.Image: canPaste = BusinessSetting.AllowSelectImage; break;
+                case MessageTypeConst.Voice: canPaste = true; break;
+                case MessageTypeConst.Video: canPaste = true; break;
+                case MessageTypeConst.Link: canPaste = true; break;
+                case MessageTypeConst.File: canPaste = BusinessSetting.AllowSelectFile; break;
+                case MessageTypeConst.Mixed:
+                    {
+                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageContent) as MixedMessageContent).Items)
+                            canPaste &= CanPaste(mixedItem);
+                    }
+                    break;
+            }
+            return canPaste;
+        }
+
         public ICommand PasteMessageContentCommand
         {
             get
@@ -409,7 +462,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     if (Clipboard.GetDataObject().GetDataPresent(typeof(MessageContentInfo).FullName))
                     {
                         MessageContentInfo messageContent = (Clipboard.GetDataObject().GetData(typeof(MessageContentInfo).FullName) as string).JsonToObject<MessageContentInfo>();
-                        this.InputObjectMessageContent(messageContent);
+                        if (CanPaste(messageContent))
+                            this.InputObjectMessageContent(messageContent);
                     }
                     else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.FileDrop))
                     {
@@ -417,26 +471,31 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         {
                             if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
                             {
-                                this.InputImageMessageContent(new FileInfo(fileName), true);
+                                if (BusinessSetting.AllowSelectImage)
+                                    this.InputImageMessageContent(new FileInfo(fileName), true);
                             }
                             else
                             {
-                                this.InputFileMessageContent(new FileInfo(fileName), true);
+                                if (BusinessSetting.AllowSelectFile)
+                                    this.InputFileMessageContent(new FileInfo(fileName), true);
                             }
                         }
                         this.InputImageMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Bitmap) as Image);
                     }
                     else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap))
                     {
-                        this.InputImageMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Bitmap) as Image);
+                        if (BusinessSetting.AllowSelectImage)
+                            this.InputImageMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Bitmap) as Image);
                     }
                     else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Html))
                     {
-                        this.InputHtmlMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Html) as string);
+                        if (BusinessSetting.AllowInputText)
+                            this.InputHtmlMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Html) as string);
                     }
                     else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
                     {
-                        this.InputTextMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Text) as string);
+                        if (BusinessSetting.AllowInputText)
+                            this.InputTextMessageContent(Clipboard.GetDataObject().GetData(DataFormats.Text) as string);
                     }
                 });
             }
@@ -478,28 +537,35 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
                     {
-                        this.InputImageMessageContent(new FileInfo(fileName), true);
+                        if (BusinessSetting.AllowSelectImage)
+                            this.InputImageMessageContent(new FileInfo(fileName), true);
                     }
                     else
                     {
-                        this.InputFileMessageContent(new FileInfo(fileName), true);
+                        if (BusinessSetting.AllowSelectFile)
+                            this.InputFileMessageContent(new FileInfo(fileName), true);
                     }
                 }
                 e.Handled = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.Bitmap))
             {
-                this.InputImageMessageContent(e.Data.GetData(DataFormats.Bitmap) as Image);
+                if (BusinessSetting.AllowSelectImage)
+                    this.InputImageMessageContent(e.Data.GetData(DataFormats.Bitmap) as Image);
                 e.Handled = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.Html))
             {
-                this.InputHtmlMessageContent(e.Data.GetData(DataFormats.Html) as string);
+                if (BusinessSetting.AllowInputText)
+                    this.InputHtmlMessageContent(e.Data.GetData(DataFormats.Html) as string);
                 e.Handled = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                e.Handled = false;
+                if (BusinessSetting.AllowInputText)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
             }
             else
             {

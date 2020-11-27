@@ -162,17 +162,6 @@ namespace EMChat2.ViewModel
                 });
             }
         }
-
-        public ICommand ToggleTopmostCommand
-        {
-            get
-            {
-                return new RelayCommand(() =>
-                {
-                    this.ApplicationContextViewModel.Setting.IsTopmostMainView = !this.ApplicationContextViewModel.Setting.IsTopmostMainView;
-                });
-            }
-        }
         #endregion
 
         #region 事件处理

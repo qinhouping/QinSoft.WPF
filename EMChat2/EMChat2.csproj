@@ -152,8 +152,10 @@
     <Compile Include="Common\ExecuteTools.cs" />
     <Compile Include="Common\GcTimerTools.cs" />
     <Compile Include="Common\HttpTools.cs" />
+    <Compile Include="Common\IMTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
+    <Compile Include="Model\BaseInfo\BusinessSettingInfo.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
     <Compile Include="Model\BaseInfo\IExpandable.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Model\Event\SelectUseDetailEventArgs.cs" />
     <Compile Include="Model\Event\TemporaryInputMessagContentChangedEventArgs.cs" />
     <Compile Include="Model\Event\RefreshChatsEventArgs.cs" />
+    <Compile Include="Common\ApiTools.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatListAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatMessageContentControlViewModel.cs" />

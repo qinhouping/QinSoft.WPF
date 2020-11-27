@@ -64,6 +64,29 @@ namespace EMChat2.Service
         {
             await eventAggregator.PublishAsync(new ExitCallbackEventArgs());
         }
+
+        public SettingInfo LoadSetting(StaffInfo staff)
+        {
+            if (staff == null) throw new ArgumentNullException("staff");
+            //测试数据
+            SettingInfo setting = new SettingInfo();
+
+            foreach (BusinessEnum business in staff.BusinessList)
+            {
+                setting.BusinessSettings[business] = new BusinessSettingInfo()
+                {
+                    AllowSendMessage = true,
+                    AllowInputText = true,
+                    AllowCaptureScreen = true,
+                    AllowSelectFile = true,
+                    AllowSelectImage = true,
+                    AllowSelectQuickReply = true,
+                    AllowRollBackMessage = true,
+                    MaxRollbackMessageTotalMinutes = 2
+                };
+            }
+            return setting;
+        }
         #endregion
     }
 }

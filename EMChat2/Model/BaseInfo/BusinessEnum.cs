@@ -13,20 +13,29 @@ namespace EMChat2.Model.BaseInfo
     public enum BusinessEnum
     {
         /// <summary>
+        /// 空业务
+        /// </summary>
+        [Description("空业务")]
+        None,
+
+        /// <summary>
         /// 售前
         /// </summary>
         [Description("售前")]
         PreSale,
+
         /// <summary>
         /// 售后
         /// </summary>
         [Description("售后")]
         PostSale,
+
         /// <summary>
         /// 投顾
         /// </summary>
         [Description("投顾")]
         Advisor,
+
         /// <summary>
         /// 专家
         /// </summary>

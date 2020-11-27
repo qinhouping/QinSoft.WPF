@@ -47,7 +47,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-Chat-ToggleButton}" IsChecked="{Binding ApplicationContextViewModel.Setting.IsShowChatSlider,Mode=TwoWay}">
+                    <ToggleButton ToolTip="侧边栏" Style="{StaticResource IM-Chat-ToggleButton}" IsChecked="{Binding IsShowChatSlider,Mode=TwoWay}">
                         <TextBlock Style="{StaticResource IconSliders}"></TextBlock>
                     </ToggleButton>
                 </StackPanel>
@@ -55,7 +55,7 @@
             <Grid Grid.Row="1">
                 <Rectangle Stroke="{StaticResource DeepPurpleBrush}" StrokeDashArray="2 2" StrokeThickness="2" Fill="Transparent" Visibility="{Binding IsDragMessageContent,Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}"></Rectangle>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}">
+                    <wpfControl:AutoAdjustRichTextBox IsAuto="False" Style="{StaticResource IM-Message-RichTextBox}" BindingDocument="{Binding InputMessageContent,Converter={x:Static view:ValueConverters.MessageToDocumentConverter}, Mode=TwoWay}" common:MessageRichTextBoxAttach.InputMessageContent="{Binding TemporaryInputMessagContent}" IsReadOnly="{Binding AllowInputText, Converter={x:Static wpf:ValueConverters.ReverseBooleanConverter}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewDragEnter">
                                 <ei:CallMethodAction TargetObject="{Binding}" MethodName="DragEnterMessageContentCommand"></ei:CallMethodAction>
@@ -86,7 +86,7 @@
                         </wpfControl:AutoAdjustRichTextBox.ContextMenu>
                     </wpfControl:AutoAdjustRichTextBox>
                 </ScrollViewer>
-                
+
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="发送" ToolTip="发送消息(Shift+Enter)" Command="{Binding SendMessageCommand}" Style="{StaticResource IM-Chat-Button}" Margin="5"></Button>

@@ -327,7 +327,7 @@ namespace EMChat2.View
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
                     ObservableCollection<QuickReplyGroupInfo> quickReplyGroups = values[0] as ObservableCollection<QuickReplyGroupInfo>;
-                    BusinessEnum? business = values[1] as BusinessEnum?;
+                    BusinessEnum business = (BusinessEnum)values[1];
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyGroups);
                     if (collectionView == null) return null;
                     collectionView.Filter = (item) =>

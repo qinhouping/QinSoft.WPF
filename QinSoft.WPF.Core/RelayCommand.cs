@@ -61,7 +61,7 @@ namespace QinSoft.WPF.Core
 
         public void Execute(object parameter)
         {
-            _execute();
+            _execute.Invoke();
         }
 
         #endregion
@@ -128,18 +128,9 @@ namespace QinSoft.WPF.Core
 
         public void Execute(object parameter)
         {
-            _execute((T)parameter);
+            _execute.Invoke((T)parameter);
         }
 
         #endregion
-    }
-
-
-    public static class CommandTools
-    {
-        public static void ActiveExecute(this ICommand command, object parameter = null)
-        {
-            if (command.CanExecute(parameter)) command.Execute(parameter);
-        }
     }
 }
