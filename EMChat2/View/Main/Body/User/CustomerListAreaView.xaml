@@ -54,7 +54,8 @@
                 <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
                     <TextBox x:Name="quickReplySearchCondition" Style="{StaticResource IM-Search-TextBox}" Margin="2" ContextMenu="{x:Null}"></TextBox>
                 </Border>
-                
+
+                <!--客户列表-->
                 <ListBox x:Name="customerList" Grid.Row="1" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -101,8 +102,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            <!--客户列表-->
-            </Border>
+        </Border>
         <GridSplitter Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
 
         <!--客户详情-->

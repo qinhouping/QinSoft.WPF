@@ -48,6 +48,7 @@ namespace EMChat2.Service
                     ImUserId = "1111",
                     State = loginInfo.State,
                     BusinessList = new ObservableCollection<BusinessEnum>() {
+                        BusinessEnum.Inside,
                         BusinessEnum.Advisor,
                         BusinessEnum.Expert
                     }

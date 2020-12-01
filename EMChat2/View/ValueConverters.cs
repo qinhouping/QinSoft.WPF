@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
@@ -378,7 +379,7 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     StaffInfo staff = value as StaffInfo;
-                    string content = string.Format("{0}{1}{2}", AppTools.AppName, staff?.WorkCode, staff?.Name);
+                    string content = string.Format("{0} {1}{2}", AppTools.AppName, staff?.WorkCode, staff?.Name);
                     Image image = DrawTools.CreateWaterMark(content);
 
                     BitmapImage bitmapImage = new BitmapImage { CacheOption = BitmapCacheOption.None, CreateOptions = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreImageCache };
@@ -386,6 +387,28 @@ namespace EMChat2.View
                     bitmapImage.StreamSource = image.ImageToStream();
                     bitmapImage.EndInit();
                     return bitmapImage;
+                });
+            }
+        }
+
+        public static IValueConverter BussinessOutsideFilterConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    ObservableCollection<BusinessEnum> businesses = value as ObservableCollection<BusinessEnum>;
+                    if (businesses == null) return null;
+                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(businesses);
+                    if (collectionView == null) return null;
+                    collectionView.Filter = (item) =>
+                    {
+                        BusinessEnum business = (BusinessEnum)item;
+                        FieldInfo finfo = business.GetType().GetField(business.ToString());
+                        OutSideBussinessAttribute outSide = finfo.GetCustomAttribute(typeof(OutSideBussinessAttribute)) as OutSideBussinessAttribute;
+                        return outSide != null;
+                    };
+                    return collectionView;
                 });
             }
         }

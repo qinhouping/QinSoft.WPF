@@ -81,7 +81,7 @@
                                                         <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2"></TextBlock>
 
                                                         <!--业务名称-->
-                                                        <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"  Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotEqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:BusinessEnum.None}}"></Label>
+                                                        <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"></Label>
                                                     </Grid>
 
                                                     <Grid Grid.Column="1" Grid.Row="1" Margin="0">

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:EMChat2.View"
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
@@ -27,7 +28,7 @@
                         </Grid>
 
                         <!--业务列表-->
-                        <ListBox Grid.Row="1" ItemsSource="{Binding ApplicationContextViewModel.CurrentStaff.BusinessList}" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
+                    <ListBox Grid.Row="1" ItemsSource="{Binding ApplicationContextViewModel.CurrentStaff.BusinessList, Converter={x:Static view:ValueConverters.BussinessOutsideFilterConverter}}" Style="{StaticResource IM-User-List}" ItemContainerStyle="{StaticResource IM-User-ListItem}" Margin="2">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="6,0,0,0" HorizontalAlignment="Left" x:Name="grid" Cursor="Hand">

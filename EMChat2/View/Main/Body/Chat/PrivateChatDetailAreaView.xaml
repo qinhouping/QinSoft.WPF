@@ -25,7 +25,7 @@
                 <!--会话名称-->
                 <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}" MaxWidth="200"></TextBlock>
                 <!--业务名称-->
-                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" Visibility="{Binding Chat.Business, Converter={x:Static wpf:ValueConverters.NotEqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:BusinessEnum.None}}"></Label>
+                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0"></Label>
             </StackPanel>
         </Border>
 
@@ -36,7 +36,7 @@
 
         <GridSplitter Grid.Row="2" Height="2" HorizontalAlignment ="Stretch" VerticalAlignment="Top" Grid.ZIndex="1"></GridSplitter>
 
-        <Border Grid.Row="2">
+        <Border Grid.Row="2" Margin="1">
             <!--会话消息输入-->
             <chat:ChatInputAreaView></chat:ChatInputAreaView>
         </Border>

@@ -132,7 +132,7 @@
                 </Border>
 
                 <!--快捷回复列表-->
-                <ListBox x:Name="quickReplyList" Grid.Row="1" Style="{StaticResource IM-QuickReply-List}" ItemContainerStyle="{StaticResource IM-QuickReply-ListItem}">
+                <ListBox x:Name="quickReplyList" Grid.Row="1" Margin="0,0,1,0" Style="{StaticResource IM-QuickReply-List}" ItemContainerStyle="{StaticResource IM-QuickReply-ListItem}">
                     <ListBox.ItemsSource>
                         <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyFilterConverter}">
                             <Binding Path="QuickReplys"></Binding>

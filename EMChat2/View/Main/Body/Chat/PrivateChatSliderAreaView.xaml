@@ -53,14 +53,21 @@
             </TabItem>
 
             <!--客户内嵌页-->
-            <TabItem Header="客户内嵌页">
+            <TabItem>
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-ChatSlider-TabItem}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject1="{Binding ComputerInfoCefJsObject}" cefCommon:CefWebBrowserAttach.RegisterJsObject2="{Binding ChatInfoCefJsObject}"></cefCommon:CefWebBrowser>
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static baseInfo:UserTypeEnum.Customer}">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                                <Setter Property="Header" Value="客户内嵌页"></Setter>
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <cefCommon:CefWebBrowser Address="{Binding Address}" cefCommon:CefWebBrowserAttach.RegisterJsObject1="{Binding ComputerInfoCefJsObject}" cefCommon:CefWebBrowserAttach.RegisterJsObject2="{Binding ChatInfoCefJsObject}"></cefCommon:CefWebBrowser>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </TabItem.Style>
             </TabItem>
