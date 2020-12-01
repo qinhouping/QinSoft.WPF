@@ -32,7 +32,7 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// IM用户id（用于IM通信)
+        /// IM用户id（只用于IM通信)
         /// </summary>
         private string imUserId;
         public virtual string ImUserId
@@ -121,12 +121,12 @@ namespace EMChat2.Model.BaseInfo
         #region 方法
         public override int GetHashCode()
         {
-            return this.imUserId.GetHashCode();
+            return this.id.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.imUserId.Equals((obj as UserInfo)?.imUserId);
+            return this.id.Equals((obj as UserInfo)?.id);
         }
         #endregion
     }

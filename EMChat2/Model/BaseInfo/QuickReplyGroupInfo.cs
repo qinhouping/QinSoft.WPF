@@ -14,6 +14,9 @@ namespace EMChat2.Model.BaseInfo
     public class QuickReplyGroupInfo : PropertyChangedBase
     {
         #region 属性
+        /// <summary>
+        /// 快捷回复组ID
+        /// </summary>
         private string id;
         public string Id
         {
@@ -28,6 +31,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复组名称
+        /// </summary>
         private string name;
         public string Name
         {
@@ -42,6 +48,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复组级别
+        /// </summary>
         private QuickReplyGroupLevelEnum level;
         public QuickReplyGroupLevelEnum Level
         {
@@ -56,6 +65,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复组所属业务
+        /// </summary>
         private BusinessEnum business;
         public BusinessEnum Business
         {
@@ -70,6 +82,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复组明细
+        /// </summary>
         private ObservableCollection<QuickReplyInfo> quickReplys;
         public ObservableCollection<QuickReplyInfo> QuickReplys
         {

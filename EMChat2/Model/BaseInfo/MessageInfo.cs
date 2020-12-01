@@ -47,127 +47,6 @@ namespace EMChat2.Model.BaseInfo
     }
 
     /// <summary>
-    /// 消息信息实体
-    /// </summary>
-    public class MessageInfo : MessageContentInfo
-    {
-        #region 属性
-        /// <summary>
-        /// ID
-        /// </summary>
-        private string id;
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-                this.NotifyPropertyChange(() => this.Id);
-            }
-        }
-
-        private string msgId;
-        public string MsgId
-        {
-            get
-            {
-                return this.msgId;
-            }
-            set
-            {
-                this.msgId = value;
-                this.NotifyPropertyChange(() => this.MsgId);
-            }
-        }
-
-        private DateTime msgTime;
-        public DateTime MsgTime
-        {
-            get
-            {
-                return this.msgTime;
-            }
-            set
-            {
-                this.msgTime = value;
-                this.NotifyPropertyChange(() => this.MsgTime);
-            }
-        }
-
-        private string chatId;
-        public string ChatId
-        {
-            get
-            {
-                return this.chatId;
-            }
-            set
-            {
-                this.chatId = value;
-                this.NotifyPropertyChange(() => this.ChatId);
-            }
-        }
-
-        private string fromUser;
-        public string FromUser
-        {
-            get
-            {
-                return this.fromUser;
-            }
-            set
-            {
-                this.fromUser = value;
-                this.NotifyPropertyChange(() => this.FromUser);
-            }
-        }
-
-        private string[] toUsers;
-        public string[] ToUsers
-        {
-            get
-            {
-                return this.toUsers;
-            }
-            set
-            {
-                this.toUsers = value;
-                this.NotifyPropertyChange(() => this.ToUsers);
-            }
-        }
-
-        private MessageStateEnum state;
-        public MessageStateEnum State
-        {
-            get
-            {
-                return this.state;
-            }
-            set
-            {
-                this.state = value;
-                this.NotifyPropertyChange(() => this.State);
-            }
-        }
-        #endregion
-
-        #region 方法
-        public override int GetHashCode()
-        {
-            return this.msgId?.GetHashCode() ?? this.id.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return this.msgId?.Equals((obj as MessageInfo)?.msgId) == true || this.id?.Equals((obj as MessageInfo)?.id) == true;
-        }
-        #endregion
-    }
-
-    /// <summary>
     /// 消息状态枚举
     /// </summary>
     public enum MessageStateEnum
@@ -234,6 +113,116 @@ namespace EMChat2.Model.BaseInfo
 
         #region 不可见消息
         public const string Event = "event";
+        #endregion
+    }
+
+    /// <summary>
+    /// 消息信息实体
+    /// </summary>
+    public class MessageInfo : MessageContentInfo
+    {
+        #region 属性
+        /// <summary>
+        /// 消息ID
+        /// </summary>
+        private string id;
+        public string Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+                this.NotifyPropertyChange(() => this.Id);
+            }
+        }
+
+        /// <summary>
+        /// 消息发送时间
+        /// </summary>
+        private DateTime time;
+        public DateTime Time
+        {
+            get
+            {
+                return this.time;
+            }
+            set
+            {
+                this.time = value;
+                this.NotifyPropertyChange(() => this.Time);
+            }
+        }
+
+        private string chatId;
+        public string ChatId
+        {
+            get
+            {
+                return this.chatId;
+            }
+            set
+            {
+                this.chatId = value;
+                this.NotifyPropertyChange(() => this.ChatId);
+            }
+        }
+
+        private string fromUser;
+        public string FromUser
+        {
+            get
+            {
+                return this.fromUser;
+            }
+            set
+            {
+                this.fromUser = value;
+                this.NotifyPropertyChange(() => this.FromUser);
+            }
+        }
+
+        private string[] toUsers;
+        public string[] ToUsers
+        {
+            get
+            {
+                return this.toUsers;
+            }
+            set
+            {
+                this.toUsers = value;
+                this.NotifyPropertyChange(() => this.ToUsers);
+            }
+        }
+
+        private MessageStateEnum state;
+        public MessageStateEnum State
+        {
+            get
+            {
+                return this.state;
+            }
+            set
+            {
+                this.state = value;
+                this.NotifyPropertyChange(() => this.State);
+            }
+        }
+        #endregion
+
+        #region 方法
+        public override int GetHashCode()
+        {
+            return this.id?.GetHashCode() ?? this.id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.id.Equals((obj as MessageInfo)?.id);
+        }
         #endregion
     }
 
@@ -433,26 +422,6 @@ namespace EMChat2.Model.BaseInfo
     }
 
     /// <summary>
-    /// 混合消息内容
-    /// </summary>
-    public class MixedMessageContent : PropertyChangedBase
-    {
-        private MessageContentInfo[] items;
-        public MessageContentInfo[] Items
-        {
-            get
-            {
-                return this.items;
-            }
-            set
-            {
-                this.items = value;
-                this.NotifyPropertyChange(() => this.Items);
-            }
-        }
-    }
-
-    /// <summary>
     /// 提示消息内容
     /// </summary>
     public class TipsMessageContent : PropertyChangedBase
@@ -468,6 +437,26 @@ namespace EMChat2.Model.BaseInfo
             {
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 混合消息内容（用于复杂消息类型）
+    /// </summary>
+    public class MixedMessageContent : PropertyChangedBase
+    {
+        private MessageContentInfo[] items;
+        public MessageContentInfo[] Items
+        {
+            get
+            {
+                return this.items;
+            }
+            set
+            {
+                this.items = value;
+                this.NotifyPropertyChange(() => this.Items);
             }
         }
     }

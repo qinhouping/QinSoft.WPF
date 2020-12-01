@@ -10,6 +10,9 @@ namespace EMChat2.Model.BaseInfo
     public class QuickReplyInfo : PropertyChangedBase, IExpandable
     {
         #region 属性
+        /// <summary>
+        /// 快捷回复ID
+        /// </summary>
         private string id;
         public string Id
         {
@@ -24,6 +27,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复名称
+        /// </summary>
         private string name;
         public string Name
         {
@@ -38,6 +44,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复是否展开
+        /// </summary>
         private bool isExpanded;
         public bool IsExpanded
         {
@@ -52,6 +61,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 快捷回复内容
+        /// </summary>
         private MessageContentInfo content;
         public MessageContentInfo Content
         {

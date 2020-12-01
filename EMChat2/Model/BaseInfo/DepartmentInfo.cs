@@ -50,6 +50,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 部门ID
+        /// </summary>
         private string id;
         public string Id
         {
@@ -64,7 +67,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
-
+        /// <summary>
+        /// 部门名称
+        /// </summary>
         private string name;
 
         public string Name
@@ -80,6 +85,9 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        /// <summary>
+        /// 部门描述
+        /// </summary>
         private string description;
 
         public string Description

@@ -41,17 +41,30 @@ namespace EMChat2.Service
                 IsSuccess = true,
                 Staff = new StaffInfo()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "180366",
                     WorkCode = "180366",
                     Name = "秦后平",
                     HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
-                    ImUserId = "1111",
+                    ImUserId = "4735344555340783734",
                     State = loginInfo.State,
                     BusinessList = new ObservableCollection<BusinessEnum>() {
                         BusinessEnum.Inside,
                         BusinessEnum.Advisor,
                         BusinessEnum.Expert
                     }
+                },
+                IMServerInfo = new IMServerInfo
+                {
+                    ApiUrl = "https://61.152.230.122:16060",
+                    IP = "61.152.230.122",
+                    Port = 17070
+                },
+                IMUserInfo = new IMUserInfo()
+                {
+                    Id = "4735344555340783734",
+                    AppKey = "EMgUNSkPGf",
+                    Token = "LelmsBHVpZXoRmrLUn/L0a3MktjsJf/6OOpkir1+9RPoMHfW7CvE9P4la25TgGztLFBe62cY/MXOm1DGc5oV1M05/+8Q+oByQERh63qB0NtaTm+gcyUBKK0HpsS3sYYnB1YmT2205eOzj0/u06MzqvQ5CdkRnk6SaXHC1DJYLtCH8kb7tCvKH9k4X28UYOxNKFHwdvClsYNeIG7eTkBbobqtilI2jf1mCAGx/HhzgEFkvMUG7ecPmC1G+oVUabYH/Mup29mgNqWac9AVxBa+0A==",
+                    RefreshToken = "s3cGDtPj3KXDQb2IAEI0OffA974zlOFoA+st54wd7o9IVPpMlYvTFVKCiVB5L/bkaU/v01oRBJbdyIqnNNk3jBJa7uCMq3sAGKvrZHrFKUo="
                 }
             });
         }

@@ -110,7 +110,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 };
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
-                collectionView.SortDescriptions.Add(new SortDescription("MsgTime", ListSortDirection.Ascending));
+                collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
                 this.MessagesCollectionView = collectionView;
             }
         }
@@ -195,7 +195,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             get
             {
                 BusinessSettingInfo value = null;
-                if (!ApplicationContextViewModel.Setting.BusinessSettings.TryGetValue(Chat.Business, out value))
+                if (ApplicationContextViewModel.Setting?.BusinessSettings.TryGetValue(Chat.Business, out value) != true)
                 {
                     value = new BusinessSettingInfo();
                 }
@@ -221,7 +221,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return this.LastMessage?.MsgTime;
+                return this.LastMessage?.Time;
             }
         }
 
@@ -362,7 +362,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     }).ExecuteInUIThread();
                 }, (oldMessage) =>
                 {
-                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.MsgTime).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes;
+                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes;
                 });
             }
         }

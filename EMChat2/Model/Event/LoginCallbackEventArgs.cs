@@ -10,5 +10,9 @@ namespace EMChat2.Model.Event
     public class LoginCallbackEventArgs : CallbackEventArgs
     {
         public StaffInfo Staff { get; set; }
+
+        public IMServerInfo IMServerInfo { get; set; }
+
+        public IMUserInfo IMUserInfo { get; set; }
     }
 }

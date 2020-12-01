@@ -3,6 +3,7 @@ using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
 using EMChat2.ViewModel;
 using EMChat2.ViewModel.Main.Tabs.Chat;
+using Hardcodet.Wpf.TaskbarNotification;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -21,7 +22,7 @@ namespace EMChat2.Service
     /// 会话服务，负责会话相关逻辑
     /// </summary>
     [Component]
-    public class ChatService
+    public class ChatService : IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>
     {
         #region 构造函数
         public ChatService(IWindowManager windowManager, EventAggregator eventAggregator, SystemService systemService)
@@ -30,6 +31,13 @@ namespace EMChat2.Service
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.systemService = systemService;
+
+            //添加IM事件处理
+            IMTools.OnSocketConnected += IMTools_OnSocketConnected;
+            IMTools.OnSocketDisconnected += IMTools_OnSocketDisconnected;
+            IMTools.OnSocketError += IMTools_OnSocketError;
+            IMTools.OnSocketReconnectFailed += IMTools_OnSocketReconnectFailed;
+            IMTools.OnReceiveMessage += IMTools_OnReceiveMessage;
         }
         #endregion
 
@@ -37,6 +45,8 @@ namespace EMChat2.Service
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private SystemService systemService;
+        private IMServerInfo serverInfo;
+        private IMUserInfo userInfo;
         #endregion
 
         #region 方法
@@ -103,10 +113,107 @@ namespace EMChat2.Service
 
         public async void SendMessage(MessageInfo message)
         {
-            await Task.Delay(1000);
-            message.MsgId = Guid.NewGuid().ToString();
-            message.State = MessageStateEnum.SendSuccess;
-            await this.eventAggregator.PublishAsync(new MessageStateChangedEventArgs() { Message = message });
+            await Task.Delay(100);
+            message = message.Clone();
+            IMTools.Send(message, (arg1, arg2) =>
+            {
+                if (arg1 == 0)
+                {
+                    message.State = MessageStateEnum.SendSuccess;
+                }
+                else
+                {
+                    message.State = MessageStateEnum.SendFailure;
+                }
+                this.eventAggregator.PublishAsync(new MessageStateChangedEventArgs() { Message = message });
+            });
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(LoginCallbackEventArgs arg)
+        {
+            if (!arg.IsSuccess) return;
+            this.serverInfo = arg.IMServerInfo;
+            this.userInfo = arg.IMUserInfo;
+            IMTools.Start(this.serverInfo);
+        }
+
+        public void Handle(LogoutCallbackEventArgs arg)
+        {
+            IMTools.Stop();
+            this.serverInfo = null;
+            this.userInfo = null;
+        }
+        #endregion
+
+        #region IM事件处理
+
+        private void IMTools_OnSocketConnected(object sender, EventArgs e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Info,
+                    Content = "已经连接IM服务器"
+                }
+            });
+            IMTools.Login(this.userInfo, (arg1, arg2) =>
+            {
+                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo()
+                    {
+                        Icon = arg1 == 0 ? BalloonIcon.Info : BalloonIcon.Error,
+                        Title = "IM服务器登录",
+                        Content = arg2
+                    }
+                });
+            });
+        }
+
+        private void IMTools_OnSocketDisconnected(object sender, EventArgs e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Error,
+                    Content = "已经断开IM服务器连接"
+                }
+            });
+        }
+
+        private void IMTools_OnSocketError(object sender, string e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Error,
+                    Title = "IM服务器异常",
+                    Content = e
+                }
+            });
+        }
+
+        private void IMTools_OnSocketReconnectFailed(object sender, int e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Error,
+                    Title = "IM服务器重连失败",
+                    Content = string.Format("重连次数:{0}", e)
+                }
+            });
+        }
+
+        private void IMTools_OnReceiveMessage(object sender, MessageInfo e)
+        {
+            this.eventAggregator.PublishAsync<ReceiveMessageEventArgs>(new ReceiveMessageEventArgs() { Message = e });
         }
         #endregion
     }

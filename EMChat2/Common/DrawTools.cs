@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Common
 {
-    public class DrawTools
+    public static class DrawTools
     {
         public static Image CreateWaterMark(string content, int width = 200, int height = 200)
         {

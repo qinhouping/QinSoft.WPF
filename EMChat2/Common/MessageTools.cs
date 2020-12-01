@@ -167,10 +167,9 @@ namespace EMChat2.Common
             {
                 Id = Guid.NewGuid().ToString(),
                 ChatId = chat.Id,
-                MsgId = null,
-                MsgTime = DateTime.Now,
+                Time = DateTime.Now,
                 FromUser = staff.ImUserId,
-                ToUsers = chat.ChatUsers.Select(u => u.ImUserId).ToArray(),
+                ToUsers = chat.ChatUsers.Where(u => !staff.Equals(u)).Select(u => u.ImUserId).ToArray(),
                 State = state,
                 Type = messageContent.Type,
                 Content = messageContent.Content

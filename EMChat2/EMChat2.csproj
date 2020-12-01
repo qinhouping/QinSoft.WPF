@@ -83,6 +83,18 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.24.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.24\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="IEMWorks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\IEMWorks.dll</HintPath>
+    </Reference>
+    <Reference Include="IM.INetWorks, Version=1.3.4.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\IM.INetWorks.dll</HintPath>
+    </Reference>
+    <Reference Include="IM.SDK, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\IM.SDK.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Microsoft.Expression.Interactions.dll</HintPath>
@@ -91,8 +103,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.3.3.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="QinSoft.Event, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QinSoft.Event.3.0.4\lib\net40\QinSoft.Event.dll</HintPath>
@@ -155,10 +172,14 @@
     <Compile Include="Common\IMTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
+    <Compile Include="Common\Pipe\HandlePipe.cs" />
+    <Compile Include="Common\Pipe\HandlePipeEventArgs.cs" />
     <Compile Include="Model\BaseInfo\BusinessSettingInfo.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
     <Compile Include="Model\BaseInfo\IExpandable.cs" />
+    <Compile Include="Model\BaseInfo\IMServerInfo.cs" />
+    <Compile Include="Model\BaseInfo\IMUserInfo.cs" />
     <Compile Include="Model\BaseInfo\QuickReplyGroupInfo.cs" />
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\MessageRichTextBoxAttach.cs" />
@@ -178,6 +199,7 @@
     <Compile Include="Model\BaseInfo\UserTypeEnum.cs" />
     <Compile Include="Model\Event\CaptureScreenEventArgs.cs" />
     <Compile Include="Model\Event\MessageStateChangedEventArgs.cs" />
+    <Compile Include="Model\Event\ReceiveMessageEventArgs.cs" />
     <Compile Include="Model\Event\SelectChatDetailEventArgs.cs" />
     <Compile Include="Model\Event\OpenPrivateChatEventArgs.cs" />
     <Compile Include="Model\Event\ShowBalloonTipEventArgs.cs" />
@@ -346,6 +368,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Api\" />
+    <Folder Include="Service\Pipe\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
@@ -536,6 +559,11 @@
     <Resource Include="logo.ico" />
     <Resource Include="Resource\Image\exit.ico" />
     <Resource Include="Resource\Image\logout.ico" />
+    <Content Include="lib\IEMWorks.dll" />
+    <Content Include="lib\IM.INetWorks.dll" />
+    <Content Include="lib\IM.SDK.dll" />
+    <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\protobuf-net.dll" />
     <Content Include="Tools\CaptureScreen.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

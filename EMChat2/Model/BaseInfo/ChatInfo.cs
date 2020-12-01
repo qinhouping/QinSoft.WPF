@@ -13,17 +13,9 @@ namespace EMChat2.Model.BaseInfo
     /// </summary>
     public class ChatInfo : PropertyChangedBase
     {
-        #region 构造函数
-        public ChatInfo()
-        {
-            this.createTime = DateTime.Now;
-        }
-        #endregion
-
         #region 属性
-
         /// <summary>
-        /// id
+        /// 会话ID
         /// </summary>
         private string id;
         public string Id
@@ -36,23 +28,6 @@ namespace EMChat2.Model.BaseInfo
             {
                 this.id = value;
                 this.NotifyPropertyChange(() => this.Id);
-            }
-        }
-
-        /// <summary>
-        /// 会话id
-        /// </summary>
-        private string chatId;
-        public string ChatId
-        {
-            get
-            {
-                return this.chatId;
-            }
-            set
-            {
-                this.chatId = value;
-                this.NotifyPropertyChange(() => this.ChatId);
             }
         }
 
@@ -159,7 +134,7 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 参与会话用户
+        /// 当前参与会话用户（用于确定消息的发送范围）
         /// </summary>
         private ObservableCollection<UserInfo> chatUsers;
         public ObservableCollection<UserInfo> ChatUsers
@@ -172,6 +147,24 @@ namespace EMChat2.Model.BaseInfo
             {
                 this.chatUsers = value;
                 this.NotifyPropertyChange(() => this.ChatUsers);
+            }
+        }
+
+        /// <summary>
+        /// 所有会话用户
+        /// 包括历史会话用户（用于渲染消息列表发送人信息）
+        /// </summary>
+        private ObservableCollection<UserInfo> chatAllUsers;
+        public ObservableCollection<UserInfo> ChatAllUsers
+        {
+            get
+            {
+                return this.chatAllUsers ?? new ObservableCollection<UserInfo>();
+            }
+            set
+            {
+                this.chatAllUsers = value;
+                this.NotifyPropertyChange(() => this.ChatAllUsers);
             }
         }
 
@@ -196,12 +189,12 @@ namespace EMChat2.Model.BaseInfo
         #region 方法
         public override int GetHashCode()
         {
-            return this.chatId.GetHashCode();
+            return this.id.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.chatId.Equals((obj as ChatInfo)?.chatId);
+            return this.id.Equals((obj as ChatInfo)?.id);
         }
         #endregion
     }

@@ -20,6 +20,7 @@ namespace EMChat2.Model.BaseInfo
 
         /// <summary>
         /// 群发，只是提交一个群发任务给后台
+        /// 类似通知消息
         /// </summary>
         GroupSend
     }

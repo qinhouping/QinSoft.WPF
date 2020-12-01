@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace EMChat2.Common
 {
-    public class GcTimerTools
+    public static class GcTimerTools
     {
         private static DispatcherTimer timer;
 

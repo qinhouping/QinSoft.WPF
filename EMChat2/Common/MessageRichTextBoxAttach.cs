@@ -14,7 +14,7 @@ using System.Windows.Documents;
 
 namespace EMChat2.Common
 {
-    public class MessageRichTextBoxAttach
+    public static class MessageRichTextBoxAttach
     {
         public static readonly DependencyProperty InputMessageContentProperty =
              DependencyProperty.RegisterAttached("InputMessageContent", typeof(MessageContentInfo), typeof(MessageRichTextBoxAttach), new PropertyMetadata(OnMessageContentInfoPropertyChangedCallback));

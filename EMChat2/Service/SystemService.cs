@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace EMChat2.Service
 {
@@ -72,6 +73,7 @@ namespace EMChat2.Service
             {
                 lock (this.urlMappingInfos)
                 {
+                    url = HttpUtility.UrlDecode(url);
                     UrlMappingInfo urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
                     if (urlMappingInfo == null || !urlMappingInfo.LocalFilePath.IsExistsFile())
                     {
@@ -91,6 +93,7 @@ namespace EMChat2.Service
             {
                 lock (this.urlMappingInfos)
                 {
+                    urlMappingInfo.Url = HttpUtility.UrlDecode(urlMappingInfo.Url);
                     this.urlMappingInfos.Remove(urlMappingInfo);
                     this.urlMappingInfos.Add(urlMappingInfo);
                     urlMappingInfos.ObjectToJson().StringToStream().StreamToFile(urlMappingFilePath);

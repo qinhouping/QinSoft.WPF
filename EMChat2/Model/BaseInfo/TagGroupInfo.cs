@@ -16,7 +16,7 @@ namespace EMChat2.Model.BaseInfo
     {
         #region 属性
         /// <summary>
-        /// ID
+        /// 标签组ID
         /// </summary>
         private string id;
         public string Id

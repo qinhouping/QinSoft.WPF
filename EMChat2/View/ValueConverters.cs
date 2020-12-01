@@ -92,7 +92,7 @@ namespace EMChat2.View
                     MessageInfo message = values[0] as MessageInfo;
                     ChatInfo chat = values[1] as ChatInfo;
                     if (message == null || chat == null) return null;
-                    return chat.ChatUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name;
+                    return chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name;
                 });
             }
         }
