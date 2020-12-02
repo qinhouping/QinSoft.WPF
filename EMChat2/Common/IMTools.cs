@@ -1,4 +1,6 @@
-﻿using EMChat2.Model.BaseInfo;
+﻿using EMChat2.Model.Api;
+using EMChat2.Model.BaseInfo;
+using EMChat2.Model.IM;
 using IM.SDK;
 using IM.SDK.Model;
 using QinSoft.Event;
@@ -18,74 +20,100 @@ namespace EMChat2.Common
     public static class IMTools
     {
         private static SimpleSocketClient socketClient;
-        private static IMServerInfo imServerInfo;
-        private static IMUserInfo imUserInfo;
+        private static IMServerModel imServer;
+        private static IMUserModel imUser;
 
         #region 对外事件
-        public static event EventHandler<MessageInfo> OnReceiveMessage;
+        public static event EventHandler<MessageModel> OnReceiveMessage;
         public static event EventHandler OnSocketConnected;
         public static event EventHandler OnSocketDisconnected;
         public static event EventHandler<int> OnSocketReconnectFailed;
         public static event EventHandler<string> OnSocketError;
         #endregion
 
-        public static void Start(IMServerInfo serverInfo)
+        /// <summary>
+        /// 开始IM服务
+        /// </summary>
+        /// <param name="server">im服务</param>
+        public static void Start(IMServerModel server)
         {
             if (socketClient != null) return;
-            imServerInfo = serverInfo;
-            socketClient = new SimpleSocketClient(imServerInfo.ApiUrl);
+            imServer = server;
+            socketClient = new SimpleSocketClient(imServer.ApiUrl);
             socketClient.ReconnectFailed += SocketClient_ReconnectFailed;
             socketClient.OnSocketConnected += SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected += SocketClient_OnSocketDisconnected;
             socketClient.OnSocketError += SocketClient_OnSocketError;
             socketClient.OnReceivePrivateMessage += SocketClient_OnReceivePrivateMessage;
-            socketClient.Start(imServerInfo.IP, imServerInfo.Port);
+            socketClient.Start(imServer.IP, imServer.Port);
         }
 
+        /// <summary>
+        /// 停止IM服务
+        /// </summary>
         public static void Stop()
         {
             if (socketClient == null) return;
             socketClient.Stop();
             socketClient = null;
-            imUserInfo = null;
+            imUser = null;
         }
 
-        public static void Login(IMUserInfo userInfo, Action<int, string> callback)
+        /// <summary>
+        /// 登录IM服务
+        /// </summary>
+        /// <param name="user">im用户</param>
+        /// <param name="callback">回调</param>
+        public static void Login(IMUserModel user, Action<int, string> callback)
         {
             if (socketClient == null) return;
-            imUserInfo = userInfo;
+            imUser = user;
             socketClient.Login(new IM_LoginToken()
             {
-                Appkey = userInfo.AppKey,
-                UserID = userInfo.Id,
-                Token = userInfo.Token,
-                Version = 2,
+                Appkey = user.AppKey,
+                UserID = user.Id,
+                Token = user.Token,
+                Version = AppTools.AppVersion.Major,
                 Device = AppTools.AppName
             }, callback);
         }
 
-        public static bool Send(MessageInfo message)
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message">消息</param>
+        /// <returns>发送结果</returns>
+        public static bool Send(MessageModel message)
         {
             int result = 0;
-            int count = 0;
+            MessageApiModel sendMessage = message.MessageToApiModel();
+            string messageJson = sendMessage.ObjectToJson();
+
+            Semaphore semaphore = new Semaphore(0, message.ToUsers.Count());
             foreach (string toUser in message.ToUsers)
             {
-                socketClient.SendToUser(message.FromUser, toUser, message.ObjectToJson(), 0, (arg1, arg2) =>
+                socketClient.SendToUser(message.FromUser, toUser, messageJson, 0, (code, msg) =>
                 {
-                    count++;
-                    result += arg1;
+                    result += code;
+                    semaphore.Release();
                 });
             }
-            while (count < message.ToUsers.Count())
+
+            foreach (string toUser in message.ToUsers)
             {
-                Thread.Sleep(50);
+                semaphore.WaitOne();
             }
             return result == 0;
         }
 
-        public static UrlEntity Upload(FileInfo file)
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <returns>上传结果</returns>
+        public static UrlModel Upload(FileInfo file)
         {
-            return FileServerClient.Current.UploadFile(file.FullName, imServerInfo.ApiUrl, imUserInfo.Id, imUserInfo.Token).JsonToObject<UrlEntity>();
+            return FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token).JsonToObject<UrlModel>();
         }
 
         #region 私有方法
@@ -110,35 +138,14 @@ namespace EMChat2.Common
         }
         private static void SocketClient_OnReceivePrivateMessage(SimpleSocketClient client, IEnumerable<IM_ReceivePrivateMessage> messages)
         {
-            foreach (IM_ReceivePrivateMessage message in messages)
+            foreach (IM_ReceivePrivateMessage privateMessage in messages)
             {
-                OnReceiveMessage?.Invoke(client, message.Content.JsonToObject<MessageInfo>());
-                socketClient.SendPrivateMessageReceipt(message.MsgID, message.SenderID, IM_ReceiptType.Receive, null);
+                MessageApiModel recvMessage = privateMessage.Content.JsonToObject<MessageApiModel>();
+                MessageModel message = recvMessage.MessageToModel();
+                OnReceiveMessage?.Invoke(client, message);
+                socketClient.SendPrivateMessageReceipt(privateMessage.MsgID, privateMessage.SenderID, IM_ReceiptType.Receive, null);
             }
         }
         #endregion
-    }
-
-    public class UrlEntity
-    {
-        /// <summary>
-        /// 路径
-        /// </summary>
-        public string Url { get; set; }
-
-        /// <summary>
-        /// 文件名
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// 缩略图
-        /// </summary>
-        public string ThumbUrl { get; set; }
-
-        /// <summary>
-        /// MD5
-        /// </summary>
-        public string MD5 { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace EMChat2.View.Main.Body.Chat
             if (e.NewValue is ChatMessageContentControlViewModel)
             {
                 ChatMessageContentControlViewModel ChatMessageContentControlViewModel = e.NewValue as ChatMessageContentControlViewModel;
-                switch (ChatMessageContentControlViewModel.Type)
+                switch (ChatMessageContentControlViewModel.MessageContent.Type)
                 {
                     case MessageTypeConst.Text: { } break;
                     case MessageTypeConst.Emotion: { this.Width = 64; } break;

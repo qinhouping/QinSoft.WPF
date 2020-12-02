@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -23,15 +23,15 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.departments = new ObservableCollection<DepartmentInfo>();
+            this.departments = new ObservableCollection<DepartmentModel>();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<DepartmentInfo> departments;
-        public ObservableCollection<DepartmentInfo> Departments
+        private ObservableCollection<DepartmentModel> departments;
+        public ObservableCollection<DepartmentModel> Departments
         {
             get
             {
@@ -50,7 +50,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             get
             {
-                return new RelayCommand<DepartmentInfo>((department) =>
+                return new RelayCommand<DepartmentModel>((department) =>
                 {
                     this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {
@@ -68,7 +68,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             get
             {
-                return new RelayCommand<StaffInfo>((staff) =>
+                return new RelayCommand<StaffModel>((staff) =>
                 {
                     this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {
@@ -92,11 +92,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 lock (this.Departments)
                 {
                     this.Departments.Clear();
-                    this.Departments.Add(new DepartmentInfo()
+                    this.Departments.Add(new DepartmentModel()
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = "东财咨询",
-                        Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
+                        Staffs = new ObservableCollection<StaffModel>() { new StaffModel()
                         {
                             Id = Guid.NewGuid().ToString(),
                             WorkCode = "180366",
@@ -106,19 +106,19 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                             State = UserStateEnum.Busy,
                             Sex= SexEnum.Women
                         } },
-                        Departments = new ObservableCollection<DepartmentInfo>()
+                        Departments = new ObservableCollection<DepartmentModel>()
                         {
-                            new DepartmentInfo()
+                            new DepartmentModel()
                             {
                                 Id = Guid.NewGuid().ToString(),
                                 Name = "业务组",
-                                Departments=new ObservableCollection<DepartmentInfo>()
+                                Departments=new ObservableCollection<DepartmentModel>()
                                 {
-                                    new DepartmentInfo()
+                                    new DepartmentModel()
                                     {
                                         Id = Guid.NewGuid().ToString(),
                                         Name = "业务一部",
-                                        Staffs = new ObservableCollection<StaffInfo>() { new StaffInfo()
+                                        Staffs = new ObservableCollection<StaffModel>() { new StaffModel()
                                         {
                                             Id = Guid.NewGuid().ToString(),
                                             WorkCode = "180366",

@@ -15,116 +15,45 @@ namespace EMChat2.Common
     /// </summary>
     public static class MessageTools
     {
-        public static object ParseMessageContent(MessageContentInfo messageContent)
-        {
-            if (messageContent == null) return null;
-            switch (messageContent.Type)
-            {
-                case MessageTypeConst.Text: return messageContent.Content.JsonToObject<TextMessageContent>();
-                case MessageTypeConst.Emotion: return messageContent.Content.JsonToObject<EmotionMessageContent>();
-                case MessageTypeConst.Image: return messageContent.Content.JsonToObject<ImageMessageContent>();
-                case MessageTypeConst.Voice: return null;
-                case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Link: return messageContent.Content.JsonToObject<LinkMessageContent>();
-                case MessageTypeConst.File: return messageContent.Content.JsonToObject<FileMessageContent>();
-                case MessageTypeConst.Mixed: return messageContent.Content.JsonToObject<MixedMessageContent>();
-                case MessageTypeConst.Tips: return messageContent.Content.JsonToObject<TipsMessageContent>();
-                case MessageTypeConst.Event:
-                    {
-                        EventMessageContentBase eventMessageContentBase = messageContent.Content.JsonToObject<EventMessageContentBase>();
-                        switch (eventMessageContentBase.Event)
-                        {
-                            case EventTypeConst.RecvMessage: return messageContent.Content.JsonToObject<RecvMessageEventMessageContent>();
-                            case EventTypeConst.ReadMessage: return messageContent.Content.JsonToObject<ReadMessageEventMessageContent>();
-                            case EventTypeConst.RefuseMessage: return messageContent.Content.JsonToObject<RefuseMessageEventMessageContent>();
-                            case EventTypeConst.RevokeMessage: return messageContent.Content.JsonToObject<RevokeMessageEventMessageContent>();
-                            default: return eventMessageContentBase;
-                        }
-                    }
-                default: return null;
-            }
-        }
 
-        public static string GetMessageContentMark(MessageContentInfo messageContent)
+        public static string GetMessageContentMark(MessageContentModel messageContent)
         {
             if (messageContent == null) return null;
             switch (messageContent.Type)
             {
 
-                case MessageTypeConst.Text: return Regex.Replace(messageContent.Content.JsonToObject<TextMessageContent>().Content, @"\s", string.Empty);
-                case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", messageContent.Content.JsonToObject<EmotionMessageContent>().Name);
+                case MessageTypeConst.Text: return Regex.Replace((messageContent.Content as TextMessageContent).Content, @"\s", string.Empty);
+                case MessageTypeConst.Emotion: return string.Format("[表情-{0}]", (messageContent.Content as EmotionMessageContent).Name);
                 case MessageTypeConst.Image: return string.Format("[图片]");
                 case MessageTypeConst.Voice: return null;
                 case MessageTypeConst.Video: return null;
-                case MessageTypeConst.Link: return string.Format("[链接-{0}]", messageContent.Content.JsonToObject<LinkMessageContent>().Title);
-                case MessageTypeConst.File: return string.Format("[文件-{0}]", messageContent.Content.JsonToObject<FileMessageContent>().Name);
-                case MessageTypeConst.Mixed: return string.Join("", messageContent.Content.JsonToObject<MixedMessageContent>().Items.Select(u => GetMessageContentMark(u)));
-                case MessageTypeConst.Tips: return string.Format("[提示-{0}]", messageContent.Content.JsonToObject<TipsMessageContent>().Content);
-                case MessageTypeConst.Event: return string.Format("[事件-{0}]", messageContent.Content.JsonToObject<EventMessageContentBase>().Event);
+                case MessageTypeConst.Link: return string.Format("[链接-{0}]", (messageContent.Content as LinkMessageContent).Title);
+                case MessageTypeConst.File: return string.Format("[文件-{0}]", (messageContent.Content as FileMessageContent).Name);
+                case MessageTypeConst.Mixed: return string.Join("", (messageContent.Content as MixedMessageContent).Items.Select(u => GetMessageContentMark(u)));
+                case MessageTypeConst.Tips: return string.Format("[提示-{0}]", (messageContent.Content as TipsMessageContent).Content);
+                case MessageTypeConst.Event: return string.Format("[事件-{0}]", (messageContent.Content as EventMessageContent).Event);
                 default: return null;
             }
         }
 
-        public static MessageContentInfo CreateTextMessageContent(string content)
+
+        public static MessageContentModel CreateTextMessageContent(string content)
         {
             if (string.IsNullOrEmpty(content)) return null;
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Text,
                 Content = new TextMessageContent()
                 {
                     Content = content
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageContentInfo CreateEmotionMessageContent(EmotionInfo emotion)
-        {
-            if (emotion == null) return null;
-            return new MessageContentInfo()
-            {
-                Type = MessageTypeConst.Emotion,
-                Content = new EmotionMessageContent()
-                {
-                    Url = emotion.Url,
-                    Name = emotion.Name,
-                    IsGif = emotion.IsGif
-                }.ObjectToJson()
-            };
-        }
-
-        public static MessageContentInfo CreateImageMessageContent(FileInfo file)
-        {
-            if (file == null) return null;
-            return new MessageContentInfo()
-            {
-                Type = MessageTypeConst.Image,
-                Content = new ImageMessageContent()
-                {
-                    Url = file.FullName
-                }.ObjectToJson()
-            };
-        }
-
-        public static MessageContentInfo CreateFileMessageContent(FileInfo file)
-        {
-            if (file == null) return null;
-            return new MessageContentInfo()
-            {
-                Type = MessageTypeConst.File,
-                Content = new FileMessageContent()
-                {
-                    Url = file.FullName,
-                    Name = file.Name,
-                    Extension = file.Extension
-                }.ObjectToJson()
-            };
-        }
-
-        public static MessageContentInfo CreateHtmlMessageContent(string html)
+        public static MessageContentModel CreateHtmlMessageContent(string html)
         {
             if (string.IsNullOrEmpty(html)) return null;
-            List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
+            List<MessageContentModel> messageContents = new List<MessageContentModel>();
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
             HtmlNode rootNode = htmlDocument.DocumentNode;
@@ -135,101 +64,170 @@ namespace EMChat2.Common
                 {
                     string url = imageHtmlNode.Attributes["src"]?.Value;
                     if (string.IsNullOrEmpty(url) || !url.IsNetUrl()) continue;
-                    messageContents.Add(new MessageContentInfo()
+                    messageContents.Add(new MessageContentModel()
                     {
                         Type = MessageTypeConst.Image,
                         Content = new ImageMessageContent()
                         {
                             Url = url
-                        }.ObjectToJson()
+                        }
                     });
                 }
             }
             if (!string.IsNullOrEmpty(rootNode.InnerText))
             {
-                messageContents.Add(new MessageContentInfo()
+                messageContents.Add(new MessageContentModel()
                 {
                     Type = MessageTypeConst.Text,
                     Content = new TextMessageContent()
                     {
                         Content = rootNode.InnerText
-                    }.ObjectToJson()
+                    }
                 });
             }
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Mixed,
                 Content = new MixedMessageContent()
                 {
                     Items = messageContents.ToArray()
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageContentInfo CreateRecvMessageEventMessageContent(MessageInfo message)
+        public static MessageContentModel CreateEmotionMessageContent(EmotionModel emotion)
+        {
+            if (emotion == null) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Emotion,
+                Content = new EmotionMessageContent()
+                {
+                    Url = emotion.Url,
+                    Name = emotion.Name,
+                    IsGif = emotion.IsGif
+                }
+            };
+        }
+
+        public static MessageContentModel CreateImageMessageContent(FileInfo file)
+        {
+            if (file == null) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Image,
+                Content = new ImageMessageContent()
+                {
+                    Url = file.FullName
+                }
+            };
+        }
+
+        public static MessageContentModel CreateLinkMessageContent(Uri url, Uri thumbUrl, string title, string description = null)
+        {
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Link,
+                Content = new LinkMessageContent()
+                {
+                    Url = url.AbsoluteUri,
+                    ThumbUrl = thumbUrl.AbsoluteUri,
+                    Title = title,
+                    Description = description
+                }
+            };
+        }
+
+        public static MessageContentModel CreateFileMessageContent(FileInfo file)
+        {
+            if (file == null) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.File,
+                Content = new FileMessageContent()
+                {
+                    Url = file.FullName,
+                    Name = file.Name,
+                    Extension = file.Extension
+                }
+            };
+        }
+
+        public static MessageContentModel CreateMixedMessageContent(params MessageContentModel[] items)
+        {
+            if (items == null || items.Count() == 0) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Mixed,
+                Content = new MixedMessageContent()
+                {
+                    Items = items
+                }
+            };
+        }
+
+        public static MessageContentModel CreateRecvMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
             if (message.State != MessageStateEnum.Received) throw new ArgumentException("message state is invalid");
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
                 Content = new RecvMessageEventMessageContent()
                 {
-                    Event = EventTypeConst.RecvMessage,
                     Message = message
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageContentInfo CreateReadMessageEventMessageContent(MessageInfo message)
+        public static MessageContentModel CreateReadMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
             if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
                 Content = new RecvMessageEventMessageContent()
                 {
-                    Event = EventTypeConst.ReadMessage,
                     Message = message
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageContentInfo CreateRefuseMessageEventMessageContent(MessageInfo message)
+        public static MessageContentModel CreateRefuseMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
             if (message.State != MessageStateEnum.Refused) throw new ArgumentException("message state is invalid");
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
                 Content = new RecvMessageEventMessageContent()
                 {
-                    Event = EventTypeConst.RefuseMessage,
                     Message = message
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageContentInfo CreateRevokeMessageEventMessageContent(MessageInfo message)
+        public static MessageContentModel CreateRevokeMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
             if (message.State != MessageStateEnum.Revoked) throw new ArgumentException("message state is invalid");
-            return new MessageContentInfo()
+            return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
                 Content = new RecvMessageEventMessageContent()
                 {
-                    Event = EventTypeConst.RevokeMessage,
                     Message = message
-                }.ObjectToJson()
+                }
             };
         }
 
-        public static MessageInfo CreateMessage(StaffInfo staff, ChatInfo chat, MessageContentInfo messageContent, MessageStateEnum state = MessageStateEnum.Sending)
+
+
+        public static MessageModel CreateMessage(StaffModel staff, ChatModel chat, MessageContentModel messageContent, MessageStateEnum state = MessageStateEnum.Sending)
         {
             if (staff == null || chat == null || messageContent == null) return null;
-            return new MessageInfo()
+            return new MessageModel()
             {
                 Id = Guid.NewGuid().ToString(),
                 ChatId = chat.Id,

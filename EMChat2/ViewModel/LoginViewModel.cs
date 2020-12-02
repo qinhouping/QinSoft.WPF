@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -66,9 +66,9 @@ namespace EMChat2.ViewModel
         }
         private UserService userService;
         private SystemService systemService;
-        private LoginInfo oldLoginInfo;
-        private LoginInfo loginInfo;
-        public LoginInfo LoginInfo
+        private LoginInfoModel oldLoginInfo;
+        private LoginInfoModel loginInfo;
+        public LoginInfoModel LoginInfo
         {
             get
             {

@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
@@ -18,7 +18,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatViewModel : ChatViewModel, IDisposable
     {
         #region 构造函数
-        public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
+        public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
         {
             if (this.Chat.Type != ChatTypeEnum.Private) throw new ArgumentOutOfRangeException("is not private chat");
             this.PrivateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, chat);

@@ -17,7 +17,7 @@ namespace EMChat2.ViewModel.Main.Body.User
     public class CustomerTagAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BusinessEnum business, IEnumerable<TagInfo> defaultTags = null)
+        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BusinessEnum business, IEnumerable<TagModel> defaultTags = null)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -25,7 +25,7 @@ namespace EMChat2.ViewModel.Main.Body.User
             this.applicationContextViewModel = applicationContextViewModel;
             this.business = business;
             this.defaultTags = defaultTags;
-            this.tagGroups = new ObservableCollection<TagGroupInfo>();
+            this.tagGroups = new ObservableCollection<TagGroupModel>();
 
             this.LoadTagGroups();
         }
@@ -34,7 +34,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private IEnumerable<TagInfo> defaultTags;
+        private IEnumerable<TagModel> defaultTags;
         private ApplicationContextViewModel applicationContextViewModel;
         public ApplicationContextViewModel ApplicationContextViewModel
         {
@@ -61,8 +61,8 @@ namespace EMChat2.ViewModel.Main.Body.User
                 this.NotifyPropertyChange(() => this.Business);
             }
         }
-        private ObservableCollection<TagGroupInfo> tagGroups;
-        public ObservableCollection<TagGroupInfo> TagGroups
+        private ObservableCollection<TagGroupModel> tagGroups;
+        public ObservableCollection<TagGroupModel> TagGroups
         {
             get
             {
@@ -74,7 +74,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                 this.NotifyPropertyChange(() => this.TagGroups);
             }
         }
-        public IEnumerable<TagInfo> SelectedTags
+        public IEnumerable<TagModel> SelectedTags
         {
             get
             {
@@ -98,8 +98,8 @@ namespace EMChat2.ViewModel.Main.Body.User
                 if (!isAddingTagGroup) this.TemporaryAddTagGroup = null;
             }
         }
-        private TagGroupInfo temporaryAddTagGroup;
-        public TagGroupInfo TemporaryAddTagGroup
+        private TagGroupModel temporaryAddTagGroup;
+        public TagGroupModel TemporaryAddTagGroup
         {
             get
             {
@@ -125,8 +125,8 @@ namespace EMChat2.ViewModel.Main.Body.User
                 if (!this.isEditingTagGroup) this.TemporaryEditTagGroup = null;
             }
         }
-        private TagGroupInfo temporaryEditTagGroup;
-        public TagGroupInfo TemporaryEditTagGroup
+        private TagGroupModel temporaryEditTagGroup;
+        public TagGroupModel TemporaryEditTagGroup
         {
             get
             {
@@ -149,13 +149,13 @@ namespace EMChat2.ViewModel.Main.Body.User
                 return new RelayCommand(() =>
                 {
                     this.IsAddingTagGroup = false;
-                    this.TemporaryAddTagGroup = new TagGroupInfo()
+                    this.TemporaryAddTagGroup = new TagGroupModel()
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Level = TagGroupLevelEnum.User,
                         Business = this.Business,
-                        Tags = new ObservableCollection<TagInfo>()
+                        Tags = new ObservableCollection<TagModel>()
                     };
                     this.IsAddingTagGroup = true;
                 });
@@ -193,7 +193,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand<TagGroupInfo>((tagGroup) =>
+                return new RelayCommand<TagGroupModel>((tagGroup) =>
                 {
                     this.IsEditingTagGroup = false;
                     this.temporaryEditTagGroup = tagGroup.Clone();
@@ -232,7 +232,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand<TagGroupInfo>((tagGroup) =>
+                return new RelayCommand<TagGroupModel>((tagGroup) =>
                 {
                     lock (this.TagGroups)
                     {
@@ -251,11 +251,11 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand<TagInfo>((tag) =>
+                return new RelayCommand<TagModel>((tag) =>
                 {
                     lock (this.TagGroups)
                     {
-                        foreach (TagGroupInfo tagGroup in this.TagGroups)
+                        foreach (TagGroupModel tagGroup in this.TagGroups)
                         {
                             lock (tagGroup.Tags)
                             {
@@ -280,49 +280,49 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             await new Action(() =>
             {
-                List<TagGroupInfo> data = new List<TagGroupInfo>();
-                data.Add(new TagGroupInfo()
+                List<TagGroupModel> data = new List<TagGroupModel>();
+                data.Add(new TagGroupModel()
                 {
                     Id = "1",
                     Name = "客户类型",
                     Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="0", Name="决策版客户XXXXXX" },
-                            new TagInfo(){ Id="1", Name="领航版" },
-                            new TagInfo(){ Id="2", Name="大师版" },
-                            new TagInfo(){ Id="3", Name="先锋版" },
-                            new TagInfo(){ Id="4", Name="经典版" }
+                    Tags = new ObservableCollection<TagModel>(){
+                            new TagModel(){ Id="0", Name="决策版客户XXXXXX" },
+                            new TagModel(){ Id="1", Name="领航版" },
+                            new TagModel(){ Id="2", Name="大师版" },
+                            new TagModel(){ Id="3", Name="先锋版" },
+                            new TagModel(){ Id="4", Name="经典版" }
                         }
                 });
-                data.Add(new TagGroupInfo()
+                data.Add(new TagGroupModel()
                 {
                     Id = "2",
                     Name = "成交类型",
                     Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="11", Name="首次" },
-                            new TagInfo(){ Id="12", Name="升级" },
-                            new TagInfo(){ Id="13", Name="续费" }
+                    Tags = new ObservableCollection<TagModel>(){
+                            new TagModel(){ Id="11", Name="首次" },
+                            new TagModel(){ Id="12", Name="升级" },
+                            new TagModel(){ Id="13", Name="续费" }
                         }
                 });
-                data.Add(new TagGroupInfo()
+                data.Add(new TagGroupModel()
                 {
                     Id = "3",
                     Name = "是否到期",
                     Level = TagGroupLevelEnum.System,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="21", Name="已到期" },
-                            new TagInfo(){ Id="22", Name="未到期" }
+                    Tags = new ObservableCollection<TagModel>(){
+                            new TagModel(){ Id="21", Name="已到期" },
+                            new TagModel(){ Id="22", Name="未到期" }
                         }
                 });
-                data.Add(new TagGroupInfo()
+                data.Add(new TagGroupModel()
                 {
                     Id = "4",
                     Name = "是否有意向",
                     Level = TagGroupLevelEnum.User,
-                    Tags = new ObservableCollection<TagInfo>(){
-                            new TagInfo(){ Id="31", Name="有意向" },
-                            new TagInfo(){ Id="32", Name="无意向" }
+                    Tags = new ObservableCollection<TagModel>(){
+                            new TagModel(){ Id="31", Name="有意向" },
+                            new TagModel(){ Id="32", Name="无意向" }
                         }
                 });
 

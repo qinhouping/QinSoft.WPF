@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.ViewModel.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -25,7 +25,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
-            this.customers = new ObservableCollection<CustomerInfo>();
+            this.customers = new ObservableCollection<CustomerModel>();
             this.selectedCustomer = null;
         }
         #endregion
@@ -59,8 +59,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.CustomerTagAreaViewModel);
             }
         }
-        private ObservableCollection<CustomerInfo> customers;
-        public ObservableCollection<CustomerInfo> Customers
+        private ObservableCollection<CustomerModel> customers;
+        public ObservableCollection<CustomerModel> Customers
         {
             get
             {
@@ -72,8 +72,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.Customers);
             }
         }
-        private CustomerInfo selectedCustomer;
-        public CustomerInfo SelectedCustomer
+        private CustomerModel selectedCustomer;
+        public CustomerModel SelectedCustomer
         {
             get
             {
@@ -118,7 +118,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 new Action(() =>
                 {
                     this.Customers.Clear();
-                    this.Customers.Add(new CustomerInfo()
+                    this.Customers.Add(new CustomerModel()
                     {
                         Id = "customer1",
                         Business = BusinessEnum.Advisor,
@@ -130,15 +130,15 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         Remark = "测试客户1-测试备注",
                         Sex = SexEnum.Man,
                         State = UserStateEnum.Online,
-                        Tags = new ObservableCollection<TagInfo>()
+                        Tags = new ObservableCollection<TagModel>()
                      {
-                         new TagInfo(){ Id="2", Name="大师版", IsSelected=true },
-                         new TagInfo(){ Id="11", Name="首次", IsSelected=true },
-                         new TagInfo(){ Id="21", Name="是", IsSelected=true }
+                         new TagModel(){ Id="2", Name="大师版", IsSelected=true },
+                         new TagModel(){ Id="11", Name="首次", IsSelected=true },
+                         new TagModel(){ Id="21", Name="是", IsSelected=true }
                      },
                         Uid = "customer1"
                     });
-                    this.Customers.Add(new CustomerInfo()
+                    this.Customers.Add(new CustomerModel()
                     {
                         Id = "customer2",
                         Business = BusinessEnum.Advisor,
@@ -152,7 +152,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         State = UserStateEnum.Busy,
                         Uid = "customer2"
                     });
-                    this.Customers.Add(new CustomerInfo()
+                    this.Customers.Add(new CustomerModel()
                     {
                         Id = Guid.NewGuid().ToString(),
                         ImUserId = "2",

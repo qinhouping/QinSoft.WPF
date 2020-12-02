@@ -18,7 +18,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
         }
-        public DepartmentDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, DepartmentInfo department)
+        public DepartmentDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, DepartmentModel department)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -29,8 +29,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private DepartmentInfo department;
-        public DepartmentInfo Department
+        private DepartmentModel department;
+        public DepartmentModel Department
         {
             get
             {

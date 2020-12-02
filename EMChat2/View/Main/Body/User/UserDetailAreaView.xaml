@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
-             xmlns:event="clr-namespace:EMChat2.Model.Event"
+             xmlns:event="clr-namespace:EMChat2.Event"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 

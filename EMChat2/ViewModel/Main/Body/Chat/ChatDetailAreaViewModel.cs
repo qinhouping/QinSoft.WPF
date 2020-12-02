@@ -1,4 +1,4 @@
-﻿using EMChat2.Model.Event;
+﻿using EMChat2.Event;
 using EMChat2.Service;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.Event;

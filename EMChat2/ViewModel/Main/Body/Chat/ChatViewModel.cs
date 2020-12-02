@@ -1,7 +1,7 @@
 ﻿using DotLiquid.Util;
 using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
@@ -26,7 +26,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public abstract class ChatViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatInfo chat, ChatService chatService, SystemService systemService)
+        public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -36,7 +36,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
-            this.Messages = new ObservableCollection<MessageInfo>();
+            this.Messages = new ObservableCollection<MessageModel>();
         }
         #endregion
 
@@ -45,8 +45,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         protected EventAggregator eventAggregator;
         private ChatService chatService;
         private SystemService systemService;
-        private ChatInfo chat;
-        public ChatInfo Chat
+        private ChatModel chat;
+        public ChatModel Chat
         {
             get
             {
@@ -84,8 +84,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ObservableCollection<MessageInfo> messages;
-        public ObservableCollection<MessageInfo> Messages
+        private ObservableCollection<MessageModel> messages;
+        public ObservableCollection<MessageModel> Messages
         {
             get
             {
@@ -127,8 +127,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.MessagesCollectionView);
             }
         }
-        private MessageContentInfo inputMessageContent;
-        public MessageContentInfo InputMessageContent
+        private MessageContentModel inputMessageContent;
+        public MessageContentModel InputMessageContent
         {
             get
             {
@@ -140,12 +140,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.InputMessageContent);
             }
         }
-        private MessageContentInfo temporaryInputMessagContent;
-        public MessageContentInfo TemporaryInputMessagContent
+        private MessageContentModel temporaryInputMessagContent;
+        public MessageContentModel TemporaryInputMessagContent
         {
             get
             {
-                MessageContentInfo messageContent = this.temporaryInputMessagContent;
+                MessageContentModel messageContent = this.temporaryInputMessagContent;
                 //用完就会被清除
                 this.temporaryInputMessagContent = null;
                 return messageContent;
@@ -166,14 +166,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }
         }
-        public MessageInfo LastMessage
+        public MessageModel LastMessage
         {
             get
             {
                 lock (this.messages)
                 {
                     this.messagesCollectionView.MoveCurrentToLast();
-                    return this.messagesCollectionView.CurrentItem as MessageInfo;
+                    return this.messagesCollectionView.CurrentItem as MessageModel;
                 }
             }
         }
@@ -190,14 +190,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.IsDragMessageContent);
             }
         }
-        private BusinessSettingInfo BusinessSetting
+        private BusinessSettingModel BusinessSetting
         {
             get
             {
-                BusinessSettingInfo value = null;
+                BusinessSettingModel value = null;
                 if (ApplicationContextViewModel.Setting?.BusinessSettings.TryGetValue(Chat.Business, out value) != true)
                 {
-                    value = new BusinessSettingInfo();
+                    value = new BusinessSettingModel();
                 }
                 return value;
             }
@@ -351,7 +351,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<MessageInfo>((oldMessage) =>
+                return new RelayCommand<MessageModel>((oldMessage) =>
                 {
                     new Action(() =>
                     {
@@ -373,7 +373,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    MessageInfo message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, this.InputMessageContent);
+                    MessageModel message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, this.InputMessageContent);
                     if (message == null) return;
                     new Action(() =>
                     {
@@ -395,9 +395,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<MessageInfo>((oldMessage) =>
+                return new RelayCommand<MessageModel>((oldMessage) =>
                 {
-                    MessageInfo message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, oldMessage);
+                    MessageModel message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, oldMessage);
                     if (message == null) return;
                     new Action(() =>
                     {
@@ -421,16 +421,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<MessageContentInfo>((messageContent) =>
+                return new RelayCommand<MessageContentModel>((messageContent) =>
                 {
                     IDataObject dataObject = new DataObject();
-                    dataObject.SetData(typeof(MessageContentInfo).FullName, messageContent.ObjectToJson());
+                    dataObject.SetData(typeof(MessageContentModel).FullName, messageContent.ObjectToJson());
                     Clipboard.SetDataObject(dataObject, false);
                 });
             }
         }
 
-        protected virtual bool CanPaste(MessageContentInfo messageContent)
+        protected virtual bool CanPaste(MessageContentModel messageContent)
         {
             bool canPaste = false;
             switch (messageContent.Type)
@@ -444,7 +444,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 case MessageTypeConst.File: canPaste = BusinessSetting.AllowSelectFile; break;
                 case MessageTypeConst.Mixed:
                     {
-                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageContent) as MixedMessageContent).Items)
+                        foreach (MessageContentModel mixedItem in (messageContent.Content as MixedMessageContent).Items)
                             canPaste &= CanPaste(mixedItem);
                     }
                     break;
@@ -458,9 +458,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    if (Clipboard.GetDataObject().GetDataPresent(typeof(MessageContentInfo).FullName))
+                    if (Clipboard.GetDataObject().GetDataPresent(typeof(MessageContentModel).FullName))
                     {
-                        MessageContentInfo messageContent = (Clipboard.GetDataObject().GetData(typeof(MessageContentInfo).FullName) as string).JsonToObject<MessageContentInfo>();
+                        MessageContentModel messageContent = (Clipboard.GetDataObject().GetData(typeof(MessageContentModel).FullName) as string).JsonToObject<MessageContentModel>();
                         if (CanPaste(messageContent))
                             this.InputObjectMessageContent(messageContent);
                     }
@@ -610,7 +610,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
         }
 
-        private async void InputObjectMessageContent(MessageContentInfo messageContent)
+        private async void InputObjectMessageContent(MessageContentModel messageContent)
         {
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
         }

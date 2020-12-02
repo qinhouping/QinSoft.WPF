@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.ViewModel.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
@@ -44,8 +44,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        private CustomerInfo customer;
-        public CustomerInfo Customer
+        private CustomerModel customer;
+        public CustomerModel Customer
         {
             get
             {
@@ -77,8 +77,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 }
             }
         }
-        private CustomerInfo temporaryEditCustomer;
-        public CustomerInfo TemporaryEditCustomer
+        private CustomerModel temporaryEditCustomer;
+        public CustomerModel TemporaryEditCustomer
         {
             get
             {
@@ -130,7 +130,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
-                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagInfo>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
+                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagModel>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
                     this.Customer.Assign(this.TemporaryEditCustomer);
                     if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditCustomer });
                     this.IsEditingCustomer = false;

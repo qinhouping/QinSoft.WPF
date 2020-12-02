@@ -1,5 +1,6 @@
 ﻿using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
+using EMChat2.Model.IM;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -33,13 +34,13 @@ namespace EMChat2.Service
         #endregion
 
         #region 方法
-        public async void Login(LoginInfo loginInfo)
+        public async void Login(LoginInfoModel loginInfo)
         {
             await Task.Delay(1000);
             await eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
                 IsSuccess = true,
-                Staff = new StaffInfo()
+                Staff = new StaffModel()
                 {
                     Id = "180366",
                     WorkCode = "180366",
@@ -53,13 +54,13 @@ namespace EMChat2.Service
                         BusinessEnum.Expert
                     }
                 },
-                IMServerInfo = new IMServerInfo
+                IMServer = new IMServerModel
                 {
                     ApiUrl = "https://61.152.230.122:16060",
                     IP = "61.152.230.122",
                     Port = 17070
                 },
-                IMUserInfo = new IMUserInfo()
+                IMUser = new IMUserModel()
                 {
                     Id = "4735344555340783734",
                     AppKey = "EMgUNSkPGf",
@@ -79,15 +80,15 @@ namespace EMChat2.Service
             await eventAggregator.PublishAsync(new ExitCallbackEventArgs());
         }
 
-        public SettingInfo LoadSetting(StaffInfo staff)
+        public SettingModel LoadSetting(StaffModel staff)
         {
             if (staff == null) throw new ArgumentNullException("staff");
             //测试数据
-            SettingInfo setting = new SettingInfo();
+            SettingModel setting = new SettingModel();
 
             foreach (BusinessEnum business in staff.BusinessList)
             {
-                setting.BusinessSettings[business] = new BusinessSettingInfo()
+                setting.BusinessSettings[business] = new BusinessSettingModel()
                 {
                     AllowSendMessage = true,
                     AllowInputText = true,

@@ -27,7 +27,7 @@ namespace EMChat2.Service
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            urlMappingInfos = new List<UrlMappingInfo>();
+            urlMappingInfos = new List<UrlMappingModel>();
             LoadUrlMapping();
         }
         #endregion
@@ -35,20 +35,20 @@ namespace EMChat2.Service
         private EventAggregator eventAggregator;
         private string loginInfoFilePath = ConfigurationManager.AppSettings["LoginInfoFilePath"];
         private string urlMappingFilePath = ConfigurationManager.AppSettings["UrlMappingFilePath"];
-        private IList<UrlMappingInfo> urlMappingInfos;
+        private IList<UrlMappingModel> urlMappingInfos;
 
         #region 方法
-        public async Task<LoginInfo> LoadLoginInfo()
+        public async Task<LoginInfoModel> LoadLoginInfo()
         {
-            return await new Func<LoginInfo>(() =>
+            return await new Func<LoginInfoModel>(() =>
             {
-                LoginInfo loginInfo = loginInfoFilePath.FileToStream().StreamToString().JsonToObject<LoginInfo>() ?? new LoginInfo();
+                LoginInfoModel loginInfo = loginInfoFilePath.FileToStream().StreamToString().JsonToObject<LoginInfoModel>() ?? new LoginInfoModel();
                 loginInfo.Password = loginInfo.Password.UnBase64();
                 return loginInfo.Clone();
             }).ExecuteInTask();
         }
 
-        public async void StoreLoginInfo(LoginInfo loginInfo)
+        public async void StoreLoginInfo(LoginInfoModel loginInfo)
         {
             await new Action(() =>
             {
@@ -61,9 +61,9 @@ namespace EMChat2.Service
 
         private async void LoadUrlMapping()
         {
-            this.urlMappingInfos = await new Func<IList<UrlMappingInfo>>(() =>
+            this.urlMappingInfos = await new Func<IList<UrlMappingModel>>(() =>
             {
-                return urlMappingFilePath.FileToStream().StreamToString().JsonToObject<List<UrlMappingInfo>>() ?? new List<UrlMappingInfo>().ToList();
+                return urlMappingFilePath.FileToStream().StreamToString().JsonToObject<List<UrlMappingModel>>() ?? new List<UrlMappingModel>().ToList();
             }).ExecuteInTask();
         }
 
@@ -74,7 +74,7 @@ namespace EMChat2.Service
                 lock (this.urlMappingInfos)
                 {
                     url = HttpUtility.UrlDecode(url);
-                    UrlMappingInfo urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
+                    UrlMappingModel urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
                     if (urlMappingInfo == null || !urlMappingInfo.LocalFilePath.IsExistsFile())
                     {
                         return retOrigin ? url : null;
@@ -87,7 +87,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public async void StoreUrlMapping(UrlMappingInfo urlMappingInfo)
+        public async void StoreUrlMapping(UrlMappingModel urlMappingInfo)
         {
             await new Action(() =>
             {

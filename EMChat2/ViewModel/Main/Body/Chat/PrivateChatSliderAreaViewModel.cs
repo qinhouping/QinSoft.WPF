@@ -17,7 +17,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatInfo chat)
+        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatModel chat)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -103,8 +103,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
             }
         }
-        private ChatInfo chat;
-        public ChatInfo Chat
+        private ChatModel chat;
+        public ChatModel Chat
         {
             get
             {
@@ -117,7 +117,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.ChatUser);
             }
         }
-        public UserInfo ChatUser
+        public UserModel ChatUser
         {
             get
             {
@@ -130,7 +130,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             get
             {
                 CustomerDetailAreaViewModel data = this.customerDetailAreaViewModel;
-                data.Customer = this.ChatUser as CustomerInfo;
+                data.Customer = this.ChatUser as CustomerModel;
                 return data;
             }
             set
@@ -145,7 +145,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             get
             {
                 StaffDetailAreaViewModel data = this.staffDetailAreaViewModel;
-                data.Staff = this.ChatUser as StaffInfo;
+                data.Staff = this.ChatUser as StaffModel;
                 return data;
             }
             set

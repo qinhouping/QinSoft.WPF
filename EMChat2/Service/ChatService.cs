@@ -1,7 +1,8 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.PipeFilter;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
+using EMChat2.Model.IM;
 using EMChat2.Service.PipeFilter;
 using EMChat2.Service.PipeFilter.RecvMessage;
 using EMChat2.Service.PipeFilter.SendMessage;
@@ -52,8 +53,8 @@ namespace EMChat2.Service
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private SystemService systemService;
-        private IMServerInfo serverInfo;
-        private IMUserInfo userInfo;
+        private IMServerModel imServer;
+        private IMUserModel imUser;
         private BeginPipeFilter sendMessageBeginPipeFilter;
         private BeginPipeFilter recvMessageBeginPipeFilter;
         #endregion
@@ -74,12 +75,12 @@ namespace EMChat2.Service
             return pipeFilter;
         }
 
-        private async void HandleSendMessage(MessageInfo message)
+        private async void HandleSendMessage(MessageModel message)
         {
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
 
-        private async void HandleRecvMessage(MessageInfo message)
+        private async void HandleRecvMessage(MessageModel message)
         {
             await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
@@ -133,7 +134,7 @@ namespace EMChat2.Service
             {
                 Stream stream = await HttpTools.DownloadAsync(url, null, null);
                 await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
-                systemService.StoreUrlMapping(new UrlMappingInfo() { Url = url, LocalFilePath = filePath });
+                systemService.StoreUrlMapping(new UrlMappingModel() { Url = url, LocalFilePath = filePath });
                 await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("文件[" + url + "]下载完成") } });
             }
             catch (Exception e)
@@ -145,7 +146,7 @@ namespace EMChat2.Service
             }
         }
 
-        public async void SendMessage(MessageInfo message)
+        public async void SendMessage(MessageModel message)
         {
             await Task.Delay(100);
             HandleSendMessage(message);
@@ -156,23 +157,23 @@ namespace EMChat2.Service
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-            this.serverInfo = arg.IMServerInfo;
-            this.userInfo = arg.IMUserInfo;
-            IMTools.Start(this.serverInfo);
+            this.imServer = arg.IMServer;
+            this.imUser = arg.IMUser;
+            IMTools.Start(this.imServer);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
         {
             IMTools.Stop();
-            this.serverInfo = null;
-            this.userInfo = null;
+            this.imServer = null;
+            this.imUser = null;
         }
 
         public void Handle(ExitCallbackEventArgs arg)
         {
             IMTools.Stop();
-            this.serverInfo = null;
-            this.userInfo = null;
+            this.imServer = null;
+            this.imUser = null;
         }
         #endregion
 
@@ -189,7 +190,7 @@ namespace EMChat2.Service
                 }
             });
 
-            IMTools.Login(this.userInfo, (arg1, arg2) =>
+            IMTools.Login(this.imUser, (arg1, arg2) =>
             {
                 this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
                 {
@@ -241,7 +242,7 @@ namespace EMChat2.Service
             });
         }
 
-        private void IMTools_OnReceiveMessage(object sender, MessageInfo e)
+        private void IMTools_OnReceiveMessage(object sender, MessageModel e)
         {
             HandleRecvMessage(e);
         }

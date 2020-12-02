@@ -1,5 +1,5 @@
 ﻿using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;

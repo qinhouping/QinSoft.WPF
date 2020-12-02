@@ -22,11 +22,11 @@
                     </Setter>
                     <Style.Triggers>
                         <!--表情-->
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static baseInfo:MessageTypeConst.Emotion}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Emotion}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
-                                        <Image Source="{Binding Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
+                                        <Image Source="{Binding MessageContent.Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
                                             <!--<Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenEmotionMessageCommand}"></MouseBinding>
                                             </Image.InputBindings>-->
@@ -36,11 +36,11 @@
                             </Setter>
                         </DataTrigger>
                         <!--图片-->
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static baseInfo:MessageTypeConst.Image}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Image}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
-                                        <Image Source="{Binding Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
+                                        <Image Source="{Binding MessageContent.Content.Url, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}">
                                             <Image.InputBindings>
                                                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenImageMessageCommand}"></MouseBinding>
                                             </Image.InputBindings>
@@ -50,7 +50,7 @@
                             </Setter>
                         </DataTrigger>
                         <!--链接-->
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static baseInfo:MessageTypeConst.Link}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Link}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">
@@ -65,15 +65,15 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Image Margin="2" Source="{Binding Content.ThumbUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Title}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <Image Margin="2" Source="{Binding MessageContent.Content.ThumbUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" Grid.RowSpan="2" VerticalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding MessageContent.Content.Title}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MessageContent.Content.Description}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
                         <!--文件-->
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static baseInfo:MessageTypeConst.File}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.File}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">
@@ -89,8 +89,8 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Image Source="/Resource/Image/file.ico" Grid.RowSpan="2" Margin="5,2"></Image>
-                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding Content.Name}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Content.Extension}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Column="1" Margin="2" Text="{Binding MessageContent.Content.Name}" VerticalAlignment="Bottom" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding MessageContent.Content.Extension}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlock}"></TextBlock>
                                     </Grid>
                                 </Setter.Value>
                             </Setter>

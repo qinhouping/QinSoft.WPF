@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -26,7 +26,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.QuickReplyGroups = new ObservableCollection<QuickReplyGroupInfo>();
+            this.QuickReplyGroups = new ObservableCollection<QuickReplyGroupModel>();
         }
         #endregion
 
@@ -46,8 +46,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        private ObservableCollection<QuickReplyGroupInfo> quickReplyGroups;
-        public ObservableCollection<QuickReplyGroupInfo> QuickReplyGroups
+        private ObservableCollection<QuickReplyGroupModel> quickReplyGroups;
+        public ObservableCollection<QuickReplyGroupModel> QuickReplyGroups
         {
             get
             {
@@ -59,8 +59,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.QuickReplyGroups);
             }
         }
-        private QuickReplyGroupInfo selectedQuickReplyGroup;
-        public QuickReplyGroupInfo SelectedQuickReplyGroup
+        private QuickReplyGroupModel selectedQuickReplyGroup;
+        public QuickReplyGroupModel SelectedQuickReplyGroup
         {
             get
             {
@@ -86,8 +86,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 if (!this.isAddingQuickReplyGroup) this.TemporaryAddQuickReplyGroup = null;
             }
         }
-        private QuickReplyGroupInfo temporaryAddQuickReplyGroup;
-        public QuickReplyGroupInfo TemporaryAddQuickReplyGroup
+        private QuickReplyGroupModel temporaryAddQuickReplyGroup;
+        public QuickReplyGroupModel TemporaryAddQuickReplyGroup
         {
             get
             {
@@ -113,8 +113,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 if (!this.isEditingQuickReplyGroup) this.TemporaryEditQuickReplyGroup = null;
             }
         }
-        private QuickReplyGroupInfo temporaryEditQuickReplyGroup;
-        public QuickReplyGroupInfo TemporaryEditQuickReplyGroup
+        private QuickReplyGroupModel temporaryEditQuickReplyGroup;
+        public QuickReplyGroupModel TemporaryEditQuickReplyGroup
         {
             get
             {
@@ -126,8 +126,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryEditQuickReplyGroup);
             }
         }
-        private QuickReplyGroupInfo temporaryQuickReplyGroup;
-        public QuickReplyGroupInfo TemporaryQuickReplyGroup
+        private QuickReplyGroupModel temporaryQuickReplyGroup;
+        public QuickReplyGroupModel TemporaryQuickReplyGroup
         {
             get
             {
@@ -157,8 +157,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }
         }
-        private QuickReplyInfo temporaryAddQuickReply;
-        public QuickReplyInfo TemporaryAddQuickReply
+        private QuickReplyModel temporaryAddQuickReply;
+        public QuickReplyModel TemporaryAddQuickReply
         {
             get
             {
@@ -170,8 +170,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryAddQuickReply);
             }
         }
-        private QuickReplyGroupInfo temporaryQuickReplyGroup2;
-        public QuickReplyGroupInfo TemporaryQuickReplyGroup2
+        private QuickReplyGroupModel temporaryQuickReplyGroup2;
+        public QuickReplyGroupModel TemporaryQuickReplyGroup2
         {
             get
             {
@@ -201,8 +201,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }
         }
-        private QuickReplyInfo temporaryEditQuickReply;
-        public QuickReplyInfo TemporaryEditQuickReply
+        private QuickReplyModel temporaryEditQuickReply;
+        public QuickReplyModel TemporaryEditQuickReply
         {
             get
             {
@@ -229,13 +229,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<BusinessEnum>((business) =>
                 {
                     this.IsAddingQuickReplyGroup = false;
-                    this.TemporaryAddQuickReplyGroup = new QuickReplyGroupInfo()
+                    this.TemporaryAddQuickReplyGroup = new QuickReplyGroupModel()
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Level = QuickReplyGroupLevelEnum.User,
                         Business = business,
-                        QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                        QuickReplys = new ObservableCollection<QuickReplyModel>()
                     };
                     this.IsAddingQuickReplyGroup = true;
                 });
@@ -275,7 +275,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                return new RelayCommand<QuickReplyGroupModel>((quickReplyGroup) =>
                 {
                     this.IsEditingQuickReplyGroup = false;
                     this.TemporaryEditQuickReplyGroup = quickReplyGroup.Clone();
@@ -320,7 +320,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyGroupInfo>((quickReplyGroup) =>
+                return new RelayCommand<QuickReplyGroupModel>((quickReplyGroup) =>
                 {
                     lock (this.QuickReplyGroups)
                     {
@@ -343,7 +343,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     this.IsAddingQuickReply = false;
                     this.TemporaryQuickReplyGroup = this.SelectedQuickReplyGroup;
-                    this.TemporaryAddQuickReply = new QuickReplyInfo()
+                    this.TemporaryAddQuickReply = new QuickReplyModel()
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
@@ -390,7 +390,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                return new RelayCommand<QuickReplyModel>((quickReply) =>
                 {
                     this.IsEditingQuickReply = false;
                     this.TemporaryQuickReplyGroup2 = this.SelectedQuickReplyGroup;
@@ -425,7 +425,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                return new RelayCommand<QuickReplyModel>((quickReply) =>
                 {
                     this.IsEditingQuickReply = false;
                 });
@@ -436,7 +436,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                return new RelayCommand<QuickReplyModel>((quickReply) =>
                 {
                     lock (this.SelectedQuickReplyGroup.QuickReplys)
                     {
@@ -453,12 +453,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<QuickReplyInfo>((quickReply) =>
+                return new RelayCommand<QuickReplyModel>((quickReply) =>
                 {
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
                 }, (quickReply) =>
                 {
-                    BusinessSettingInfo businessSetting = null;
+                    BusinessSettingModel businessSetting = null;
                     if (this.SelectedQuickReplyGroup != null && ApplicationContextViewModel.Setting.BusinessSettings.TryGetValue(this.SelectedQuickReplyGroup.Business, out businessSetting))
                     {
                         return businessSetting.AllowSelectQuickReply;
@@ -475,61 +475,35 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             new Action(() =>
             {
                 this.QuickReplyGroups.Clear();
-                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                this.QuickReplyGroups.Add(new QuickReplyGroupModel()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Level = QuickReplyGroupLevelEnum.System,
                     Name = "系统默认分组",
                     Business = BusinessEnum.Advisor,
-                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                    QuickReplys = new ObservableCollection<QuickReplyModel>()
                     {
-                        new QuickReplyInfo()
+                        new QuickReplyModel()
                         {
                             Id = Guid.NewGuid().ToString(),
                             Name="问候",
-                            Content=new MessageContentInfo(){
-                                Type= MessageTypeConst.Text,
-                                Content= new TextMessageContent(){ Content="你好！"}.ObjectToJson()
-                            }
+                            Content=MessageTools.CreateTextMessageContent("测试快捷回复")
                         }
                     }
                 });
-                this.QuickReplyGroups.Add(new QuickReplyGroupInfo()
+                this.QuickReplyGroups.Add(new QuickReplyGroupModel()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Level = QuickReplyGroupLevelEnum.User,
                     Name = "个人默认分组",
-                    Business = BusinessEnum.PreSale,
-                    QuickReplys = new ObservableCollection<QuickReplyInfo>()
+                    Business = BusinessEnum.Advisor,
+                    QuickReplys = new ObservableCollection<QuickReplyModel>()
                     {
-                        new QuickReplyInfo()
+                        new QuickReplyModel()
                         {
                             Id = Guid.NewGuid().ToString(),
                             Name="问候",
-                            Content=new MessageContentInfo(){
-                                Type= MessageTypeConst.Mixed,
-                                Content= new MixedMessageContent() {
-                                    Items = new MessageContentInfo[] {
-                                        new MessageContentInfo()
-                                        {
-                                            Type=MessageTypeConst.Text,
-                                            Content= new TextMessageContent(){
-                                                Content= "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                            }.ObjectToJson()
-                                        },
-                                        new MessageContentInfo()
-                                        {
-                                            Type=MessageTypeConst.Link,
-                                            Content= new LinkMessageContent {
-                                                Url = "https://www.baidu.com/",
-                                                ThumbUrl = "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738723861,292586857&fm=26&gp=0.jpg",
-                                                Title = "测试链接",
-                                                Description = "百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。"
-                                            }.ObjectToJson()
-                                        }
-                                    }
-                                }.ObjectToJson()
-                            }
+                            Content=MessageTools.CreateTextMessageContent("百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。")
                         }
                     }
                 });

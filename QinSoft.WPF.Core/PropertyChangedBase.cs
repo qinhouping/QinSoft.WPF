@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace QinSoft.WPF.Core
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [JsonIgnore]
         public bool IsNotifying { get; set; }
 
         public PropertyChangedBase()

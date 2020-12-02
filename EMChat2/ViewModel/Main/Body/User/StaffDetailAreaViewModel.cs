@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using QinSoft.Event;
 using QinSoft.WPF.Core;
 using System;
@@ -42,8 +42,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        private StaffInfo staff;
-        public StaffInfo Staff
+        private StaffModel staff;
+        public StaffModel Staff
         {
             get
             {
@@ -73,8 +73,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 }
             }
         }
-        private StaffInfo temporaryEditStaff;
-        public StaffInfo TemporaryEditStaff
+        private StaffModel temporaryEditStaff;
+        public StaffModel TemporaryEditStaff
         {
             get
             {

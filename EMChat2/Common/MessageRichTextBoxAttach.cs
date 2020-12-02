@@ -17,23 +17,23 @@ namespace EMChat2.Common
     public static class MessageRichTextBoxAttach
     {
         public static readonly DependencyProperty InputMessageContentProperty =
-             DependencyProperty.RegisterAttached("InputMessageContent", typeof(MessageContentInfo), typeof(MessageRichTextBoxAttach), new PropertyMetadata(OnMessageContentInfoPropertyChangedCallback));
-        public static void SetInputMessageContent(DependencyObject dp, MessageContentInfo value)
+             DependencyProperty.RegisterAttached("InputMessageContent", typeof(MessageContentModel), typeof(MessageRichTextBoxAttach), new PropertyMetadata(OnMessageContentInfoPropertyChangedCallback));
+        public static void SetInputMessageContent(DependencyObject dp, MessageContentModel value)
         {
             dp.SetValue(InputMessageContentProperty, value);
         }
-        public static MessageContentInfo GetInputMessageContent(DependencyObject dp)
+        public static MessageContentModel GetInputMessageContent(DependencyObject dp)
         {
-            return dp.GetValue(InputMessageContentProperty) as MessageContentInfo;
+            return dp.GetValue(InputMessageContentProperty) as MessageContentModel;
         }
 
-        private static void AppendMessageContent(MessageContentInfo messageContent, AutoAdjustRichTextBox autoAdjustRichTextBox)
+        private static void AppendMessageContent(AutoAdjustRichTextBox autoAdjustRichTextBox, MessageContentModel messageContent)
         {
             switch (messageContent.Type)
             {
                 case MessageTypeConst.Text:
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                        TextMessageContent textMessageContent = messageContent.Content as TextMessageContent;
                         if (string.IsNullOrEmpty(textMessageContent.Content)) return;
                         Run run = new Run(textMessageContent.Content, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = run.ElementEnd;
@@ -48,7 +48,7 @@ namespace EMChat2.Common
                     {
                         ChatMessageContentControlView ChatMessageContentControlView = new ChatMessageContentControlView()
                         {
-                            DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
+                            DataContext = new ChatMessageContentControlViewModel(messageContent)
                         };
                         InlineUIContainer inlineUIContainer = new InlineUIContainer(ChatMessageContentControlView, autoAdjustRichTextBox.CaretPosition);
                         autoAdjustRichTextBox.CaretPosition = inlineUIContainer.ElementEnd;
@@ -57,10 +57,10 @@ namespace EMChat2.Common
                     break;
                 case MessageTypeConst.Mixed:
                     {
-                        MixedMessageContent mixedMessageContent = MessageTools.ParseMessageContent(messageContent) as MixedMessageContent;
-                        foreach (MessageContentInfo tmpMessageContent in mixedMessageContent.Items)
+                        MixedMessageContent mixedMessageContent = messageContent.Content as MixedMessageContent;
+                        foreach (MessageContentModel item in mixedMessageContent.Items)
                         {
-                            AppendMessageContent(tmpMessageContent, autoAdjustRichTextBox);
+                            AppendMessageContent(autoAdjustRichTextBox, item);
                         }
                     }; break;
                 case MessageTypeConst.Tips:
@@ -73,10 +73,10 @@ namespace EMChat2.Common
         {
             AutoAdjustRichTextBox autoAdjustRichTextBox = d as AutoAdjustRichTextBox;
             if (autoAdjustRichTextBox == null) return;
-            MessageContentInfo messageContent = e.NewValue as MessageContentInfo;
+            MessageContentModel messageContent = e.NewValue as MessageContentModel;
             if (messageContent == null) return;
             autoAdjustRichTextBox.Focus();
-            AppendMessageContent(messageContent, autoAdjustRichTextBox);
+            AppendMessageContent(autoAdjustRichTextBox, messageContent);
         }
     }
 }

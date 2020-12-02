@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.View.Main.Body.Chat;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -27,15 +27,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
-            this.EmotionPackages = new ObservableCollection<EmotionPackageInfo>();
+            this.EmotionPackages = new ObservableCollection<EmotionPackageModel>();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private ObservableCollection<EmotionPackageInfo> emotionPackages;
-        public ObservableCollection<EmotionPackageInfo> EmotionPackages
+        private ObservableCollection<EmotionPackageModel> emotionPackages;
+        public ObservableCollection<EmotionPackageModel> EmotionPackages
         {
             get
             {
@@ -47,8 +47,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.EmotionPackages);
             }
         }
-        private EmotionPackageInfo selectedEmotionPackage;
-        public EmotionPackageInfo SelectedEmotionPackage
+        private EmotionPackageModel selectedEmotionPackage;
+        public EmotionPackageModel SelectedEmotionPackage
         {
             get
             {
@@ -71,7 +71,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<EmotionInfo>((emotion) =>
+                return new RelayCommand<EmotionModel>((emotion) =>
                 {
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateEmotionMessageContent(emotion) });
                 }, (emotion) =>
@@ -92,117 +92,117 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             new Action(() =>
             {
                 this.EmotionPackages.Clear();
-                this.EmotionPackages.Add(new EmotionPackageInfo()
+                this.EmotionPackages.Add(new EmotionPackageModel()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Level = EmotionPackageLevelEnum.System,
                     Name = "emoji",
                     ThumbUrl = "https://static.easyicon.net/preview/106/1069782.gif",
-                    Emotions = new ObservableCollection<EmotionInfo>()
+                    Emotions = new ObservableCollection<EmotionModel>()
                     {
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069782.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069783.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069784.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069785.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069786.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069787.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069788.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069789.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069790.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069791.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069792.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069793.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069794.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069795.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069795.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069797.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",
                             Url="https://static.easyicon.net/preview/106/1069798.gif"
                         },
-                        new EmotionInfo()
+                        new EmotionModel()
                         {
                             Id=Guid.NewGuid().ToString(),
                             Name="one",

@@ -12,14 +12,14 @@ namespace EMChat2.Common.Cef
     public class ChatInfoCefJsObject : CefJsObject
     {
         #region 构造函数
-        public ChatInfoCefJsObject(StaffInfo staff, ChatInfo chat) : base("chatInfo")
+        public ChatInfoCefJsObject(StaffModel staff, ChatModel chat) : base("chatInfo")
         {
             this.staff = staff;
             this.chat = chat;
             token = Guid.NewGuid().ToString();
         }
 
-        public ChatInfoCefJsObject(StaffInfo staff, ChatInfo chat, string token) : base("chatInfo")
+        public ChatInfoCefJsObject(StaffModel staff, ChatModel chat, string token) : base("chatInfo")
         {
             this.staff = staff;
             this.chat = chat;
@@ -28,22 +28,22 @@ namespace EMChat2.Common.Cef
         #endregion
 
         #region 属性
-        private ChatInfo chat;
-        private StaffInfo staff;
+        private ChatModel chat;
+        private StaffModel staff;
         private string token;
         #endregion
 
         #region 方法
         public void GetStaff(string token, IJavascriptCallback callback)
         {
-            if (token != this.token) callback.ExecuteAsync(new ActionResponse<StaffInfo>() { Code = 500, ErrorMessage = "Token认证失败", Data = null }.ObjectToJson());
-            else callback.ExecuteAsync(new ActionResponse<StaffInfo>() { Code = 200, ErrorMessage = null, Data = this.staff }.ObjectToJson());
+            if (token != this.token) callback.ExecuteAsync(new ActionResponse<StaffModel>() { Code = 500, ErrorMessage = "Token认证失败", Data = null }.ObjectToJson());
+            else callback.ExecuteAsync(new ActionResponse<StaffModel>() { Code = 200, ErrorMessage = null, Data = this.staff }.ObjectToJson());
         }
 
         public void GetChat(string token, IJavascriptCallback callback)
         {
-            if (token != this.token) callback.ExecuteAsync(new ActionResponse<ChatInfo>() { Code = 500, ErrorMessage = "Token认证失败", Data = null }.ObjectToJson());
-            else callback.ExecuteAsync(new ActionResponse<ChatInfo>() { Code = 200, ErrorMessage = null, Data = this.chat }.ObjectToJson());
+            if (token != this.token) callback.ExecuteAsync(new ActionResponse<ChatModel>() { Code = 500, ErrorMessage = "Token认证失败", Data = null }.ObjectToJson());
+            else callback.ExecuteAsync(new ActionResponse<ChatModel>() { Code = 200, ErrorMessage = null, Data = this.chat }.ObjectToJson());
         }
 
         public string AppendToken(string url, string tokenName = "token")

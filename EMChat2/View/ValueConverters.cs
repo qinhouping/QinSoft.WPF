@@ -61,7 +61,7 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    MessageContentModel messageContent = value as MessageContentModel;
                     if (messageContent == null) return null;
                     else return MessageTools.GetMessageContentMark(messageContent);
                 });
@@ -74,8 +74,8 @@ namespace EMChat2.View
             {
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
-                    MessageInfo message = values[0] as MessageInfo;
-                    StaffInfo staff = values[1] as StaffInfo;
+                    MessageModel message = values[0] as MessageModel;
+                    StaffModel staff = values[1] as StaffModel;
                     if (message == null || staff == null) return HorizontalAlignment.Center;
                     if (message.FromUser.Equals(staff.ImUserId) == true) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
@@ -89,8 +89,8 @@ namespace EMChat2.View
             {
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
-                    MessageInfo message = values[0] as MessageInfo;
-                    ChatInfo chat = values[1] as ChatInfo;
+                    MessageModel message = values[0] as MessageModel;
+                    ChatModel chat = values[1] as ChatModel;
                     if (message == null || chat == null) return null;
                     return chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name;
                 });
@@ -98,14 +98,14 @@ namespace EMChat2.View
         }
 
         #region 私有方法
-        private static void ParseMessageContentToDocument(FlowDocumentExt document, ref Block block, MessageContentInfo messageContent)
+        private static void ParseMessageContentToDocument(FlowDocumentExt document, ref Block block, MessageContentModel messageContent)
         {
             if (block == null) { block = new Paragraph(); document.Blocks.Add(block); }
             switch (messageContent.Type)
             {
                 case MessageTypeConst.Text:
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                        TextMessageContent textMessageContent = messageContent.Content as TextMessageContent;
                         string[] messageContentItems = Regex.Split(textMessageContent.Content, Environment.NewLine);
                         for (int i = 0; i < messageContentItems.Length; i++)
                         {
@@ -139,7 +139,7 @@ namespace EMChat2.View
                         {
                             (block as BlockUIContainer).Child = new ChatMessageContentControlView()
                             {
-                                DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
+                                DataContext = new ChatMessageContentControlViewModel(messageContent)
                             };
                             block = new Paragraph(); document.Blocks.Add(block);
                         }
@@ -147,13 +147,13 @@ namespace EMChat2.View
                         {
                             (block as Paragraph).Inlines.Add(new ChatMessageContentControlView()
                             {
-                                DataContext = new ChatMessageContentControlViewModel(messageContent.Type, MessageTools.ParseMessageContent(messageContent))
+                                DataContext = new ChatMessageContentControlViewModel(messageContent)
                             });
                         }
                     }; break;
                 case MessageTypeConst.Mixed:
                     {
-                        foreach (MessageContentInfo mixedItem in (MessageTools.ParseMessageContent(messageContent) as MixedMessageContent).Items)
+                        foreach (MessageContentModel mixedItem in (messageContent.Content as MixedMessageContent).Items)
                             ParseMessageContentToDocument(document, ref block, mixedItem);
                     }; break;
                 case MessageTypeConst.Tips:
@@ -162,7 +162,7 @@ namespace EMChat2.View
             }
         }
 
-        private static void ParseInlinesToMessageContent(Inline[] inlines, List<MessageContentInfo> messageContents, ref MessageContentInfo messageContent)
+        private static void ParseInlinesToMessageContent(Inline[] inlines, List<MessageContentModel> messageContents, ref MessageContentModel messageContent)
         {
             foreach (Inline inline in inlines)
             {
@@ -171,14 +171,13 @@ namespace EMChat2.View
                     Run run = inline as Run;
                     if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
                     {
-                        messageContent = new MessageContentInfo { Type = MessageTypeConst.Text, Content = new TextMessageContent() { Content = run.Text }.ObjectToJson() };
+                        messageContent = MessageTools.CreateTextMessageContent(run.Text);
                         messageContents.Add(messageContent);
                     }
                     else
                     {
-                        TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                        TextMessageContent textMessageContent = messageContent.Content as TextMessageContent;
                         textMessageContent.Content += run.Text;
-                        messageContent.Content = textMessageContent.ObjectToJson();
                     }
                 }
                 else if (inline is InlineUIContainer)
@@ -189,7 +188,7 @@ namespace EMChat2.View
                         ChatMessageContentControlView ChatMessageContentControlView = inlineUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel ChatMessageContentControlViewModel = ChatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
                         if (ChatMessageContentControlViewModel == null) continue;
-                        messageContent = new MessageContentInfo { Type = ChatMessageContentControlViewModel.Type, Content = ChatMessageContentControlViewModel.Content.ObjectToJson() };
+                        messageContent = ChatMessageContentControlViewModel.MessageContent;
                         messageContents.Add(messageContent);
                     }
                 }
@@ -201,9 +200,9 @@ namespace EMChat2.View
             }
         }
 
-        private static void ParseDocumentToMessageContent(FlowDocumentExt document, List<MessageContentInfo> messageContents)
+        private static void ParseDocumentToMessageContent(FlowDocumentExt document, List<MessageContentModel> messageContents)
         {
-            MessageContentInfo messageContent = null;
+            MessageContentModel messageContent = null;
             for (int i = 0; i < document.Blocks.Count; i++)
             {
                 Block block = document.Blocks.ElementAt(i);
@@ -214,7 +213,7 @@ namespace EMChat2.View
                     {
                         ChatMessageContentControlView ChatMessageContentControlView = blockUIContainer.Child as ChatMessageContentControlView;
                         ChatMessageContentControlViewModel ChatMessageContentControlViewModel = ChatMessageContentControlView.DataContext as ChatMessageContentControlViewModel;
-                        messageContent = new MessageContentInfo { Type = ChatMessageContentControlViewModel.Type, Content = ChatMessageContentControlViewModel.Content.ObjectToJson() };
+                        messageContent = ChatMessageContentControlViewModel.MessageContent;
                         messageContents.Add(messageContent);
                     }
                 }
@@ -227,18 +226,13 @@ namespace EMChat2.View
                     {
                         if (messageContent == null || messageContent.Type != MessageTypeConst.Text)
                         {
-                            messageContent = new MessageContentInfo()
-                            {
-                                Type = MessageTypeConst.Text,
-                                Content = new TextMessageContent() { Content = Environment.NewLine }.ObjectToJson()
-                            };
+                            messageContent = MessageTools.CreateTextMessageContent(Environment.NewLine);
                             messageContents.Add(messageContent);
                         }
                         else
                         {
-                            TextMessageContent textMessageContent = MessageTools.ParseMessageContent(messageContent) as TextMessageContent;
+                            TextMessageContent textMessageContent = messageContent.Content as TextMessageContent;
                             textMessageContent.Content += Environment.NewLine;
-                            messageContent.Content = textMessageContent.ObjectToJson();
                         }
                     }
                 }
@@ -253,7 +247,7 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     FlowDocumentExt flowDocument = new FlowDocumentExt();
-                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    MessageContentModel messageContent = value as MessageContentModel;
                     if (messageContent != null)
                     {
                         Block block = null;
@@ -264,11 +258,11 @@ namespace EMChat2.View
                 {
                     FlowDocumentExt document = value as FlowDocumentExt;
                     if (document == null) return null;
-                    List<MessageContentInfo> messageContents = new List<MessageContentInfo>();
+                    List<MessageContentModel> messageContents = new List<MessageContentModel>();
                     ParseDocumentToMessageContent(document, messageContents);
                     if (messageContents.Count > 1)
                     {
-                        return new MessageContentInfo() { Type = MessageTypeConst.Mixed, Content = new MixedMessageContent() { Items = messageContents.ToArray() }.ObjectToJson() };
+                        return MessageTools.CreateMixedMessageContent(messageContents.ToArray());
                     }
                     else if (messageContents.Count == 1)
                     {
@@ -288,10 +282,10 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageContentInfo messageContent = value as MessageContentInfo;
+                    MessageContentModel messageContent = value as MessageContentModel;
                     if (messageContent != null && messageContent.Type == MessageTypeConst.Tips)
                     {
-                        TipsMessageContent tipsMessageContent = MessageTools.ParseMessageContent(messageContent) as TipsMessageContent;
+                        TipsMessageContent tipsMessageContent = messageContent.Content as TipsMessageContent;
                         return tipsMessageContent.Content;
                     }
                     return null;
@@ -327,13 +321,13 @@ namespace EMChat2.View
             {
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
-                    ObservableCollection<QuickReplyGroupInfo> quickReplyGroups = values[0] as ObservableCollection<QuickReplyGroupInfo>;
+                    ObservableCollection<QuickReplyGroupModel> quickReplyGroups = values[0] as ObservableCollection<QuickReplyGroupModel>;
                     BusinessEnum business = (BusinessEnum)values[1];
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyGroups);
                     if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
-                        QuickReplyGroupInfo quickReplyGroup = item as QuickReplyGroupInfo;
+                        QuickReplyGroupModel quickReplyGroup = item as QuickReplyGroupModel;
                         return quickReplyGroup.Business == business;
                     };
                     return collectionView;
@@ -347,13 +341,13 @@ namespace EMChat2.View
             {
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
-                    ObservableCollection<QuickReplyInfo> quickReplyInfos = values[0] as ObservableCollection<QuickReplyInfo>;
+                    ObservableCollection<QuickReplyModel> quickReplyInfos = values[0] as ObservableCollection<QuickReplyModel>;
                     string condition = values[1] as string;
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyInfos);
                     if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
-                        QuickReplyInfo quickReply = item as QuickReplyInfo;
+                        QuickReplyModel quickReply = item as QuickReplyModel;
                         string name = quickReply.Name;
                         string content = MessageTools.GetMessageContentMark(quickReply.Content);
 
@@ -378,7 +372,7 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    StaffInfo staff = value as StaffInfo;
+                    StaffModel staff = value as StaffModel;
                     string content = string.Format("{0} {1}{2}", AppTools.AppName, staff?.WorkCode, staff?.Name);
                     Image image = DrawTools.CreateWaterMark(content);
 

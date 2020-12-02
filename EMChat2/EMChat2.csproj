@@ -164,6 +164,7 @@
     <Compile Include="Common\Cef\ChatInfoCefJsObject.cs" />
     <Compile Include="Common\Cef\ComputerInfoCefJsObject.cs" />
     <Compile Include="Common\ChineseCharactorTools.cs" />
+    <Compile Include="Common\ConverterTools.cs" />
     <Compile Include="Common\DrawTools.cs" />
     <Compile Include="Common\EncryptTools.cs" />
     <Compile Include="Common\ExecuteTools.cs" />
@@ -174,41 +175,45 @@
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
-    <Compile Include="Model\BaseInfo\BusinessSettingInfo.cs" />
+    <Compile Include="Model\Api\ChatApiModel.cs" />
+    <Compile Include="Model\Api\MessageApiModel.cs" />
+    <Compile Include="Model\Api\UserApiModel.cs" />
+    <Compile Include="Model\BaseInfo\BusinessSettingModel.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
     <Compile Include="Model\BaseInfo\IExpandable.cs" />
-    <Compile Include="Model\BaseInfo\IMServerInfo.cs" />
-    <Compile Include="Model\BaseInfo\IMUserInfo.cs" />
-    <Compile Include="Model\BaseInfo\QuickReplyGroupInfo.cs" />
+    <Compile Include="Model\IM\IMServerModel.cs" />
+    <Compile Include="Model\IM\IMUserModel.cs" />
+    <Compile Include="Model\BaseInfo\QuickReplyGroupModel.cs" />
     <Compile Include="Common\RetryTools.cs" />
     <Compile Include="Common\MessageRichTextBoxAttach.cs" />
     <Compile Include="Common\TaskbarIconAttach.cs" />
     <Compile Include="Common\AppTools.cs" />
     <Compile Include="Common\Win32Tools.cs" />
     <Compile Include="Common\WindowInfoAttach.cs" />
-    <Compile Include="Model\BaseInfo\DepartmentInfo.cs" />
+    <Compile Include="Model\BaseInfo\DepartmentModel.cs" />
     <Compile Include="Model\BaseInfo\ISelectable.cs" />
     <Compile Include="Model\BaseInfo\QuickReplyGroupLevelEnum.cs" />
-    <Compile Include="Model\BaseInfo\QuickReplyInfo.cs" />
+    <Compile Include="Model\BaseInfo\QuickReplyModel.cs" />
     <Compile Include="Model\BaseInfo\SexEnum.cs" />
-    <Compile Include="Model\BaseInfo\TagGroupInfo.cs" />
+    <Compile Include="Model\BaseInfo\TagGroupModel.cs" />
     <Compile Include="Model\BaseInfo\TagGroupLevelEnum.cs" />
-    <Compile Include="Model\BaseInfo\TagInfo.cs" />
+    <Compile Include="Model\BaseInfo\TagModel.cs" />
     <Compile Include="Model\BaseInfo\UserStateEnum.cs" />
     <Compile Include="Model\BaseInfo\UserTypeEnum.cs" />
-    <Compile Include="Model\Event\CaptureScreenEventArgs.cs" />
-    <Compile Include="Model\Event\MessageStateChangedEventArgs.cs" />
-    <Compile Include="Model\Event\ReceiveMessageEventArgs.cs" />
-    <Compile Include="Model\Event\SelectChatDetailEventArgs.cs" />
-    <Compile Include="Model\Event\OpenPrivateChatEventArgs.cs" />
-    <Compile Include="Model\Event\ShowBalloonTipEventArgs.cs" />
-    <Compile Include="Model\Event\UserInfoChangedEventArgs.cs" />
-    <Compile Include="Model\Event\NotReadMessageCountChangedEventArgs.cs" />
-    <Compile Include="Model\Event\SelectUseDetailEventArgs.cs" />
-    <Compile Include="Model\Event\TemporaryInputMessagContentChangedEventArgs.cs" />
-    <Compile Include="Model\Event\RefreshChatsEventArgs.cs" />
+    <Compile Include="Event\CaptureScreenEventArgs.cs" />
+    <Compile Include="Event\MessageStateChangedEventArgs.cs" />
+    <Compile Include="Event\ReceiveMessageEventArgs.cs" />
+    <Compile Include="Event\SelectChatDetailEventArgs.cs" />
+    <Compile Include="Event\OpenPrivateChatEventArgs.cs" />
+    <Compile Include="Event\ShowBalloonTipEventArgs.cs" />
+    <Compile Include="Event\UserInfoChangedEventArgs.cs" />
+    <Compile Include="Event\NotReadMessageCountChangedEventArgs.cs" />
+    <Compile Include="Event\SelectUseDetailEventArgs.cs" />
+    <Compile Include="Event\TemporaryInputMessagContentChangedEventArgs.cs" />
+    <Compile Include="Event\RefreshChatsEventArgs.cs" />
     <Compile Include="Common\ApiTools.cs" />
+    <Compile Include="Model\IM\UrlModel.cs" />
     <Compile Include="Service\PipeFilter\BeginPipeFilter.cs" />
     <Compile Include="Service\PipeFilter\RecvMessage\RenderMessagePipeFilter.cs" />
     <Compile Include="Service\PipeFilter\RecvMessage\ResolveEventMessagePipeFilter.cs" />
@@ -270,21 +275,21 @@
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\BaseInfo\BusinessEnum.cs" />
-    <Compile Include="Model\BaseInfo\ChatInfo.cs" />
-    <Compile Include="Model\BaseInfo\CustomerInfo.cs" />
-    <Compile Include="Model\BaseInfo\EmotionInfo.cs" />
-    <Compile Include="Model\BaseInfo\EmotionPackageInfo.cs" />
-    <Compile Include="Model\BaseInfo\LoginInfo.cs" />
-    <Compile Include="Model\BaseInfo\MessageInfo.cs" />
-    <Compile Include="Model\BaseInfo\SettingInfo.cs" />
-    <Compile Include="Model\BaseInfo\StaffInfo.cs" />
-    <Compile Include="Model\BaseInfo\SystemUserInfo.cs" />
-    <Compile Include="Model\BaseInfo\UrlMappingInfo.cs" />
-    <Compile Include="Model\BaseInfo\UserInfo.cs" />
-    <Compile Include="Model\Event\CallbackEventArgs.cs" />
-    <Compile Include="Model\Event\ExitCallbackEventArgs.cs" />
-    <Compile Include="Model\Event\LoginCallbackEventArgs.cs" />
-    <Compile Include="Model\Event\LogoutCallbackEventArgs.cs" />
+    <Compile Include="Model\BaseInfo\ChatModel.cs" />
+    <Compile Include="Model\BaseInfo\CustomerModel.cs" />
+    <Compile Include="Model\BaseInfo\EmotionModel.cs" />
+    <Compile Include="Model\BaseInfo\EmotionPackageModel.cs" />
+    <Compile Include="Model\BaseInfo\LoginInfoModel.cs" />
+    <Compile Include="Model\BaseInfo\MessageModel.cs" />
+    <Compile Include="Model\BaseInfo\SettingModel.cs" />
+    <Compile Include="Model\BaseInfo\StaffModel.cs" />
+    <Compile Include="Model\BaseInfo\SystemUserModel.cs" />
+    <Compile Include="Model\BaseInfo\UrlMappingModel.cs" />
+    <Compile Include="Model\BaseInfo\UserModel.cs" />
+    <Compile Include="Event\CallbackEventArgs.cs" />
+    <Compile Include="Event\ExitCallbackEventArgs.cs" />
+    <Compile Include="Event\LoginCallbackEventArgs.cs" />
+    <Compile Include="Event\LogoutCallbackEventArgs.cs" />
     <Compile Include="Service\ChatService.cs" />
     <Compile Include="Service\SystemService.cs" />
     <Compile Include="Service\UserService.cs" />
@@ -373,9 +378,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Api\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">
       <Project>{ef5e068b-f7a6-4e04-95f7-054b2cbe1ebc}</Project>

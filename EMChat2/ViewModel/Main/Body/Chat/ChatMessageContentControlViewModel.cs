@@ -17,40 +17,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class ChatMessageContentControlViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public ChatMessageContentControlViewModel(string type, object content)
+        public ChatMessageContentControlViewModel(MessageContentModel messageContent)
         {
-            this.type = type;
-            this.content = content;
+            this.messageContent = messageContent;
             this.chatService = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<ChatService>();
         }
         #endregion
 
         #region 属性 
         private ChatService chatService;
-        private string type;
-        public string Type
+        private MessageContentModel messageContent;
+        public MessageContentModel MessageContent
         {
             get
             {
-                return this.type;
+                return this.messageContent;
             }
             set
             {
-                this.type = value;
-                this.NotifyPropertyChange(() => this.Type);
-            }
-        }
-        private object content;
-        public object Content
-        {
-            get
-            {
-                return this.content;
-            }
-            set
-            {
-                this.content = value;
-                this.NotifyPropertyChange(() => this.Content);
+                this.messageContent = value;
+                this.NotifyPropertyChange(() => this.MessageContent);
             }
         }
         #endregion
@@ -62,11 +48,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    ImageMessageContent imageMessageContent = Content as ImageMessageContent;
+                    ImageMessageContent imageMessageContent = MessageContent.Content as ImageMessageContent;
                     this.chatService.OpenImage(new string[] { imageMessageContent.Url }, 0);
                 }, () =>
                 {
-                    return Content is ImageMessageContent;
+                    return MessageContent.Type == MessageTypeConst.Image;
                 });
             }
         }
@@ -77,11 +63,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    EmotionMessageContent emotionMessageContent = Content as EmotionMessageContent;
+                    EmotionMessageContent emotionMessageContent = MessageContent.Content as EmotionMessageContent;
                     this.chatService.OpenImage(new string[] { emotionMessageContent.Url }, 0);
                 }, () =>
                 {
-                    return Content is EmotionMessageContent;
+                    return MessageContent.Type == MessageTypeConst.Emotion;
                 });
             }
         }
@@ -92,11 +78,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    LinkMessageContent linkMessageContent = Content as LinkMessageContent;
+                    LinkMessageContent linkMessageContent = MessageContent.Content as LinkMessageContent;
                     this.chatService.OpenLink(linkMessageContent.Url);
                 }, () =>
                 {
-                    return Content is LinkMessageContent;
+                    return MessageContent.Type == MessageTypeConst.Link;
                 });
             }
         }
@@ -107,11 +93,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    FileMessageContent fileMessageContent = Content as FileMessageContent;
+                    FileMessageContent fileMessageContent = MessageContent.Content as FileMessageContent;
                     this.chatService.OpenFile(fileMessageContent.Url, fileMessageContent.Name);
                 }, () =>
                 {
-                    return Content is FileMessageContent;
+                    return MessageContent.Type == MessageTypeConst.File;
                 });
             }
         }

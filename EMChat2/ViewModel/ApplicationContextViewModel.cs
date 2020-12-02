@@ -1,6 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -29,8 +29,8 @@ namespace EMChat2.ViewModel
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private UserService userService;
-        private StaffInfo currentStaff;
-        public StaffInfo CurrentStaff
+        private StaffModel currentStaff;
+        public StaffModel CurrentStaff
         {
             get
             {
@@ -50,8 +50,8 @@ namespace EMChat2.ViewModel
                 return this.CurrentStaff != null;
             }
         }
-        private SettingInfo setting;
-        public SettingInfo Setting
+        private SettingModel setting;
+        public SettingModel Setting
         {
             get
             {

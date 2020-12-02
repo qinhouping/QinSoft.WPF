@@ -1,7 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.PipeFilter;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using QinSoft.Event;
 using System;
 using System.Collections.Generic;
@@ -20,22 +20,22 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
         }
         public override void Action(PipeFilterEventArgs arg)
         {
-            if (!(arg.InArg is MessageInfo))
+            if (!(arg.InArg is MessageModel))
             {
                 arg.Cancel = true;
                 return;
             }
 
-            MessageInfo message = arg.InArg as MessageInfo;
+            MessageModel message = arg.InArg as MessageModel;
             if (message.Type == MessageTypeConst.Event)
             {
-                EventMessageContentBase eventMessage = MessageTools.ParseMessageContent(message) as EventMessageContentBase;
+                EventMessageContent eventMessage = message.Content as EventMessageContent;
                 switch (eventMessage.Event)
                 {
-                    case EventTypeConst.RecvMessage: HandleRecvMessageEvent(message, eventMessage as RecvMessageEventMessageContent); break;
-                    case EventTypeConst.ReadMessage: HandleReadMessageEvent(message, eventMessage as ReadMessageEventMessageContent); break;
-                    case EventTypeConst.RefuseMessage: HandleRefuseMessageEvent(message, eventMessage as RefuseMessageEventMessageContent); break;
-                    case EventTypeConst.RevokeMessage: HandleRevokeMessageEvent(message, eventMessage as RevokeMessageEventMessageContent); break;
+                    case EventMessageTypeConst.RecvMessage: HandleRecvMessageEvent(message, eventMessage as RecvMessageEventMessageContent); break;
+                    case EventMessageTypeConst.ReadMessage: HandleReadMessageEvent(message, eventMessage as ReadMessageEventMessageContent); break;
+                    case EventMessageTypeConst.RefuseMessage: HandleRefuseMessageEvent(message, eventMessage as RefuseMessageEventMessageContent); break;
+                    case EventMessageTypeConst.RevokeMessage: HandleRevokeMessageEvent(message, eventMessage as RevokeMessageEventMessageContent); break;
                 }
                 arg.Cancel = true;
             }
@@ -45,22 +45,22 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
             }
         }
 
-        protected virtual void HandleRecvMessageEvent(MessageInfo message, RecvMessageEventMessageContent messageContent)
+        protected virtual void HandleRecvMessageEvent(MessageModel message, RecvMessageEventMessageContent messageContent)
         {
             this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
         }
 
-        protected virtual void HandleReadMessageEvent(MessageInfo message, ReadMessageEventMessageContent messageContent)
+        protected virtual void HandleReadMessageEvent(MessageModel message, ReadMessageEventMessageContent messageContent)
         {
             this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
         }
 
-        protected virtual void HandleRefuseMessageEvent(MessageInfo message, RefuseMessageEventMessageContent messageContent)
+        protected virtual void HandleRefuseMessageEvent(MessageModel message, RefuseMessageEventMessageContent messageContent)
         {
             this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
         }
 
-        protected virtual void HandleRevokeMessageEvent(MessageInfo message, RevokeMessageEventMessageContent messageContent)
+        protected virtual void HandleRevokeMessageEvent(MessageModel message, RevokeMessageEventMessageContent messageContent)
         {
             this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
         }

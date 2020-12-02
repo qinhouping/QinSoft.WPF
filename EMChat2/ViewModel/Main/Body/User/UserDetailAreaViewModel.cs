@@ -1,7 +1,7 @@
 ﻿using DotLiquid.Util;
 using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
-using EMChat2.Model.Event;
+using EMChat2.Event;
 using EMChat2.View.Main.Body.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -125,13 +125,13 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.CustomerListAreaViewModel.Business = (BusinessEnum)arg.Data;
                     break;
                 case UserDetailType.Department:
-                    this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentInfo;
+                    this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentModel;
                     break;
                 case UserDetailType.Staff:
-                    this.StaffDetailAreaViewModel.Staff = arg.Data as StaffInfo;
+                    this.StaffDetailAreaViewModel.Staff = arg.Data as StaffModel;
                     break;
                 case UserDetailType.Customer:
-                    this.CustomerDetailAreaViewModel.Customer = arg.Data as CustomerInfo;
+                    this.CustomerDetailAreaViewModel.Customer = arg.Data as CustomerModel;
                     break;
             }
         }
