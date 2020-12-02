@@ -32,8 +32,14 @@ namespace EMChat2.Common
                 case MessageTypeConst.Event:
                     {
                         EventMessageContentBase eventMessageContentBase = messageContent.Content.JsonToObject<EventMessageContentBase>();
-                        //TODO 针对不同事件反序列化不同事件对象
-                        return eventMessageContentBase;
+                        switch (eventMessageContentBase.Event)
+                        {
+                            case EventTypeConst.RecvMessage: return messageContent.Content.JsonToObject<RecvMessageEventMessageContent>();
+                            case EventTypeConst.ReadMessage: return messageContent.Content.JsonToObject<ReadMessageEventMessageContent>();
+                            case EventTypeConst.RefuseMessage: return messageContent.Content.JsonToObject<RefuseMessageEventMessageContent>();
+                            case EventTypeConst.RevokeMessage: return messageContent.Content.JsonToObject<RevokeMessageEventMessageContent>();
+                            default: return eventMessageContentBase;
+                        }
                     }
                 default: return null;
             }
@@ -156,6 +162,66 @@ namespace EMChat2.Common
                 Content = new MixedMessageContent()
                 {
                     Items = messageContents.ToArray()
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateRecvMessageEventMessageContent(MessageInfo message)
+        {
+            if (message == null) return null;
+            if (message.State != MessageStateEnum.Received) throw new ArgumentException("message state is invalid");
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new RecvMessageEventMessageContent()
+                {
+                    Event = EventTypeConst.RecvMessage,
+                    Message = message
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateReadMessageEventMessageContent(MessageInfo message)
+        {
+            if (message == null) return null;
+            if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new RecvMessageEventMessageContent()
+                {
+                    Event = EventTypeConst.ReadMessage,
+                    Message = message
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateRefuseMessageEventMessageContent(MessageInfo message)
+        {
+            if (message == null) return null;
+            if (message.State != MessageStateEnum.Refused) throw new ArgumentException("message state is invalid");
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new RecvMessageEventMessageContent()
+                {
+                    Event = EventTypeConst.RefuseMessage,
+                    Message = message
+                }.ObjectToJson()
+            };
+        }
+
+        public static MessageContentInfo CreateRevokeMessageEventMessageContent(MessageInfo message)
+        {
+            if (message == null) return null;
+            if (message.State != MessageStateEnum.Revoked) throw new ArgumentException("message state is invalid");
+            return new MessageContentInfo()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new RecvMessageEventMessageContent()
+                {
+                    Event = EventTypeConst.RevokeMessage,
+                    Message = message
                 }.ObjectToJson()
             };
         }

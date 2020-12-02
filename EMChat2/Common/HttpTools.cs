@@ -244,19 +244,6 @@ namespace EMChat2.Common
         /// <summary>
         /// 异步文件下载
         /// </summary>
-        /// <param name="url">下载路径</param>
-        /// <param name="headers">请求头部</param>
-        /// <param name="cookies">cookie</param>
-        /// <param name="timeout">超时</param>
-        /// <returns>文件流</returns>
-        public static async Task<Stream> DownloadAsync(string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, int timeout = 60000)
-        {
-            return await DownloadAsync(WebMethod.GET, url, headers, cookies, null, timeout);
-        }
-
-        /// <summary>
-        /// 异步文件下载
-        /// </summary>
         /// <param name="method">请求方法</param>
         /// <param name="url">下载路径</param>
         /// <param name="headers">请求头部</param>
@@ -275,6 +262,19 @@ namespace EMChat2.Common
                 WebResponse response = DoReqeust(method, url, headers, cookies, data.ObjectToJson(), timeout);
                 return response.GetResponseStream();
             });
+        }
+
+        /// <summary>
+        /// 异步文件下载
+        /// </summary>
+        /// <param name="url">下载路径</param>
+        /// <param name="headers">请求头部</param>
+        /// <param name="cookies">cookie</param>
+        /// <param name="timeout">超时</param>
+        /// <returns>文件流</returns>
+        public static async Task<Stream> DownloadAsync(string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, int timeout = 60000)
+        {
+            return await DownloadAsync(WebMethod.GET, url, headers, cookies, null, timeout);
         }
     }
 

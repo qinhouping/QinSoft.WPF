@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
@@ -63,7 +64,7 @@ namespace EMChat2.Common
             }, callback);
         }
 
-        public static void Send(MessageInfo message, Action<int, string> callback)
+        public static bool Send(MessageInfo message)
         {
             int result = 0;
             int count = 0;
@@ -73,17 +74,17 @@ namespace EMChat2.Common
                 {
                     count++;
                     result += arg1;
-                    if (count == message.ToUsers.Count())
-                    {
-                        callback.Invoke(arg1, null);
-                    }
                 });
             }
+            while (count < message.ToUsers.Count())
+            {
+                Thread.Sleep(50);
+            }
+            return result == 0;
         }
 
         public static UrlEntity Upload(FileInfo file)
         {
-            if (!file.Exists) throw new InvalidOperationException("upload file not exists");
             return FileServerClient.Current.UploadFile(file.FullName, imServerInfo.ApiUrl, imUserInfo.Id, imUserInfo.Token).JsonToObject<UrlEntity>();
         }
 

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Common.Pipe
+namespace EMChat2.Common.PipeFilter
 {
     /// <summary>
     /// 处理管理事件参数
     /// </summary>
-    public class HandlePipeEventArgs
+    public class PipeFilterEventArgs
     {
         /// <summary>
         /// 入参

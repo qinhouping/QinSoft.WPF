@@ -373,7 +373,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-
                     MessageInfo message = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, this.InputMessageContent);
                     if (message == null) return;
                     new Action(() =>

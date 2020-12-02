@@ -56,6 +56,8 @@ namespace EMChat2.Model.BaseInfo
         /// </summary>
         [Description("发送中")]
         Sending,
+        [Description("审核失败")]
+        CheckFailure,
         /// <summary>
         /// 发送成功
         /// </summary>
@@ -85,12 +87,7 @@ namespace EMChat2.Model.BaseInfo
         /// 撤回的
         /// </summary>
         [Description("已撤回")]
-        Revoked,
-        /// <summary>
-        /// 移除的
-        /// </summary>
-        [Description("已移除")]
-        Deleted
+        Revoked
     }
 
     /// <summary>
@@ -461,6 +458,14 @@ namespace EMChat2.Model.BaseInfo
         }
     }
 
+    public class EventTypeConst
+    {
+        public const string RecvMessage = "recv_message";
+        public const string ReadMessage = "read_message";
+        public const string RefuseMessage = "refuse_message";
+        public const string RevokeMessage = "revoke_message";
+    }
+
     /// <summary>
     /// 事件消息内容
     /// </summary>
@@ -477,6 +482,74 @@ namespace EMChat2.Model.BaseInfo
             {
                 this._event = value;
                 this.NotifyPropertyChange(() => this.Event);
+            }
+        }
+    }
+
+    public class RecvMessageEventMessageContent : EventMessageContentBase
+    {
+        private MessageInfo message;
+        public MessageInfo Message
+        {
+            get
+            {
+                return this.message;
+            }
+            set
+            {
+                this.message = value;
+                this.NotifyPropertyChange(() => this.Message);
+            }
+        }
+    }
+
+    public class ReadMessageEventMessageContent : EventMessageContentBase
+    {
+        private MessageInfo message;
+        public MessageInfo Message
+        {
+            get
+            {
+                return this.message;
+            }
+            set
+            {
+                this.message = value;
+                this.NotifyPropertyChange(() => this.Message);
+            }
+        }
+    }
+
+    public class RefuseMessageEventMessageContent : EventMessageContentBase
+    {
+        private MessageInfo message;
+        public MessageInfo Message
+        {
+            get
+            {
+                return this.message;
+            }
+            set
+            {
+                this.message = value;
+                this.NotifyPropertyChange(() => this.Message);
+            }
+        }
+    }
+
+    public class RevokeMessageEventMessageContent : EventMessageContentBase
+    {
+        private MessageInfo message;
+        public MessageInfo Message
+        {
+            get
+            {
+                return this.message;
+            }
+            set
+            {
+                this.message = value;
+                this.NotifyPropertyChange(() => this.Message);
             }
         }
     }

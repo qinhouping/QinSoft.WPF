@@ -172,8 +172,8 @@
     <Compile Include="Common\IMTools.cs" />
     <Compile Include="Common\MessageTools.cs" />
     <Compile Include="Common\PasswordBoxAttach.cs" />
-    <Compile Include="Common\Pipe\HandlePipe.cs" />
-    <Compile Include="Common\Pipe\HandlePipeEventArgs.cs" />
+    <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
+    <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
     <Compile Include="Model\BaseInfo\BusinessSettingInfo.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
@@ -209,6 +209,13 @@
     <Compile Include="Model\Event\TemporaryInputMessagContentChangedEventArgs.cs" />
     <Compile Include="Model\Event\RefreshChatsEventArgs.cs" />
     <Compile Include="Common\ApiTools.cs" />
+    <Compile Include="Service\PipeFilter\BeginPipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\RecvMessage\RenderMessagePipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\RecvMessage\ResolveEventMessagePipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\SendMessage\CheckMessagePipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\SendMessage\ConvertMessageUrlPipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\SendMessage\PushMessagePipeFilter.cs" />
+    <Compile Include="Service\PipeFilter\SendMessage\StoreMessagePipeFilter.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatListAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\Chat\ChatMessageContentControlViewModel.cs" />
@@ -368,7 +375,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Api\" />
-    <Folder Include="Service\Pipe\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QinSoft.WPF.Control\QinSoft.WPF.Control.csproj">

@@ -354,8 +354,11 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         {
             ChatViewModel chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            arg.Message.State = MessageStateEnum.Readed;
             new Action(() => chat.Messages.Add(arg.Message)).ExecuteInUIThread();
+
+            arg.Message.State = MessageStateEnum.Readed;
+            MessageInfo recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, chat.Chat, MessageTools.CreateReadMessageEventMessageContent(arg.Message));
+            this.chatService.SendMessage(recvMessageEvent);
         }
         #endregion
     }

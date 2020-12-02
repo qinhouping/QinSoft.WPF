@@ -1,6 +1,10 @@
 ﻿using EMChat2.Common;
+using EMChat2.Common.PipeFilter;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Event;
+using EMChat2.Service.PipeFilter;
+using EMChat2.Service.PipeFilter.RecvMessage;
+using EMChat2.Service.PipeFilter.SendMessage;
 using EMChat2.ViewModel;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -22,7 +26,7 @@ namespace EMChat2.Service
     /// 会话服务，负责会话相关逻辑
     /// </summary>
     [Component]
-    public class ChatService : IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>
+    public class ChatService : IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
         public ChatService(IWindowManager windowManager, EventAggregator eventAggregator, SystemService systemService)
@@ -38,6 +42,9 @@ namespace EMChat2.Service
             IMTools.OnSocketError += IMTools_OnSocketError;
             IMTools.OnSocketReconnectFailed += IMTools_OnSocketReconnectFailed;
             IMTools.OnReceiveMessage += IMTools_OnReceiveMessage;
+
+            this.sendMessageBeginPipeFilter = CreateSendMessageBeginPipeFilter();
+            this.recvMessageBeginPipeFilter = CreateRecvMessageBeginPipeFilter();
         }
         #endregion
 
@@ -47,9 +54,36 @@ namespace EMChat2.Service
         private SystemService systemService;
         private IMServerInfo serverInfo;
         private IMUserInfo userInfo;
+        private BeginPipeFilter sendMessageBeginPipeFilter;
+        private BeginPipeFilter recvMessageBeginPipeFilter;
         #endregion
 
         #region 方法
+
+        protected virtual BeginPipeFilter CreateSendMessageBeginPipeFilter()
+        {
+            BeginPipeFilter pipeFilter = new BeginPipeFilter();
+            pipeFilter.SetNextPipeFilter(new CheckMessagePipeFilter()).SetNextPipeFilter(new ConvertMessageUrlPipeFilter()).SetNextPipeFilter(new PushMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new StoreMessagePipeFilter());
+            return pipeFilter;
+        }
+
+        protected virtual BeginPipeFilter CreateRecvMessageBeginPipeFilter()
+        {
+            BeginPipeFilter pipeFilter = new BeginPipeFilter();
+            pipeFilter.SetNextPipeFilter(new ResolveEventMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new RenderMessagePipeFilter(this.eventAggregator));
+            return pipeFilter;
+        }
+
+        private async void HandleSendMessage(MessageInfo message)
+        {
+            await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
+        }
+
+        private async void HandleRecvMessage(MessageInfo message)
+        {
+            await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
+        }
+
         public async void OpenLink(string url)
         {
             await new Action(() =>
@@ -83,7 +117,7 @@ namespace EMChat2.Service
                 fileDialog.FileName = name;
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    await DownloadFile(filePath, fileDialog.FileName);
+                    DownloadFile(filePath, fileDialog.FileName);
                     Process.Start(fileDialog.FileName);
                 }
             }
@@ -93,7 +127,7 @@ namespace EMChat2.Service
             }
         }
 
-        private async Task DownloadFile(string url, string filePath)
+        private async void DownloadFile(string url, string filePath)
         {
             try
             {
@@ -114,19 +148,7 @@ namespace EMChat2.Service
         public async void SendMessage(MessageInfo message)
         {
             await Task.Delay(100);
-            message = message.Clone();
-            IMTools.Send(message, (arg1, arg2) =>
-            {
-                if (arg1 == 0)
-                {
-                    message.State = MessageStateEnum.SendSuccess;
-                }
-                else
-                {
-                    message.State = MessageStateEnum.SendFailure;
-                }
-                this.eventAggregator.PublishAsync(new MessageStateChangedEventArgs() { Message = message });
-            });
+            HandleSendMessage(message);
         }
         #endregion
 
@@ -140,6 +162,13 @@ namespace EMChat2.Service
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
+        {
+            IMTools.Stop();
+            this.serverInfo = null;
+            this.userInfo = null;
+        }
+
+        public void Handle(ExitCallbackEventArgs arg)
         {
             IMTools.Stop();
             this.serverInfo = null;
@@ -159,6 +188,7 @@ namespace EMChat2.Service
                     Content = "已经连接IM服务器"
                 }
             });
+
             IMTools.Login(this.userInfo, (arg1, arg2) =>
             {
                 this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
@@ -213,7 +243,7 @@ namespace EMChat2.Service
 
         private void IMTools_OnReceiveMessage(object sender, MessageInfo e)
         {
-            this.eventAggregator.PublishAsync<ReceiveMessageEventArgs>(new ReceiveMessageEventArgs() { Message = e });
+            HandleRecvMessage(e);
         }
         #endregion
     }
