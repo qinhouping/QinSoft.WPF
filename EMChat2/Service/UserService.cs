@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EMChat2.Common;
 
 namespace EMChat2.Service
 {
@@ -34,10 +35,9 @@ namespace EMChat2.Service
         #endregion
 
         #region 方法
-        public async void Login(LoginInfoModel loginInfo)
+        public virtual async void Login(LoginInfoModel loginInfo)
         {
-            await Task.Delay(1000);
-            await eventAggregator.PublishAsync(new LoginCallbackEventArgs()
+            await this.eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
                 IsSuccess = true,
                 Staff = new StaffModel()
@@ -64,26 +64,29 @@ namespace EMChat2.Service
                 {
                     Id = "4735344555340783734",
                     AppKey = "EMgUNSkPGf",
-                    Token = "igUIJdQRnpaMJECM4+AZo+LqMy5SRV2OPr9o515ZbgfZe1PFnODrDs3XAMuqla1KdEp2Z65n/ZaDOpaieV9btayZqKk2mIedQ+TeH8DOet3rt3oQ4MmEGihTYYWgDgHp88zkVx8DOQ28g/kJktrGwRZ67lwPIBEZN+t+9nvSbcQGnUIEPeBK1/gFNFYc0CzM+HQXfZTD7W2SzaeRFB/+jD39tT538Piw55D2sqLPxgLCpnpyli0O4AxbBRw7oqaWISYtuOquIvrxXqYv+rjf7w==",
-                    RefreshToken = "OLugImPdurnpz8k/4BSwyzWxoFrEQ5A3Tlm5SVmVVNode79ndkVF2X8yQYz0EqOQAhEJHLUpobqBCW7wEeH2+pVvRuI1F4W7UPTm8DBWdhQ="
+                    Token = "igUIJdQRnpaMJECM4+AZo+LqMy5SRV2OPr9o515ZbgfZe1PFnODrDs3XAMuqla1KzDV0cJ+QAb22y/MCoDuTFNXrvnhRsz8lJjjXEypGchQrcy8MReXBwXDmBbanehhLjwauL8cjRcPwcJ6Z/J3Kj4nddLarTKfVoHRZabrmPvMOwVT4KJZr8j/A8iThgfhZK8QH+cY8GPZCwVt214BuEFmGILllF84D6BladLntFkqr7fx/cItZarZvWBcPGpm9yoy7MAPoyMMB0Dq6UZDb3Q==",
+                    RefreshToken = "VcpvM4sAix6aLp7EqhXfjuPOIvOs/bnKacesbgmCU7tRpzk2XEv0onYtIRCrJZSJtbJ159PjuwjUeVQPn0O4wJ3JFXE+OslQgiVUBKIubIs="
                 }
             });
         }
 
-        public async void Logout()
+        public virtual async void Logout()
         {
             await eventAggregator.PublishAsync(new LogoutCallbackEventArgs());
         }
 
-        public async void Exit()
+        public virtual async void Exit()
         {
             await eventAggregator.PublishAsync(new ExitCallbackEventArgs());
         }
 
-        public SettingModel LoadSetting(StaffModel staff)
+        public virtual async Task<SettingModel> LoadSetting(StaffModel staff)
         {
             if (staff == null) throw new ArgumentNullException("staff");
-            //测试数据
+
+            await Task.Delay(1000);
+
+            //TODO 测试数据
             SettingModel setting = new SettingModel();
 
             foreach (BusinessEnum business in staff.BusinessList)

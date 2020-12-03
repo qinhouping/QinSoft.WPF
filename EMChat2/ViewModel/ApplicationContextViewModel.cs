@@ -65,13 +65,19 @@ namespace EMChat2.ViewModel
         }
         #endregion
 
+        #region 私有方法
+        public async void LoadSetting()
+        {
+            this.Setting = await this.userService.LoadSetting(CurrentStaff);
+        }
+        #endregion
+
         #region 事件处理
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
             this.CurrentStaff = arg.Staff;
-
-            this.Setting = this.userService.LoadSetting(CurrentStaff);
+            this.LoadSetting();
         }
 
         public void Handle(LogoutCallbackEventArgs arg)

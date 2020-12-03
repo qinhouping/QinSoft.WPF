@@ -347,17 +347,17 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             if (chat == null) return;
             MessageModel message = chat.Messages.FirstOrDefault(u => u.Equals(arg.Message));
             if (message == null) return;
-            message.State = arg.Message.State;
+            if (arg.Message.State > message.State) message.State = arg.Message.State;
         }
 
         public void Handle(ReceiveMessageEventArgs arg)
         {
             ChatViewModel chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            new Action(() => chat.Messages.Add(arg.Message)).ExecuteInUIThread();
+            if (!chat.Messages.Contains(arg.Message)) new Action(() => chat.Messages.Add(arg.Message)).ExecuteInUIThread();
 
-            arg.Message.State = MessageStateEnum.Readed;
-            MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, chat.Chat, MessageTools.CreateReadMessageEventMessageContent(arg.Message));
+            arg.Message.State = MessageStateEnum.Received;
+            MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, chat.Chat, MessageTools.CreateRecvMessageEventMessageContent(arg.Message));
             this.chatService.SendMessage(recvMessageEvent);
         }
         #endregion

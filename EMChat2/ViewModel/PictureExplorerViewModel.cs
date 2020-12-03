@@ -261,7 +261,7 @@ namespace EMChat2.ViewModel
             }
             catch (Exception e)
             {
-                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "图片下载失败" + e.Message, "提示", AlertType.Error))
                 {
                     new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
                 }
@@ -270,25 +270,21 @@ namespace EMChat2.ViewModel
 
         private async void CopyImage(string filePath)
         {
-            await new Action(() =>
+            try
             {
-                try
+                await new Action(() =>
                 {
                     this.CurrentSource.FileToStream().StreamToFile(filePath);
-
-                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存成功", "提示", AlertType.Success))
-                    {
-                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                    }
-                }
-                catch (Exception e)
+                }).ExecuteInTask();
+                await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("图片[" + this.CurrentSource + "]保存成功") } });
+            }
+            catch (Exception e)
+            {
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存图片失败" + e.Message, "提示", AlertType.Error))
                 {
-                    using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
-                    {
-                        new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
-                    }
+                    new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
                 }
-            }).ExecuteInTask();
+            }
         }
 
         public void Dispose()

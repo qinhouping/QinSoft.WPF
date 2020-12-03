@@ -38,7 +38,7 @@ namespace EMChat2.Service
         private IList<UrlMappingModel> urlMappingInfos;
 
         #region 方法
-        public async Task<LoginInfoModel> LoadLoginInfo()
+        public virtual async Task<LoginInfoModel> LoadLoginInfo()
         {
             return await new Func<LoginInfoModel>(() =>
             {
@@ -48,7 +48,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public async void StoreLoginInfo(LoginInfoModel loginInfo)
+        public virtual async void StoreLoginInfo(LoginInfoModel loginInfo)
         {
             await new Action(() =>
             {
@@ -59,7 +59,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        private async void LoadUrlMapping()
+        protected virtual async void LoadUrlMapping()
         {
             this.urlMappingInfos = await new Func<IList<UrlMappingModel>>(() =>
             {
@@ -67,7 +67,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public async Task<string> GetUrlMapping(string url, bool retOrigin = true)
+        public virtual async Task<string> GetUrlMapping(string url, bool retOrigin = true)
         {
             return await new Func<string>(() =>
             {
@@ -87,7 +87,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public async void StoreUrlMapping(UrlMappingModel urlMappingInfo)
+        public virtual async void StoreUrlMapping(UrlMappingModel urlMappingInfo)
         {
             await new Action(() =>
             {

@@ -280,7 +280,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    if (applicationContextViewModel.Setting.IsHideWhenCaptureScreen)
+                    if (applicationContextViewModel.Setting?.IsHideWhenCaptureScreen != false)
                     {
                         this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
                         this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
@@ -360,9 +360,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Remove(oldMessage);
                         }
                     }).ExecuteInUIThread();
+                    oldMessage.State = MessageStateEnum.Revoked;
+                    this.chatService.UpdateMessage(oldMessage);
+                    MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
+                    this.chatService.SendMessage(revokeMessageEvent);
                 }, (oldMessage) =>
                 {
-                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes;
+                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes && (oldMessage.State == MessageStateEnum.SendSuccess || oldMessage.State == MessageStateEnum.Received || oldMessage.State == MessageStateEnum.Readed);
                 });
             }
         }
@@ -406,8 +410,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Messages.Remove(oldMessage);
                             this.Messages.Add(message);
                         }
-                        chatService.SendMessage(message);
                     }).ExecuteInUIThread();
+                    chatService.SendMessage(message);
                 }, (oldMessage) =>
                 {
                     return BusinessSetting.AllowSendMessage && oldMessage != null && oldMessage.FromUser == ApplicationContextViewModel.CurrentStaff?.ImUserId && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);

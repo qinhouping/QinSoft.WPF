@@ -75,17 +75,7 @@ namespace EMChat2.Service
             return pipeFilter;
         }
 
-        private async void HandleSendMessage(MessageModel message)
-        {
-            await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
-        }
-
-        private async void HandleRecvMessage(MessageModel message)
-        {
-            await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
-        }
-
-        public async void OpenLink(string url)
+        public virtual async void OpenLink(string url)
         {
             await new Action(() =>
             {
@@ -93,22 +83,19 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        public async void OpenImage(string[] sources, int index)
+        public virtual async void OpenImage(string[] sources, int index)
         {
             for (int i = 0; i < sources.Length; i++)
             {
                 sources[i] = await systemService.GetUrlMapping(sources[i]);
             }
-            new Action(() =>
+            using (PictureExplorerViewModel pictureExplorerViewModel = new PictureExplorerViewModel(this.windowManager, this.eventAggregator, systemService, sources, index))
             {
-                using (PictureExplorerViewModel pictureExplorerViewModel = new PictureExplorerViewModel(this.windowManager, this.eventAggregator, systemService, sources, index))
-                {
-                    this.windowManager.ShowDialog(pictureExplorerViewModel);
-                }
-            }).ExecuteInUIThread();
+                new Action(() => this.windowManager.ShowDialog(pictureExplorerViewModel)).ExecuteInUIThread();
+            }
         }
 
-        public async void OpenFile(string filePath, string name)
+        public virtual async void OpenFile(string filePath, string name)
         {
             filePath = await systemService.GetUrlMapping(filePath);
             if (filePath.IsNetUrl())
@@ -128,7 +115,7 @@ namespace EMChat2.Service
             }
         }
 
-        private async void DownloadFile(string url, string filePath)
+        protected virtual async void DownloadFile(string url, string filePath)
         {
             try
             {
@@ -139,17 +126,26 @@ namespace EMChat2.Service
             }
             catch (Exception e)
             {
-                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "保存失败" + e.Message, "提示", AlertType.Error))
+                using (AlertViewModel alertViewModel = new AlertViewModel(this.windowManager, this.eventAggregator, "文件下载失败" + e.Message, "提示", AlertType.Error))
                 {
                     new Action(() => this.windowManager.ShowDialog(alertViewModel)).ExecuteInUIThread();
                 }
             }
         }
 
-        public async void SendMessage(MessageModel message)
+        public virtual async void SendMessage(MessageModel message)
+        {
+            await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
+        }
+
+        public virtual async void UpdateMessage(MessageModel message)
         {
             await Task.Delay(100);
-            HandleSendMessage(message);
+        }
+
+        protected virtual async void OnRecvMessage(MessageModel message)
+        {
+            await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
         #endregion
 
@@ -244,7 +240,7 @@ namespace EMChat2.Service
 
         private void IMTools_OnReceiveMessage(object sender, MessageModel e)
         {
-            HandleRecvMessage(e);
+            OnRecvMessage(e);
         }
         #endregion
     }

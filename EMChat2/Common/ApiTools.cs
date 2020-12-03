@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Service
 {
-    class ApiServiceTools
+    public static class ApiServiceTools
     {
     }
 }

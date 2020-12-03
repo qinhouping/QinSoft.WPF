@@ -30,9 +30,9 @@ namespace EMChat2.Common.PipeFilter
         {
             Action(arg);
             if (arg.Cancel == true) return;
-            PipeFilterBase filter = GetNexttPipeFilter(arg);
-            if (filter == null) return;
-            filter.Run(new PipeFilterEventArgs() { InArg = arg.OutArg });
+            PipeFilterBase nextFilter = GetNexttPipeFilter(arg);
+            if (nextFilter == null) return;
+            nextFilter.Run(new PipeFilterEventArgs() { InArg = arg.OutArg });
         }
     }
 }
