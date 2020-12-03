@@ -113,7 +113,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.IsEditingCustomer = false;
-                    this.TemporaryEditCustomer = this.Customer.Clone();
+                    this.TemporaryEditCustomer = this.Customer.CloneObject();
                     this.TemporaryCustomerTagAreaViewModel?.Dispose();
                     this.TemporaryCustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.TemporaryEditCustomer.Business, this.TemporaryEditCustomer.Tags.CloneArray());
                     this.IsEditingCustomer = true;

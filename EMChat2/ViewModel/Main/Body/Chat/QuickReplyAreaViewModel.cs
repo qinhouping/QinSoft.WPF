@@ -278,7 +278,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return new RelayCommand<QuickReplyGroupModel>((quickReplyGroup) =>
                 {
                     this.IsEditingQuickReplyGroup = false;
-                    this.TemporaryEditQuickReplyGroup = quickReplyGroup.Clone();
+                    this.TemporaryEditQuickReplyGroup = quickReplyGroup.CloneObject();
                     this.IsEditingQuickReplyGroup = true;
                 }, (quickReplyGroup) =>
                 {
@@ -394,7 +394,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     this.IsEditingQuickReply = false;
                     this.TemporaryQuickReplyGroup2 = this.SelectedQuickReplyGroup;
-                    this.TemporaryEditQuickReply = quickReply.Clone();
+                    this.TemporaryEditQuickReply = quickReply.CloneObject();
                     this.IsEditingQuickReply = true;
                 }, (quickReply) =>
                 {

@@ -99,7 +99,7 @@ namespace EMChat2.ViewModel
         private async void LoadLoginInfo()
         {
             this.LoginInfo = await this.systemService.LoadLoginInfo();
-            this.oldLoginInfo = this.LoginInfo.Clone();
+            this.oldLoginInfo = this.LoginInfo.CloneObject();
             this.LoginInfo.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName != "UserName") return;

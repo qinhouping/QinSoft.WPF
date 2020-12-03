@@ -96,7 +96,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 return new RelayCommand(() =>
                 {
                     this.IsEditingStaff = false;
-                    this.TemporaryEditStaff = this.Staff.Clone();
+                    this.TemporaryEditStaff = this.Staff.CloneObject();
                     this.IsEditingStaff = true;
                 }, () =>
                 {

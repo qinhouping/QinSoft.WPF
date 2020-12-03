@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QinSoft.Log;
 
 namespace EMChat2.Service
 {
@@ -140,7 +141,7 @@ namespace EMChat2.Service
 
         public virtual async void UpdateMessage(MessageModel message)
         {
-            await Task.Delay(100);
+            await Task.Delay(50);
         }
 
         protected virtual async void OnRecvMessage(MessageModel message)

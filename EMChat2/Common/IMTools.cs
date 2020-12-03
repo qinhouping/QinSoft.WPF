@@ -87,12 +87,12 @@ namespace EMChat2.Common
         {
             int result = 0;
             MessageApiModel sendMessage = message.MessageToApiModel();
-            string messageJson = sendMessage.ObjectToJson();
+            string messageString = sendMessage.ObjectToJson();
 
             Semaphore semaphore = new Semaphore(0, message.ToUsers.Count());
             foreach (string toUser in message.ToUsers)
             {
-                socketClient.SendToUser(message.FromUser, toUser, messageJson, 0, (code, msg) =>
+                socketClient.SendToUser(message.FromUser, toUser, messageString, 0, (code, msg) =>
                 {
                     result += code;
                     semaphore.Release();
@@ -111,9 +111,23 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns>上传结果</returns>
-        public static UrlModel Upload(FileInfo file)
+        public static IMFileInfo UploadFile(FileInfo file)
         {
-            return FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token).JsonToObject<UrlModel>();
+            string content = FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
+            IMUploadResponse<IMFileInfo> response = content.JsonToObject<IMUploadResponse<IMFileInfo>>();
+            return response.Data;
+        }
+
+        /// <summary>
+        /// 上传图片文件
+        /// </summary>
+        /// <param name="file">图片文件</param>
+        /// <returns>上传结果</returns>
+        public static IMImageInfo UploadImage(FileInfo file)
+        {
+            string content = FileServerClient.Current.UploadImage(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
+            IMUploadResponse<IMImageInfo> response = content.JsonToObject<IMUploadResponse<IMImageInfo>>();
+            return response.Data;
         }
 
         #region 私有方法

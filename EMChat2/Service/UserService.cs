@@ -42,9 +42,9 @@ namespace EMChat2.Service
                 IsSuccess = true,
                 Staff = new StaffModel()
                 {
-                    Id = "180366",
-                    WorkCode = "180366",
-                    Name = "秦后平",
+                    Id = "000003",
+                    WorkCode = "000003",
+                    Name = "测试账号",
                     HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
                     ImUserId = "4735344555340783734",
                     State = loginInfo.State,
@@ -64,8 +64,8 @@ namespace EMChat2.Service
                 {
                     Id = "4735344555340783734",
                     AppKey = "EMgUNSkPGf",
-                    Token = "igUIJdQRnpaMJECM4+AZo+LqMy5SRV2OPr9o515ZbgfZe1PFnODrDs3XAMuqla1KzDV0cJ+QAb22y/MCoDuTFNXrvnhRsz8lJjjXEypGchQrcy8MReXBwXDmBbanehhLjwauL8cjRcPwcJ6Z/J3Kj4nddLarTKfVoHRZabrmPvMOwVT4KJZr8j/A8iThgfhZK8QH+cY8GPZCwVt214BuEFmGILllF84D6BladLntFkqr7fx/cItZarZvWBcPGpm9yoy7MAPoyMMB0Dq6UZDb3Q==",
-                    RefreshToken = "VcpvM4sAix6aLp7EqhXfjuPOIvOs/bnKacesbgmCU7tRpzk2XEv0onYtIRCrJZSJtbJ159PjuwjUeVQPn0O4wJ3JFXE+OslQgiVUBKIubIs="
+                    Token = "5eC3pgapWygNkVEOiyZFAxq77VpFNh3Z8ghzhKnWkNVqdGDHr1nOQaAITNUsgZGG3vDeVEcKQSIJNJhjvF5tTis6zy+Gs2ttkFtMIAv9RkJVs9FscJVIjzlXH8TnSlFTji8nBl3Et/92CeFoBSakAi8YzeduDxWiskeDYp1CEmCHv/o+K1DHOXbvQXqk7BN8ZjWflLByLhNdAC1gELu6Hvv8HzXlzXfIMVYJkDxyuSoJ5s/UfvSumsB/IBZcIWb3brZlFBQJ9ZFRtvqMeBBggA==",
+                    RefreshToken = "bNqeO4yufVGZkcqZcEyvHRWcXyfcuf9dqsyKDYflQkmWSGtWT05m0tt/jlVFR8P56iPV5eKpbwbDwcPhPFy019MDmRGKWrelBq+KCc3QwIY="
                 }
             });
         }

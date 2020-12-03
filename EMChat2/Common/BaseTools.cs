@@ -14,6 +14,7 @@ using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace EMChat2.Common
 {
@@ -249,7 +250,7 @@ namespace EMChat2.Common
                 Directory.CreateDirectory(directorypath);
         }
 
-        public static T Clone<T>(this T obj)
+        public static T CloneObject<T>(this T obj) where T : class, new()
         {
             if (obj == null) return default;
             Type type = obj.GetType();
@@ -264,15 +265,26 @@ namespace EMChat2.Common
             return (T)newObj;
         }
 
-        public static IEnumerable<T> CloneArray<T>(this IEnumerable<T> obj)
+        public static IEnumerable<T> CloneArray<T>(this IEnumerable<T> obj) where T : class, new()
         {
             if (obj == null) return default;
-            List<T> data = new List<T>();
-            obj.ToList().ForEach(u => data.Add(u.Clone()));
+            IList<T> data = new List<T>();
+            obj.ToList().ForEach(u => data.Add(u.CloneObject()));
             return data;
         }
 
-        public static T Assign<T>(this T obj, T value)
+        public static IDictionary<K, V> CloneDictory<K, V>(this IDictionary<K, V> obj) where V : class, new()
+        {
+            if (obj == null) return default;
+            IDictionary<K, V> data = new Dictionary<K, V>();
+            foreach (K key in obj.Keys)
+            {
+                data[key] = obj[key].CloneObject();
+            }
+            return data;
+        }
+
+        public static T Assign<T>(this T obj, T value) where T : class
         {
             if (obj == null) return value;
             else if (value == null) return default;

@@ -95,18 +95,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.messages = value;
                 this.NotifyPropertyChange(() => this.Messages);
-                this.NotifyPropertyChange(() => this.NotReadMessageCount);
-                this.NotifyPropertyChange(() => this.LastMessage);
-                this.NotifyPropertyChange(() => this.LastMessageTimeSort);
-                this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
-                this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+                this.NoticeMessagesChange();
                 this.messages.CollectionChanged += (s, e) =>
                 {
-                    this.NotifyPropertyChange(() => this.NotReadMessageCount);
-                    this.NotifyPropertyChange(() => this.LastMessage);
-                    this.NotifyPropertyChange(() => this.LastMessageTimeSort);
-                    this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
-                    this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+                    this.NoticeMessagesChange();
                 };
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
@@ -617,6 +609,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         private async void InputObjectMessageContent(MessageContentModel messageContent)
         {
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
+        }
+
+        public virtual void NoticeMessagesChange()
+        {
+            this.NotifyPropertyChange(() => this.NotReadMessageCount);
+            this.NotifyPropertyChange(() => this.LastMessage);
+            this.NotifyPropertyChange(() => this.LastMessageTimeSort);
+            this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+            this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
         public override bool Equals(object obj)

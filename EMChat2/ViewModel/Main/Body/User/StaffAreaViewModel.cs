@@ -98,11 +98,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                         Name = "东财咨询",
                         Staffs = new ObservableCollection<StaffModel>() { new StaffModel()
                         {
-                            Id = Guid.NewGuid().ToString(),
-                            WorkCode = "180366",
+                            Id = "000001",
+                            WorkCode = "000001",
                             Name = "总经理",
                             HeaderImageUrl = "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3095823371,2737858048&fm=26&gp=0.jpg",
-                            ImUserId = "1112",
+                            ImUserId = "1111",
                             State = UserStateEnum.Busy,
                             Sex= SexEnum.Women
                         } },
@@ -120,11 +120,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                                         Name = "业务一部",
                                         Staffs = new ObservableCollection<StaffModel>() { new StaffModel()
                                         {
-                                            Id = Guid.NewGuid().ToString(),
-                                            WorkCode = "180366",
+                                            Id ="000002",
+                                            WorkCode = "000002",
                                             Name = "秦后平",
                                             HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
-                                            ImUserId = "1111",
+                                            ImUserId = "1112",
                                             State = UserStateEnum.Busy,
                                             Sex=SexEnum.Man,
                                             Remark="秦后平-测试备注",

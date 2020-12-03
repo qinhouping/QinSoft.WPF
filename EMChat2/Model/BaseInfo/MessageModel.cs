@@ -13,10 +13,22 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.BaseInfo
 {
+
+    /// <summary>
+    /// 消息内容
+    /// </summary>
+    public class MessageContent : PropertyChangedBase, ICloneable
+    {
+        public virtual object Clone()
+        {
+            return new MessageContent();
+        }
+    }
+
     /// <summary>
     /// 消息内容模型
     /// </summary>
-    public class MessageContentModel : PropertyChangedBase
+    public class MessageContentModel : PropertyChangedBase, ICloneable
     {
         private string type;
         public virtual string Type
@@ -44,6 +56,15 @@ namespace EMChat2.Model.BaseInfo
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
             }
+        }
+
+        public virtual object Clone()
+        {
+            return new MessageContentModel()
+            {
+                Type = this.Type,
+                Content = this.Content.Clone() as MessageContent
+            };
         }
     }
 
@@ -236,20 +257,32 @@ namespace EMChat2.Model.BaseInfo
         #region 方法
         public override int GetHashCode()
         {
-            return this.id?.GetHashCode() ?? this.id.GetHashCode();
+            return this.id.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
             return this.id.Equals((obj as MessageModel)?.id);
         }
+
+        public override object Clone()
+        {
+            return new MessageModel()
+            {
+                Id = this.Id,
+                Time = this.Time,
+                ChatId = this.ChatId,
+                FromUser = this.FromUser,
+                ToUsers = this.ToUsers,
+                State = this.State,
+                Type = this.Type,
+                Content = this.Content.Clone() as MessageContent
+            };
+        }
         #endregion
     }
 
-    public class MessageContent : PropertyChangedBase
-    {
-
-    }
+    #region 具体消息内容
 
     /// <summary>
     /// 文本消息内容
@@ -268,6 +301,14 @@ namespace EMChat2.Model.BaseInfo
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
             }
+        }
+
+        public override object Clone()
+        {
+            return new TextMessageContent()
+            {
+                Content = this.Content
+            };
         }
     }
 
@@ -288,6 +329,14 @@ namespace EMChat2.Model.BaseInfo
                 this.url = value;
                 this.NotifyPropertyChange(() => this.Url);
             }
+        }
+
+        public override object Clone()
+        {
+            return new ImageMessageContent()
+            {
+                Url = this.Url
+            };
         }
     }
 
@@ -336,6 +385,16 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.IsGif);
             }
         }
+
+        public override object Clone()
+        {
+            return new EmotionMessageContent()
+            {
+                Url = this.Url,
+                Name = this.Name,
+                IsGif = this.IsGif
+            };
+        }
     }
 
     /// <summary>
@@ -381,6 +440,16 @@ namespace EMChat2.Model.BaseInfo
                 this.extension = value;
                 this.NotifyPropertyChange(() => this.Extension);
             }
+        }
+
+        public override object Clone()
+        {
+            return new FileMessageContent()
+            {
+                Url = this.Url,
+                Name = this.Name,
+                Extension = this.Extension
+            };
         }
     }
 
@@ -444,6 +513,17 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Description);
             }
         }
+
+        public override object Clone()
+        {
+            return new LinkMessageContent()
+            {
+                Url = this.Url,
+                ThumbUrl = this.ThumbUrl,
+                Title = this.Title,
+                Description = this.Description
+            };
+        }
     }
 
     /// <summary>
@@ -463,6 +543,14 @@ namespace EMChat2.Model.BaseInfo
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
             }
+        }
+
+        public override object Clone()
+        {
+            return new TipsMessageContent()
+            {
+                Content = this.Content
+            };
         }
     }
 
@@ -484,6 +572,18 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Items);
             }
         }
+
+        public override object Clone()
+        {
+            MixedMessageContent messageContent = new MixedMessageContent();
+            List<MessageContentModel> items = new List<MessageContentModel>();
+            foreach (MessageContentModel item in this.Items)
+            {
+                items.Add(item.Clone() as MessageContentModel);
+            }
+            messageContent.Items = items.ToArray();
+            return messageContent;
+        }
     }
 
     /// <summary>
@@ -497,6 +597,7 @@ namespace EMChat2.Model.BaseInfo
         public const string RevokeMessage = "revoke_message";
     }
 
+    #region 事件消息内容
     /// <summary>
     /// 事件消息内容
     /// </summary>
@@ -514,6 +615,14 @@ namespace EMChat2.Model.BaseInfo
                 this._event = value;
                 this.NotifyPropertyChange(() => this.Event);
             }
+        }
+
+        public override object Clone()
+        {
+            return new EventMessageContent()
+            {
+                Event = this.Event
+            };
         }
     }
 
@@ -537,6 +646,15 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Message);
             }
         }
+
+        public override object Clone()
+        {
+            return new RecvMessageEventMessageContent()
+            {
+                Event = this.Event,
+                Message = this.Message
+            };
+        }
     }
 
     public class ReadMessageEventMessageContent : EventMessageContent
@@ -558,6 +676,15 @@ namespace EMChat2.Model.BaseInfo
                 this.message = value;
                 this.NotifyPropertyChange(() => this.Message);
             }
+        }
+
+        public override object Clone()
+        {
+            return new ReadMessageEventMessageContent()
+            {
+                Event = this.Event,
+                Message = this.Message
+            };
         }
     }
 
@@ -581,6 +708,15 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Message);
             }
         }
+
+        public override object Clone()
+        {
+            return new RefuseMessageEventMessageContent()
+            {
+                Event = this.Event,
+                Message = this.Message
+            };
+        }
     }
 
     public class RevokeMessageEventMessageContent : EventMessageContent
@@ -603,5 +739,16 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Message);
             }
         }
+
+        public override object Clone()
+        {
+            return new RevokeMessageEventMessageContent()
+            {
+                Event = this.Event,
+                Message = this.Message
+            };
+        }
     }
+    #endregion
+    #endregion
 }

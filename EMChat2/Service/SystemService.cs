@@ -44,7 +44,7 @@ namespace EMChat2.Service
             {
                 LoginInfoModel loginInfo = loginInfoFilePath.FileToStream().StreamToString().JsonToObject<LoginInfoModel>() ?? new LoginInfoModel();
                 loginInfo.Password = loginInfo.Password.UnBase64();
-                return loginInfo.Clone();
+                return loginInfo.CloneObject();
             }).ExecuteInTask();
         }
 
@@ -52,7 +52,7 @@ namespace EMChat2.Service
         {
             await new Action(() =>
             {
-                loginInfo = loginInfo.Clone();
+                loginInfo = loginInfo.CloneObject();
                 if (loginInfo.IsRememberPassword) loginInfo.Password = loginInfo.Password.Base64();
                 else loginInfo.Password = null;
                 loginInfo.ObjectToJson().StringToStream().StreamToFile(loginInfoFilePath);

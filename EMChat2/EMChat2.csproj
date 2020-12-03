@@ -182,7 +182,10 @@
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
     <Compile Include="Model\BaseInfo\IExpandable.cs" />
+    <Compile Include="Model\IM\IMFileInfo.cs" />
+    <Compile Include="Model\IM\IMImageInfo.cs" />
     <Compile Include="Model\IM\IMServerModel.cs" />
+    <Compile Include="Model\IM\IMUploadResponse.cs" />
     <Compile Include="Model\IM\IMUserModel.cs" />
     <Compile Include="Model\BaseInfo\QuickReplyGroupModel.cs" />
     <Compile Include="Common\RetryTools.cs" />
@@ -213,7 +216,6 @@
     <Compile Include="Event\TemporaryInputMessagContentChangedEventArgs.cs" />
     <Compile Include="Event\RefreshChatsEventArgs.cs" />
     <Compile Include="Common\ApiTools.cs" />
-    <Compile Include="Model\IM\UrlModel.cs" />
     <Compile Include="Service\PipeFilter\BeginPipeFilter.cs" />
     <Compile Include="Service\PipeFilter\RecvMessage\RenderMessagePipeFilter.cs" />
     <Compile Include="Service\PipeFilter\RecvMessage\ResolveEventMessagePipeFilter.cs" />

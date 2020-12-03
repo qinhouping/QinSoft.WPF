@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.IM
 {
-    public class UrlModel
+    public class IMImageInfo
     {
         /// <summary>
         /// 路径

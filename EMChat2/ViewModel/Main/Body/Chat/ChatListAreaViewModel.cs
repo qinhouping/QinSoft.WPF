@@ -88,24 +88,12 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             set
             {
                 this.chatItems = value;
+                this.NotifyPropertyChange(() => this.ChatItems);
                 this.chatItems.CollectionChanged += (s, e) =>
                 {
                     this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
-
-                    //自动选择第一项
-                    if (this.SelectedChatItem == null)
-                    {
-                        lock (this.ChatItems)
-                        {
-                            if (!this.ChatItemsCollectionView.IsEmpty)
-                            {
-                                this.ChatItemsCollectionView.MoveCurrentToFirst();
-                                this.SelectedChatItem = this.ChatItemsCollectionView.CurrentItem as ChatViewModel;
-                            }
-                        }
-                    }
+                    ChangeSelectedItem();
                 };
-                this.NotifyPropertyChange(() => this.ChatItems);
                 this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatItems);
@@ -178,6 +166,22 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         private PrivateChatViewModel CreatePrivateChat(ChatModel chat)
         {
             return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, chat, this.chatService, this.systemService);
+        }
+
+        private async void ChangeSelectedItem()
+        {
+            await Task.Delay(50); //TODO 通过延迟滚动来解决不能自动选择的bug
+            if (this.SelectedChatItem == null)
+            {
+                lock (this.ChatItems)
+                {
+                    if (!this.ChatItemsCollectionView.IsEmpty)
+                    {
+                        this.ChatItemsCollectionView.MoveCurrentToFirst();
+                        this.SelectedChatItem = this.ChatItemsCollectionView.CurrentItem as ChatViewModel;
+                    }
+                }
+            }
         }
         #endregion
 
@@ -266,7 +270,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         public void Handle(TemporaryInputMessagContentChangedEventArgs arg)
         {
             if (this.SelectedChatItem == null) return;
-            this.SelectedChatItem.TemporaryInputMessagContent = arg.MessageContent.Clone();
+            this.SelectedChatItem.TemporaryInputMessagContent = arg.MessageContent.Clone() as MessageContentModel;
         }
 
         public void Handle(RefreshChatsEventArgs arg)
@@ -347,7 +351,11 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             if (chat == null) return;
             MessageModel message = chat.Messages.FirstOrDefault(u => u.Equals(arg.Message));
             if (message == null) return;
-            if (arg.Message.State > message.State) message.State = arg.Message.State;
+            if (arg.Message.State > message.State)
+            {
+                message.State = arg.Message.State;
+                chat.NoticeMessagesChange();
+            }
         }
 
         public void Handle(ReceiveMessageEventArgs arg)

@@ -196,7 +196,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                 return new RelayCommand<TagGroupModel>((tagGroup) =>
                 {
                     this.IsEditingTagGroup = false;
-                    this.temporaryEditTagGroup = tagGroup.Clone();
+                    this.temporaryEditTagGroup = tagGroup.CloneObject();
                     this.IsEditingTagGroup = true;
                 }, (tagGroup) =>
                 {
