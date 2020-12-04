@@ -145,7 +145,7 @@
                                                                                     </TextBlock.RenderTransform>
                                                                                     <TextBlock.Style>
                                                                                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
-                                                                                            <Setter Property="FontSize" Value="15"></Setter>
+                                                                                            <Setter Property="FontSize" Value="{StaticResource SmallIconFontSize}"></Setter>
                                                                                             <Style.Triggers>
                                                                                                 <EventTrigger RoutedEvent="Loaded">
                                                                                                     <EventTrigger.Actions>
@@ -172,7 +172,7 @@
                                                                                     </TextBlock.InputBindings>
                                                                                     <TextBlock.Style>
                                                                                         <Style BasedOn="{StaticResource IconExclamationCircle}" TargetType="{x:Type TextBlock}">
-                                                                                            <Setter Property="FontSize" Value="15"></Setter>
+                                                                                            <Setter Property="FontSize" Value="{StaticResource SmallIconFontSize}"></Setter>
                                                                                             <Setter Property="Foreground" Value="{StaticResource RedBrush}"></Setter>
                                                                                         </Style>
                                                                                     </TextBlock.Style>

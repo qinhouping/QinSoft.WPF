@@ -56,6 +56,7 @@
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"></Setter>
         <Setter Property="Margin" Value="2"></Setter>
+        <Setter Property="Height" Value="{StaticResource BigFontSize}"></Setter>
     </Style>
 
     <!--提示信息-->
