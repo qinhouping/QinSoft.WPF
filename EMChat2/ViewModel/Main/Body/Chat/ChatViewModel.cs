@@ -154,7 +154,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 lock (this.messages)
                 {
-                    return this.messages.Count(u => u.State.Equals(MessageStateEnum.Received));
+                    return this.messages.Count(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received));
                 }
             }
         }
@@ -339,7 +339,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public ICommand RollbackMessageCommand
+        public ICommand RevokeMessageCommand
         {
             get
             {
@@ -353,9 +353,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         }
                     }).ExecuteInUIThread();
                     oldMessage.State = MessageStateEnum.Revoked;
-                    this.chatService.UpdateMessage(oldMessage);
                     MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
-                    this.chatService.SendMessage(revokeMessageEvent);
+                    this.chatService.RevokeMessage(revokeMessageEvent);
                 }, (oldMessage) =>
                 {
                     return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes && (oldMessage.State == MessageStateEnum.SendSuccess || oldMessage.State == MessageStateEnum.Received || oldMessage.State == MessageStateEnum.Readed);
@@ -611,13 +610,47 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
         }
 
-        public virtual void NoticeMessagesChange()
+        protected virtual void NoticeMessagesChange()
         {
             this.NotifyPropertyChange(() => this.NotReadMessageCount);
             this.NotifyPropertyChange(() => this.LastMessage);
             this.NotifyPropertyChange(() => this.LastMessageTimeSort);
             this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
             this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+        }
+
+        public virtual void RecvMessage(MessageModel message)
+        {
+            lock (this.Messages)
+            {
+                //TODO 测试逻辑
+                if (message.Type == MessageTypeConst.Mixed)
+                {
+                    message.State = MessageStateEnum.Refused;
+                    MessageModel refuseMessage = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRefuseMessageEventMessageContent(message));
+                    this.chatService.RefuseMessage(refuseMessage);
+                    return;
+                }
+                if (!this.Messages.Contains(message)) new Action(() => this.Messages.Add(message)).ExecuteInUIThread();
+
+                message.State = MessageStateEnum.Received;
+                MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
+                this.chatService.RecvMessage(recvMessageEvent);
+            }
+        }
+
+        public virtual void UpdateMessage(MessageModel updateMessage)
+        {
+            lock (this.Messages)
+            {
+                MessageModel message = this.Messages.FirstOrDefault(u => u.Equals(updateMessage));
+                if (message == null) return;
+                if (updateMessage.State > message.State)
+                {
+                    message.State = updateMessage.State;
+                    this.NoticeMessagesChange();
+                }
+            }
         }
 
         public override bool Equals(object obj)

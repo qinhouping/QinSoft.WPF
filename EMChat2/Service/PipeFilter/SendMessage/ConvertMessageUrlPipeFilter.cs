@@ -1,7 +1,9 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.PipeFilter;
+using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.IM;
+using QinSoft.Event;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +15,11 @@ namespace EMChat2.Service.PipeFilter.SendMessage
 {
     public class ConvertMessageUrlPipeFilter : PipeFilterBase
     {
+        private EventAggregator eventAggregator;
+        public ConvertMessageUrlPipeFilter(EventAggregator eventAggregator)
+        {
+            this.eventAggregator = eventAggregator;
+        }
         public override void Action(PipeFilterEventArgs arg)
         {
             if (!(arg.InArg is MessageModel))
@@ -22,13 +29,21 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             }
 
             MessageModel message = arg.InArg as MessageModel;
-            Convert(message);
-
-            arg.OutArg = arg.InArg;
+            if (Convert(message))
+            {
+                arg.OutArg = message;
+            }
+            else
+            {
+                message.State = MessageStateEnum.SendFailure;
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = message });
+                arg.Cancel = true;
+            }
         }
 
-        protected virtual void Convert(MessageContentModel message)
+        protected virtual bool Convert(MessageContentModel message)
         {
+            bool res = true;
             switch (message.Type)
             {
                 case MessageTypeConst.Text: break;
@@ -42,6 +57,10 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                             if (image != null)
                             {
                                 messageContent.Url = image.Url;
+                            }
+                            else
+                            {
+                                res = false;
                             }
                         }
                     }
@@ -59,6 +78,10 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                             {
                                 messageContent.Url = file.Url;
                             }
+                            else
+                            {
+                                res = false;
+                            }
                         }
                     }
                     break;
@@ -67,13 +90,14 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                         MixedMessageContent messageContent = message.Content as MixedMessageContent;
                         foreach (MessageContentModel item in messageContent.Items)
                         {
-                            Convert(item);
+                            if (res) res &= Convert(item);
                         }
                     }
                     break;
                 case MessageTypeConst.Tips: break;
                 case MessageTypeConst.Event: break;
             }
+            return res;
         }
     }
 }

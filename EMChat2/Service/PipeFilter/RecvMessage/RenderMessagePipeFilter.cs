@@ -28,7 +28,7 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
             MessageModel message = arg.InArg as MessageModel;
             this.eventAggregator.PublishAsync<ReceiveMessageEventArgs>(new ReceiveMessageEventArgs() { Message = message });
 
-            arg.OutArg = arg.InArg;
+            arg.OutArg = message;
         }
     }
 }

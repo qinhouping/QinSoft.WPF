@@ -41,7 +41,7 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
             }
             else
             {
-                arg.OutArg = arg.InArg;
+                arg.OutArg = message;
             }
         }
 

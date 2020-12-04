@@ -89,12 +89,11 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 this.chatItems = value;
                 this.NotifyPropertyChange(() => this.ChatItems);
+                this.NoticeChatItemsChange();
                 this.chatItems.CollectionChanged += (s, e) =>
                 {
-                    this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
-                    ChangeSelectedItem();
+                    this.NoticeChatItemsChange();
                 };
-                this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatItems);
                 collectionView.SortDescriptions.Add(new SortDescription("IsTopSort", ListSortDirection.Descending));
@@ -163,19 +162,22 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.CreateTime = DateTime.Now;
             return chat;
         }
+
         private PrivateChatViewModel CreatePrivateChat(ChatModel chat)
         {
             return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, chat, this.chatService, this.systemService);
         }
 
-        private async void ChangeSelectedItem()
+        protected async void NoticeChatItemsChange()
         {
+            this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
+
             await Task.Delay(50); //TODO 通过延迟滚动来解决不能自动选择的bug
             if (this.SelectedChatItem == null)
             {
                 lock (this.ChatItems)
                 {
-                    if (!this.ChatItemsCollectionView.IsEmpty)
+                    if (this.ChatItemsCollectionView?.IsEmpty == false)
                     {
                         this.ChatItemsCollectionView.MoveCurrentToFirst();
                         this.SelectedChatItem = this.ChatItemsCollectionView.CurrentItem as ChatViewModel;
@@ -347,26 +349,18 @@ namespace EMChat2.ViewModel.Main.Body.Chat
 
         public void Handle(MessageStateChangedEventArgs arg)
         {
-            ChatViewModel chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            ChatViewModel chat = null;
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            MessageModel message = chat.Messages.FirstOrDefault(u => u.Equals(arg.Message));
-            if (message == null) return;
-            if (arg.Message.State > message.State)
-            {
-                message.State = arg.Message.State;
-                chat.NoticeMessagesChange();
-            }
+            chat.UpdateMessage(arg.Message);
         }
 
         public void Handle(ReceiveMessageEventArgs arg)
         {
-            ChatViewModel chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            ChatViewModel chat = null;
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            if (!chat.Messages.Contains(arg.Message)) new Action(() => chat.Messages.Add(arg.Message)).ExecuteInUIThread();
-
-            arg.Message.State = MessageStateEnum.Received;
-            MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, chat.Chat, MessageTools.CreateRecvMessageEventMessageContent(arg.Message));
-            this.chatService.SendMessage(recvMessageEvent);
+            chat.RecvMessage(arg.Message);
         }
         #endregion
     }

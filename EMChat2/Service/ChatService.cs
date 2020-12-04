@@ -65,7 +65,7 @@ namespace EMChat2.Service
         protected virtual BeginPipeFilter CreateSendMessageBeginPipeFilter()
         {
             BeginPipeFilter pipeFilter = new BeginPipeFilter();
-            pipeFilter.SetNextPipeFilter(new CheckMessagePipeFilter()).SetNextPipeFilter(new ConvertMessageUrlPipeFilter()).SetNextPipeFilter(new PushMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new StoreMessagePipeFilter());
+            pipeFilter.SetNextPipeFilter(new CheckMessagePipeFilter()).SetNextPipeFilter(new ConvertMessageUrlPipeFilter(this.eventAggregator)).SetNextPipeFilter(new PushMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new StoreMessagePipeFilter());
             return pipeFilter;
         }
 
@@ -134,14 +134,59 @@ namespace EMChat2.Service
             }
         }
 
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message"></param>
         public virtual async void SendMessage(MessageModel message)
         {
-            await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
+            await Task.Delay(50);
+            OnSendMessage(message);
         }
 
-        public virtual async void UpdateMessage(MessageModel message)
+        /// <summary>
+        /// 接收消息
+        /// </summary>
+        /// <param name="recvMessage"></param>
+        public virtual async void RecvMessage(MessageModel recvMessage)
         {
             await Task.Delay(50);
+            OnSendMessage(recvMessage);
+        }
+
+        /// <summary>
+        /// 拒绝消息
+        /// </summary>
+        /// <param name="refuseMessage"></param>
+        public virtual async void RefuseMessage(MessageModel refuseMessage)
+        {
+            await Task.Delay(50);
+            OnSendMessage(refuseMessage);
+        }
+
+        /// <summary>
+        /// 撤回消息
+        /// </summary>
+        /// <param name="revokeMessage"></param>
+        public virtual async void RevokeMessage(MessageModel revokeMessage)
+        {
+            await Task.Delay(50);
+            OnSendMessage(revokeMessage);
+        }
+
+        /// <summary>
+        /// 阅读消息
+        /// </summary>
+        /// <param name="revokeMessage"></param>
+        public virtual async void ReadMessage(MessageModel revokeMessage)
+        {
+            await Task.Delay(50);
+            OnSendMessage(revokeMessage);
+        }
+
+        protected virtual async void OnSendMessage(MessageModel message)
+        {
+            await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
 
         protected virtual async void OnRecvMessage(MessageModel message)

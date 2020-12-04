@@ -180,20 +180,6 @@ namespace EMChat2.Common
             };
         }
 
-        public static MessageContentModel CreateReadMessageEventMessageContent(MessageModel message)
-        {
-            if (message == null) return null;
-            if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
-            return new MessageContentModel()
-            {
-                Type = MessageTypeConst.Event,
-                Content = new RecvMessageEventMessageContent()
-                {
-                    Message = message
-                }
-            };
-        }
-
         public static MessageContentModel CreateRefuseMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
@@ -201,7 +187,21 @@ namespace EMChat2.Common
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
-                Content = new RecvMessageEventMessageContent()
+                Content = new RefuseMessageEventMessageContent()
+                {
+                    Message = message
+                }
+            };
+        }
+
+        public static MessageContentModel CreateReadMessageEventMessageContent(MessageModel message)
+        {
+            if (message == null) return null;
+            if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new ReadMessageEventMessageContent()
                 {
                     Message = message
                 }
@@ -215,7 +215,7 @@ namespace EMChat2.Common
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
-                Content = new RecvMessageEventMessageContent()
+                Content = new RevokeMessageEventMessageContent()
                 {
                     Message = message
                 }
@@ -238,6 +238,12 @@ namespace EMChat2.Common
                 Type = messageContent.Type,
                 Content = messageContent.Content
             };
+        }
+
+        public static bool IsSendFrom(this MessageModel message, UserModel user)
+        {
+            if (message == null || user == null) return false;
+            return message.FromUser == user.ImUserId;
         }
     }
 }

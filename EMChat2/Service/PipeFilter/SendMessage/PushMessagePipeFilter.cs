@@ -29,18 +29,19 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             }
 
             MessageModel message = arg.InArg as MessageModel;
-            
+
             if (IMTools.Send(message))
             {
                 message.State = MessageStateEnum.SendSuccess;
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = message });
                 arg.OutArg = message;
             }
             else
             {
                 message.State = MessageStateEnum.SendFailure;
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = message });
                 arg.Cancel = true;
             }
-            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = message });
         }
     }
 }
