@@ -627,17 +627,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             lock (this.Messages)
             {
-                //TODO 测试逻辑
-                if (message.Type == MessageTypeConst.Mixed)
-                {
-                    if (ModifyMessageState(message, MessageStateEnum.Refused))
-                    {
-                        MessageModel refuseMessage = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRefuseMessageEventMessageContent(message));
-                        this.chatService.RefuseMessage(refuseMessage);
-                    }
-                    return;
-                }
-
                 if (!this.Messages.Contains(message))
                 {
                     if (ModifyMessageState(message, MessageStateEnum.Received))

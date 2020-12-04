@@ -4,6 +4,7 @@ using EMChat2.Event;
 using EMChat2.Service;
 using EMChat2.ViewModel.Main;
 using EMChat2.ViewModel.Main.Tabs.Chat;
+using Hardcodet.Wpf.TaskbarNotification;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -18,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>
+    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>
     {
         #region 构造函数
         public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, TopAreaViewModel topAreaViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, UserService userService)
@@ -218,6 +219,28 @@ namespace EMChat2.ViewModel
         public void Handle(ShowBalloonTipEventArgs arg)
         {
             this.BalloonTip = arg.BalloonTip;
+        }
+
+        public void Handle(ReceiveMessageEventArgs arg)
+        {
+            if (this.BodyAreaViewModel.ChatTabAreaViewModel.ChatListAreaViewModel.TotalNotReadMessageCount > 0 && !ApplicationContextViewModel.IsActived)
+            {
+                this.IsFlash = true;
+                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo()
+                    {
+                        Icon = BalloonIcon.Info,
+                        Title = "新消息",
+                        Content = MessageTools.GetMessageContentMark(arg.Message)
+                    }
+                });
+            }
+        }
+
+        public void Handle(ActiveApplicationEventArgs Message)
+        {
+            this.IsFlash = false;
         }
         #endregion
     }
