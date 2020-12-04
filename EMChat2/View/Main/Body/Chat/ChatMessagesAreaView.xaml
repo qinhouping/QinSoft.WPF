@@ -23,15 +23,16 @@
                 <wpfControl:AutoScrollListBox.ItemTemplate>
                     <DataTemplate>
                         <ContentControl Focusable="False">
+                            <ContentControl.Resources>
+                                <common:BindingProxy x:Key="messageData" Data="{Binding}"></common:BindingProxy>
+                            </ContentControl.Resources>
+                            
                             <ContentControl.Style>
                                 <Style TargetType="{x:Type ContentControl}">
                                     <Setter Property="Content">
                                         <Setter.Value>
                                             <!--正常显示消息-->
                                             <Grid Margin="5">
-                                                <Grid.Resources>
-                                                    <common:BindingProxy x:Key="messageData" Data="{Binding}"></common:BindingProxy>
-                                                </Grid.Resources>
                                                 <!--显示左右控制-->
                                                 <Grid.Style>
                                                     <Style TargetType="{x:Type Grid}">
@@ -165,7 +166,7 @@
                                                                     <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.SendFailure}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
-                                                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">
+                                                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="消息发送失败，点击我重新发送">
                                                                                     <TextBlock.InputBindings>
                                                                                         <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
                                                                                     </TextBlock.InputBindings>
@@ -182,7 +183,7 @@
                                                                     <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Refused}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
-                                                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="点击我重新发送">
+                                                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="消息已经被拒收，点击我重新发送">
                                                                                     <TextBlock.InputBindings>
                                                                                         <MouseBinding MouseAction="LeftClick" Command="{Binding Data.ResendMessageCommand, Source={StaticResource chatData}}" CommandParameter="{Binding}"></MouseBinding>
                                                                                     </TextBlock.InputBindings>
@@ -211,6 +212,30 @@
                                                     <!--系统提示信息-->
                                                     <Grid Margin="5">
                                                         <Label Style="{StaticResource IM-TipMessage-Label}" HorizontalAlignment="Center" Content="{Binding .,Converter={x:Static view:ValueConverters.TipsMessageToStringConverter}}"></Label>
+                                                    </Grid>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Revoked}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <!--撤回提示信息-->
+                                                    <Grid Margin="5">
+                                                        <Label HorizontalAlignment="Center">
+                                                            <Label.Style>
+                                                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource IM-TipMessage-Label}">
+                                                                    <Setter Property="Content">
+                                                                        <Setter.Value>
+                                                                            <MultiBinding Converter="{x:Static view:ValueConverters.RevokeMessageToStringConverter}">
+                                                                                <Binding Path="Data" Source="{StaticResource messageData}"></Binding>
+                                                                                <Binding Path="Data.Chat" Source="{StaticResource chatData}"></Binding>
+                                                                            </MultiBinding>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </Label.Style>
+                                                        </Label>
                                                     </Grid>
                                                 </Setter.Value>
                                             </Setter>

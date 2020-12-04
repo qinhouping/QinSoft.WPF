@@ -23,7 +23,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public abstract class ChatViewModel : PropertyChangedBase, IDisposable
+    public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable
     {
         #region 构造函数
         public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService)
@@ -99,6 +99,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.messages.CollectionChanged += (s, e) =>
                 {
                     this.NoticeMessagesChange();
+                    this.ReadMessage();
                 };
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
@@ -148,14 +149,21 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryInputMessagContent);
             }
         }
-        public int NotReadMessageCount
+        public MessageModel[] NotReadMessages
         {
             get
             {
                 lock (this.messages)
                 {
-                    return this.messages.Count(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received));
+                    return this.messages.Where(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received)).ToArray();
                 }
+            }
+        }
+        public int NotReadMessagesCount
+        {
+            get
+            {
+                return NotReadMessages.Count();
             }
         }
         public MessageModel LastMessage
@@ -201,6 +209,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return BusinessSetting.AllowInputText;
             }
         }
+        public bool IsSelected { get; set; }
         #region 排序属性
         public bool IsTopSort
         {
@@ -339,29 +348,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public ICommand RevokeMessageCommand
-        {
-            get
-            {
-                return new RelayCommand<MessageModel>((oldMessage) =>
-                {
-                    new Action(() =>
-                    {
-                        lock (this.Messages)
-                        {
-                            this.Messages.Remove(oldMessage);
-                        }
-                    }).ExecuteInUIThread();
-                    oldMessage.State = MessageStateEnum.Revoked;
-                    MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
-                    this.chatService.RevokeMessage(revokeMessageEvent);
-                }, (oldMessage) =>
-                {
-                    return oldMessage != null && BusinessSetting.AllowRollBackMessage && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes && (oldMessage.State == MessageStateEnum.SendSuccess || oldMessage.State == MessageStateEnum.Received || oldMessage.State == MessageStateEnum.Readed);
-                });
-            }
-        }
-
         public ICommand SendMessageCommand
         {
             get
@@ -405,7 +391,25 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     chatService.SendMessage(message);
                 }, (oldMessage) =>
                 {
-                    return BusinessSetting.AllowSendMessage && oldMessage != null && oldMessage.FromUser == ApplicationContextViewModel.CurrentStaff?.ImUserId && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
+                    return oldMessage != null && BusinessSetting.AllowSendMessage && oldMessage.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
+                });
+            }
+        }
+
+        public ICommand RevokeMessageCommand
+        {
+            get
+            {
+                return new RelayCommand<MessageModel>((oldMessage) =>
+                {
+                    if (ModifyMessageState(oldMessage, MessageStateEnum.Revoked))
+                    {
+                        MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
+                        this.chatService.RevokeMessage(revokeMessageEvent);
+                    }
+                }, (oldMessage) =>
+                {
+                    return oldMessage != null && BusinessSetting.AllowRevokeMessage && oldMessage.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && (DateTime.Now - oldMessage.Time).TotalMinutes < BusinessSetting.MaxRollbackMessageTotalMinutes && (oldMessage.State == MessageStateEnum.SendSuccess || oldMessage.State == MessageStateEnum.Received || oldMessage.State == MessageStateEnum.Readed);
                 });
             }
         }
@@ -612,7 +616,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         protected virtual void NoticeMessagesChange()
         {
-            this.NotifyPropertyChange(() => this.NotReadMessageCount);
+            this.NotifyPropertyChange(() => this.NotReadMessagesCount);
             this.NotifyPropertyChange(() => this.LastMessage);
             this.NotifyPropertyChange(() => this.LastMessageTimeSort);
             this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
@@ -626,17 +630,33 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 //TODO 测试逻辑
                 if (message.Type == MessageTypeConst.Mixed)
                 {
-                    message.State = MessageStateEnum.Refused;
-                    MessageModel refuseMessage = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRefuseMessageEventMessageContent(message));
-                    this.chatService.RefuseMessage(refuseMessage);
+                    if (ModifyMessageState(message, MessageStateEnum.Refused))
+                    {
+                        MessageModel refuseMessage = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRefuseMessageEventMessageContent(message));
+                        this.chatService.RefuseMessage(refuseMessage);
+                    }
                     return;
                 }
-                if (!this.Messages.Contains(message)) new Action(() => this.Messages.Add(message)).ExecuteInUIThread();
 
-                message.State = MessageStateEnum.Received;
-                MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
-                this.chatService.RecvMessage(recvMessageEvent);
+                if (!this.Messages.Contains(message))
+                {
+                    if (ModifyMessageState(message, MessageStateEnum.Received))
+                    {
+                        new Action(() => this.Messages.Add(message)).ExecuteInUIThread();
+                        MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
+                        this.chatService.RecvMessage(recvMessageEvent);
+                    }
+                }
             }
+        }
+
+        public virtual void ReadMessage()
+        {
+            if (!IsSelected || !ApplicationContextViewModel.IsActived) return;
+            MessageModel[] messages = NotReadMessages.Where(u => ModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
+            if (messages.Count() == 0) return;
+            MessageModel readMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages));
+            this.chatService.ReadMessage(readMessageEvent);
         }
 
         public virtual void UpdateMessage(MessageModel updateMessage)
@@ -645,12 +665,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 MessageModel message = this.Messages.FirstOrDefault(u => u.Equals(updateMessage));
                 if (message == null) return;
-                if (updateMessage.State > message.State)
-                {
-                    message.State = updateMessage.State;
-                    this.NoticeMessagesChange();
-                }
+                ModifyMessageState(message, updateMessage.State);
             }
+        }
+
+        protected virtual bool ModifyMessageState(MessageModel message, MessageStateEnum state)
+        {
+            if (state > message.State)
+            {
+                message.State = state;
+                this.NoticeMessagesChange();
+                return true;
+            }
+            return false;
         }
 
         public override bool Equals(object obj)

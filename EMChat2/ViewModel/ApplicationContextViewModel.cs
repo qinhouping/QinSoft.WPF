@@ -13,7 +13,7 @@ using System.Text;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
+    public class ApplicationContextViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<ActiveApplicationEventArgs>, IEventHandle<DeactiveApplicationEventArgs>
     {
         #region 构造函数
         public ApplicationContextViewModel(IWindowManager windowManager, EventAggregator eventAggregator, UserService userService)
@@ -48,6 +48,19 @@ namespace EMChat2.ViewModel
             get
             {
                 return this.CurrentStaff != null;
+            }
+        }
+        private bool isActived;
+        public bool IsActived
+        {
+            get
+            {
+                return this.isActived;
+            }
+            set
+            {
+                this.isActived = value;
+                this.NotifyPropertyChange(() => this.IsActived);
             }
         }
         private SettingModel setting;
@@ -90,6 +103,16 @@ namespace EMChat2.ViewModel
         {
             this.CurrentStaff = null;
             this.Setting = null;
+        }
+
+        public void Handle(ActiveApplicationEventArgs Message)
+        {
+            this.IsActived = true;
+        }
+
+        public void Handle(DeactiveApplicationEventArgs Message)
+        {
+            this.IsActived = false;
         }
         #endregion
     }

@@ -17,7 +17,7 @@
         WindowStartupLocation="CenterScreen" ResizeMode ="CanResizeWithGrip"
         common:WindowInfoAttach.WindowInfo="" 
         common:WindowInfoAttach.IsFlash="{Binding IsFlash}" 
-        Closing="Window_Closing">
+        Closing="Window_Closing" Activated="Window_Activated" Deactivated="Window_Deactivated">
 
     <Window.Resources>
         <common:BindingProxy x:Key="mainData" Data="{Binding}"></common:BindingProxy>

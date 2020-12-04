@@ -64,8 +64,8 @@ namespace EMChat2.Service
                 {
                     Id = "4735344555340783734",
                     AppKey = "EMgUNSkPGf",
-                    Token = "igUIJdQRnpaMJECM4+AZo+LqMy5SRV2OPr9o515ZbgfZe1PFnODrDs3XAMuqla1Kyvu5n67L70v//Dq/5LwNIvh33eL2ifro3Egj85RTr9QUwSy11D6i3efVu4tMfeuPj3JbBDoiWkN3r+Jbm2XNDlX/8ArjgTCu3jmGrto1gWbuJ+RpqLSZM4g8fUHS6UFW+f3ioRU2I17YbFuAxBW5Nz7AIqjCecf138uUXFuemlQG8TOxJDE6B+qh1Qe4d7cvUyofTc6nYDiVQTmISLSLkQ==",
-                    RefreshToken = "X0LE9wb7Sp7MLDGHQiF2G9+7A3AhE1TlHlg+X/d1kwt/zBCnGYOZl1dfGHGPzo6Cp362K1FKYtwRKJ2SOUApErolOnjoxOUJiGGhgnkCYmw="
+                    Token = "5eC3pgapWygNkVEOiyZFAxq77VpFNh3Z8ghzhKnWkNVqdGDHr1nOQaAITNUsgZGGZjzq660twaw/+kYK6uNlG4lzA+5pyDRMWVEEsNXXLM41cBx852r0n4SHuu56FVplLkqJMpDjWFI04aCLJKcnMDGLRgTedyDhYmrbERtaq9Xv6X+LrV9QHJ4OWq9jIVAj8G4ZyNdfivy1e2b12Qp4gkjoJQzsYGHpSY9lBlfxK/z3fqzxW9xrEr6BR7uE+pMvshE3v2tQb19GMY8cY6ik4g==",
+                    RefreshToken = "Dg1Jl1HuSTyhGTuGTsknARVW52kwcphcZBBInQD1RUgNk4dbsPTdnd9UpLylTD3exBfZdKQcXRHxyRlGnQ+owWF2cIRPBgZZ5wg9JZkMcIo="
                 }
             });
         }
@@ -99,7 +99,7 @@ namespace EMChat2.Service
                     AllowSelectFile = true,
                     AllowSelectImage = true,
                     AllowSelectQuickReply = true,
-                    AllowRollBackMessage = true,
+                    AllowRevokeMessage = true,
                     MaxRollbackMessageTotalMinutes = 2
                 };
             }

@@ -63,7 +63,23 @@ namespace EMChat2.View
                 {
                     MessageContentModel messageContent = value as MessageContentModel;
                     if (messageContent == null) return null;
-                    else return MessageTools.GetMessageContentMark(messageContent);
+                    return MessageTools.GetMessageContentMark(messageContent);
+                });
+            }
+        }
+
+        public static IValueConverter ChatLastMessageToContentMarkConverter
+        {
+            get
+            {
+                return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
+                {
+                    ChatViewModel chat = value as ChatViewModel;
+                    MessageModel message = chat.LastMessage;
+                    if (chat == null || message == null) return null;
+                    if (message.State == MessageStateEnum.Revoked)
+                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name);
+                    return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
                 });
             }
         }
@@ -76,8 +92,7 @@ namespace EMChat2.View
                 {
                     MessageModel message = values[0] as MessageModel;
                     StaffModel staff = values[1] as StaffModel;
-                    if (message == null || staff == null) return HorizontalAlignment.Center;
-                    if (message.FromUser.Equals(staff.ImUserId) == true) return HorizontalAlignment.Right;
+                    if (message.IsSendFrom(staff)) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
                 });
             }
@@ -282,13 +297,27 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    MessageContentModel messageContent = value as MessageContentModel;
-                    if (messageContent != null && messageContent.Type == MessageTypeConst.Tips)
+                    MessageModel message = value as MessageModel;
+                    if (message != null && message.Type == MessageTypeConst.Tips)
                     {
-                        TipsMessageContent tipsMessageContent = messageContent.Content as TipsMessageContent;
+                        TipsMessageContent tipsMessageContent = message.Content as TipsMessageContent;
                         return tipsMessageContent.Content;
                     }
                     return null;
+                });
+            }
+        }
+
+        public static IMultiValueConverter RevokeMessageToStringConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    MessageModel message = values[0] as MessageModel;
+                    ChatModel chat = values[1] as ChatModel;
+                    if (message == null || chat == null) return null;
+                    return string.Format("\"{0}\"撤回了一条消息", chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name);
                 });
             }
         }
@@ -307,7 +336,7 @@ namespace EMChat2.View
                         collectionView.Filter = (item) =>
                         {
                             ChatViewModel chat = item as ChatViewModel;
-                            return chat.NotReadMessageCount > 0;
+                            return chat.NotReadMessagesCount > 0;
                         };
                     }
                     return collectionView;

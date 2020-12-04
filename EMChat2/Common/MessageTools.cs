@@ -194,16 +194,17 @@ namespace EMChat2.Common
             };
         }
 
-        public static MessageContentModel CreateReadMessageEventMessageContent(MessageModel message)
+        public static MessageContentModel CreateReadMessageEventMessageContent(params MessageModel[] messages)
         {
-            if (message == null) return null;
-            if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
+            if (messages == null) return null;
+            foreach (MessageModel message in messages)
+                if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
                 Content = new ReadMessageEventMessageContent()
                 {
-                    Message = message
+                    Messages = messages
                 }
             };
         }

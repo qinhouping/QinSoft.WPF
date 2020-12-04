@@ -34,5 +34,15 @@ namespace EMChat2.View
             e.Cancel = true;
             (this.DataContext as MainViewModel).CloseCommand.ActiveExecute();
         }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            (this.DataContext as MainViewModel).ActiveCommand.ActiveExecute();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            (this.DataContext as MainViewModel).DeactiveCommand.ActiveExecute();
+        }
     }
 }

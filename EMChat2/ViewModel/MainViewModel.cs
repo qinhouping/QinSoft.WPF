@@ -162,6 +162,28 @@ namespace EMChat2.ViewModel
                 });
             }
         }
+
+        public ICommand ActiveCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.eventAggregator.PublishAsync<ActiveApplicationEventArgs>(new ActiveApplicationEventArgs());
+                });
+            }
+        }
+
+        public ICommand DeactiveCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.eventAggregator.PublishAsync<DeactiveApplicationEventArgs>(new DeactiveApplicationEventArgs());
+                });
+            }
+        }
         #endregion
 
         #region 事件处理

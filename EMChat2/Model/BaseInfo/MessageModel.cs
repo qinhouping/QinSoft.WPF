@@ -664,17 +664,18 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.ReadMessage;
         }
 
-        private MessageModel message;
-        public MessageModel Message
+        private MessageModel[] messages;
+
+        public MessageModel[] Messages
         {
             get
             {
-                return this.message;
+                return this.messages;
             }
             set
             {
-                this.message = value;
-                this.NotifyPropertyChange(() => this.Message);
+                this.messages = value;
+                this.NotifyPropertyChange(() => this.Messages);
             }
         }
 
@@ -683,7 +684,7 @@ namespace EMChat2.Model.BaseInfo
             return new ReadMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message
+                Messages = this.Messages.Select(u => u.Clone() as MessageModel).ToArray()
             };
         }
     }

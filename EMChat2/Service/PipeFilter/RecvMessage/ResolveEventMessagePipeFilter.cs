@@ -52,7 +52,10 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
 
         protected virtual void HandleReadMessageEvent(MessageModel message, ReadMessageEventMessageContent messageContent)
         {
-            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
+            foreach (MessageModel item in messageContent.Messages)
+            {
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = item });
+            }
         }
 
         protected virtual void HandleRefuseMessageEvent(MessageModel message, RefuseMessageEventMessageContent messageContent)

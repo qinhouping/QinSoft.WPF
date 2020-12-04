@@ -175,6 +175,8 @@
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
+    <Compile Include="Event\DeactiveApplicationEventArgs.cs" />
+    <Compile Include="Event\ActiveApplicationEventArgs.cs" />
     <Compile Include="Model\Api\ChatApiModel.cs" />
     <Compile Include="Model\Api\MessageApiModel.cs" />
     <Compile Include="Model\Api\UserApiModel.cs" />

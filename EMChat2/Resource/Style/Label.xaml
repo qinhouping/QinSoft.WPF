@@ -60,7 +60,8 @@
 
     <!--提示信息-->
     <Style x:Key="IM-TipMessage-Label" TargetType="{x:Type Label}">
-        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource Gray4Brush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
     </Style>

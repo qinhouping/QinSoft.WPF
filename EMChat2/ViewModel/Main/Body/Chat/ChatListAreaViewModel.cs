@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -123,9 +123,12 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }
             set
             {
+                if (this.selectedChatItem != null) this.selectedChatItem.IsSelected = false;
                 this.selectedChatItem = value;
                 this.NotifyPropertyChange(() => this.SelectedChatItem);
+                if (this.selectedChatItem != null) this.selectedChatItem.IsSelected = true;
                 this.eventAggregator.PublishAsync(new SelectChatDetailEventArgs() { ChatItem = this.selectedChatItem });
+                this.selectedChatItem?.ReadMessage();
             }
         }
         private ChatService chatService;
@@ -136,7 +139,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 lock (this.ChatItems)
                 {
-                    return this.ChatItems.Sum(u => u.NotReadMessageCount);
+                    return this.ChatItems.Sum(u => u.NotReadMessagesCount);
                 }
             }
         }
@@ -361,6 +364,11 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
             chat.RecvMessage(arg.Message);
+        }
+
+        public void Handle(ActiveApplicationEventArgs Message)
+        {
+            this.SelectedChatItem?.ReadMessage();
         }
         #endregion
     }

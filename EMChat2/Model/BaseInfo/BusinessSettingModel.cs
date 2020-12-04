@@ -102,17 +102,17 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 是否允许撤回消息
         /// </summary>
-        private bool allowRollbackMessage;
-        public bool AllowRollBackMessage
+        private bool allowRevokeMessage;
+        public bool AllowRevokeMessage
         {
             get
             {
-                return this.allowRollbackMessage;
+                return this.allowRevokeMessage;
             }
             set
             {
-                this.allowRollbackMessage = value;
-                this.NotifyPropertyChange(() => AllowRollBackMessage);
+                this.allowRevokeMessage = value;
+                this.NotifyPropertyChange(() => AllowRevokeMessage);
             }
         }
 
