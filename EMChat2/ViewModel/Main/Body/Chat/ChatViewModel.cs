@@ -306,7 +306,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
                     fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                    fileDialog.Filter = "图片|*.jpg;*.jpeg;*.png;*.gif";
+                    fileDialog.Filter = "图片|" + BaseTools.GetImageFileExtension();
                     fileDialog.Multiselect = true;
 
                     if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -467,7 +467,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     {
                         foreach (string fileName in Clipboard.GetDataObject().GetData(DataFormats.FileDrop) as string[])
                         {
-                            if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
+                            if (fileName.IsImageFile())
                             {
                                 if (BusinessSetting.AllowSelectImage)
                                     this.InputImageMessageContent(new FileInfo(fileName), true);
@@ -533,7 +533,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 foreach (string fileName in e.Data.GetData(DataFormats.FileDrop) as string[])
                 {
-                    if ("*.jpg;*.jpeg;*.png;*.gif".Contains(Path.GetExtension(fileName)))
+                    if (fileName.IsImageFile())
                     {
                         if (BusinessSetting.AllowSelectImage)
                             this.InputImageMessageContent(new FileInfo(fileName), true);

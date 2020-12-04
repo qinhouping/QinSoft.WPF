@@ -238,6 +238,16 @@ namespace EMChat2.Common
             return Regex.IsMatch(url, @"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?");
         }
 
+        public static bool IsImageFile(this string filePath)
+        {
+            return "*.bmp;*.jpg;*.jpeg;*.png;*.gif;*.webp".Contains(Path.GetExtension(filePath).ToLower());
+        }
+
+        public static string GetImageFileExtension()
+        {
+            return "*.bmp;*.jpg;*.jpeg;*.png;*.gif;*.webp";
+        }
+
         public static bool IsExistsFile(this string filePath)
         {
             return File.Exists(filePath);

@@ -73,14 +73,29 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                         FileMessageContent messageContent = message.Content as FileMessageContent;
                         if (!messageContent.Url.IsNetUrl())
                         {
-                            IMFileInfo file = IMTools.UploadFile(new FileInfo(messageContent.Url));
-                            if (file != null)
+                            if (messageContent.Url.IsImageFile())
                             {
-                                messageContent.Url = file.Url;
+                                IMImageInfo image = IMTools.UploadImage(new FileInfo(messageContent.Url));
+                                if (image != null)
+                                {
+                                    messageContent.Url = image.Url;
+                                }
+                                else
+                                {
+                                    res = false;
+                                }
                             }
                             else
                             {
-                                res = false;
+                                IMFileInfo file = IMTools.UploadFile(new FileInfo(messageContent.Url));
+                                if (file != null)
+                                {
+                                    messageContent.Url = file.Url;
+                                }
+                                else
+                                {
+                                    res = false;
+                                }
                             }
                         }
                     }
