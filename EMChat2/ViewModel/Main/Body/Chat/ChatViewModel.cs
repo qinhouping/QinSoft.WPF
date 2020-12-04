@@ -23,7 +23,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable
+    public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable, IEventHandle<SettingLoadEventArgs>
     {
         #region 构造函数
         public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService)
@@ -693,6 +693,13 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public virtual void Dispose()
         {
             this.eventAggregator.Unsubscribe(this);
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(SettingLoadEventArgs Message)
+        {
+            this.NotifyPropertyChange(() => this.BusinessSetting);
         }
         #endregion
     }

@@ -82,6 +82,7 @@ namespace EMChat2.ViewModel
         public async void LoadSetting()
         {
             this.Setting = await this.userService.LoadSetting(CurrentStaff);
+            await this.eventAggregator.PublishAsync<SettingLoadEventArgs>(new SettingLoadEventArgs());
         }
         #endregion
 
