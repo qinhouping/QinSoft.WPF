@@ -55,6 +55,11 @@ namespace EMChat2.Common
         {
             if (socketClient == null) return;
             socketClient.Stop();
+            socketClient.ReconnectFailed -= SocketClient_ReconnectFailed;
+            socketClient.OnSocketConnected -= SocketClient_OnSocketConnected;
+            socketClient.OnSocketDisconnected -= SocketClient_OnSocketDisconnected;
+            socketClient.OnSocketError -= SocketClient_OnSocketError;
+            socketClient.OnReceivePrivateMessage -= SocketClient_OnReceivePrivateMessage;
             socketClient = null;
             imUser = null;
         }
@@ -111,10 +116,11 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns>上传结果</returns>
-        public static IMFileInfo UploadFile(FileInfo file)
+        public static IMFileInfo UploadFile(FileInfo file, out string message)
         {
             string content = FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
             IMUploadResponse<IMFileInfo> response = content.JsonToObject<IMUploadResponse<IMFileInfo>>();
+            message = response.Message;
             return response.Data;
         }
 
@@ -123,10 +129,11 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="file">图片文件</param>
         /// <returns>上传结果</returns>
-        public static IMImageInfo UploadImage(FileInfo file)
+        public static IMImageInfo UploadImage(FileInfo file, out string message)
         {
             string content = FileServerClient.Current.UploadImage(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
             IMUploadResponse<IMImageInfo> response = content.JsonToObject<IMUploadResponse<IMImageInfo>>();
+            message = response.Message;
             return response.Data;
         }
 

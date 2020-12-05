@@ -40,33 +40,9 @@ namespace EMChat2.Service
             await this.eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
                 IsSuccess = true,
-                Staff = new StaffModel()
-                {
-                    Id = "000003",
-                    WorkCode = "000003",
-                    Name = "测试账号",
-                    HeaderImageUrl = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1764219719,2359539133&fm=26&gp=0.jpg",
-                    ImUserId = "4735344555340783734",
-                    State = loginInfo.State,
-                    BusinessList = new ObservableCollection<BusinessEnum>() {
-                        BusinessEnum.Inside,
-                        BusinessEnum.Advisor,
-                        BusinessEnum.Expert
-                    }
-                },
-                IMServer = new IMServerModel
-                {
-                    ApiUrl = "https://61.152.230.122:16060",
-                    IP = "61.152.230.122",
-                    Port = 17070
-                },
-                IMUser = new IMUserModel()
-                {
-                    Id = "4735344555340783734",
-                    AppKey = "EMgUNSkPGf",
-                    Token = "igUIJdQRnpaMJECM4+AZo+LqMy5SRV2OPr9o515ZbgfZe1PFnODrDs3XAMuqla1KOJQQDA7X2ENm3Zi4mB5QhTordaQkekA5epzPPYFR78u37buOELYBvaIiRG80uB3dmALCu9NCxQewtsdH9P+kmWmqFdlAefUXGrdTwTZP0o+McrEhS4eFQEII0DhIhVfnJNg6BeFI7UABAE4whux9Q02YYhBnhdfIrfCCmg6D/3hSrFHu8A4OKdp+4lmciONlUEGN1005GKg0zTfSmhddUg==",
-                    RefreshToken = "BbF1vdaEUrozVMPUas8WjWXI6cCQcHWkZx1HZUjNE41FRib27djFZIf0WfDRX7j1WQehv6EOh1ps4gskXrwALH3ehY1bHK06j3xobG+wfrg="
-                }
+                IMServer = TestData.TestIMServer,
+                Staff = TestData.Current.TestStaff,
+                IMUser = TestData.Current.TestIMUser
             });
         }
 

@@ -175,6 +175,7 @@
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
+    <Compile Include="Common\TestData.cs" />
     <Compile Include="Event\SettingLoadEventArgs.cs" />
     <Compile Include="Event\DeactiveApplicationEventArgs.cs" />
     <Compile Include="Event\ActiveApplicationEventArgs.cs" />

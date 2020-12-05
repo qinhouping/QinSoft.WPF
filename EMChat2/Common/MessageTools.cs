@@ -228,7 +228,7 @@ namespace EMChat2.Common
         public static MessageModel CreateMessage(StaffModel staff, ChatModel chat, MessageContentModel messageContent, MessageStateEnum state = MessageStateEnum.Sending)
         {
             if (staff == null || chat == null || messageContent == null) return null;
-            return new MessageModel()
+            MessageModel message = new MessageModel()
             {
                 Id = Guid.NewGuid().ToString(),
                 ChatId = chat.Id,
@@ -239,6 +239,8 @@ namespace EMChat2.Common
                 Type = messageContent.Type,
                 Content = messageContent.Content
             };
+            if (message.ToUsers.Count() == 0) return null;
+            else return message;
         }
 
         public static bool IsSendFrom(this MessageModel message, UserModel user)

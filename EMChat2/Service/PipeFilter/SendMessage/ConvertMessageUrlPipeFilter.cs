@@ -3,6 +3,7 @@ using EMChat2.Common.PipeFilter;
 using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.IM;
+using Hardcodet.Wpf.TaskbarNotification;
 using QinSoft.Event;
 using System;
 using System.Collections.Generic;
@@ -53,13 +54,22 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                         ImageMessageContent messageContent = message.Content as ImageMessageContent;
                         if (!messageContent.Url.IsNetUrl())
                         {
-                            IMImageInfo image = IMTools.UploadImage(new FileInfo(messageContent.Url));
+                            IMImageInfo image = IMTools.UploadImage(new FileInfo(messageContent.Url), out string error);
                             if (image != null)
                             {
                                 messageContent.Url = image.Url;
                             }
                             else
                             {
+                                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                                {
+                                    BalloonTip = new BalloonTipInfo
+                                    {
+                                        Title = "上传图片失败",
+                                        Content = error,
+                                        Icon = BalloonIcon.Error
+                                    }
+                                });
                                 res = false;
                             }
                         }
@@ -75,25 +85,43 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                         {
                             if (messageContent.Url.IsImageFile())
                             {
-                                IMImageInfo image = IMTools.UploadImage(new FileInfo(messageContent.Url));
+                                IMImageInfo image = IMTools.UploadImage(new FileInfo(messageContent.Url), out string error);
                                 if (image != null)
                                 {
                                     messageContent.Url = image.Url;
                                 }
                                 else
                                 {
+                                    this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                                    {
+                                        BalloonTip = new BalloonTipInfo
+                                        {
+                                            Title = "上传图片失败",
+                                            Content = error,
+                                            Icon = BalloonIcon.Error
+                                        }
+                                    });
                                     res = false;
                                 }
                             }
                             else
                             {
-                                IMFileInfo file = IMTools.UploadFile(new FileInfo(messageContent.Url));
+                                IMFileInfo file = IMTools.UploadFile(new FileInfo(messageContent.Url), out string error);
                                 if (file != null)
                                 {
                                     messageContent.Url = file.Url;
                                 }
                                 else
                                 {
+                                    this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                                    {
+                                        BalloonTip = new BalloonTipInfo
+                                        {
+                                            Title = "上传文件失败",
+                                            Content = error,
+                                            Icon = BalloonIcon.Error
+                                        }
+                                    });
                                     res = false;
                                 }
                             }

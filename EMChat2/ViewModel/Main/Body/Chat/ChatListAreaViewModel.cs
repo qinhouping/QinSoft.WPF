@@ -149,10 +149,9 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #region 方法
         private ChatModel CreatePrivateChat(UserModel user, BusinessEnum business = BusinessEnum.Inside)
         {
-            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.ImUserId, user.ImUserId, business.ToString() };
+            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.Id, user.Id, business.ToString() };
             ids.Sort();
             ChatModel chat = new ChatModel();
-            chat.Id = Guid.NewGuid().ToString();
             chat.Id = string.Join("_", ids).MD5();
             chat.Business = business;
             chat.Type = ChatTypeEnum.Private;
@@ -166,7 +165,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             return chat;
         }
 
-        private PrivateChatViewModel CreatePrivateChat(ChatModel chat)
+        private PrivateChatViewModel CreatePrivateChatViewModel(ChatModel chat)
         {
             return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, chat, this.chatService, this.systemService);
         }
@@ -223,16 +222,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 {
                     this.ChatItems.Clear();
 
-                    this.ChatItems.Add(this.CreatePrivateChat(this.CreatePrivateChat(new CustomerModel()
-                    {
-                        Id = "测试客户UID",
-                        ImUserId = "4735344555340783734",
-                        Name = "私聊-投顾",
-                        HeaderImageUrl = "https://tse3-mm.cn.bing.net/th/id/OIP.BiS73OXRCWwEyT1aajtTpAAAAA?w=175&h=180&c=7&o=5&pid=1.7",
-                        State = UserStateEnum.Online,
-                        Business = BusinessEnum.Advisor,
-                        Uid = "测试客户UID"
-                    }, BusinessEnum.Advisor)));
+                    this.ChatItems.Add(this.CreatePrivateChatViewModel(this.CreatePrivateChat(TestData.Opposite.TestStaff)));
                 }
             }).ExecuteInUIThread();
         }
@@ -331,12 +321,12 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 if (arg.ChatUser is CustomerModel)
                 {
                     CustomerModel customer = arg.ChatUser as CustomerModel;
-                    privateChatViewModel = CreatePrivateChat(this.CreatePrivateChat(customer, customer.Business));
+                    privateChatViewModel = CreatePrivateChatViewModel(this.CreatePrivateChat(customer, customer.Business));
                 }
                 else if (arg.ChatUser is StaffModel)
                 {
                     StaffModel staff = arg.ChatUser as StaffModel;
-                    privateChatViewModel = CreatePrivateChat(this.CreatePrivateChat(staff));
+                    privateChatViewModel = CreatePrivateChatViewModel(this.CreatePrivateChat(staff));
                 }
                 else if (arg.ChatUser is SystemUserModel)
                 {

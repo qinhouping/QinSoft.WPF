@@ -96,7 +96,7 @@
 
                                                     <Grid Grid.Column="2" Grid.Row="1">
                                                         <!--最后一条消息时间-->
-                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.MsgTime,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5,2" Foreground="{StaticResource Gray7Brush}"></TextBlock>
+                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage.Time,Converter={x:Static wpf:ValueConverters.TimeToFriendlyStringConverter}}" ToolTip="{Binding LastMessage.Time,Converter={x:Static wpf:ValueConverters.TimeToStringConverter}}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5,2" Foreground="{StaticResource Gray7Brush}"></TextBlock>
                                                     </Grid>
 
                                                     <!--右键菜单-->

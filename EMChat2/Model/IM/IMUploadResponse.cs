@@ -16,6 +16,7 @@ namespace EMChat2.Model.IM
         public int Result { get; set; }
 
         public long Time { get; set; }
+
         public T Data { get; set; }
     }
 }
