@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,27 +25,36 @@ namespace EMChat2.Common
         private static IMUserModel imUser;
 
         #region 对外事件
-        public static event EventHandler<MessageModel> OnReceiveMessage;
         public static event EventHandler OnSocketConnected;
         public static event EventHandler OnSocketDisconnected;
-        public static event EventHandler<int> OnSocketReconnectFailed;
         public static event EventHandler<string> OnSocketError;
+        public static event EventHandler<int> OnSocketReconnectFailed;
+        public static event EventHandler OnLoginSuccess;
+        public static event EventHandler<string> OnLoginFailed;
+        public static event EventHandler<MessageModel> OnReceiveMessage;
+        public static event EventHandler<string> OnLog;
         #endregion
 
         /// <summary>
         /// 开始IM服务
         /// </summary>
         /// <param name="server">im服务</param>
-        public static void Start(IMServerModel server)
+        public static void Start(IMServerModel server, IMUserModel user)
         {
             if (socketClient != null) return;
             imServer = server;
+            imUser = user;
+
             socketClient = new SimpleSocketClient(imServer.ApiUrl);
-            socketClient.ReconnectFailed += SocketClient_ReconnectFailed;
             socketClient.OnSocketConnected += SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected += SocketClient_OnSocketDisconnected;
             socketClient.OnSocketError += SocketClient_OnSocketError;
+            socketClient.ReconnectFailed += SocketClient_ReconnectFailed;
             socketClient.OnReceivePrivateMessage += SocketClient_OnReceivePrivateMessage;
+            socketClient.Log = (msg) =>
+            {
+                OnLog?.Invoke(socketClient, msg);
+            };
             socketClient.Start(imServer.IP, imServer.Port);
         }
 
@@ -55,10 +65,10 @@ namespace EMChat2.Common
         {
             if (socketClient == null) return;
             socketClient.Stop();
-            socketClient.ReconnectFailed -= SocketClient_ReconnectFailed;
             socketClient.OnSocketConnected -= SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected -= SocketClient_OnSocketDisconnected;
             socketClient.OnSocketError -= SocketClient_OnSocketError;
+            socketClient.ReconnectFailed -= SocketClient_ReconnectFailed;
             socketClient.OnReceivePrivateMessage -= SocketClient_OnReceivePrivateMessage;
             socketClient = null;
             imUser = null;
@@ -69,15 +79,14 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="user">im用户</param>
         /// <param name="callback">回调</param>
-        public static void Login(IMUserModel user, Action<int, string> callback)
+        public static void Login(Action<int, string> callback)
         {
             if (socketClient == null) return;
-            imUser = user;
             socketClient.Login(new IM_LoginToken()
             {
-                Appkey = user.AppKey,
-                UserID = user.Id,
-                Token = user.Token,
+                Appkey = imUser.AppKey,
+                UserID = imUser.Id,
+                Token = imUser.Token,
                 Version = AppTools.AppVersion.Major,
                 Device = AppTools.AppName
             }, callback);
@@ -141,6 +150,11 @@ namespace EMChat2.Common
         private static void SocketClient_OnSocketConnected(SimpleSocketClient client)
         {
             OnSocketConnected.Invoke(client, null);
+            Login((arg1, arg2) =>
+            {
+                if (arg1 == 0) OnLoginSuccess.Invoke(client, null);
+                else OnLoginFailed?.Invoke(client, arg2);
+            });
         }
 
         private static void SocketClient_OnSocketDisconnected(SimpleSocketClient client)

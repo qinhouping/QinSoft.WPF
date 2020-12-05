@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QinSoft.Log;
+using QinSoft.Log.Core;
 
 namespace EMChat2.Service
 {
@@ -43,7 +44,10 @@ namespace EMChat2.Service
             IMTools.OnSocketDisconnected += IMTools_OnSocketDisconnected;
             IMTools.OnSocketError += IMTools_OnSocketError;
             IMTools.OnSocketReconnectFailed += IMTools_OnSocketReconnectFailed;
+            IMTools.OnLoginSuccess += IMTools_OnLoginSuccess;
+            IMTools.OnLoginFailed += IMTools_OnLoginFailed;
             IMTools.OnReceiveMessage += IMTools_OnReceiveMessage;
+            IMTools.OnLog += IMTools_OnLog;
 
             this.sendMessageBeginPipeFilter = CreateSendMessageBeginPipeFilter();
             this.recvMessageBeginPipeFilter = CreateRecvMessageBeginPipeFilter();
@@ -54,8 +58,6 @@ namespace EMChat2.Service
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private SystemService systemService;
-        private IMServerModel imServer;
-        private IMUserModel imUser;
         private BeginPipeFilter sendMessageBeginPipeFilter;
         private BeginPipeFilter recvMessageBeginPipeFilter;
         #endregion
@@ -199,23 +201,17 @@ namespace EMChat2.Service
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-            this.imServer = arg.IMServer;
-            this.imUser = arg.IMUser;
-            IMTools.Start(this.imServer);
+            IMTools.Start(arg.IMServer, arg.IMUser);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
         {
             IMTools.Stop();
-            this.imServer = null;
-            this.imUser = null;
         }
 
         public void Handle(ExitCallbackEventArgs arg)
         {
             IMTools.Stop();
-            this.imServer = null;
-            this.imUser = null;
         }
         #endregion
 
@@ -230,19 +226,6 @@ namespace EMChat2.Service
                     Icon = BalloonIcon.Info,
                     Content = "已经连接IM服务器"
                 }
-            });
-
-            IMTools.Login(this.imUser, (arg1, arg2) =>
-            {
-                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
-                {
-                    BalloonTip = new BalloonTipInfo()
-                    {
-                        Icon = arg1 == 0 ? BalloonIcon.Info : BalloonIcon.Error,
-                        Title = "IM服务器登录",
-                        Content = arg2
-                    }
-                });
             });
         }
 
@@ -284,9 +267,38 @@ namespace EMChat2.Service
             });
         }
 
+        private void IMTools_OnLoginSuccess(object sender, EventArgs e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Info,
+                    Content = "IM登录成功"
+                }
+            });
+        }
+
+        private void IMTools_OnLoginFailed(object sender, string e)
+        {
+            this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+            {
+                BalloonTip = new BalloonTipInfo()
+                {
+                    Icon = BalloonIcon.Error,
+                    Content = "IM登录失败"
+                }
+            });
+        }
+
         private void IMTools_OnReceiveMessage(object sender, MessageModel e)
         {
             OnRecvMessage(e);
+        }
+
+        private void IMTools_OnLog(object sender, string e)
+        {
+            e.Debug(LogType.Service);
         }
         #endregion
     }

@@ -62,8 +62,8 @@ namespace EMChat2.Common
                 {
                     Id = "4842645605049376593",
                     AppKey = "GunKnHXhJK",
-                    Token = "LelmsBHVpZXoRmrLUn/L0a3MktjsJf/6OOpkir1+9RPoMHfW7CvE9P4la25TgGztj6n9MMFII6ZBfrj6gMwuta9lRMMiJYSU9kXFgZtSgcELNd4/1pVGu7ZjcWjWVNeGac2UAJRGAJTcQhqvnYR/jRRHBHkuC4Ip1Fm9G5fjUc7OzF1d7Kvo7thri/ATXgqcdTKHn9PwCTfAuSaeaQAzxOxBq/OyxRS8CXT6KF89iMD7dTfvnRzFgu6JyYspSxnVpH+XV++iLo/vlzUIGrvVxA==",
-                    RefreshToken = "OsEJyLwycTJ0VvwmK/qMKjX160mSgpVzWReyOoPgAycZ6pRlVLVf5wqSldw5eT4x5hCi3rfM4ztF7VneELXxO8cQ2JQ/SkVCyqSdXqk5Bx0="
+                    Token = "LelmsBHVpZXoRmrLUn/L0a3MktjsJf/6OOpkir1+9RPoMHfW7CvE9P4la25TgGztx9mo93G5oCvBfR/PlLR8Xs+fDC9hCRNXVsHzIkmndveEm3n4K8thLO50a9KNzRAE/KfRGbsZ7MWrYmplIWeYzkqQqc4gd3YIfswnm1xHDku2ueYsqmcpD5A4Z6MWr1CaP/i9dkbzyLZqmRHytzvulfYzZeJEhbzvLt9/9j/8s7zcH+pZazM6496boEto6BcVRXMCtq35zyUDLIz1lN26dQ==",
+                    RefreshToken = "FMM8va6SfMoIZ/ro/jUFgOowEY+QKlSCcZSKbpaMzC7kAHsk9fKjmmluNO9t8gTr6nBe/s0iAszRgRcT0KMzN+1f0bWsBCn6iWQSDo5xqzQ="
                 }
             }
         };

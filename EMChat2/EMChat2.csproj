@@ -83,14 +83,7 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.24.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.24\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="IEMWorks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\IEMWorks.dll</HintPath>
-    </Reference>
-    <Reference Include="IM.INetWorks, Version=1.3.4.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\IM.INetWorks.dll</HintPath>
-    </Reference>
+    <Reference Include="IEMWorks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="IM.SDK, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\IM.SDK.dll</HintPath>

@@ -27,6 +27,12 @@ namespace EMChat2.Common
         public static string ResponseEncoding = "utf-8";
         public static CookieContainer cookieContainer = new CookieContainer();
 
+        public static void InitTls()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+        }
+
         public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
             return true;
@@ -102,8 +108,6 @@ namespace EMChat2.Common
 
         private static WebResponse DoReqeust(WebMethod method, string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, string data = null, int timeout = 60000)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             //方法
             request.Method = method.ToString();

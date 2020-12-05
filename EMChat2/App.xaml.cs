@@ -38,6 +38,8 @@ namespace EMChat2
 
             //初始化垃圾回收
             GcTimerTools.Initialize();
+
+            HttpTools.InitTls();
         }
 
         protected override void OnExit(ExitEventArgs e)
