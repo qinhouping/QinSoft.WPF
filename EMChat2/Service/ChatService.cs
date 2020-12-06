@@ -215,7 +215,7 @@ namespace EMChat2.Service
         }
         #endregion
 
-        #region IM事件处理
+        #region IMTools事件处理
 
         private void IMTools_OnSocketConnected(object sender, EventArgs e)
         {
@@ -248,10 +248,10 @@ namespace EMChat2.Service
                 BalloonTip = new BalloonTipInfo()
                 {
                     Icon = BalloonIcon.Error,
-                    Title = "IM服务器异常",
-                    Content = e
+                    Content = "IM服务器异常"
                 }
             });
+            new Exception(e).Error(LogType.Service);
         }
 
         private void IMTools_OnSocketReconnectFailed(object sender, int e)
@@ -261,8 +261,7 @@ namespace EMChat2.Service
                 BalloonTip = new BalloonTipInfo()
                 {
                     Icon = BalloonIcon.Error,
-                    Title = "IM服务器重连失败",
-                    Content = string.Format("重连次数:{0}", e)
+                    Content = "IM服务器重连失败"
                 }
             });
         }
@@ -289,6 +288,8 @@ namespace EMChat2.Service
                     Content = "IM登录失败"
                 }
             });
+            this.eventAggregator.PublishAsync<LogoutCallbackEventArgs>(new LogoutCallbackEventArgs());
+            new Exception(e).Error(LogType.Service);
         }
 
         private void IMTools_OnReceiveMessage(object sender, MessageModel e)

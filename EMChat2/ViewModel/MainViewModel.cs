@@ -223,7 +223,7 @@ namespace EMChat2.ViewModel
 
         public void Handle(ReceiveMessageEventArgs arg)
         {
-            if (this.BodyAreaViewModel.ChatTabAreaViewModel.ChatListAreaViewModel.TotalNotReadMessageCount > 0 && !ApplicationContextViewModel.IsActived)
+            if (arg.IsInform && !ApplicationContextViewModel.IsActived)
             {
                 this.IsFlash = true;
                 this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
@@ -231,7 +231,7 @@ namespace EMChat2.ViewModel
                     BalloonTip = new BalloonTipInfo()
                     {
                         Icon = BalloonIcon.Info,
-                        Title = "新消息",
+                        Title = "您有一条新消息",
                         Content = MessageTools.GetMessageContentMark(arg.Message)
                     }
                 });

@@ -169,7 +169,6 @@ namespace EMChat2.Common
         public static MessageContentModel CreateRecvMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
-            if (message.State != MessageStateEnum.Received) throw new ArgumentException("message state is invalid");
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
@@ -183,7 +182,6 @@ namespace EMChat2.Common
         public static MessageContentModel CreateRefuseMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
-            if (message.State != MessageStateEnum.Refused) throw new ArgumentException("message state is invalid");
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
@@ -197,8 +195,6 @@ namespace EMChat2.Common
         public static MessageContentModel CreateReadMessageEventMessageContent(params MessageModel[] messages)
         {
             if (messages == null) return null;
-            foreach (MessageModel message in messages)
-                if (message.State != MessageStateEnum.Readed) throw new ArgumentException("message state is invalid");
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,
@@ -212,7 +208,6 @@ namespace EMChat2.Common
         public static MessageContentModel CreateRevokeMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
-            if (message.State != MessageStateEnum.Revoked) throw new ArgumentException("message state is invalid");
             return new MessageContentModel()
             {
                 Type = MessageTypeConst.Event,

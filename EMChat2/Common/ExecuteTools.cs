@@ -29,9 +29,9 @@ namespace EMChat2.Common
             });
         }
 
-        public static Thread ExecuteInThread(this Action action)
+        public static Thread ExecuteInThread(this Action action, bool isBackground = true)
         {
-            Thread thread = new Thread(new ThreadStart(action));
+            Thread thread = new Thread(new ThreadStart(action)) { IsBackground = isBackground };
             thread.Start();
             return thread;
         }

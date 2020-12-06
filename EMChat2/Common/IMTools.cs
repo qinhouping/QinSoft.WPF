@@ -1,6 +1,7 @@
 ﻿using EMChat2.Model.Api;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.IM;
+using IEMWorks.Common;
 using IM.SDK;
 using IM.SDK.Model;
 using QinSoft.Event;
@@ -23,6 +24,7 @@ namespace EMChat2.Common
         private static SimpleSocketClient socketClient;
         private static IMServerModel imServer;
         private static IMUserModel imUser;
+        private static bool isReconnecting;
 
         #region 对外事件
         public static event EventHandler OnSocketConnected;
@@ -45,7 +47,9 @@ namespace EMChat2.Common
             imServer = server;
             imUser = user;
 
-            socketClient = new SimpleSocketClient(imServer.ApiUrl);
+            isReconnecting = false;
+
+            socketClient = new SimpleSocketClient(imServer.ApiUrl, true);
             socketClient.OnSocketConnected += SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected += SocketClient_OnSocketDisconnected;
             socketClient.OnSocketError += SocketClient_OnSocketError;
@@ -64,6 +68,7 @@ namespace EMChat2.Common
         public static void Stop()
         {
             if (socketClient == null) return;
+            isReconnecting = false;
             socketClient.Stop();
             socketClient.OnSocketConnected -= SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected -= SocketClient_OnSocketDisconnected;
@@ -72,24 +77,6 @@ namespace EMChat2.Common
             socketClient.OnReceivePrivateMessage -= SocketClient_OnReceivePrivateMessage;
             socketClient = null;
             imUser = null;
-        }
-
-        /// <summary>
-        /// 登录IM服务
-        /// </summary>
-        /// <param name="user">im用户</param>
-        /// <param name="callback">回调</param>
-        public static void Login(Action<int, string> callback)
-        {
-            if (socketClient == null) return;
-            socketClient.Login(new IM_LoginToken()
-            {
-                Appkey = imUser.AppKey,
-                UserID = imUser.Id,
-                Token = imUser.Token,
-                Version = AppTools.AppVersion.Major,
-                Device = AppTools.AppName
-            }, callback);
         }
 
         /// <summary>
@@ -146,10 +133,58 @@ namespace EMChat2.Common
             return response.Data;
         }
 
+        /// <summary>
+        /// 登录IM服务
+        /// </summary>
+        /// <param name="user">im用户</param>
+        /// <param name="callback">回调</param>
+        private static void Login(Action<int, string> callback)
+        {
+            if (socketClient == null) return;
+            socketClient.Login(new IM_LoginToken()
+            {
+                Appkey = imUser.AppKey,
+                UserID = imUser.Id,
+                Token = imUser.Token,
+                Version = AppTools.AppVersion.Major,
+                Device = AppTools.AppFullName
+            }, callback);
+        }
+
+        /// <summary>
+        /// 重连后刷新token
+        /// </summary>
+        private static void RefreshToken()
+        {
+            new Action(() =>
+            {
+                HttpAPIClient apiClient = new HttpAPIClient(imServer.ApiUrl, imUser.Id, imUser.Token, null);
+                JsonResult<IMToken> result = apiClient.RefreshToken(imUser.RefreshToken, imUser.Token);
+                if (result.data != null)
+                {
+                    imUser.Token = result.data.Token;
+                    imUser.RefreshToken = result.data.RefreshToken;
+                }
+                else
+                {
+                    throw new Exception("refresh token failed");
+                }
+            }).Retry();
+        }
+
         #region 私有方法
+        /// <summary>
+        /// socket连接成功事件处理
+        /// </summary>
+        /// <param name="client"></param>
         private static void SocketClient_OnSocketConnected(SimpleSocketClient client)
         {
             OnSocketConnected.Invoke(client, null);
+            if (isReconnecting)
+            {
+                RefreshToken();
+                isReconnecting = false;
+            }
             Login((arg1, arg2) =>
             {
                 if (arg1 == 0) OnLoginSuccess.Invoke(client, null);
@@ -157,11 +192,21 @@ namespace EMChat2.Common
             });
         }
 
+        /// <summary>
+        /// socket异常断开连接事件处理
+        /// </summary>
+        /// <param name="client"></param>
         private static void SocketClient_OnSocketDisconnected(SimpleSocketClient client)
         {
+            isReconnecting = true;
             OnSocketDisconnected?.Invoke(client, null);
         }
 
+        /// <summary>
+        /// 重连失败事件处理
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="count"></param>
         private static void SocketClient_ReconnectFailed(SimpleSocketClient client, int count)
         {
             OnSocketReconnectFailed?.Invoke(client, count);

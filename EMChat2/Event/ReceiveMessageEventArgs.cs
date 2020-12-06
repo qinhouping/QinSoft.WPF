@@ -10,5 +10,7 @@ namespace EMChat2.Event
     public class ReceiveMessageEventArgs
     {
         public MessageModel Message { get; set; }
+
+        public bool IsInform { get; set; }
     }
 }

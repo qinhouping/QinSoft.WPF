@@ -353,7 +353,10 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             ChatViewModel chat = null;
             lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            chat.RecvMessage(arg.Message);
+            if (chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
+            {
+                arg.IsInform = true;
+            }
         }
 
         public void Handle(ActiveApplicationEventArgs Message)

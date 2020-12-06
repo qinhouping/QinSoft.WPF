@@ -623,38 +623,45 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
-        public virtual void RecvMessage(MessageModel message)
+        public virtual bool RecvMessage(MessageModel message)
         {
             lock (this.Messages)
             {
-                if (!this.Messages.Contains(message))
-                {
-                    if (ModifyMessageState(message, MessageStateEnum.Received))
-                    {
-                        new Action(() => this.Messages.Add(message)).ExecuteInUIThread();
-                        MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
-                        this.chatService.RecvMessage(recvMessageEvent);
-                    }
-                }
+                if (this.Messages.Contains(message)) return false;
             }
+            if (ModifyMessageState(message, MessageStateEnum.Received))
+            {
+                new Action(() =>
+                {
+                    lock (this.Messages)
+                    {
+                        this.Messages.Add(message);
+                    }
+                }).ExecuteInUIThread();
+                MessageModel recvMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
+                this.chatService.RecvMessage(recvMessageEvent);
+                return true;
+            }
+            return false;
         }
 
-        public virtual void ReadMessage()
+        public virtual int ReadMessage()
         {
-            if (!IsSelected || !ApplicationContextViewModel.IsActived) return;
+            if (!IsSelected || !ApplicationContextViewModel.IsActived) return 0;
             MessageModel[] messages = NotReadMessages.Where(u => ModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
-            if (messages.Count() == 0) return;
+            if (messages.Count() == 0) return 0;
             MessageModel readMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages));
             this.chatService.ReadMessage(readMessageEvent);
+            return messages.Count();
         }
 
-        public virtual void UpdateMessage(MessageModel updateMessage)
+        public virtual bool UpdateMessage(MessageModel updateMessage)
         {
             lock (this.Messages)
             {
                 MessageModel message = this.Messages.FirstOrDefault(u => u.Equals(updateMessage));
-                if (message == null) return;
-                ModifyMessageState(message, updateMessage.State);
+                if (message == null) return false;
+                return ModifyMessageState(message, updateMessage.State);
             }
         }
 
@@ -689,6 +696,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public void Handle(SettingLoadEventArgs Message)
         {
             this.NotifyPropertyChange(() => this.BusinessSetting);
+            this.NotifyPropertyChange(() => this.AllowInputText);
         }
         #endregion
     }
