@@ -1,4 +1,5 @@
 ﻿using QinSoft.WPF.Control;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace EMChat2.View.Main.Body.Chat
     public partial class ChatInputAreaView : UserControl
     {
         public static readonly RoutedEvent InputStateChangedEvent = EventManager.RegisterRoutedEvent("InputStateChanged", RoutingStrategy.Bubble,
-         typeof(InputStateChangedRoutedEventHandler), typeof(ChatInputAreaView));
+         typeof(RoutedEventHandler<InputStateChangedRoutedEventArgs>), typeof(ChatInputAreaView));
 
-        public event InputStateChangedRoutedEventHandler InputStateChanged
+        public event RoutedEventHandler<InputStateChangedRoutedEventArgs> InputStateChanged
         {
             add
             {
@@ -50,8 +51,6 @@ namespace EMChat2.View.Main.Body.Chat
             this.RaiseEvent(new InputStateChangedRoutedEventArgs() { RoutedEvent = InputStateChangedEvent, Source = this, IsInputing = false });
         }
     }
-
-    public delegate void InputStateChangedRoutedEventHandler(object sender, InputStateChangedRoutedEventArgs e);
 
     public class InputStateChangedRoutedEventArgs : RoutedEventArgs
     {
