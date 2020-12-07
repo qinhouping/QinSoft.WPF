@@ -158,7 +158,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.Name = user.Name;
             chat.HeaderImageUrl = user.HeaderImageUrl;
             chat.IsTop = false;
-            chat.IsInform = false;
+            chat.IsInform = true;
             chat.ChatUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat.ChatAllUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat.CreateTime = DateTime.Now;

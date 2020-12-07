@@ -11,14 +11,14 @@ namespace EMChat2.Common
 {
     public static class ExecuteTools
     {
-        public static async Task ExecuteInTask(this Action action)
+        public static Task ExecuteInTask(this Action action)
         {
-            await Task.Factory.StartNew(action);
+            return Task.Factory.StartNew(action);
         }
 
-        public static async Task<T> ExecuteInTask<T>(this Func<T> func)
+        public static Task<T> ExecuteInTask<T>(this Func<T> func)
         {
-            return await Task.Factory.StartNew(func);
+            return Task.Factory.StartNew(func);
         }
 
         public static void ExecuteInThreadPool(this Action action)

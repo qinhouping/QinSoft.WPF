@@ -86,9 +86,9 @@ namespace EMChat2.Common
             }
         };
 
-        public readonly static TestDataItem Current = TestUsers[1];
+        public readonly static TestDataItem Current = TestUsers[0];
 
-        public readonly static TestDataItem Opposite = TestUsers[0];
+        public readonly static TestDataItem Opposite = TestUsers[1];
     }
 
     public class TestDataItem
