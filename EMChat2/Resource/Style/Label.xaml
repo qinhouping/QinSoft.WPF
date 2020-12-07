@@ -67,6 +67,14 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
     </Style>
 
+    <!--提示信息-->
+    <Style x:Key="IM-InputTip-Label" TargetType="{x:Type Label}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource PurpleBrush}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"></Setter>
+    </Style>
+
     <!--标示信息，如业务类型-->
     <Style x:Key="IM-Chip" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="Transparent"></Setter>

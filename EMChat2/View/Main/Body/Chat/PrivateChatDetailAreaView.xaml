@@ -30,15 +30,21 @@
         </Border>
 
         <Border Grid.Row="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource Gray3Brush}">
-            <!--会话消息列表-->
-            <chat:ChatMessagesAreaView></chat:ChatMessagesAreaView>
+            <Grid>
+                <!--会话消息列表-->
+                <chat:ChatMessagesAreaView></chat:ChatMessagesAreaView>
+
+                <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="{Binding IsInputing, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                    <Label Content="对方正在输入中..." Style="{StaticResource IM-InputTip-Label}" Margin="2"></Label>
+                </Border>
+            </Grid>
         </Border>
 
         <GridSplitter Grid.Row="2" Height="2" HorizontalAlignment ="Stretch" VerticalAlignment="Top" Grid.ZIndex="1"></GridSplitter>
 
         <Border Grid.Row="2" Margin="1">
             <!--会话消息输入-->
-            <chat:ChatInputAreaView></chat:ChatInputAreaView>
+            <chat:ChatInputAreaView  InputStateChanged="ChatInputAreaView_InputStateChanged"></chat:ChatInputAreaView>
         </Border>
 
         <!--会话侧边栏-->

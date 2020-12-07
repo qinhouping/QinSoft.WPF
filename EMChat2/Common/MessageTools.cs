@@ -218,7 +218,55 @@ namespace EMChat2.Common
             };
         }
 
+        public static MessageContentModel CreateInputMessageEventMessageContent(ChatModel chat, bool isInputing)
+        {
+            if (chat == null) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Event,
+                Content = new InputMessageEventMessageContent()
+                {
+                    ChatId = chat.Id,
+                    IsInputing = isInputing
+                }
+            };
+        }
 
+        public static string SerializeMessageContent(MessageContent content)
+        {
+            return content.ObjectToJson();
+        }
+
+        public static MessageContent DeserializeMessageContent(string type, string contentString)
+        {
+            MessageContent content = null;
+            switch (type)
+            {
+                case MessageTypeConst.Text: content = contentString.JsonToObject<TextMessageContent>(); break;
+                case MessageTypeConst.Emotion: content = contentString.JsonToObject<EmotionMessageContent>(); break;
+                case MessageTypeConst.Image: content = contentString.JsonToObject<ImageMessageContent>(); break;
+                case MessageTypeConst.Voice: break;
+                case MessageTypeConst.Video: break;
+                case MessageTypeConst.Link: content = contentString.JsonToObject<LinkMessageContent>(); break;
+                case MessageTypeConst.File: content = contentString.JsonToObject<FileMessageContent>(); break;
+                case MessageTypeConst.Mixed: content = contentString.JsonToObject<MixedMessageContent>(); break;
+                case MessageTypeConst.Tips: content = contentString.JsonToObject<TipsMessageContent>(); break;
+                case MessageTypeConst.Event:
+                    {
+                        EventMessageContent eventMessageContent = contentString.JsonToObject<EventMessageContent>();
+                        switch (eventMessageContent.Event)
+                        {
+                            case EventMessageTypeConst.RecvMessage: content = contentString.JsonToObject<RecvMessageEventMessageContent>(); break;
+                            case EventMessageTypeConst.ReadMessage: content = contentString.JsonToObject<ReadMessageEventMessageContent>(); break;
+                            case EventMessageTypeConst.RefuseMessage: content = contentString.JsonToObject<RefuseMessageEventMessageContent>(); break;
+                            case EventMessageTypeConst.RevokeMessage: content = contentString.JsonToObject<RevokeMessageEventMessageContent>(); break;
+                            case EventMessageTypeConst.InputMessage: content = contentString.JsonToObject<InputMessageEventMessageContent>(); break;
+                        }
+                    }
+                    break;
+            }
+            return content;
+        }
 
         public static MessageModel CreateMessage(StaffModel staff, ChatModel chat, MessageContentModel messageContent, MessageStateEnum state = MessageStateEnum.Sending)
         {

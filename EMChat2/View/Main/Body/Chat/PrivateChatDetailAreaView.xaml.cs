@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMChat2.ViewModel.Main.Tabs.Chat;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace EMChat2.View.Main.Body.Chat
         public PrivateChatDetailAreaView()
         {
             InitializeComponent();
+        }
+
+        private void ChatInputAreaView_InputStateChanged(object sender, InputStateChangedRoutedEventArgs e)
+        {
+            (this.DataContext as PrivateChatViewModel).SendInputState(e.IsInputing);
         }
     }
 }

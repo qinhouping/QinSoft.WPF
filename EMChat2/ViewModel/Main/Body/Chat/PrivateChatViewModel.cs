@@ -53,17 +53,74 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.PrivateChatSliderAreaViewModel);
             }
         }
+
+        private bool isInputing;
+        public bool IsInputing
+        {
+            get
+            {
+                return this.isInputing;
+            }
+            set
+            {
+                this.isInputing = value;
+                this.NotifyPropertyChange(() => this.IsInputing);
+            }
+        }
         #endregion
 
         #region 命令 
         #endregion
 
         #region 方法
+
+        public override bool RecvMessage(MessageModel message)
+        {
+            lock (this.Messages)
+            {
+                if (this.Messages.Contains(message)) return false;
+            }
+            if (ModifyMessageState(message, MessageStateEnum.Received))
+            {
+                new Action(() =>
+                {
+                    lock (this.Messages)
+                    {
+                        this.Messages.Add(message);
+                    }
+                }).ExecuteInUIThread();
+                MessageModel recvMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
+                this.chatService.SendMessage(recvMessageEvent);
+                return true;
+            }
+            return false;
+        }
+
+        public override int ReadMessage()
+        {
+            if (!IsSelected || !ApplicationContextViewModel.IsActived) return 0;
+            MessageModel[] messages = NotReadMessages.Where(u => ModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
+            if (messages.Count() == 0) return 0;
+            MessageModel readMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages));
+            this.chatService.SendMessage(readMessageEvent);
+            return messages.Count();
+        }
+
+        public virtual void SendInputState(bool isInputing)
+        {
+            MessageModel inputMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateInputMessageEventMessageContent(this.Chat, isInputing));
+            this.chatService.SendMessage(inputMessageEvent);
+        }
+
         public override void Dispose()
         {
             this.PrivateChatSliderAreaViewModel.Dispose();
             base.Dispose();
         }
+        #endregion
+
+        #region 事件处理
+
         #endregion
     }
 }

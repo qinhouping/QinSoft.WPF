@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
     [Component]
-    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>
+    public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>, IEventHandle<InputMessageChangedEventArgs>
     {
         #region 构造函数
         public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
@@ -158,7 +158,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.Name = user.Name;
             chat.HeaderImageUrl = user.HeaderImageUrl;
             chat.IsTop = false;
-            chat.IsInform = false;
+            chat.IsInform = true;
             chat.ChatUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat.ChatAllUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat.CreateTime = DateTime.Now;
@@ -359,9 +359,17 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }
         }
 
-        public void Handle(ActiveApplicationEventArgs Message)
+        public void Handle(ActiveApplicationEventArgs arg)
         {
             this.SelectedChatItem?.ReadMessage();
+        }
+
+        public void Handle(InputMessageChangedEventArgs arg)
+        {
+            PrivateChatViewModel chat = null;
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.ChatId)) as PrivateChatViewModel;
+            if (chat == null) return;
+            chat.IsInputing = arg.IsInputing;
         }
         #endregion
     }
