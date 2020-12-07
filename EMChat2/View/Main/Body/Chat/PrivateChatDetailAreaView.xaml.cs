@@ -28,7 +28,7 @@ namespace EMChat2.View.Main.Body.Chat
 
         private void ChatInputAreaView_InputStateChanged(object sender, InputStateChangedRoutedEventArgs e)
         {
-            (this.DataContext as PrivateChatViewModel).SendInputState(e.IsInputing);
+            (this.DataContext as PrivateChatViewModel)?.SendInputState(e.IsInputing);
         }
     }
 }

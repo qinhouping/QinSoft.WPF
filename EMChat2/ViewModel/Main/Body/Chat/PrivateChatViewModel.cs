@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Timers;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -53,7 +54,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.PrivateChatSliderAreaViewModel);
             }
         }
-
+        private Timer isInputingTimer;
         private bool isInputing;
         public bool IsInputing
         {
@@ -65,6 +66,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.isInputing = value;
                 this.NotifyPropertyChange(() => this.IsInputing);
+                isInputingTimer?.Stop();
+                if (value)
+                {
+                    isInputingTimer = new Timer(5000);
+                    isInputingTimer.Elapsed += (s, e) =>
+                    {
+                        this.IsInputing = false;
+                    };
+                    isInputingTimer.Start();
+                }
             }
         }
         #endregion

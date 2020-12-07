@@ -36,6 +36,8 @@ namespace EMChat2.View.Main.Body.Chat
             }
         }
 
+        private DateTime? lastInputTime;
+
         public ChatInputAreaView()
         {
             InitializeComponent();
@@ -43,7 +45,14 @@ namespace EMChat2.View.Main.Body.Chat
 
         private void AutoAdjustRichTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            this.RaiseEvent(new InputStateChangedRoutedEventArgs() { RoutedEvent = InputStateChangedEvent, Source = this, IsInputing = true });
+            if (lastInputTime == null || (DateTime.Now - lastInputTime.Value).TotalSeconds > 5)
+                this.RaiseEvent(new InputStateChangedRoutedEventArgs() { RoutedEvent = InputStateChangedEvent, Source = this, IsInputing = true });
+        }
+
+        private void AutoAdjustRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (lastInputTime == null || (DateTime.Now - lastInputTime.Value).TotalSeconds > 5)
+                this.RaiseEvent(new InputStateChangedRoutedEventArgs() { RoutedEvent = InputStateChangedEvent, Source = this, IsInputing = true });
         }
 
         private void AutoAdjustRichTextBox_LostFocus(object sender, RoutedEventArgs e)

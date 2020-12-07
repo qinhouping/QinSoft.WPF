@@ -148,11 +148,13 @@ namespace EMChat2.Service
 
         protected virtual async void OnSendMessage(MessageModel message)
         {
+            if (message == null) return;
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
 
         protected virtual async void OnRecvMessage(MessageModel message)
         {
+            if (message == null) return;
             await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
         #endregion

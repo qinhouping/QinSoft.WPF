@@ -12,6 +12,7 @@ namespace EMChat2.Common
     {
         public static MessageApiModel MessageToApiModel(this MessageModel sendMessage)
         {
+            if (sendMessage == null) return null;
             MessageApiModel message = new MessageApiModel();
             message.Id = sendMessage.Id;
             message.Time = sendMessage.Time;
@@ -26,6 +27,7 @@ namespace EMChat2.Common
 
         public static MessageModel MessageToModel(this MessageApiModel recvMessage)
         {
+            if (recvMessage == null) return null;
             MessageModel message = new MessageModel();
             message.Id = recvMessage.Id;
             message.Time = recvMessage.Time;

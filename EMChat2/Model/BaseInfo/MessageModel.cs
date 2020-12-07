@@ -80,7 +80,7 @@ namespace EMChat2.Model.BaseInfo
             return new MessageContentModel()
             {
                 Type = this.Type,
-                Content = this.Content.Clone() as MessageContent
+                Content = this.Content?.Clone() as MessageContent
             };
         }
     }
@@ -294,7 +294,7 @@ namespace EMChat2.Model.BaseInfo
                 ToUsers = this.ToUsers,
                 State = this.State,
                 Type = this.Type,
-                Content = this.Content.Clone() as MessageContent
+                Content = this.Content?.Clone() as MessageContent
             };
         }
         #endregion
@@ -593,14 +593,10 @@ namespace EMChat2.Model.BaseInfo
 
         public override object Clone()
         {
-            MixedMessageContent messageContent = new MixedMessageContent();
-            List<MessageContentModel> items = new List<MessageContentModel>();
-            foreach (MessageContentModel item in this.Items)
+            return new MixedMessageContent()
             {
-                items.Add(item.Clone() as MessageContentModel);
-            }
-            messageContent.Items = items.ToArray();
-            return messageContent;
+                Items = this.Items?.Select(u => u.Clone() as MessageContentModel).ToArray()
+            };
         }
     }
 
@@ -635,6 +631,14 @@ namespace EMChat2.Model.BaseInfo
                 this.messages = value;
                 this.NotifyPropertyChange(() => this.Messages);
             }
+        }
+        public override object Clone()
+        {
+            return new ShareMessageContent()
+            {
+                ChatId = this.ChatId,
+                Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
+            };
         }
     }
 
@@ -705,7 +709,7 @@ namespace EMChat2.Model.BaseInfo
             return new RecvMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message.Clone() as MessageModel
+                Message = this.Message?.Clone() as MessageModel
             };
         }
     }
@@ -737,7 +741,7 @@ namespace EMChat2.Model.BaseInfo
             return new ReadMessageEventMessageContent()
             {
                 Event = this.Event,
-                Messages = this.Messages.Select(u => u.Clone() as MessageModel).ToArray()
+                Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
             };
         }
     }
@@ -768,7 +772,7 @@ namespace EMChat2.Model.BaseInfo
             return new RefuseMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message.Clone() as MessageModel
+                Message = this.Message?.Clone() as MessageModel
             };
         }
     }
@@ -799,7 +803,7 @@ namespace EMChat2.Model.BaseInfo
             return new RevokeMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message.Clone() as MessageModel
+                Message = this.Message?.Clone() as MessageModel
             };
         }
     }
