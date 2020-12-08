@@ -35,7 +35,7 @@
                 <chat:ChatMessagesAreaView></chat:ChatMessagesAreaView>
 
                 <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="{Binding IsInputing, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
-                    <Label Content="对方正在输入中..." Style="{StaticResource IM-InputTip-Label}" Margin="2"></Label>
+                    <Label Content="对方正在输入中..." Style="{StaticResource IM-InputTip-Label}" Margin="2" Opacity="0.8"></Label>
                 </Border>
             </Grid>
         </Border>

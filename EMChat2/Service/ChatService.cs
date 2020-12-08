@@ -108,7 +108,7 @@ namespace EMChat2.Service
                 fileDialog.FileName = name;
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    DownloadFile(filePath, fileDialog.FileName);
+                    await DownloadFile(filePath, fileDialog.FileName);
                     Process.Start(fileDialog.FileName);
                 }
             }
@@ -118,7 +118,7 @@ namespace EMChat2.Service
             }
         }
 
-        protected virtual async void DownloadFile(string url, string filePath)
+        protected virtual async Task DownloadFile(string url, string filePath)
         {
             try
             {
