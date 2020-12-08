@@ -467,7 +467,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 });
             }
         }
+        #endregion
+        #endregion
 
+        #region 事件处理
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
@@ -525,7 +528,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.QuickReplyGroups.Clear();
             }).ExecuteInUIThread();
         }
-        #endregion
         #endregion
     }
 }
