@@ -173,9 +173,7 @@
     <Compile Include="Event\SettingLoadEventArgs.cs" />
     <Compile Include="Event\DeactiveApplicationEventArgs.cs" />
     <Compile Include="Event\ActiveApplicationEventArgs.cs" />
-    <Compile Include="Model\Api\ChatApiModel.cs" />
     <Compile Include="Model\Api\MessageApiModel.cs" />
-    <Compile Include="Model\Api\UserApiModel.cs" />
     <Compile Include="Model\BaseInfo\BusinessSettingModel.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
