@@ -38,7 +38,7 @@ namespace EMChat2.View.Main.Body.Chat
                 {
                     case MessageTypeConst.Text: { } break;
                     case MessageTypeConst.Emotion: { this.Width = 64; } break;
-                    case MessageTypeConst.Image: { this.Width = 256; } break;
+                    case MessageTypeConst.Image: { this.Width = 256; this.MaxHeight = 256; } break;
                     case MessageTypeConst.Voice: { } break;
                     case MessageTypeConst.Video: { } break;
                     case MessageTypeConst.Link: { this.Width = 256; Height = 48; } break;
