@@ -6,19 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.Api
 {
-    public class MessageContentApiModel
-    {
-        public string Type { get; set; }
-
-        public string Content { get; set; }
-    }
-
-    public class MixedMessageContentApiModel
-    {
-        public MessageContentApiModel[] Items { get; set; }
-    }
-
-    public class MessageApiModel : MessageContentApiModel
+    public class MessageApiModel
     {
         public string Id { get; set; }
 
@@ -31,5 +19,9 @@ namespace EMChat2.Model.Api
         public string[] ToUsers { get; set; }
 
         public int State { get; set; }
+
+        public string Type { get; set; }
+
+        public string Content { get; set; }
     }
 }

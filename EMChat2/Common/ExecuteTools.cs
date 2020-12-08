@@ -43,6 +43,7 @@ namespace EMChat2.Common
 
         public static void ActiveExecute(this ICommand command, object parameter = null)
         {
+            if (command == null) return;
             if (command.CanExecute(parameter)) command.Execute(parameter);
         }
     }

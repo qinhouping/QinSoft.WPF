@@ -36,6 +36,7 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
                     case EventMessageTypeConst.ReadMessage: HandleReadMessageEvent(message, eventMessage as ReadMessageEventMessageContent); break;
                     case EventMessageTypeConst.RefuseMessage: HandleRefuseMessageEvent(message, eventMessage as RefuseMessageEventMessageContent); break;
                     case EventMessageTypeConst.RevokeMessage: HandleRevokeMessageEvent(message, eventMessage as RevokeMessageEventMessageContent); break;
+                    case EventMessageTypeConst.InputMessage: HandleInputMessageEvent(message, eventMessage as InputMessageEventMessageContent); break;
                 }
                 arg.Cancel = true;
             }
@@ -67,5 +68,11 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
         {
             this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
         }
+
+        protected virtual void HandleInputMessageEvent(MessageModel message, InputMessageEventMessageContent messageContent)
+        {
+            this.eventAggregator.PublishAsync<InputMessageChangedEventArgs>(new InputMessageChangedEventArgs() { ChatId = messageContent.ChatId, IsInputing = messageContent.IsInputing });
+        }
+
     }
 }

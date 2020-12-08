@@ -27,6 +27,7 @@ namespace EMChat2.Model.BaseInfo
 
     /// <summary>
     /// 消息内容模型
+    /// 包括消息类型和消息内容
     /// </summary>
     public class MessageContentModel : PropertyChangedBase, ICloneable
     {
@@ -45,6 +46,7 @@ namespace EMChat2.Model.BaseInfo
         }
 
         private MessageContent content;
+        [JsonIgnore]
         public virtual MessageContent Content
         {
             get
@@ -58,12 +60,27 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        [JsonProperty("Content")]
+        public string ContentString
+        {
+            get
+            {
+                return MessageTools.SerializeMessageContent(this.content);
+            }
+            set
+            {
+                this.content = MessageTools.DeserializeMessageContent(this.type, value);
+                this.NotifyPropertyChange(() => this.ContentString);
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+
         public virtual object Clone()
         {
             return new MessageContentModel()
             {
                 Type = this.Type,
-                Content = this.Content.Clone() as MessageContent
+                Content = this.Content?.Clone() as MessageContent
             };
         }
     }
@@ -136,6 +153,7 @@ namespace EMChat2.Model.BaseInfo
         public const string Link = "link";
         public const string File = "file";
         public const string Mixed = "mixed";
+        public const string Shared = "shared";
         //系统提示消息
         public const string Tips = "tips";
         #endregion
@@ -146,7 +164,7 @@ namespace EMChat2.Model.BaseInfo
     }
 
     /// <summary>
-    /// 消息信息模型
+    /// 消息模型
     /// </summary>
     public class MessageModel : MessageContentModel
     {
@@ -276,7 +294,7 @@ namespace EMChat2.Model.BaseInfo
                 ToUsers = this.ToUsers,
                 State = this.State,
                 Type = this.Type,
-                Content = this.Content.Clone() as MessageContent
+                Content = this.Content?.Clone() as MessageContent
             };
         }
         #endregion
@@ -575,14 +593,52 @@ namespace EMChat2.Model.BaseInfo
 
         public override object Clone()
         {
-            MixedMessageContent messageContent = new MixedMessageContent();
-            List<MessageContentModel> items = new List<MessageContentModel>();
-            foreach (MessageContentModel item in this.Items)
+            return new MixedMessageContent()
             {
-                items.Add(item.Clone() as MessageContentModel);
+                Items = this.Items?.Select(u => u.Clone() as MessageContentModel).ToArray()
+            };
+        }
+    }
+
+    /// <summary>
+    /// 分享消息内容
+    /// </summary>
+    public class ShareMessageContent : MessageContent
+    {
+        private string chatId;
+        public string ChatId
+        {
+            get
+            {
+                return this.chatId;
             }
-            messageContent.Items = items.ToArray();
-            return messageContent;
+            set
+            {
+                this.chatId = value;
+                this.NotifyPropertyChange(() => this.ChatId);
+            }
+        }
+
+        private MessageModel[] messages;
+        public MessageModel[] Messages
+        {
+            get
+            {
+                return this.messages;
+            }
+            set
+            {
+                this.messages = value;
+                this.NotifyPropertyChange(() => this.Messages);
+            }
+        }
+        public override object Clone()
+        {
+            return new ShareMessageContent()
+            {
+                ChatId = this.ChatId,
+                Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
+            };
         }
     }
 
@@ -595,6 +651,7 @@ namespace EMChat2.Model.BaseInfo
         public const string ReadMessage = "read_message";
         public const string RefuseMessage = "refuse_message";
         public const string RevokeMessage = "revoke_message";
+        public const string InputMessage = "input_message";
     }
 
     #region 事件消息内容
@@ -652,7 +709,7 @@ namespace EMChat2.Model.BaseInfo
             return new RecvMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message
+                Message = this.Message?.Clone() as MessageModel
             };
         }
     }
@@ -684,7 +741,7 @@ namespace EMChat2.Model.BaseInfo
             return new ReadMessageEventMessageContent()
             {
                 Event = this.Event,
-                Messages = this.Messages.Select(u => u.Clone() as MessageModel).ToArray()
+                Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
             };
         }
     }
@@ -715,7 +772,7 @@ namespace EMChat2.Model.BaseInfo
             return new RefuseMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message
+                Message = this.Message?.Clone() as MessageModel
             };
         }
     }
@@ -746,7 +803,52 @@ namespace EMChat2.Model.BaseInfo
             return new RevokeMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message
+                Message = this.Message?.Clone() as MessageModel
+            };
+        }
+    }
+
+    public class InputMessageEventMessageContent : EventMessageContent
+    {
+        public InputMessageEventMessageContent()
+        {
+            this.Event = EventMessageTypeConst.InputMessage;
+        }
+
+        private bool isInputing;
+        public bool IsInputing
+        {
+            get
+            {
+                return this.isInputing;
+            }
+            set
+            {
+                this.isInputing = value;
+                this.NotifyPropertyChange(() => this.IsInputing);
+            }
+        }
+
+        private string chatId;
+        public string ChatId
+        {
+            get
+            {
+                return this.chatId;
+            }
+            set
+            {
+                this.chatId = value;
+                this.NotifyPropertyChange(() => this.ChatId);
+            }
+        }
+        public override object Clone()
+        {
+            return new InputMessageEventMessageContent()
+            {
+                Event = this.Event,
+                ChatId = this.ChatId,
+                IsInputing = this.IsInputing
             };
         }
     }

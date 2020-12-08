@@ -220,7 +220,8 @@ namespace EMChat2.Common
         {
             foreach (IM_ReceivePrivateMessage privateMessage in messages)
             {
-                MessageApiModel recvMessage = privateMessage.Content.JsonToObject<MessageApiModel>();
+                string messageString = privateMessage.Content;
+                MessageApiModel recvMessage = messageString.JsonToObject<MessageApiModel>();
                 MessageModel message = recvMessage.MessageToModel();
                 OnReceiveMessage?.Invoke(client, message);
                 socketClient.SendPrivateMessageReceipt(privateMessage.MsgID, privateMessage.SenderID, IM_ReceiptType.Receive, null);

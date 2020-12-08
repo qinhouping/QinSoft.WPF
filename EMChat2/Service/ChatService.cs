@@ -146,53 +146,15 @@ namespace EMChat2.Service
             OnSendMessage(message);
         }
 
-        /// <summary>
-        /// 接收消息
-        /// </summary>
-        /// <param name="recvMessage"></param>
-        public virtual async void RecvMessage(MessageModel recvMessage)
-        {
-            await Task.Delay(50);
-            OnSendMessage(recvMessage);
-        }
-
-        /// <summary>
-        /// 拒绝消息
-        /// </summary>
-        /// <param name="refuseMessage"></param>
-        public virtual async void RefuseMessage(MessageModel refuseMessage)
-        {
-            await Task.Delay(50);
-            OnSendMessage(refuseMessage);
-        }
-
-        /// <summary>
-        /// 撤回消息
-        /// </summary>
-        /// <param name="revokeMessage"></param>
-        public virtual async void RevokeMessage(MessageModel revokeMessage)
-        {
-            await Task.Delay(50);
-            OnSendMessage(revokeMessage);
-        }
-
-        /// <summary>
-        /// 阅读消息
-        /// </summary>
-        /// <param name="revokeMessage"></param>
-        public virtual async void ReadMessage(MessageModel revokeMessage)
-        {
-            await Task.Delay(50);
-            OnSendMessage(revokeMessage);
-        }
-
         protected virtual async void OnSendMessage(MessageModel message)
         {
+            if (message == null) return;
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
 
         protected virtual async void OnRecvMessage(MessageModel message)
         {
+            if (message == null) return;
             await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
         #endregion
