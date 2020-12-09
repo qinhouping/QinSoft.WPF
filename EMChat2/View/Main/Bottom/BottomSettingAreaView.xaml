@@ -32,42 +32,40 @@
             <!--菜单列表-->
             <ListBox Grid.Row="1" Style="{StaticResource BaseListBox}" ItemContainerStyle="{StaticResource ListsItem}">
                 <ListBoxItem>
-                    <Grid ToolTip="通用设置">
-                        <Grid Margin="5" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource Chip}" Height="{StaticResource BigIconFontSize}" Width="{StaticResource BigIconFontSize}">
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallIconFontSize}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCog}">
-                                            <Setter Property="FontSize" Value="{StaticResource BigIconFontSize}"></Setter>
-                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
-                                            <Setter Property="RenderTransform">
-                                                <Setter.Value>
-                                                    <TransformGroup>
-                                                        <RotateTransform></RotateTransform>
-                                                    </TransformGroup>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <EventTrigger RoutedEvent="Loaded">
-                                                    <EventTrigger.Actions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger.Actions>
-                                                </EventTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Label>
-                            <TextBlock Grid.Column="1" Text="通用" Style="{StaticResource BaseTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
-                        </Grid>
+                    <Grid Margin="5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Style="{StaticResource Chip}" Height="{StaticResource BigIconFontSize}" Width="{StaticResource BigIconFontSize}">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallIconFontSize}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCog}">
+                                        <Setter Property="FontSize" Value="{StaticResource BigIconFontSize}"></Setter>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <RotateTransform></RotateTransform>
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <EventTrigger.Actions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger.Actions>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label>
+                        <TextBlock Grid.Column="1" Text="通用" Style="{StaticResource BaseTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
                     </Grid>
                 </ListBoxItem>
             </ListBox>

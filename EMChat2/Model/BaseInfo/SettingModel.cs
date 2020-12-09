@@ -19,23 +19,6 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 截图时是否隐藏主窗口
-        /// </summary>
-        private bool isHideWhenCaptureScreen = true;
-        public bool IsHideWhenCaptureScreen
-        {
-            get
-            {
-                return this.isHideWhenCaptureScreen;
-            }
-            set
-            {
-                this.isHideWhenCaptureScreen = value;
-                this.NotifyPropertyChange(() => IsHideWhenCaptureScreen);
-            }
-        }
-
-        /// <summary>
         /// 业务相关配置信息
         /// </summary>
         private IDictionary<BusinessEnum, BusinessSettingModel> businessSettings;

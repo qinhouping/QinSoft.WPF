@@ -8,6 +8,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
              xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d"
@@ -20,7 +21,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -35,8 +36,18 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图(Alt+Shift+A)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}">
+                    <Button ToolTip="截图(Alt+Shift+A)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.HideApplication}">
                         <TextBlock Style="{StaticResource IconCut}"></TextBlock>
+                        <Button.ContextMenu>
+                            <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                                <MenuItem Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.NotHideApplication}">
+                                    <MenuItem.Icon>
+                                        <TextBlock Style="{StaticResource IconCut}"></TextBlock>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>不隐藏截图</MenuItem.Header>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                     </Button>
                     <Button ToolTip="图片(Alt+Shift+I)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectImageCommand}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
@@ -74,7 +85,7 @@
                         <wpfControl:AutoAdjustRichTextBox.InputBindings>
                             <KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding SendMessageCommand}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="C" Command="{Binding ClearInputMessageContentCommand}"></KeyBinding>
-                            <KeyBinding Modifiers="Alt+Shift" Key="A" Command="{Binding CaptureScreenCommand}"></KeyBinding>
+                            <KeyBinding Modifiers="Alt+Shift" Key="A" Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.HideApplication}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="I" Command="{Binding SelectImageCommand}"></KeyBinding>
                             <KeyBinding Modifiers="Alt+Shift" Key="F" Command="{Binding SelectFileCommand}"></KeyBinding>
                         </wpfControl:AutoAdjustRichTextBox.InputBindings>

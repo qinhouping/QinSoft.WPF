@@ -276,17 +276,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        private async void CaptureScreen()
+        private async void CaptureScreen(CaptureScreenTypeEnum type)
         {
-            if (applicationContextViewModel.Setting?.IsHideWhenCaptureScreen != false)
+            if (type == CaptureScreenTypeEnum.HideApplication)
             {
                 await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
                 await Task.Delay(500);
                 this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
                 await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
             }
-            else
+            else if (type == CaptureScreenTypeEnum.NotHideApplication)
             {
+                await Task.Delay(500);
                 this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
             }
         }
@@ -295,10 +296,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand<CaptureScreenTypeEnum>((type) =>
                 {
-                    CaptureScreen();
-                }, () =>
+                    CaptureScreen(type);
+                }, (type) =>
                 {
                     return BusinessSetting.AllowCaptureScreen;
                 });

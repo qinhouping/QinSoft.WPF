@@ -175,6 +175,7 @@
     <Compile Include="Event\ActiveApplicationEventArgs.cs" />
     <Compile Include="Model\Api\MessageApiModel.cs" />
     <Compile Include="Model\BaseInfo\BusinessSettingModel.cs" />
+    <Compile Include="Model\BaseInfo\CaptureScreenTypeEnum.cs" />
     <Compile Include="Model\BaseInfo\ChatType.cs" />
     <Compile Include="Model\BaseInfo\EmotionPackageLevelEnum.cs" />
     <Compile Include="Model\BaseInfo\IExpandable.cs" />
