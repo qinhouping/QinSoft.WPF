@@ -233,6 +233,7 @@
     <Compile Include="ViewModel\Main\Body\User\StaffDetailAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\CustomerListAreaViewModel.cs" />
     <Compile Include="ViewModel\Main\Body\User\UserDetailAreaViewModel.cs" />
+    <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="View\Main\Body\Chat\ChatDetailAreaView.xaml.cs">
       <DependentUpon>ChatDetailAreaView.xaml</DependentUpon>
     </Compile>
@@ -271,6 +272,9 @@
     </Compile>
     <Compile Include="View\Main\Body\User\UserDetailAreaView.xaml.cs">
       <DependentUpon>UserDetailAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\BaseInfo\BusinessEnum.cs" />
@@ -554,6 +558,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Main\TopAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

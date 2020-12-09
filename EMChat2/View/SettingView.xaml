@@ -1,0 +1,29 @@
+﻿<Window x:Class="EMChat2.View.SettingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
+        xmlns:view="clr-namespace:EMChat2.View"
+        mc:Ignorable="d"
+        Title="系统设置" Height="400" Width="620"
+        WindowStartupLocation="CenterOwner" ResizeMode ="NoResize">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="25" CornerRadius="0"/>
+    </shell:WindowChrome.WindowChrome>
+
+    <Border Style="{StaticResource IM-App-Border}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="145"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                <view:ShellbarAreaView></view:ShellbarAreaView>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

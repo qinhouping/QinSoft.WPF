@@ -36,18 +36,18 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button ToolTip="截图(Alt+Shift+A)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.HideApplication}">
-                        <TextBlock Style="{StaticResource IconCut}"></TextBlock>
-                        <Button.ContextMenu>
-                            <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                <MenuItem Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.NotHideApplication}">
-                                    <MenuItem.Icon>
-                                        <TextBlock Style="{StaticResource IconCut}"></TextBlock>
-                                    </MenuItem.Icon>
-                                    <MenuItem.Header>不隐藏截图</MenuItem.Header>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Button.ContextMenu>
+                    <Button x:Name="captureScreenBtn" ToolTip="截图(Alt+Shift+A)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.HideApplication}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource IconCut}" VerticalAlignment="Center"></TextBlock>
+                            <Button Style="{StaticResource IM-Icon-Button}" VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock Style="{StaticResource IconAngleDown}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <ei:ChangePropertyAction PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=captureScreenPopup}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
                     </Button>
                     <Button ToolTip="图片(Alt+Shift+I)" Style="{StaticResource IM-Chat-Button}" Margin="8,0" Command="{Binding SelectImageCommand}">
                         <TextBlock Style="{StaticResource IconPictureO}"></TextBlock>
@@ -105,6 +105,19 @@
         </Grid>
         <Popup x:Name="emotionPickerPopup" PlacementTarget="{Binding ElementName=emotionBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Top"  PopupAnimation="Fade" Height="200" Width="420">
             <chat:EmotionPickerAreaView DataContext="{Binding EmotionPickerAreaViewModel}"></chat:EmotionPickerAreaView>
+        </Popup>
+
+        <Popup x:Name="captureScreenPopup" PlacementTarget="{Binding ElementName=captureScreenBtn}" StaysOpen="False" AllowsTransparency="True" Placement="Bottom"  PopupAnimation="Fade" Width="150">
+            <Border Style="{StaticResource IM-Content-Border}">
+                <Menu Style="{StaticResource Menu-V}" ItemContainerStyle="{StaticResource MenuItem-H}">
+                    <MenuItem Command="{Binding CaptureScreenCommand}" CommandParameter="{x:Static baseInfo:CaptureScreenTypeEnum.NotHideApplication}">
+                        <MenuItem.Icon>
+                            <TextBlock Style="{StaticResource IconCut}"></TextBlock>
+                        </MenuItem.Icon>
+                        <MenuItem.Header>不隐藏截图</MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+            </Border>
         </Popup>
     </Grid>
 </UserControl>

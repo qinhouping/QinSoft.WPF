@@ -30,13 +30,9 @@
             </Grid>
 
             <!--菜单列表-->
-            <ListBox Grid.Row="1" Style="{StaticResource BaseListBox}" ItemContainerStyle="{StaticResource ListsItem}">
-                <ListBoxItem>
-                    <Grid Margin="5" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+            <Menu Style="{StaticResource Menu-V}" ItemContainerStyle="{StaticResource MenuItem-H}" Grid.Row="1">
+                <MenuItem HorizontalContentAlignment="Center" Command="{Binding OpenSettingCommand}">
+                    <MenuItem.Icon>
                         <Label Style="{StaticResource Chip}" Height="{StaticResource BigIconFontSize}" Width="{StaticResource BigIconFontSize}">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallIconFontSize}">
                                 <TextBlock.Style>
@@ -65,10 +61,10 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </Label>
-                        <TextBlock Grid.Column="1" Text="通用" Style="{StaticResource BaseTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"></TextBlock>
-                    </Grid>
-                </ListBoxItem>
-            </ListBox>
+                    </MenuItem.Icon>
+                    <MenuItem.Header>通用设置</MenuItem.Header>
+                </MenuItem>
+            </Menu>
         </Grid>
     </Border>
 </UserControl>

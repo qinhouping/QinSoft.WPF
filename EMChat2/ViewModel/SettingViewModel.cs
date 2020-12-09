@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
-using EMChat2.Service;
+using EMChat2.Event;
+using EMChat2.Model.BaseInfo;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -10,20 +11,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace EMChat2.ViewModel.Main.Bottom
+namespace EMChat2.ViewModel
 {
     [Component]
-    public class BottomSettingAreaViewModel : PropertyChangedBase
+    public class SettingViewModel : PropertyChangedBase, IEventHandle<SettingLoadEventArgs>
     {
         #region 构造函数
-        public BottomSettingAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, SettingViewModel settingViewModel, UserService userService)
+        [Constructor]
+        public SettingViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.settingViewModel = settingViewModel;
-            this.userService = userService;
         }
         #endregion
 
@@ -40,35 +40,35 @@ namespace EMChat2.ViewModel.Main.Bottom
             set
             {
                 this.applicationContextViewModel = value;
-                this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+                this.NotifyPropertyChange(() => this.applicationContextViewModel);
             }
         }
-        private SettingViewModel settingViewModel;
-        public SettingViewModel SettingViewModel
+        public SettingModel Setting
         {
             get
             {
-                return this.settingViewModel;
-            }
-            set
-            {
-                this.settingViewModel = value;
-                this.NotifyPropertyChange(() => this.SettingViewModel);
+                return this.applicationContextViewModel.Setting;
             }
         }
-        private UserService userService;
         #endregion
 
         #region 命令
-        public ICommand OpenSettingCommand
+        public ICommand CloseCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    new Action(() => this.windowManager.ShowDialog(this.SettingViewModel)).ExecuteInUIThread();
+                    new Action(() => this.windowManager.CloseWindow(this)).ExecuteInUIThread();
                 });
             }
+        }
+        #endregion
+
+        #region 事件处理
+        public void Handle(SettingLoadEventArgs arg)
+        {
+            this.NotifyPropertyChange(() => this.Setting);
         }
         #endregion
     }

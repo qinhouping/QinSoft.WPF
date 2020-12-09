@@ -48,4 +48,5 @@
     <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="White"></SolidColorBrush>
     <SolidColorBrush x:Key="DefaultCardBackgroundBrush" Color="#EEEEEE"></SolidColorBrush>
     <SolidColorBrush x:Key="DefaultForegroundBrush" Color="#333333"></SolidColorBrush>
+    <SolidColorBrush x:Key="DefaultSelectedBackgroundBrush" Color="#DDDDDD"></SolidColorBrush>
 </ResourceDictionary>
