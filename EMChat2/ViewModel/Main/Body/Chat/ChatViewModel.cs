@@ -276,22 +276,28 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        private async void CaptureScreen()
+        {
+            if (applicationContextViewModel.Setting?.IsHideWhenCaptureScreen != false)
+            {
+                await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
+                await Task.Delay(500);
+                this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
+                await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
+            }
+            else
+            {
+                this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
+            }
+        }
+
         public ICommand CaptureScreenCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    if (applicationContextViewModel.Setting?.IsHideWhenCaptureScreen != false)
-                    {
-                        this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
-                        this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
-                        this.eventAggregator.Publish(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
-                    }
-                    else
-                    {
-                        this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
-                    }
+                    CaptureScreen();
                 }, () =>
                 {
                     return BusinessSetting.AllowCaptureScreen;
@@ -432,7 +438,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         protected virtual bool CanPaste(MessageContentModel messageContent)
         {
-            bool canPaste = false;
+            bool canPaste = true;
             switch (messageContent.Type)
             {
                 case MessageTypeConst.Text: canPaste = BusinessSetting.AllowInputText; break;
@@ -448,6 +454,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             canPaste &= CanPaste(mixedItem);
                     }
                     break;
+                default: canPaste = false; break;
             }
             return canPaste;
         }
@@ -578,16 +585,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         private async void InputTextMessageContent(string text)
         {
+            if (string.IsNullOrEmpty(text)) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateTextMessageContent(text) });
         }
 
         private async void InputHtmlMessageContent(string html)
         {
+            if (string.IsNullOrEmpty(html)) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateHtmlMessageContent(html) });
         }
 
         private async void InputImageMessageContent(FileInfo file, bool isSync = false)
         {
+            if (file == null) return;
             if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
             else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
         }
@@ -595,33 +605,31 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         private async void InputImageMessageContent(Image image)
         {
             if (image == null) return;
-            FileInfo file = await new Func<FileInfo>(() =>
-            {
-                string tempFileName = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
-                image.ImageToStream().StreamToFile(tempFileName);
-                return new FileInfo(tempFileName);
-            }).ExecuteInTask();
-            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
+            string filePath = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
+            await new Action(() => { image.ImageToStream().StreamToFile(filePath); }).ExecuteInTask();
+            await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(new FileInfo(filePath)) });
         }
 
         private async void InputFileMessageContent(FileInfo file, bool isSync = false)
         {
+            if (file == null) return;
             if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
             else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
         }
 
         private async void InputObjectMessageContent(MessageContentModel messageContent)
         {
+            if (messageContent == null) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
         }
 
-        protected virtual void NoticeMessagesChange()
+        protected virtual async void NoticeMessagesChange()
         {
             this.NotifyPropertyChange(() => this.NotReadMessagesCount);
             this.NotifyPropertyChange(() => this.LastMessage);
             this.NotifyPropertyChange(() => this.LastMessageTimeSort);
-            this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
-            this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+            await this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
+            await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
         public abstract bool RecvMessage(MessageModel message);
@@ -630,6 +638,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public virtual bool UpdateMessage(MessageModel updateMessage)
         {
+            if (updateMessage == null) return false;
             lock (this.Messages)
             {
                 MessageModel message = this.Messages.FirstOrDefault(u => u.Equals(updateMessage));
@@ -640,6 +649,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         protected virtual bool ModifyMessageState(MessageModel message, MessageStateEnum state)
         {
+            if (message == null) return false;
             if (state > message.State)
             {
                 message.State = state;

@@ -9,9 +9,11 @@ using QinSoft.Log;
 using QinSoft.Log.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +26,8 @@ namespace EMChat2.Common
         private static SimpleSocketClient socketClient;
         private static IMServerModel imServer;
         private static IMUserModel imUser;
-        private static bool isReconnecting;
+        private static bool canRefreshToken;
+        private static TimeSpan refreshTokenInterval;
 
         #region 对外事件
         public static event EventHandler OnSocketConnected;
@@ -41,13 +44,12 @@ namespace EMChat2.Common
         /// 开始IM服务
         /// </summary>
         /// <param name="server">im服务</param>
-        public static void Start(IMServerModel server, IMUserModel user)
+        public static void Start(IMServerModel server, IMUserModel user, int refreshTokenIntervalSeconds = 300)
         {
             if (socketClient != null) return;
             imServer = server;
             imUser = user;
-
-            isReconnecting = false;
+            refreshTokenInterval = TimeSpan.FromSeconds(refreshTokenIntervalSeconds);
 
             socketClient = new SimpleSocketClient(imServer.ApiUrl, true);
             socketClient.OnSocketConnected += SocketClient_OnSocketConnected;
@@ -60,6 +62,23 @@ namespace EMChat2.Common
                 OnLog?.Invoke(socketClient, msg);
             };
             socketClient.Start(imServer.IP, imServer.Port);
+            canRefreshToken = true;
+            new Action(() =>
+            {
+                while (canRefreshToken)
+                {
+                    try
+                    {
+                        Thread.Sleep(refreshTokenInterval);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    if (!canRefreshToken) break;
+                    RefreshToken();
+                }
+            }).ExecuteInThread();
         }
 
         /// <summary>
@@ -68,7 +87,7 @@ namespace EMChat2.Common
         public static void Stop()
         {
             if (socketClient == null) return;
-            isReconnecting = false;
+            canRefreshToken = false;
             socketClient.Stop();
             socketClient.OnSocketConnected -= SocketClient_OnSocketConnected;
             socketClient.OnSocketDisconnected -= SocketClient_OnSocketDisconnected;
@@ -114,10 +133,18 @@ namespace EMChat2.Common
         /// <returns>上传结果</returns>
         public static IMFileInfo UploadFile(FileInfo file, out string message)
         {
-            string content = FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
-            IMUploadResponse<IMFileInfo> response = content.JsonToObject<IMUploadResponse<IMFileInfo>>();
-            message = response.Message;
-            return response.Data;
+            try
+            {
+                string content = FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
+                IMUploadResponse<IMFileInfo> response = content.JsonToObject<IMUploadResponse<IMFileInfo>>();
+                message = response.Message;
+                return response.Data;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return null;
+            }
         }
 
         /// <summary>
@@ -127,10 +154,18 @@ namespace EMChat2.Common
         /// <returns>上传结果</returns>
         public static IMImageInfo UploadImage(FileInfo file, out string message)
         {
-            string content = FileServerClient.Current.UploadImage(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
-            IMUploadResponse<IMImageInfo> response = content.JsonToObject<IMUploadResponse<IMImageInfo>>();
-            message = response.Message;
-            return response.Data;
+            try
+            {
+                string content = FileServerClient.Current.UploadImage(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
+                IMUploadResponse<IMImageInfo> response = content.JsonToObject<IMUploadResponse<IMImageInfo>>();
+                message = response.Message;
+                return response.Data;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+                return null;
+            }
         }
 
         /// <summary>
@@ -152,7 +187,7 @@ namespace EMChat2.Common
         }
 
         /// <summary>
-        /// 重连后刷新token
+        /// 刷新token
         /// </summary>
         private static void RefreshToken()
         {
@@ -180,11 +215,6 @@ namespace EMChat2.Common
         private static void SocketClient_OnSocketConnected(SimpleSocketClient client)
         {
             OnSocketConnected.Invoke(client, null);
-            if (isReconnecting)
-            {
-                RefreshToken();
-                isReconnecting = false;
-            }
             Login((arg1, arg2) =>
             {
                 if (arg1 == 0) OnLoginSuccess.Invoke(client, null);
@@ -198,7 +228,6 @@ namespace EMChat2.Common
         /// <param name="client"></param>
         private static void SocketClient_OnSocketDisconnected(SimpleSocketClient client)
         {
-            isReconnecting = true;
             OnSocketDisconnected?.Invoke(client, null);
         }
 

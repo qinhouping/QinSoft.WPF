@@ -4,6 +4,7 @@ using EMChat2.ViewModel;
 using QinSoft.Event;
 using QinSoft.Ioc;
 using QinSoft.Log;
+using QinSoft.Log.Core;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -79,7 +80,7 @@ namespace EMChat2
                 if (error == null) return;
                 IWindowManager windowManager = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
                 EventAggregator eventAggregator = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<QinSoft.WPF.Core.EventAggregatorImp>();
-                error.Fatal();
+                error.Fatal(LogType.Application);
                 if (!showGloalError) return;
                 using (AlertViewModel alertViewModel = new AlertViewModel(windowManager, eventAggregator, error.Message, title, AlertType.Error))
                 {

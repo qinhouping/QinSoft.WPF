@@ -149,7 +149,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #region 方法
         private ChatModel CreatePrivateChat(UserModel user, BusinessEnum business = BusinessEnum.Inside)
         {
-            List<string> ids = new List<string>() { applicationContextViewModel.CurrentStaff.Id, user.Id, business.ToString() };
+            if (ApplicationContextViewModel.CurrentStaff == null || user == null) return null;
+            List<string> ids = new List<string>() { ApplicationContextViewModel.CurrentStaff.Id, user.Id, business.ToString() };
             ids.Sort();
             ChatModel chat = new ChatModel();
             chat.Id = string.Join("_", ids).MD5();
@@ -221,8 +222,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 lock (this.ChatItems)
                 {
                     this.ChatItems.Clear();
-
-                    this.ChatItems.Add(this.CreatePrivateChatViewModel(this.CreatePrivateChat(TestData.Opposite.TestStaff)));
+                    ChatModel chat = this.CreatePrivateChat(TestData.Opposite.TestStaff);
+                    if (chat != null) this.ChatItems.Add(this.CreatePrivateChatViewModel(chat));
                 }
             }).ExecuteInUIThread();
         }
@@ -321,12 +322,14 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 if (arg.ChatUser is CustomerModel)
                 {
                     CustomerModel customer = arg.ChatUser as CustomerModel;
-                    privateChatViewModel = CreatePrivateChatViewModel(this.CreatePrivateChat(customer, customer.Business));
+                    ChatModel chat = this.CreatePrivateChat(customer, customer.Business);
+                    if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
                 }
                 else if (arg.ChatUser is StaffModel)
                 {
                     StaffModel staff = arg.ChatUser as StaffModel;
-                    privateChatViewModel = CreatePrivateChatViewModel(this.CreatePrivateChat(staff));
+                    ChatModel chat = this.CreatePrivateChat(staff);
+                    if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
                 }
                 else if (arg.ChatUser is SystemUserModel)
                 {
@@ -334,7 +337,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 }
                 lock (this.ChatItems)
                 {
-                    if (!this.ChatItems.Contains(privateChatViewModel)) this.ChatItems.Add(privateChatViewModel);
+                    if (privateChatViewModel != null && !this.ChatItems.Contains(privateChatViewModel)) this.ChatItems.Add(privateChatViewModel);
                     if (arg.IsActive) this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(privateChatViewModel));
                 }
             }).ExecuteInUIThread();
