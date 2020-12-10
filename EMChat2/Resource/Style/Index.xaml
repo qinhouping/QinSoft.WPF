@@ -10,6 +10,7 @@
         <ResourceDictionary Source="Image.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Label.xaml"></ResourceDictionary>
         <ResourceDictionary Source="ListBox.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Panel.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Scroll.xaml"></ResourceDictionary>
         <ResourceDictionary Source="Tab.xaml"></ResourceDictionary>
         <ResourceDictionary Source="TextBlock.xaml"></ResourceDictionary>

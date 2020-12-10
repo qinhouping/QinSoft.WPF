@@ -137,7 +137,10 @@ namespace EMChat2.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
+                    if (this.ApplicationContextViewModel.Setting?.IsCloseApplication == true)
+                        this.userService.Exit();
+                    else
+                        new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
                 });
             }
         }
@@ -223,7 +226,7 @@ namespace EMChat2.ViewModel
 
         public void Handle(ReceiveMessageEventArgs arg)
         {
-            if (arg.IsInform && !ApplicationContextViewModel.IsActived)
+            if (applicationContextViewModel.Setting?.IsInform == true && arg.IsInform && !ApplicationContextViewModel.IsActived)
             {
                 this.IsFlash = true;
                 this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()

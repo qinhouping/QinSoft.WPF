@@ -10,8 +10,26 @@ namespace EMChat2.Model.BaseInfo
     /// <summary>
     /// 业务相关配置信息
     /// </summary>
-    public class BusinessSettingModel : PropertyChangedBase
+    public class BusinessSettingModel : PropertyChangedBase, ICloneable
     {
+        /// <summary>
+        /// 业务类型
+        /// </summary>
+        private BusinessEnum business;
+
+        public BusinessEnum Business
+        {
+            get
+            {
+                return this.business;
+            }
+            set
+            {
+                this.business = value;
+                this.NotifyPropertyChange(() => Business);
+            }
+        }
+
         /// <summary>
         /// 是否允许发送消息（总开关）
         /// </summary>
@@ -148,6 +166,22 @@ namespace EMChat2.Model.BaseInfo
                 this.allowSelectQuickReply = value;
                 this.NotifyPropertyChange(() => AllowSelectQuickReply);
             }
+        }
+
+        public object Clone()
+        {
+            return new BusinessSettingModel()
+            {
+                Business = this.Business,
+                AllowSendMessage = this.AllowSendMessage,
+                AllowInputText = this.AllowInputText,
+                AllowCaptureScreen = this.AllowCaptureScreen,
+                AllowSelectImage = this.AllowSelectImage,
+                AllowSelectFile = this.AllowSelectFile,
+                AllowRevokeMessage = this.AllowRevokeMessage,
+                MaxRollbackMessageTotalMinutes = this.MaxRollbackMessageTotalMinutes,
+                AllowSelectQuickReply = this.AllowSelectQuickReply
+            };
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Event
 {
-    public class SettingLoadEventArgs : EventArgs
+    public class SettingChangedEventArgs : EventArgs
     {
     }
 }

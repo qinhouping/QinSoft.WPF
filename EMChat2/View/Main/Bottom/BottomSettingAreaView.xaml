@@ -62,7 +62,7 @@
                             </TextBlock>
                         </Label>
                     </MenuItem.Icon>
-                    <MenuItem.Header>通用设置</MenuItem.Header>
+                    <MenuItem.Header>设置</MenuItem.Header>
                 </MenuItem>
             </Menu>
         </Grid>

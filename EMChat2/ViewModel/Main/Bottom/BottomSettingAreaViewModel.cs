@@ -16,13 +16,12 @@ namespace EMChat2.ViewModel.Main.Bottom
     public class BottomSettingAreaViewModel : PropertyChangedBase
     {
         #region 构造函数
-        public BottomSettingAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, SettingViewModel settingViewModel, UserService userService)
+        public BottomSettingAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.settingViewModel = settingViewModel;
             this.userService = userService;
         }
         #endregion
@@ -43,19 +42,6 @@ namespace EMChat2.ViewModel.Main.Bottom
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
             }
         }
-        private SettingViewModel settingViewModel;
-        public SettingViewModel SettingViewModel
-        {
-            get
-            {
-                return this.settingViewModel;
-            }
-            set
-            {
-                this.settingViewModel = value;
-                this.NotifyPropertyChange(() => this.SettingViewModel);
-            }
-        }
         private UserService userService;
         #endregion
 
@@ -66,7 +52,10 @@ namespace EMChat2.ViewModel.Main.Bottom
             {
                 return new RelayCommand(() =>
                 {
-                    new Action(() => this.windowManager.ShowDialog(this.SettingViewModel)).ExecuteInUIThread();
+                    using (SettingViewModel settingViewModel = new SettingViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.userService))
+                    {
+                        new Action(() => this.windowManager.ShowDialog(settingViewModel)).ExecuteInUIThread();
+                    }
                 });
             }
         }

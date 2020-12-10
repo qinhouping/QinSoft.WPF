@@ -74,6 +74,7 @@ namespace EMChat2.ViewModel
             {
                 this.setting = value;
                 this.NotifyPropertyChange(() => this.Setting);
+                this.eventAggregator.PublishAsync<SettingChangedEventArgs>(new SettingChangedEventArgs());
             }
         }
         #endregion
@@ -82,7 +83,6 @@ namespace EMChat2.ViewModel
         public async void LoadSetting()
         {
             this.Setting = await this.userService.LoadSetting(CurrentStaff);
-            await this.eventAggregator.PublishAsync<SettingLoadEventArgs>(new SettingLoadEventArgs());
         }
         #endregion
 

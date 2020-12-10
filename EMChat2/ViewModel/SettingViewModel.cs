@@ -1,6 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -13,23 +14,24 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel
 {
-    [Component]
-    public class SettingViewModel : PropertyChangedBase, IEventHandle<SettingLoadEventArgs>
+    public class SettingViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        [Constructor]
-        public SettingViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
+        public SettingViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
+            this.setting = applicationContextViewModel.Setting.Clone() as SettingModel;
+            this.userService = userService;
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
+        private UserService userService;
         private ApplicationContextViewModel applicationContextViewModel;
         public ApplicationContextViewModel ApplicationContextViewModel
         {
@@ -43,11 +45,18 @@ namespace EMChat2.ViewModel
                 this.NotifyPropertyChange(() => this.applicationContextViewModel);
             }
         }
+
+        private SettingModel setting;
         public SettingModel Setting
         {
             get
             {
-                return this.applicationContextViewModel.Setting;
+                return this.setting;
+            }
+            set
+            {
+                this.setting = value;
+                this.NotifyPropertyChange(() => this.Setting);
             }
         }
         #endregion
@@ -63,13 +72,27 @@ namespace EMChat2.ViewModel
                 });
             }
         }
-        #endregion
 
-        #region 事件处理
-        public void Handle(SettingLoadEventArgs arg)
+        public ICommand SaveCommand
         {
-            this.NotifyPropertyChange(() => this.Setting);
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    userService.StoreSetting(Setting);
+                    this.ApplicationContextViewModel.Setting = setting.Clone() as SettingModel;
+                    this.CloseCommand.ActiveExecute();
+                }, () =>
+                {
+                    return this.Setting != null;
+                });
+            }
         }
         #endregion
+
+        public void Dispose()
+        {
+            this.eventAggregator.Unsubscribe(this);
+        }
     }
 }

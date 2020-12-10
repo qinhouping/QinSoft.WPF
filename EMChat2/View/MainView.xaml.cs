@@ -29,12 +29,6 @@ namespace EMChat2.View
             InitializeComponent();
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-            (this.DataContext as MainViewModel)?.CloseCommand.ActiveExecute();
-        }
-
         private void Window_Activated(object sender, EventArgs e)
         {
             (this.DataContext as MainViewModel)?.ActiveCommand.ActiveExecute();

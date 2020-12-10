@@ -23,7 +23,7 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
-    public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable, IEventHandle<SettingLoadEventArgs>
+    public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable, IEventHandle<SettingChangedEventArgs>
     {
         #region 构造函数
         public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService)
@@ -194,8 +194,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                BusinessSettingModel value = null;
-                if (ApplicationContextViewModel.Setting?.BusinessSettings.TryGetValue(Chat.Business, out value) != true)
+                BusinessSettingModel value = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.Business == chat.Business);
+                if (value == null)
                 {
                     value = new BusinessSettingModel();
                 }
@@ -677,7 +677,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 事件处理
-        public void Handle(SettingLoadEventArgs Message)
+        public void Handle(SettingChangedEventArgs Message)
         {
             this.NotifyPropertyChange(() => this.BusinessSetting);
             this.NotifyPropertyChange(() => this.AllowInputText);

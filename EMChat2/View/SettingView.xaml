@@ -7,23 +7,121 @@
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
         xmlns:view="clr-namespace:EMChat2.View"
+        xmlns:setting="clr-namespace:EMChat2.View.Setting"
         mc:Ignorable="d"
-        Title="系统设置" Height="400" Width="620"
+        Title="系统设置" Height="550" Width="600"
         WindowStartupLocation="CenterOwner" ResizeMode ="NoResize">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="25" CornerRadius="0"/>
     </shell:WindowChrome.WindowChrome>
 
+    <Window.Background>
+        <ImageBrush ImageSource="{Binding ApplicationContextViewModel.CurrentStaff, Converter={x:Static view:ValueConverters.StaffToImageConverter}}" TileMode="Tile"  Stretch="Fill"  ViewportUnits="Absolute"  Viewport="0,0,200,200"></ImageBrush>
+    </Window.Background>
+
     <Border Style="{StaticResource IM-App-Border}">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="145"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-
             <Grid HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.ZIndex="1" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                 <view:ShellbarAreaView></view:ShellbarAreaView>
             </Grid>
+
+            <TabControl Grid.Row="1" Style="{StaticResource IM-Setting-Tab}">
+                <!--通用设置选项卡-->
+                <TabItem>
+                    <TabItem.Style>
+                        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-Setting-TabItem}">
+                            <Setter Property="Header">
+                                <Setter.Value>
+                                    <TextBlock Style="{StaticResource IconCog}" ToolTip="通用设置" Margin="10" FontSize="{StaticResource BigIconFontSize}"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Header">
+                                        <Setter.Value>
+                                            <TextBlock ToolTip="通用设置" Margin="10" FontSize="{StaticResource BigIconFontSize}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCog}">
+                                                        <Setter Property="FontSize" Value="{StaticResource BigIconFontSize}"></Setter>
+                                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                                                        <Setter Property="RenderTransform">
+                                                            <Setter.Value>
+                                                                <TransformGroup>
+                                                                    <RotateTransform></RotateTransform>
+                                                                </TransformGroup>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="Loaded">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
+                    <setting:CommonSettingView></setting:CommonSettingView>
+                </TabItem>
+
+                <!--业务设置选项卡-->
+                <TabItem>
+                    <TabItem.Style>
+                        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-Setting-TabItem}">
+                            <Setter Property="Header">
+                                <Setter.Value>
+                                    <TextBlock Style="{StaticResource IconCertificate}" ToolTip="业务设置" Margin="10" FontSize="{StaticResource BigIconFontSize}"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Header">
+                                        <Setter.Value>
+                                            <TextBlock  ToolTip="业务设置" Margin="10" FontSize="{StaticResource BigIconFontSize}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconCertificate}">
+                                                        <Setter Property="FontSize" Value="{StaticResource BigIconFontSize}"></Setter>
+                                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                                                        <Setter Property="RenderTransform">
+                                                            <Setter.Value>
+                                                                <TransformGroup>
+                                                                    <RotateTransform></RotateTransform>
+                                                                </TransformGroup>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="Loaded">
+                                                                <EventTrigger.Actions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimation Duration="0:0:1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" RepeatBehavior="Forever"></DoubleAnimation>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger.Actions>
+                                                            </EventTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
+                    <setting:BusinessSettingView></setting:BusinessSettingView>
+                </TabItem>
+            </TabControl>
         </Grid>
     </Border>
 </Window>

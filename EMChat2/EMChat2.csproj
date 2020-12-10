@@ -73,6 +73,32 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x64'">
+    <OutputPath>bin\x64\Test\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <OutputPath>bin\x86\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotLiquid, Version=2.0.361.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotLiquid.2.0.361\lib\net45\DotLiquid.dll</HintPath>
@@ -170,7 +196,7 @@
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
     <Compile Include="Common\TestData.cs" />
     <Compile Include="Event\InputMessageChangedEventArgs.cs" />
-    <Compile Include="Event\SettingLoadEventArgs.cs" />
+    <Compile Include="Event\SettingChangedEventArgs.cs" />
     <Compile Include="Event\DeactiveApplicationEventArgs.cs" />
     <Compile Include="Event\ActiveApplicationEventArgs.cs" />
     <Compile Include="Model\Api\MessageApiModel.cs" />
@@ -275,6 +301,12 @@
     </Compile>
     <Compile Include="View\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Setting\BusinessSettingView.xaml.cs">
+      <DependentUpon>BusinessSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Setting\CommonSettingView.xaml.cs">
+      <DependentUpon>CommonSettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
     <Compile Include="Model\BaseInfo\BusinessEnum.cs" />
@@ -425,6 +457,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resource\Style\Panel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resource\Style\Scroll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -562,6 +598,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Setting\BusinessSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Setting\CommonSettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

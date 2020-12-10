@@ -458,8 +458,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
                 }, (quickReply) =>
                 {
-                    BusinessSettingModel businessSetting = null;
-                    if (this.SelectedQuickReplyGroup != null && ApplicationContextViewModel.Setting.BusinessSettings.TryGetValue(this.SelectedQuickReplyGroup.Business, out businessSetting))
+                    BusinessSettingModel businessSetting = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.Business == this.SelectedQuickReplyGroup.Business);
+                    if (businessSetting != null)
                     {
                         return businessSetting.AllowSelectQuickReply;
                     }

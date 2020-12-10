@@ -67,8 +67,9 @@ namespace EMChat2.Service
 
             foreach (BusinessEnum business in staff.BusinessList)
             {
-                setting.BusinessSettings[business] = new BusinessSettingModel()
+                setting.BusinessSettings.Add(new BusinessSettingModel()
                 {
+                    Business = business,
                     AllowSendMessage = true,
                     AllowInputText = true,
                     AllowCaptureScreen = true,
@@ -77,9 +78,14 @@ namespace EMChat2.Service
                     AllowSelectQuickReply = true,
                     AllowRevokeMessage = true,
                     MaxRollbackMessageTotalMinutes = 2
-                };
+                });
             }
             return setting;
+        }
+
+        public virtual async void StoreSetting(SettingModel setting)
+        {
+            await Task.Delay(1000);
         }
         #endregion
     }
