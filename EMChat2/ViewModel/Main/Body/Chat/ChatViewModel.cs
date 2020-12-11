@@ -98,13 +98,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NoticeMessagesChange();
                 this.messages.CollectionChanged += (s, e) =>
                 {
-                    this.NoticeMessagesChange();
-                    this.ReadMessage();
+                    lock (this)
+                    {
+                        this.NoticeMessagesChange();
+                        this.ReadMessage();
+                    }
                 };
 
-                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
-                collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
-                this.MessagesCollectionView = collectionView;
+                lock (this.messages)
+                {
+                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
+                    collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
+                    this.MessagesCollectionView = collectionView;
+                }
             }
         }
         private ICollectionView messagesCollectionView;
@@ -281,7 +287,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             if (type == CaptureScreenTypeEnum.HideApplication)
             {
                 await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.Begin });
-                await Task.Delay(500);
+                await Task.Delay(500);//TODO 通过延迟解决窗口还未关闭就启动截图子进程的bug
                 this.InputImageMessageContent(CaptureScreenTools.CallCaptureScreenProcess());
                 await this.eventAggregator.PublishAsync<CaptureScreenEventArgs>(new CaptureScreenEventArgs() { Action = CaptureScreenAction.End });
             }

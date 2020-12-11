@@ -112,6 +112,7 @@ namespace EMChat2.Common
             Semaphore semaphore = new Semaphore(0, message.ToUsers.Count());
             foreach (string toUser in message.ToUsers)
             {
+                if (socketClient == null) return false;
                 socketClient.SendToUser(message.FromUser, toUser, messageString, 0, (code, msg) =>
                 {
                     result += code;

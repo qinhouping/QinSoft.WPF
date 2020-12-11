@@ -112,8 +112,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             if (!IsSelected || !ApplicationContextViewModel.IsActived) return 0;
             MessageModel[] messages = NotReadMessages.Where(u => ModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
             if (messages.Count() == 0) return 0;
-            MessageModel readMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages));
-            this.chatService.SendMessage(readMessageEvent);
+            int count = 10;
+            for (int i = 0; i < Math.Ceiling(messages.Count() / (double)count); i++)
+            {
+                MessageModel readMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages.Skip(i * count).Take(count).ToArray()));
+                this.chatService.SendMessage(readMessageEvent);
+            }
             return messages.Count();
         }
 

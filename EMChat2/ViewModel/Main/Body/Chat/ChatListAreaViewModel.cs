@@ -92,7 +92,10 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 this.NoticeChatItemsChange();
                 this.chatItems.CollectionChanged += (s, e) =>
                 {
-                    this.NoticeChatItemsChange();
+                    lock (this)
+                    {
+                        this.NoticeChatItemsChange();
+                    }
                 };
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatItems);

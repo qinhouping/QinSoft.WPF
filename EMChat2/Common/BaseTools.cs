@@ -26,7 +26,7 @@ namespace EMChat2.Common
         /// <summary>
         /// json日期默认格式
         /// </summary>
-        public static DateTimeConverterBase DefaultDateTimeConvert = new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" };
+        public static DateTimeConverterBase DefaultDateTimeConvert = new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff" };
 
 
         public static string ObjectToJson(this object obj)

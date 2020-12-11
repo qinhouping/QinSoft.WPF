@@ -86,25 +86,7 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 部门描述
-        /// </summary>
-        private string description;
-
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-            set
-            {
-                this.description = value;
-                this.NotifyPropertyChange(() => this.Description);
-            }
-        }
-
-        /// <summary>
-        /// 所有客服
+        /// 所有员工
         /// </summary>
         public StaffModel[] AllStaffs
         {

@@ -142,18 +142,19 @@ namespace EMChat2.Service
         /// <param name="message"></param>
         public virtual async void SendMessage(MessageModel message)
         {
-            await Task.Delay(50);
-            OnSendMessage(message);
+            await OnSendMessage(message);
         }
 
-        protected virtual async void OnSendMessage(MessageModel message)
+        protected virtual async Task OnSendMessage(MessageModel message)
         {
+            await Task.Delay(50);
             if (message == null) return;
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
 
         protected virtual async void OnRecvMessage(MessageModel message)
         {
+            await Task.Delay(50);
             if (message == null) return;
             await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
