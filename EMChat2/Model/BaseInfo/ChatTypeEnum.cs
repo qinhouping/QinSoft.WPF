@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.BaseInfo
 {
+    /// <summary>
+    /// 会话类型
+    /// </summary>
     public enum ChatTypeEnum
     {
         /// <summary>

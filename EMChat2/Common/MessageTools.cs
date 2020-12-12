@@ -291,5 +291,11 @@ namespace EMChat2.Common
             if (message == null || user == null) return false;
             return message.FromUser == user.ImUserId;
         }
+
+        public static bool IsTimeValid(this MessageModel message, int seconds = 30)
+        {
+            if (message == null) return false;
+            else return (DateTime.Now - message.Time).TotalSeconds <= seconds;
+        }
     }
 }

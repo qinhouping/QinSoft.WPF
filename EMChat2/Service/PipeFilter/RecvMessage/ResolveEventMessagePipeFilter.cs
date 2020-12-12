@@ -71,6 +71,7 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
 
         protected virtual void HandleInputMessageEvent(MessageModel message, InputMessageEventMessageContent messageContent)
         {
+            if (!message.IsTimeValid()) return;
             this.eventAggregator.PublishAsync<InputMessageChangedEventArgs>(new InputMessageChangedEventArgs() { ChatId = messageContent.ChatId, IsInputing = messageContent.IsInputing });
         }
 
