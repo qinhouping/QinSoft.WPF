@@ -84,6 +84,15 @@ namespace EMChat2.Common
         {
             return Hash(content, "MD5", key);
         }
+
+        public static string MD5(this FileInfo file)
+        {
+            HashAlgorithm hash = HashAlgorithm.Create("MD5");
+            using (Stream readStream = File.OpenRead(file.FullName))
+            {
+                return BitConverter.ToString(hash.ComputeHash(readStream)).Replace("-", "");
+            }
+        }
         #endregion
 
         #region MD5_16

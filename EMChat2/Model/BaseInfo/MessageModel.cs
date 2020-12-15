@@ -144,7 +144,7 @@ namespace EMChat2.Model.BaseInfo
     /// </summary>
     public static class MessageTypeConst
     {
-        #region 可见消息
+        #region 可见消息同时入库
         public const string Text = "text";
         public const string Emotion = "emotion";
         public const string Image = "image";
@@ -154,13 +154,17 @@ namespace EMChat2.Model.BaseInfo
         public const string File = "file";
         public const string Mixed = "mixed";
         public const string Shared = "shared";
-        //系统提示消息
-        public const string Tips = "tips";
         #endregion
 
-        #region 不可见消息
+        #region 可见消息但是不入库
+        public const string Tips = "tips";
+        #endregion 
+
+        #region 不可见消息同时不入库
         public const string Event = "event";
         #endregion
+
+        public static string[] AllowSavedMessageTypes = new string[] { Text, Emotion, Image, Voice, Video, Link, File, Mixed, Shared };
     }
 
     /// <summary>
@@ -545,34 +549,6 @@ namespace EMChat2.Model.BaseInfo
     }
 
     /// <summary>
-    /// 提示消息内容
-    /// </summary>
-    public class TipsMessageContent : MessageContent
-    {
-        private string content;
-        public string Content
-        {
-            get
-            {
-                return this.content;
-            }
-            set
-            {
-                this.content = value;
-                this.NotifyPropertyChange(() => this.Content);
-            }
-        }
-
-        public override object Clone()
-        {
-            return new TipsMessageContent()
-            {
-                Content = this.Content
-            };
-        }
-    }
-
-    /// <summary>
     /// 混合消息内容（用于复杂消息类型）
     /// </summary>
     public class MixedMessageContent : MessageContent
@@ -638,6 +614,34 @@ namespace EMChat2.Model.BaseInfo
             {
                 ChatId = this.ChatId,
                 Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
+            };
+        }
+    }
+
+    /// <summary>
+    /// 提示消息内容
+    /// </summary>
+    public class TipsMessageContent : MessageContent
+    {
+        private string content;
+        public string Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+                this.NotifyPropertyChange(() => this.Content);
+            }
+        }
+
+        public override object Clone()
+        {
+            return new TipsMessageContent()
+            {
+                Content = this.Content
             };
         }
     }

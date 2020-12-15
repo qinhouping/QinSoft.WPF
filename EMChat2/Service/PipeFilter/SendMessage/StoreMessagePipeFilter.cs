@@ -21,13 +21,13 @@ namespace EMChat2.Service.PipeFilter.SendMessage
 
             MessageModel message = arg.InArg as MessageModel;
 
-            if (message.Type == MessageTypeConst.Event)
+            if (MessageTypeConst.AllowSavedMessageTypes.Contains(message.Type))
             {
-                arg.Cancel = true;
+                arg.OutArg = message;
             }
             else
             {
-                arg.OutArg = message;
+                arg.Cancel = true;
             }
         }
     }
