@@ -179,7 +179,40 @@
                                 <TextBlock Style="{StaticResource BaseTextBlock}" Text="标签"></TextBlock>
                                 <Grid>
                                     <Border Background="{StaticResource Gray1Brush}" Opacity="0.5"></Border>
-                                    <user:CustomerTagAreaView DataContext="{Binding Data.TemporaryCustomerTagAreaViewModel, Source={StaticResource customerDetailData}}" MaxHeight="300"></user:CustomerTagAreaView>
+                                    <ListBox x:Name="tagGroupList" Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}" ItemsSource="{Binding Data.TemporaryTagGroups, Source={StaticResource customerDetailData}}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="30"></RowDefinition>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!--标签组信息-->
+                                                    <Border x:Name="border">
+                                                        <Grid Margin="0,2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Style="{StaticResource IconTags}" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}" Margin="5,0"></TextBlock>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!--标签列表-->
+                                                    <ListBox x:Name="tagList" Grid.Row="1" Grid.Column="1" Style="{StaticResource IM-Tag-List}" ItemContainerStyle="{StaticResource IM-Tag-ListItem}" ItemsSource="{Binding Tags}">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox x:Name="tag" Content="{Binding Name}" Style="{StaticResource IM-Tag-CheckBox}" Padding="5,0" IsChecked="{Binding IsSelected}"></CheckBox>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
                                 </Grid>
                             </StackPanel>
 

@@ -9,6 +9,10 @@
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="customerListData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="62"></RowDefinition>
@@ -40,7 +44,7 @@
 
         <Border Grid.Row="1">
             <!--标签组列表-->
-            <user:CustomerTagAreaView DataContext="{Binding CustomerTagAreaViewModel}"></user:CustomerTagAreaView>
+            <user:CustomerTagAreaView DataContext="{Binding CustomerTagAreaViewModel}" Business="{Binding Data.Business, Source={StaticResource customerListData}}"></user:CustomerTagAreaView>
         </Border>
         <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using EMChat2.Common;
+using Newtonsoft.Json;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace EMChat2.Model.BaseInfo
         #region 实现接口 ISelectable
         private bool isSelected;
         [JsonIgnore]
+        [AssignIgnore]
         public bool IsSelected
         {
             get

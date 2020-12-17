@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMChat2.Model.BaseInfo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,19 @@ namespace EMChat2.View.Main.Body.User
     /// </summary>
     public partial class CustomerTagAreaView : UserControl
     {
+        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum), typeof(CustomerTagAreaView));
+
+        public BusinessEnum Business
+        {
+            get
+            {
+                return (BusinessEnum)this.GetValue(BusinessProperty);
+            }
+            set
+            {
+                this.SetValue(BusinessProperty, value);
+            }
+        }
         public CustomerTagAreaView()
         {
             InitializeComponent();

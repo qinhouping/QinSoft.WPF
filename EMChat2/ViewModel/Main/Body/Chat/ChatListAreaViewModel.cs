@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
+using EMChat2.ViewModel.Main.Body.User;
 
 namespace EMChat2.ViewModel.Main.Body.Chat
 {
@@ -22,7 +23,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
     public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>, IEventHandle<InputMessageChangedEventArgs>
     {
         #region 构造函数
-        public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatService chatService, SystemService systemService)
+        public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatService chatService, SystemService systemService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -30,6 +31,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             this.applicationContextViewModel = applicationContextViewModel;
             this.emotionPickerAreaViewModel = emotionPickerAreaViewModel;
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
+            this.customerTagAreaViewModel = customerTagAreaViewModel;
             this.ChatItems = new ObservableCollection<ChatViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
@@ -76,6 +78,19 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 this.quickReplyAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
+            }
+        }
+        private CustomerTagAreaViewModel customerTagAreaViewModel;
+        public CustomerTagAreaViewModel CustomerTagAreaViewModel
+        {
+            get
+            {
+                return this.customerTagAreaViewModel;
+            }
+            set
+            {
+                this.customerTagAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerTagAreaViewModel);
             }
         }
         private ObservableCollection<ChatViewModel> chatItems;
@@ -171,7 +186,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
 
         private PrivateChatViewModel CreatePrivateChatViewModel(ChatModel chat)
         {
-            return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, chat, this.chatService, this.systemService);
+            return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, this.CustomerTagAreaViewModel, chat, this.chatService, this.systemService);
         }
 
         protected async void NoticeChatItemsChange()

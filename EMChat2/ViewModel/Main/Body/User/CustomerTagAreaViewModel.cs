@@ -1,5 +1,6 @@
 ﻿using DotLiquid.Util;
 using EMChat2.Common;
+using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -14,27 +15,23 @@ using System.Windows.Input;
 
 namespace EMChat2.ViewModel.Main.Body.User
 {
-    public class CustomerTagAreaViewModel : PropertyChangedBase, IDisposable
+    [Component]
+    public class CustomerTagAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
-        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, BusinessEnum business, IEnumerable<TagModel> defaultTags = null)
+        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.business = business;
-            this.defaultTags = defaultTags;
             this.tagGroups = new ObservableCollection<TagGroupModel>();
-
-            this.LoadTagGroups();
         }
         #endregion
 
         #region 属性
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
-        private IEnumerable<TagModel> defaultTags;
         private ApplicationContextViewModel applicationContextViewModel;
         public ApplicationContextViewModel ApplicationContextViewModel
         {
@@ -46,19 +43,6 @@ namespace EMChat2.ViewModel.Main.Body.User
             {
                 this.applicationContextViewModel = value;
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
-            }
-        }
-        private BusinessEnum business;
-        public BusinessEnum Business
-        {
-            get
-            {
-                return this.business;
-            }
-            set
-            {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.Business);
             }
         }
         private ObservableCollection<TagGroupModel> tagGroups;
@@ -146,7 +130,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand<BusinessEnum>((business) =>
                 {
                     this.IsAddingTagGroup = false;
                     this.TemporaryAddTagGroup = new TagGroupModel()
@@ -154,7 +138,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Level = TagGroupLevelEnum.User,
-                        Business = this.Business,
+                        Business = business,
                         Tags = new ObservableCollection<TagModel>()
                     };
                     this.IsAddingTagGroup = true;
@@ -275,72 +259,75 @@ namespace EMChat2.ViewModel.Main.Body.User
         #endregion
         #endregion
 
-        #region 方法
-        private async void LoadTagGroups()
+        #region 事件处理
+        public void Handle(LoginCallbackEventArgs Message)
         {
-            await new Action(() =>
+            //TODO 测试数据
+            new Action(() =>
             {
-                List<TagGroupModel> data = new List<TagGroupModel>();
-                data.Add(new TagGroupModel()
+                this.TagGroups.Clear();
+                this.TagGroups.Add(new TagGroupModel()
                 {
                     Id = "1",
                     Name = "客户类型",
                     Level = TagGroupLevelEnum.System,
+                    Business = BusinessEnum.Advisor,
                     Tags = new ObservableCollection<TagModel>(){
-                            new TagModel(){ Id="0", Name="决策版客户XXXXXX" },
+                            new TagModel(){ Id="0", Name="决策版" },
                             new TagModel(){ Id="1", Name="领航版" },
                             new TagModel(){ Id="2", Name="大师版" },
                             new TagModel(){ Id="3", Name="先锋版" },
-                            new TagModel(){ Id="4", Name="经典版" }
-                        }
+                            new TagModel(){ Id="4", Name="经典版" }}
                 });
-                data.Add(new TagGroupModel()
+                this.TagGroups.Add(new TagGroupModel()
                 {
                     Id = "2",
                     Name = "成交类型",
                     Level = TagGroupLevelEnum.System,
+                    Business = BusinessEnum.Advisor,
                     Tags = new ObservableCollection<TagModel>(){
                             new TagModel(){ Id="11", Name="首次" },
                             new TagModel(){ Id="12", Name="升级" },
-                            new TagModel(){ Id="13", Name="续费" }
-                        }
+                            new TagModel(){ Id="13", Name="续费" }}
                 });
-                data.Add(new TagGroupModel()
+                this.TagGroups.Add(new TagGroupModel()
                 {
                     Id = "3",
                     Name = "是否到期",
                     Level = TagGroupLevelEnum.System,
+                    Business = BusinessEnum.PreSale,
                     Tags = new ObservableCollection<TagModel>(){
                             new TagModel(){ Id="21", Name="已到期" },
-                            new TagModel(){ Id="22", Name="未到期" }
-                        }
+                            new TagModel(){ Id="22", Name="未到期" }}
                 });
-                data.Add(new TagGroupModel()
+                this.TagGroups.Add(new TagGroupModel()
                 {
                     Id = "4",
                     Name = "是否有意向",
                     Level = TagGroupLevelEnum.User,
+                    Business = BusinessEnum.PreSale,
                     Tags = new ObservableCollection<TagModel>(){
                             new TagModel(){ Id="31", Name="有意向" },
-                            new TagModel(){ Id="32", Name="无意向" }
-                        }
+                            new TagModel(){ Id="32", Name="无意向" }}
                 });
 
-                new Action(() =>
-                {
-                    lock (this.TagGroups)
-                    {
-                        this.TagGroups.Clear();
-                        data.ForEach(u => this.TagGroups.Add(u));
-                        this.TagGroups.SelectMany(u => u.Tags).ToList().ForEach(u => u.Assign(this.defaultTags?.FirstOrDefault(i => i.Equals(u))));
-                    }
-                }).ExecuteInUIThread();
-
-            }).ExecuteInTask();
+            }).ExecuteInUIThread();
         }
-        public void Dispose()
+
+        public void Handle(LogoutCallbackEventArgs Message)
         {
-            this.eventAggregator.Unsubscribe(this);
+            new Action(() =>
+            {
+                this.TagGroups.Clear();
+            }).ExecuteInUIThread();
+        }
+
+        public void Handle(ExitCallbackEventArgs Message)
+        {
+            new Action(() =>
+            {
+                this.TagGroups.Clear();
+            }).ExecuteInUIThread();
         }
         #endregion
     }

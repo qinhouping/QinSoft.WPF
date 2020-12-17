@@ -1,6 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.Cef;
 using EMChat2.Model.BaseInfo;
+using EMChat2.ViewModel.Main.Body.User;
 using EMChat2.ViewModel.Main.Tabs.User;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
@@ -17,15 +18,16 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, ChatModel chat)
+        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
+            this.customerTagAreaViewModel = customerTagAreaViewModel;
             this.chat = chat;
-            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel, this.customerTagAreaViewModel);
             this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
             this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
             this.chatInfoCefJsObject = new ChatInfoCefJsObject(ApplicationContextViewModel.CurrentStaff, this.chat);
@@ -101,6 +103,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 this.quickReplyAreaViewModel = value;
                 this.NotifyPropertyChange(() => this.QuickReplyAreaViewModel);
+            }
+        }
+        private CustomerTagAreaViewModel customerTagAreaViewModel;
+        public CustomerTagAreaViewModel CustomerTagAreaViewModel
+        {
+            get
+            {
+                return this.customerTagAreaViewModel;
+            }
+            set
+            {
+                this.customerTagAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerTagAreaViewModel);
             }
         }
         private ChatModel chat;

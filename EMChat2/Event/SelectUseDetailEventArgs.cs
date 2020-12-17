@@ -28,11 +28,6 @@ namespace EMChat2.Event
         /// <summary>
         /// 员工
         /// </summary>
-        Staff,
-
-        /// <summary>
-        /// 客户
-        /// </summary>
-        Customer
+        Staff
     }
 }

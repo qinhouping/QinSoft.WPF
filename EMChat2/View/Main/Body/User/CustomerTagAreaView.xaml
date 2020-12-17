@@ -8,13 +8,20 @@
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="200">
     <UserControl.Resources>
         <common:BindingProxy x:Key="customerTagGroupData" Data="{Binding}"></common:BindingProxy>
     </UserControl.Resources>
     <Grid>
-        <ListBox x:Name="tagGroupList" Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}" ItemsSource="{Binding TagGroups}">
+        <ListBox x:Name="tagGroupList" Style="{StaticResource IM-TagGroup-List}" ItemContainerStyle="{StaticResource IM-TagGroup-ListItem}">
+            <ListBox.ItemsSource>
+                <MultiBinding Converter="{x:Static view:ValueConverters.TagGroupFilterConverter}">
+                    <Binding Path="TagGroups"></Binding>
+                    <Binding Path="Business" ElementName="_this"></Binding>
+                </MultiBinding>
+            </ListBox.ItemsSource>
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -72,7 +79,7 @@
                             <Setter TargetName="addTag" Property="Opacity" Value="1.0"></Setter>
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
                         </Trigger>
-                        
+
                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Gray1Brush}"></Setter>
                         </DataTrigger>

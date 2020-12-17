@@ -267,7 +267,7 @@ namespace EMChat2.Common
             object newObj = Activator.CreateInstance(type);
             foreach (PropertyInfo propertyInfo in type.GetProperties())
             {
-                if (propertyInfo.CanRead && propertyInfo.CanWrite)
+                if (propertyInfo.CanRead && propertyInfo.CanWrite && propertyInfo.GetCustomAttribute(typeof(AssignIgnoreAttribute)) == null)
                 {
                     propertyInfo.SetValue(newObj, propertyInfo.GetValue(obj));
                 }

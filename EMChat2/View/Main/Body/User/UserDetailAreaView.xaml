@@ -40,13 +40,6 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="{x:Static event:UserDetailType.Customer}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <user:CustomerDetailAreaView Margin="0,100,0,0" DataContext="{Binding Data.CustomerDetailAreaViewModel, Source={StaticResource userDetailData}}"></user:CustomerDetailAreaView>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ContentControl.Style>

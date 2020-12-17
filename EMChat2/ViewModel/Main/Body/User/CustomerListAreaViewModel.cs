@@ -18,13 +18,14 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class CustomerListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<UserInfoChangedEventArgs>
     {
         #region 构造函数
-        public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
+        public CustomerListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerTagAreaViewModel customerTagAreaViewModel)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
-            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
+            this.customerTagAreaViewModel = customerTagAreaViewModel;
+            this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.customerTagAreaViewModel);
             this.customers = new ObservableCollection<CustomerModel>();
             this.selectedCustomer = null;
         }
@@ -109,10 +110,9 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             }
             set
             {
+                if (this.business == value) return;
                 this.business = value;
                 this.NotifyPropertyChange(() => this.Business);
-                this.CustomerTagAreaViewModel?.Dispose();
-                this.CustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.business);
 
                 //TODO 测试数据
                 new Action(() =>
@@ -176,8 +176,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(LogoutCallbackEventArgs arg)
         {
-            this.CustomerTagAreaViewModel?.Dispose();
-            this.CustomerTagAreaViewModel = null;
             new Action(() =>
             {
                 this.Customers.Clear();
@@ -186,8 +184,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(ExitCallbackEventArgs arg)
         {
-            this.CustomerTagAreaViewModel?.Dispose();
-            this.CustomerTagAreaViewModel = null;
             new Action(() =>
             {
                 this.Customers.Clear();

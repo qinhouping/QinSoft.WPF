@@ -395,6 +395,26 @@ namespace EMChat2.View
             }
         }
 
+        public static IMultiValueConverter TagGroupFilterConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    ObservableCollection<TagGroupModel> tagGroups = values[0] as ObservableCollection<TagGroupModel>;
+                    BusinessEnum business = (BusinessEnum)values[1];
+                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(tagGroups);
+                    if (collectionView == null) return null;
+                    collectionView.Filter = (item) =>
+                    {
+                        TagGroupModel tagGroup = item as TagGroupModel;
+                        return tagGroup.Business == business;
+                    };
+                    return collectionView;
+                });
+            }
+        }
+
         public static IValueConverter StaffToImageConverter
         {
             get

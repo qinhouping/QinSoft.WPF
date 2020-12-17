@@ -17,12 +17,13 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class CustomerDetailAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, bool isInform = true)
+        public CustomerDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, bool isInform = true)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
+            this.customerTagAreaViewModel = customerTagAreaViewModel;
             this.isInform = isInform;
         }
         #endregion
@@ -42,6 +43,32 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 this.applicationContextViewModel = value;
                 this.NotifyPropertyChange(() => this.ApplicationContextViewModel);
+            }
+        }
+        private CustomerTagAreaViewModel customerTagAreaViewModel;
+        public CustomerTagAreaViewModel CustomerTagAreaViewModel
+        {
+            get
+            {
+                return this.customerTagAreaViewModel;
+            }
+            set
+            {
+                this.customerTagAreaViewModel = value;
+                this.NotifyPropertyChange(() => this.CustomerTagAreaViewModel);
+            }
+        }
+        private ObservableCollection<TagGroupModel> temporaryTagGroups;
+        public ObservableCollection<TagGroupModel> TemporaryTagGroups
+        {
+            get
+            {
+                return this.temporaryTagGroups;
+            }
+            set
+            {
+                this.temporaryTagGroups = value;
+                this.NotifyPropertyChange(() => this.TemporaryTagGroups);
             }
         }
         private CustomerModel customer;
@@ -71,8 +98,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.IsEditingCustomer);
                 if (!this.IsEditingCustomer)
                 {
-                    this.TemporaryCustomerTagAreaViewModel?.Dispose();
-                    this.TemporaryCustomerTagAreaViewModel = null;
+                    this.TemporaryTagGroups = null;
                     this.TemporaryEditCustomer = null;
                 }
             }
@@ -90,19 +116,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.TemporaryEditCustomer);
             }
         }
-        private CustomerTagAreaViewModel temporaryCustomerTagAreaViewModel;
-        public CustomerTagAreaViewModel TemporaryCustomerTagAreaViewModel
-        {
-            get
-            {
-                return this.temporaryCustomerTagAreaViewModel;
-            }
-            set
-            {
-                this.temporaryCustomerTagAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.TemporaryCustomerTagAreaViewModel);
-            }
-        }
         #endregion
 
         #region 命令
@@ -114,8 +127,13 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 {
                     this.IsEditingCustomer = false;
                     this.TemporaryEditCustomer = this.Customer.CloneObject();
-                    this.TemporaryCustomerTagAreaViewModel?.Dispose();
-                    this.TemporaryCustomerTagAreaViewModel = new CustomerTagAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.TemporaryEditCustomer.Business, this.TemporaryEditCustomer.Tags.CloneArray());
+                    IEnumerable<TagGroupModel> tagGroups = this.CustomerTagAreaViewModel.TagGroups.Where(u => u.Business == this.Customer.Business).CloneArray();
+                    foreach (TagGroupModel tagGroup in tagGroups)
+                    {
+                        tagGroup.Tags = new ObservableCollection<TagModel>(tagGroup.Tags.CloneArray());
+                        tagGroup.Tags.ToList().ForEach(u => u.IsSelected = this.TemporaryEditCustomer.Tags.Contains(u));
+                    }
+                    this.TemporaryTagGroups = new ObservableCollection<TagGroupModel>(tagGroups);
                     this.IsEditingCustomer = true;
                 }, () =>
                 {
@@ -130,7 +148,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
-                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagModel>(this.TemporaryCustomerTagAreaViewModel.SelectedTags);
+                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagModel>(this.TemporaryTagGroups.SelectMany(u => u.Tags).Where(u => u.IsSelected));
                     this.Customer.Assign(this.TemporaryEditCustomer);
                     if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditCustomer });
                     this.IsEditingCustomer = false;
@@ -158,7 +176,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.eventAggregator.PublishAsync(new OpenPrivateChatEventArgs() { ChatUser = this.Customer, IsActive = true });
                 }, () =>
                 {
-                    return this.Customer != null && this.ApplicationContextViewModel.IsLogin;
+                    return this.Customer != null;
                 });
             }
         }
