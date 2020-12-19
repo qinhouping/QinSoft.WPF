@@ -9,6 +9,10 @@ namespace EMChat2.Event
 {
     public class MessageStateChangedEventArgs : EventArgs
     {
-        public MessageModel Message { get; set; }
+        public string ChatId { get; set; }
+
+        public string MessageId { get; set; }
+
+        public MessageStateEnum MessageState { get; set; }
     }
 }

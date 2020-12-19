@@ -364,9 +364,9 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         public void Handle(MessageStateChangedEventArgs arg)
         {
             ChatViewModel chat = null;
-            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.ChatId));
             if (chat == null) return;
-            chat.UpdateMessage(arg.Message);
+            chat.UpdateMessage(arg.MessageId, arg.MessageState);
         }
 
         public void Handle(ReceiveMessageEventArgs arg)

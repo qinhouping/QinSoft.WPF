@@ -643,14 +643,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public abstract int ReadMessage();
 
-        public virtual bool UpdateMessage(MessageModel updateMessage)
+        public virtual bool UpdateMessage(string messageId, MessageStateEnum state)
         {
-            if (updateMessage == null) return false;
+            if (messageId == null) return false;
             lock (this.Messages)
             {
-                MessageModel message = this.Messages.FirstOrDefault(u => u.Equals(updateMessage));
+                MessageModel message = this.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
                 if (message == null) return false;
-                return ModifyMessageState(message, updateMessage.State);
+                return ModifyMessageState(message, state);
             }
         }
 

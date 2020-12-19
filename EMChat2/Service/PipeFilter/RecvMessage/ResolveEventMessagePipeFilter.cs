@@ -48,25 +48,25 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
 
         protected virtual void HandleRecvMessageEvent(MessageModel message, RecvMessageEventMessageContent messageContent)
         {
-            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
+            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = messageContent.MessageId, MessageState = MessageStateEnum.Received });
         }
 
         protected virtual void HandleReadMessageEvent(MessageModel message, ReadMessageEventMessageContent messageContent)
         {
-            foreach (MessageModel item in messageContent.Messages)
+            foreach (string messageId in messageContent.MessageIds)
             {
-                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = item });
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = messageId, MessageState = MessageStateEnum.Readed });
             }
         }
 
         protected virtual void HandleRefuseMessageEvent(MessageModel message, RefuseMessageEventMessageContent messageContent)
         {
-            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
+            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = messageContent.MessageId, MessageState = MessageStateEnum.Refused });
         }
 
         protected virtual void HandleRevokeMessageEvent(MessageModel message, RevokeMessageEventMessageContent messageContent)
         {
-            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = messageContent.Message });
+            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = messageContent.MessageId, MessageState = MessageStateEnum.Revoked });
         }
 
         protected virtual void HandleInputMessageEvent(MessageModel message, InputMessageEventMessageContent messageContent)

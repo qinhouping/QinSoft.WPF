@@ -694,17 +694,17 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.RecvMessage;
         }
 
-        private MessageModel message;
-        public MessageModel Message
+        private string messageId;
+        public string MessageId
         {
             get
             {
-                return this.message;
+                return this.messageId;
             }
             set
             {
-                this.message = value;
-                this.NotifyPropertyChange(() => this.Message);
+                this.messageId = value;
+                this.NotifyPropertyChange(() => this.MessageId);
             }
         }
 
@@ -713,7 +713,7 @@ namespace EMChat2.Model.BaseInfo
             return new RecvMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message?.Clone() as MessageModel
+                MessageId = this.MessageId
             };
         }
     }
@@ -725,18 +725,18 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.ReadMessage;
         }
 
-        private MessageModel[] messages;
+        private string[] messageIds;
 
-        public MessageModel[] Messages
+        public string[] MessageIds
         {
             get
             {
-                return this.messages;
+                return this.messageIds;
             }
             set
             {
-                this.messages = value;
-                this.NotifyPropertyChange(() => this.Messages);
+                this.messageIds = value;
+                this.NotifyPropertyChange(() => this.MessageIds);
             }
         }
 
@@ -745,7 +745,7 @@ namespace EMChat2.Model.BaseInfo
             return new ReadMessageEventMessageContent()
             {
                 Event = this.Event,
-                Messages = this.Messages?.Select(u => u.Clone() as MessageModel).ToArray()
+                messageIds = this.messageIds?.Select(u => u).ToArray()
             };
         }
     }
@@ -757,17 +757,17 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.RefuseMessage;
         }
 
-        private MessageModel message;
-        public MessageModel Message
+        private string messageId;
+        public string MessageId
         {
             get
             {
-                return this.message;
+                return this.messageId;
             }
             set
             {
-                this.message = value;
-                this.NotifyPropertyChange(() => this.Message);
+                this.messageId = value;
+                this.NotifyPropertyChange(() => this.MessageId);
             }
         }
 
@@ -776,7 +776,7 @@ namespace EMChat2.Model.BaseInfo
             return new RefuseMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message?.Clone() as MessageModel
+                MessageId = this.MessageId
             };
         }
     }
@@ -788,17 +788,17 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.RevokeMessage;
         }
 
-        private MessageModel message;
-        public MessageModel Message
+        private string messageId;
+        public string MessageId
         {
             get
             {
-                return this.message;
+                return this.messageId;
             }
             set
             {
-                this.message = value;
-                this.NotifyPropertyChange(() => this.Message);
+                this.messageId = value;
+                this.NotifyPropertyChange(() => this.MessageId);
             }
         }
 
@@ -807,7 +807,7 @@ namespace EMChat2.Model.BaseInfo
             return new RevokeMessageEventMessageContent()
             {
                 Event = this.Event,
-                Message = this.Message?.Clone() as MessageModel
+                MessageId = this.MessageId
             };
         }
     }

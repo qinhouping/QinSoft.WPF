@@ -37,7 +37,7 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             else
             {
                 message.State = MessageStateEnum.SendFailure;
-                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { Message = message });
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = message.Id, MessageState = MessageStateEnum.SendFailure });
                 arg.Cancel = true;
             }
         }

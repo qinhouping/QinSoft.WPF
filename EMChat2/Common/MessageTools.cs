@@ -174,7 +174,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Event,
                 Content = new RecvMessageEventMessageContent()
                 {
-                    Message = message
+                    MessageId = message.Id
                 }
             };
         }
@@ -187,7 +187,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Event,
                 Content = new RefuseMessageEventMessageContent()
                 {
-                    Message = message
+                    MessageId = message.Id
                 }
             };
         }
@@ -200,7 +200,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Event,
                 Content = new ReadMessageEventMessageContent()
                 {
-                    Messages = messages
+                    MessageIds = messages.Select(u => u.Id).ToArray()
                 }
             };
         }
@@ -213,7 +213,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Event,
                 Content = new RevokeMessageEventMessageContent()
                 {
-                    Message = message
+                    MessageId = message.Id
                 }
             };
         }
