@@ -58,16 +58,6 @@ namespace EMChat2.ViewModel.Main.Body.User
                 this.NotifyPropertyChange(() => this.TagGroups);
             }
         }
-        public IEnumerable<TagModel> SelectedTags
-        {
-            get
-            {
-                lock (this.tagGroups)
-                {
-                    return this.tagGroups.SelectMany(u => u.Tags).Where(u => u.IsSelected);
-                }
-            }
-        }
         private bool isAddingTagGroup;
         public bool IsAddingTagGroup
         {
@@ -328,6 +318,16 @@ namespace EMChat2.ViewModel.Main.Body.User
             {
                 this.TagGroups.Clear();
             }).ExecuteInUIThread();
+        }
+        #endregion
+
+        #region 方法
+        public IEnumerable<TagModel> GetSelectedTags(BusinessEnum business)
+        {
+            lock (this.tagGroups)
+            {
+                return this.tagGroups.Where(u => u.Business == business).SelectMany(u => u.Tags).Where(u => u.IsSelected);
+            }
         }
         #endregion
     }
