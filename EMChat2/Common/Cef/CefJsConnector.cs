@@ -88,17 +88,10 @@ namespace EMChat2.Common.Cef
         /// <param name="paramList"></param>
         public virtual async void ExecuteCSharpAsync(string jsObjectName, string method, params object[] paramList)
         {
-            try
-            {
-                CefJsObject jsObject = null;
-                if (!cefJsObjects.TryGetValue(jsObjectName, out jsObject)) return;
-                MethodInfo methodInfo = jsObject.GetType().GetMethod(method);
-                await new Func<object>(() => methodInfo.Invoke(jsObject, paramList)).ExecuteInTask<object>();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(string.Format("ExecuteCSharpAsync Error:{0}", e));
-            }
+            CefJsObject jsObject = null;
+            if (!cefJsObjects.TryGetValue(jsObjectName, out jsObject)) return;
+            MethodInfo methodInfo = jsObject.GetType().GetMethod(method);
+            await new Action(() => methodInfo.Invoke(jsObject, paramList)).ExecuteInTask();
         }
     }
 }
