@@ -66,6 +66,11 @@ namespace EMChat2.Common
             return DoReqeust<T>(WebMethod.GET, url, headers, cookies, null);
         }
 
+        public static async Task<T> GetAsync<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
+        {
+            return await DoRequestAsync<T>(WebMethod.GET, url, headers, cookies, null);
+        }
+
         public static WebResponse Post(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, string data)
         {
             return DoReqeust(WebMethod.POST, url, headers, cookies, data);
@@ -76,14 +81,9 @@ namespace EMChat2.Common
             return DoReqeust<T>(WebMethod.POST, url, headers, cookies, data);
         }
 
-        public static WebResponse Delete(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
+        public static async Task<T> PostAsync<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, object data)
         {
-            return DoReqeust(WebMethod.DELETE, url, headers, cookies);
-        }
-
-        public static T Delete<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
-        {
-            return DoReqeust<T>(WebMethod.DELETE, url, headers, cookies);
+            return await DoRequestAsync<T>(WebMethod.POST, url, headers, cookies, data);
         }
 
         public static WebResponse Put(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, string data)
@@ -96,14 +96,24 @@ namespace EMChat2.Common
             return DoReqeust<T>(WebMethod.PUT, url, headers, cookies, data);
         }
 
-        public static WebResponse Options(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, string data)
+        public static async Task<T> PutAsync<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, object data)
         {
-            return DoReqeust(WebMethod.OPTIONS, url, headers, cookies, data);
+            return await DoRequestAsync<T>(WebMethod.PUT, url, headers, cookies, data);
         }
 
-        public static T Options<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies, object data)
+        public static WebResponse Delete(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
         {
-            return DoReqeust<T>(WebMethod.OPTIONS, url, headers, cookies, data);
+            return DoReqeust(WebMethod.DELETE, url, headers, cookies);
+        }
+
+        public static T Delete<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
+        {
+            return DoReqeust<T>(WebMethod.DELETE, url, headers, cookies);
+        }
+
+        public static async Task<T> DeleteAsync<T>(string url, IDictionary<string, string> headers, IDictionary<string, string> cookies)
+        {
+            return await DoRequestAsync<T>(WebMethod.DELETE, url, headers, cookies);
         }
 
         private static WebResponse DoReqeust(WebMethod method, string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, string data = null, int timeout = 60000)
@@ -164,10 +174,10 @@ namespace EMChat2.Common
             }
             headers["Content-Type"] = "application/json";//Json
             HttpWebResponse response = DoReqeust(method, url, headers, cookies, data.ObjectToJson(), timeout) as HttpWebResponse;
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new InvalidOperationException(string.Format("返回状态异常:{0}", response.StatusCode.ToString()));
-            }
+            //if (response.StatusCode != HttpStatusCode.OK)
+            //{
+            //    throw new InvalidOperationException(string.Format("返回状态异常:{0}", response.StatusCode.ToString()));
+            //}
             StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(ResponseEncoding));
             string content = reader.ReadToEnd();
             Debug.WriteLine("httptools request:{0} response:{1}", url, content);
@@ -177,21 +187,12 @@ namespace EMChat2.Common
         /// <summary>
         /// 请求（异步）
         /// </summary>
-        public static void DoRequestAsync<T>(WebMethod method, string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, object data = null, int timeout = 60000, Action<T> success = null, Action<Exception> error = null)
+        private static async Task<T> DoRequestAsync<T>(WebMethod method, string url, IDictionary<string, string> headers = null, IDictionary<string, string> cookies = null, object data = null, int timeout = 60000)
         {
-            Task.Factory.StartNew(() =>
+            return await new Func<T>(() =>
             {
-                try
-                {
-                    T response = DoReqeust<T>(method, url, headers, cookies, data, timeout);
-                    success?.Invoke(response);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("httptools request:{0} error:{1}", url, e);
-                    error?.Invoke(e);
-                }
-            });
+                return DoReqeust<T>(method, url, headers, cookies, data, timeout);
+            }).ExecuteInTask();
         }
 
         /// <summary>

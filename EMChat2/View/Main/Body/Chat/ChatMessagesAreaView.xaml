@@ -7,7 +7,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
@@ -134,7 +134,7 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Sending}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static enum:MessageStateEnum.Sending}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="2" ToolTip="消息正在发送中...">
@@ -163,7 +163,7 @@
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.SendFailure}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static enum:MessageStateEnum.SendFailure}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="消息发送失败，点击我重新发送">
@@ -180,7 +180,7 @@
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Refused}">
+                                                                    <DataTrigger Binding="{Binding State}" Value="{x:Static enum:MessageStateEnum.Refused}">
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" ToolTip="消息已经被拒收，点击我重新发送">
@@ -206,7 +206,7 @@
                                         </Setter.Value>
                                     </Setter>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Type}" Value="{x:Static baseInfo:MessageTypeConst.Tips}">
+                                        <DataTrigger Binding="{Binding Type}" Value="{x:Static enum:MessageTypeConst.Tips}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <!--系统提示信息-->
@@ -217,7 +217,7 @@
                                             </Setter>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding State}" Value="{x:Static baseInfo:MessageStateEnum.Revoked}">
+                                        <DataTrigger Binding="{Binding State}" Value="{x:Static enum:MessageStateEnum.Revoked}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <!--撤回提示信息-->

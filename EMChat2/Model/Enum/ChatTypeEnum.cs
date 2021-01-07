@@ -4,31 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.BaseInfo
+namespace EMChat2.Model.Enum
 {
     /// <summary>
-    /// 用户状态枚举
+    /// 会话类型
     /// </summary>
-    public enum UserStateEnum
+    public enum ChatTypeEnum
     {
         /// <summary>
-        /// 在线
+        /// 私聊
         /// </summary>
-        Online,
+        Private,
 
         /// <summary>
-        /// 忙碌
+        /// 群聊
         /// </summary>
-        Busy,
+        Group,
 
         /// <summary>
-        /// 离开
+        /// 群发，只是提交一个群发任务给后台
+        /// 类似通知消息
         /// </summary>
-        Leave,
-
-        /// <summary>
-        /// 离线
-        /// </summary>
-        Offline
+        GroupSend
     }
 }

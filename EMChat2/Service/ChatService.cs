@@ -67,7 +67,7 @@ namespace EMChat2.Service
         protected virtual BeginPipeFilter CreateSendMessageBeginPipeFilter()
         {
             BeginPipeFilter pipeFilter = new BeginPipeFilter();
-            pipeFilter.SetNextPipeFilter(new CheckMessagePipeFilter()).SetNextPipeFilter(new ConvertMessageUrlPipeFilter(this.eventAggregator)).SetNextPipeFilter(new PushMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new StoreMessagePipeFilter());
+            pipeFilter.SetNextPipeFilter(new CheckMessagePipeFilter()).SetNextPipeFilter(new ConvertMessageUrlPipeFilter(this.eventAggregator)).SetNextPipeFilter(new StoreMessagePipeFilter(this.eventAggregator)).SetNextPipeFilter(new PushMessagePipeFilter(this.eventAggregator));
             return pipeFilter;
         }
 
@@ -124,8 +124,18 @@ namespace EMChat2.Service
             {
                 Stream stream = await HttpTools.DownloadAsync(url, null, null);
                 await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
-                systemService.StoreUrlMapping(new UrlMappingModel() { Url = url, LocalFilePath = filePath });
-                await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("文件[" + url + "]下载完成") } });
+                systemService.StoreUrlMapping(new UrlMappingModel()
+                {
+                    Url = url,
+                    LocalFilePath = filePath
+                });
+                await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo()
+                    {
+                        Content = string.Format("文件[" + url + "]下载完成")
+                    }
+                });
             }
             catch (Exception e)
             {

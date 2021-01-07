@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:view="clr-namespace:EMChat2.View"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
@@ -48,7 +48,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"></TextBlock>
-                                <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:QuickReplyGroupLevelEnum.System}}" ToolTip="系统分组"></TextBlock>
+                                <TextBlock Grid.Column="1" Style="{StaticResource IconLock}" Foreground="{StaticResource Gray5Brush}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static enum:QuickReplyGroupLevelEnum.System}}" ToolTip="系统分组"></TextBlock>
                                 <Grid.ContextMenu>
                                     <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
                                         <MenuItem Header="编辑" Command="{Binding Data.EditQuickReplyGroupCommand, Source={StaticResource quickReplyGroupData}}" CommandParameter="{Binding}"></MenuItem>

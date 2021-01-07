@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50" Width="50">
@@ -15,14 +15,14 @@
                 <Grid>
                     <Image Style="{StaticResource IM-Header-Image}" Margin="4" Source="{Binding ApplicationContextViewModel.CurrentStaff.HeaderImageUrl, Converter={x:Static wpf:ValueConverters.UrlToImageConverter}}" ToolTip="{Binding ApplicationContextViewModel.CurrentStaff.Name}"></Image>
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Width="8" Height="8">
-                        <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Online}}"></Label>
-                        <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Busy}}"></Label>
-                        <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Leave}}"></Label>
-                        <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static baseInfo:UserStateEnum.Offline}}"></Label>
+                        <Label Style="{StaticResource Chip-Success}" ToolTip="在线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static enum:UserStateEnum.Online}}"></Label>
+                        <Label Style="{StaticResource Chip-Warning}" ToolTip="忙碌" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static enum:UserStateEnum.Busy}}"></Label>
+                        <Label Style="{StaticResource Chip}" ToolTip="离开" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static enum:UserStateEnum.Leave}}"></Label>
+                        <Label Style="{StaticResource Chip-Danger}" ToolTip="离线" Visibility="{Binding ApplicationContextViewModel.CurrentStaff.State,Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter},ConverterParameter={x:Static enum:UserStateEnum.Offline}}"></Label>
 
                         <Grid.ContextMenu>
                             <ContextMenu Style="{StaticResource BaseContextMenu}" ItemContainerStyle="{StaticResource MenuItem-H}">
-                                <MenuItem ToolTip="在线" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static baseInfo:UserStateEnum.Online}">
+                                <MenuItem ToolTip="在线" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static enum:UserStateEnum.Online}">
                                     <MenuItem.Header>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
                                         </Grid>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem ToolTip="忙碌" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static baseInfo:UserStateEnum.Busy}">
+                                <MenuItem ToolTip="忙碌" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static enum:UserStateEnum.Busy}">
                                     <MenuItem.Header>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -46,7 +46,7 @@
                                         </Grid>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem ToolTip="离开" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static baseInfo:UserStateEnum.Leave}">
+                                <MenuItem ToolTip="离开" Command="{Binding ChangeCurrentStaffStateCommand}" CommandParameter="{x:Static enum:UserStateEnum.Leave}">
                                     <MenuItem.Header>
                                         <Grid>
                                             <Grid.ColumnDefinitions>

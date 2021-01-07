@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using EMChat2.View.Main.Body.Chat;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using QinSoft.WPF;
@@ -78,8 +79,8 @@ namespace EMChat2.View
                     MessageModel message = chat.LastMessage;
                     if (chat == null || message == null) return null;
                     if (message.State == MessageStateEnum.Revoked)
-                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name);
-                    return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
+                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name);
+                    return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
                 });
             }
         }
@@ -107,7 +108,7 @@ namespace EMChat2.View
                     MessageModel message = values[0] as MessageModel;
                     ChatModel chat = values[1] as ChatModel;
                     if (message == null || chat == null) return null;
-                    return chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name;
+                    return chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name;
                 });
             }
         }

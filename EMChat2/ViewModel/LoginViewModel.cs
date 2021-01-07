@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Input;
+using EMChat2.Model.Enum;
 
 namespace EMChat2.ViewModel
 {

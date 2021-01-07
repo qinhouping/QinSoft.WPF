@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EMChat2.Common;
+using EMChat2.Model.Enum;
 
 namespace EMChat2.Service
 {

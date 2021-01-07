@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
@@ -22,7 +22,7 @@
                     </Setter>
                     <Style.Triggers>
                         <!--表情-->
-                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Emotion}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static enum:MessageTypeConst.Emotion}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
@@ -36,7 +36,7 @@
                             </Setter>
                         </DataTrigger>
                         <!--图片-->
-                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Image}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static enum:MessageTypeConst.Image}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid>
@@ -50,7 +50,7 @@
                             </Setter>
                         </DataTrigger>
                         <!--链接-->
-                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.Link}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static enum:MessageTypeConst.Link}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">
@@ -73,7 +73,7 @@
                             </Setter>
                         </DataTrigger>
                         <!--文件-->
-                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static baseInfo:MessageTypeConst.File}">
+                        <DataTrigger Binding="{Binding MessageContent.Type}" Value="{x:Static enum:MessageTypeConst.File}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Grid Cursor="Hand">

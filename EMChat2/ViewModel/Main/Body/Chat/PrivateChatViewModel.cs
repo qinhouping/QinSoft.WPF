@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Timers;
 using EMChat2.ViewModel.Main.Body.User;
+using EMChat2.Model.Enum;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {

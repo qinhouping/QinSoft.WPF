@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using EMChat2.Model.Enum;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -651,6 +652,18 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MessageModel message = this.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
                 if (message == null) return false;
                 return ModifyMessageState(message, state);
+            }
+        }
+
+        public virtual bool UpdateMessage(string messageId, string newMessageId)
+        {
+            if (messageId == null || newMessageId == null) return false;
+            lock (this.Messages)
+            {
+                MessageModel message = this.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
+                if (message == null) return false;
+                message.Id = newMessageId;
+                return true;
             }
         }
 

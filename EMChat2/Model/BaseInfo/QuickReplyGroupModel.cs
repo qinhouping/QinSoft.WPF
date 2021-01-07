@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using EMChat2.Model.Enum;
+using Newtonsoft.Json;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;

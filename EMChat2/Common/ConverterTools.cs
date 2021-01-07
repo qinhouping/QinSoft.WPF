@@ -1,5 +1,6 @@
 ﻿using EMChat2.Model.Api;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,33 +11,51 @@ namespace EMChat2.Common
 {
     public static class ConverterTools
     {
-        public static MessageApiModel MessageToApiModel(this MessageModel sendMessage)
+        public static UserModel CreateUser(string userId, UserTypeEnum userType)
         {
-            if (sendMessage == null) return null;
-            MessageApiModel message = new MessageApiModel();
-            message.Id = sendMessage.Id;
-            message.Time = sendMessage.Time;
-            message.ChatId = sendMessage.ChatId;
-            message.FromUser = sendMessage.FromUser;
-            message.ToUsers = sendMessage.ToUsers;
-            message.State = (int)sendMessage.State;
-            message.Type = sendMessage.Type;
-            message.Content = sendMessage.ContentString;
-            return message;
+            switch (userType)
+            {
+                case UserTypeEnum.Customer: return new CustomerModel() { Id = userId };
+                case UserTypeEnum.Staff: return new StaffModel() { Id = userId };
+                case UserTypeEnum.SystemUser: return new SystemUserModel() { Id = userId };
+                default: return null;
+            }
+
         }
 
-        public static MessageModel MessageToModel(this MessageApiModel recvMessage)
+        public static MessageApiModel MessageToApiModel(this MessageModel message)
         {
-            if (recvMessage == null) return null;
+            if (message == null) return null;
+            MessageApiModel apiMessage = new MessageApiModel();
+            apiMessage.Id = message.Id;
+            apiMessage.Time = message.Time;
+            apiMessage.ChatId = message.ChatId;
+            apiMessage.FromUserId = message.FromUser.Id;
+            apiMessage.FromUserType = message.FromUser.Type;
+            apiMessage.ToUsers = message.ToUsers.Select(u => new MessageReceiverApiModel()
+            {
+                MessageId = message.Id,
+                ToUserId = u.Id,
+                ToUserType = u.Type
+            });
+            apiMessage.State = message.State;
+            apiMessage.Type = message.Type;
+            apiMessage.Content = message.ContentString;
+            return apiMessage;
+        }
+
+        public static MessageModel MessageToModel(this MessageApiModel apiMessage)
+        {
+            if (apiMessage == null) return null;
             MessageModel message = new MessageModel();
-            message.Id = recvMessage.Id;
-            message.Time = recvMessage.Time;
-            message.ChatId = recvMessage.ChatId;
-            message.FromUser = recvMessage.FromUser;
-            message.ToUsers = recvMessage.ToUsers;
-            message.State = (MessageStateEnum)recvMessage.State;
-            message.Type = recvMessage.Type;
-            message.ContentString = recvMessage.Content;
+            message.Id = apiMessage.Id;
+            message.Time = apiMessage.Time;
+            message.ChatId = apiMessage.ChatId;
+            message.FromUser = CreateUser(apiMessage.FromUserId, apiMessage.FromUserType);
+            message.ToUsers = null;
+            message.State = apiMessage.State;
+            message.Type = apiMessage.Type;
+            message.ContentString = apiMessage.Content;
             return message;
         }
     }

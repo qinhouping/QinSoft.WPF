@@ -1,4 +1,5 @@
 ﻿using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using EMChat2.Model.IM;
 using IEMWorks.Common;
 using IM.SDK;

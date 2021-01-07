@@ -260,7 +260,7 @@ namespace EMChat2.Common
                 Directory.CreateDirectory(directorypath);
         }
 
-        public static T CloneObject<T>(this T obj) where T : class, new()
+        public static T CloneObject<T>(this T obj) where T : class
         {
             if (obj == null) return default;
             Type type = obj.GetType();
@@ -275,7 +275,7 @@ namespace EMChat2.Common
             return (T)newObj;
         }
 
-        public static IEnumerable<T> CloneArray<T>(this IEnumerable<T> obj) where T : class, new()
+        public static IEnumerable<T> CloneArray<T>(this IEnumerable<T> obj) where T : class
         {
             if (obj == null) return default;
             IList<T> data = new List<T>();
@@ -283,7 +283,7 @@ namespace EMChat2.Common
             return data;
         }
 
-        public static IDictionary<K, V> CloneDictory<K, V>(this IDictionary<K, V> obj) where V : class, new()
+        public static IDictionary<K, V> CloneDictory<K, V>(this IDictionary<K, V> obj) where V : class
         {
             if (obj == null) return default;
             IDictionary<K, V> data = new Dictionary<K, V>();

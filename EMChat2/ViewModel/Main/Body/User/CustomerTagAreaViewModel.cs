@@ -2,6 +2,7 @@
 using EMChat2.Common;
 using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;

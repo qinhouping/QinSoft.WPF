@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:cefCommon="clr-namespace:EMChat2.Common.Cef"
              mc:Ignorable="d" 
@@ -29,7 +29,7 @@
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-ChatSlider-TabItem}">
                         <Setter Property="Visibility" Value="Collapsed"></Setter>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static baseInfo:UserTypeEnum.Customer}">
+                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static enum:UserTypeEnum.Customer}">
                                 <Setter Property="Visibility" Value="Visible"></Setter>
                                 <Setter Property="Header" Value="客户详情"></Setter>
                                 <Setter Property="Content">
@@ -38,7 +38,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static baseInfo:UserTypeEnum.Staff}">
+                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static enum:UserTypeEnum.Staff}">
                                 <Setter Property="Visibility" Value="Visible"></Setter>
                                 <Setter Property="Header" Value="员工详情"></Setter>
                                 <Setter Property="Content">
@@ -58,7 +58,7 @@
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource IM-ChatSlider-TabItem}">
                         <Setter Property="Visibility" Value="Collapsed"></Setter>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static baseInfo:UserTypeEnum.Customer}">
+                            <DataTrigger Binding="{Binding ChatUser.Type}" Value="{x:Static enum:UserTypeEnum.Customer}">
                                 <Setter Property="Visibility" Value="Visible"></Setter>
                                 <Setter Property="Header" Value="客户内嵌页"></Setter>
                                 <Setter Property="Content">

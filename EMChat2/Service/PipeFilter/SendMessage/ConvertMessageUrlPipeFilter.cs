@@ -2,6 +2,7 @@
 using EMChat2.Common.PipeFilter;
 using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using EMChat2.Model.IM;
 using Hardcodet.Wpf.TaskbarNotification;
 using QinSoft.Event;
@@ -37,7 +38,12 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             else
             {
                 message.State = MessageStateEnum.SendFailure;
-                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = message.Id, MessageState = MessageStateEnum.SendFailure });
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                {
+                    ChatId = message.ChatId,
+                    MessageId = message.Id,
+                    MessageState = message.State
+                });
                 arg.Cancel = true;
             }
         }

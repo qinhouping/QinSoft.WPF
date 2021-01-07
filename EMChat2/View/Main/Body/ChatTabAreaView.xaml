@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:view="clr-namespace:EMChat2.View"
       xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-      xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+      xmlns:enum="clr-namespace:EMChat2.Model.Enum"
       xmlns:common="clr-namespace:EMChat2.Common"
       xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
       mc:Ignorable="d" 

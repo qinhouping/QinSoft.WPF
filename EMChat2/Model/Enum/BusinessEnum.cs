@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.BaseInfo
+namespace EMChat2.Model.Enum
 {
     /// <summary>
     /// 业务类型枚举

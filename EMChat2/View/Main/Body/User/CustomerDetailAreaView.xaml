@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
              xmlns:common="clr-namespace:EMChat2.Common"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
              mc:Ignorable="d" 
@@ -45,11 +45,11 @@
                                     <Setter Property="Foreground" Value="Transparent"></Setter>
                                     <Setter Property="FontSize" Value="16"></Setter>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static baseInfo:SexEnum.Man}">
+                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static enum:SexEnum.Man}">
                                             <Setter Property="Foreground" Value="{StaticResource BlueBrush}"></Setter>
                                             <Setter Property="ToolTip" Value="男"></Setter>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static baseInfo:SexEnum.Women}">
+                                        <DataTrigger Binding="{Binding Customer.Sex}" Value="{x:Static enum:SexEnum.Women}">
                                             <Setter Property="Foreground" Value="{StaticResource DeepOrangeBrush}"></Setter>
                                             <Setter Property="ToolTip" Value="女"></Setter>
                                         </DataTrigger>

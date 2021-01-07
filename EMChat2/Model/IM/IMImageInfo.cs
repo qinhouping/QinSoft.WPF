@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.IM
 {
+    /// <summary>
+    /// IM图片信息
+    /// </summary>
     public class IMImageInfo
     {
         /// <summary>

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
@@ -44,7 +44,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Style="{StaticResource IconTags}" VerticalAlignment="Center" Foreground="{StaticResource DeepPurpleBrush}" Margin="5,0"></TextBlock>
                                 <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                                <Button x:Name="addTag" Grid.Column="2" Style="{StaticResource IM-Icon-Button}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static baseInfo:TagGroupLevelEnum.User}}" Opacity="0.0" ToolTip="新建自定义标签">
+                                <Button x:Name="addTag" Grid.Column="2" Style="{StaticResource IM-Icon-Button}" Visibility="{Binding Level, Converter={x:Static wpf:ValueConverters.EqualsToVisibilityConverter}, ConverterParameter={x:Static enum:TagGroupLevelEnum.User}}" Opacity="0.0" ToolTip="新建自定义标签">
                                     <TextBlock Style="{StaticResource IconPlus}" Foreground="{StaticResource DeepPurpleBrush}" FontSize="{StaticResource SmallIconFontSize}"></TextBlock>
                                 </Button>
 

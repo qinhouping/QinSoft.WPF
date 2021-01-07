@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EMChat2.View"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
-             xmlns:baseInfo="clr-namespace:EMChat2.Model.BaseInfo"
+             xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              xmlns:wpfControl="clr-namespace:QinSoft.WPF.Control;assembly=QinSoft.WPF.Control"
@@ -20,7 +20,7 @@
                 <Style TargetType="{x:Type ContentControl}">
                     <Style.Triggers>
                         <!--私聊会话数据模板-->
-                        <DataTrigger Binding="{Binding CurrentChatItem.Chat.Type}" Value="{x:Static baseInfo:ChatTypeEnum.Private}">
+                        <DataTrigger Binding="{Binding CurrentChatItem.Chat.Type}" Value="{x:Static enum:ChatTypeEnum.Private}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <chat:PrivateChatDetailAreaView DataContext="{Binding Data.CurrentChatItem,Source={StaticResource chatDetailData}}"></chat:PrivateChatDetailAreaView>

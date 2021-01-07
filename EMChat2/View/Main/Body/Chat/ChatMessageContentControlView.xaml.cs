@@ -1,4 +1,5 @@
 ﻿using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using EMChat2.ViewModel.Main.Tabs.Chat;
 using System;
 using System.Collections.Generic;

@@ -110,17 +110,17 @@ namespace EMChat2.Common
             string messageString = sendMessage.ObjectToJson();
 
             Semaphore semaphore = new Semaphore(0, message.ToUsers.Count());
-            foreach (string toUser in message.ToUsers)
+            foreach (UserModel toUser in message.ToUsers)
             {
                 if (socketClient == null) return false;
-                socketClient.SendToUser(message.FromUser, toUser, messageString, 0, (code, msg) =>
+                socketClient.SendToUser(message.FromUser.ImUserId, toUser.ImUserId, messageString, 0, (code, msg) =>
                 {
                     result += code;
                     semaphore.Release();
                 });
             }
 
-            foreach (string toUser in message.ToUsers)
+            foreach (UserModel toUser in message.ToUsers)
             {
                 semaphore.WaitOne();
             }

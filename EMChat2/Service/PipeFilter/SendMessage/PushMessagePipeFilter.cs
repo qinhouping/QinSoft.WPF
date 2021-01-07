@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EMChat2.Model.Api;
+using EMChat2.Model.Enum;
 
 namespace EMChat2.Service.PipeFilter.SendMessage
 {
@@ -33,13 +34,23 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             if (IMTools.Send(message))
             {
                 message.State = MessageStateEnum.SendSuccess;
-                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = message.Id, MessageState = MessageStateEnum.SendSuccess });
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                {
+                    ChatId = message.ChatId,
+                    MessageId = message.Id,
+                    MessageState = message.State
+                });
                 arg.OutArg = message;
             }
             else
             {
                 message.State = MessageStateEnum.SendFailure;
-                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs() { ChatId = message.ChatId, MessageId = message.Id, MessageState = MessageStateEnum.SendFailure });
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                {
+                    ChatId = message.ChatId,
+                    MessageId = message.Id,
+                    MessageState = message.State
+                });
                 arg.Cancel = true;
             }
         }

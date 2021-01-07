@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EMChat2.Model.IM
 {
+    /// <summary>
+    /// IM文件信息
+    /// </summary>
     public class IMFileInfo
     {
         /// <summary>

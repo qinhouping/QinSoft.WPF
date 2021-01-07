@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.BaseInfo
+namespace EMChat2.Model.Enum
 {
     /// <summary>
-    /// 标签级别
+    /// 表情包级别
     /// </summary>
-    public enum TagGroupLevelEnum
+    public enum EmotionPackageLevelEnum
     {
         /// <summary>
-        /// 系统级别
+        /// 系统表情包
         /// </summary>
-        [Description("系统")]
         System,
-
         /// <summary>
-        /// 用户级别
+        /// 收藏表情包
         /// </summary>
-        [Description("用户")]
+        Favorite,
+        /// <summary>
+        /// 自定义表情包
+        /// </summary>
         User
     }
 }

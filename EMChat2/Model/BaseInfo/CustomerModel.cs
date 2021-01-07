@@ -1,4 +1,5 @@
 ﻿using EMChat2.Common;
+using EMChat2.Model.Enum;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using EMChat2.Common;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc;

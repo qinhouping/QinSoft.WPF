@@ -1,4 +1,5 @@
 ﻿using EMChat2.Model.BaseInfo;
+using EMChat2.Model.Enum;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -276,8 +277,8 @@ namespace EMChat2.Common
                 Id = Guid.NewGuid().ToString(),
                 ChatId = chat.Id,
                 Time = DateTime.Now,
-                FromUser = staff.ImUserId,
-                ToUsers = chat.ChatUsers.Where(u => !staff.Equals(u)).Select(u => u.ImUserId).ToArray(),
+                FromUser = staff,
+                ToUsers = chat.ChatUsers.Where(u => !staff.Equals(u)).ToArray(),
                 State = state,
                 Type = messageContent.Type,
                 Content = messageContent.Content
@@ -289,7 +290,7 @@ namespace EMChat2.Common
         public static bool IsSendFrom(this MessageModel message, UserModel user)
         {
             if (message == null || user == null) return false;
-            return message.FromUser == user.ImUserId;
+            return message.FromUser.Equals(user);
         }
 
         public static bool IsTimeValid(this MessageModel message, int seconds = 30)

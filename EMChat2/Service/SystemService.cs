@@ -40,21 +40,22 @@ namespace EMChat2.Service
         #region 方法
         public virtual async Task<LoginInfoModel> LoadLoginInfo()
         {
-            return await new Func<LoginInfoModel>(() =>
+            LoginInfoModel loginInfo = null;
+            await new Action(() =>
             {
-                LoginInfoModel loginInfo = loginInfoFilePath.FileToStream().StreamToString().JsonToObject<LoginInfoModel>() ?? new LoginInfoModel();
-                loginInfo.Password = loginInfo.Password.UnBase64();
-                return loginInfo.CloneObject();
+                loginInfo = loginInfoFilePath.FileToStream().StreamToString().JsonToObject<LoginInfoModel>() ?? new LoginInfoModel();
             }).ExecuteInTask();
+            loginInfo.Password = loginInfo.Password.UnBase64();
+            return loginInfo.CloneObject();
         }
 
         public virtual async void StoreLoginInfo(LoginInfoModel loginInfo)
         {
+            loginInfo = loginInfo.CloneObject();
+            if (loginInfo.IsRememberPassword) loginInfo.Password = loginInfo.Password.Base64();
+            else loginInfo.Password = null;
             await new Action(() =>
             {
-                loginInfo = loginInfo.CloneObject();
-                if (loginInfo.IsRememberPassword) loginInfo.Password = loginInfo.Password.Base64();
-                else loginInfo.Password = null;
                 loginInfo.ObjectToJson().StringToStream().StreamToFile(loginInfoFilePath);
             }).ExecuteInTask();
         }
@@ -69,31 +70,31 @@ namespace EMChat2.Service
 
         public virtual async Task<string> GetUrlMapping(string url, bool retOrigin = true)
         {
-            return await new Func<string>(() =>
+            url = HttpUtility.UrlDecode(url);
+            UrlMappingModel urlMapping = await new Func<UrlMappingModel>(() =>
             {
                 lock (this.urlMappingInfos)
                 {
-                    url = HttpUtility.UrlDecode(url);
-                    UrlMappingModel urlMappingInfo = this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
-                    if (urlMappingInfo == null || !urlMappingInfo.LocalFilePath.IsExistsFile())
-                    {
-                        return retOrigin ? url : null;
-                    }
-                    else
-                    {
-                        return urlMappingInfo.LocalFilePath;
-                    }
+                    return this.urlMappingInfos.FirstOrDefault(u => u.Url.Equals(url));
                 }
             }).ExecuteInTask();
+            if (urlMapping == null || !urlMapping.LocalFilePath.IsExistsFile())
+            {
+                return retOrigin ? url : null;
+            }
+            else
+            {
+                return urlMapping.LocalFilePath;
+            }
         }
 
         public virtual async void StoreUrlMapping(UrlMappingModel urlMappingInfo)
         {
+            urlMappingInfo.Url = HttpUtility.UrlDecode(urlMappingInfo.Url);
             await new Action(() =>
             {
                 lock (this.urlMappingInfos)
                 {
-                    urlMappingInfo.Url = HttpUtility.UrlDecode(urlMappingInfo.Url);
                     this.urlMappingInfos.Remove(urlMappingInfo);
                     this.urlMappingInfos.Add(urlMappingInfo);
                     urlMappingInfos.ObjectToJson().StringToStream().StreamToFile(urlMappingFilePath);

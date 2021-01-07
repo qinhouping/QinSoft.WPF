@@ -4,26 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.BaseInfo
+namespace EMChat2.Model.Enum
 {
     /// <summary>
-    /// 性别枚举
+    /// 用户状态枚举
     /// </summary>
-    public enum SexEnum
+    public enum UserStateEnum
     {
         /// <summary>
-        /// 未知
+        /// 在线
         /// </summary>
-        Unknown,
+        Online,
 
         /// <summary>
-        /// 男生
+        /// 忙碌
         /// </summary>
-        Man,
+        Busy,
 
         /// <summary>
-        /// 女生
+        /// 离开
         /// </summary>
-        Women
+        Leave,
+
+        /// <summary>
+        /// 离线
+        /// </summary>
+        Offline
     }
 }

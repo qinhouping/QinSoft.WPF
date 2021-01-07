@@ -4,27 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMChat2.Model.BaseInfo
+namespace EMChat2.Model.Api
 {
-
     /// <summary>
-    /// 用户类型
+    /// 标签模型
     /// </summary>
-    public enum UserTypeEnum
+    public class TagApiModel
     {
         /// <summary>
-        /// 外部客户
+        /// 标签组ID
         /// </summary>
-        Customer,
+        public string TagGroupId { get; set; }
 
         /// <summary>
-        /// 内部员工
+        /// 标签ID
         /// </summary>
-        Staff,
+        public string Id { get; set; }
 
         /// <summary>
-        /// 系统用户
+        /// 标签名称
         /// </summary>
-        SystemUser
+        public string Name { get; set; }
     }
 }
