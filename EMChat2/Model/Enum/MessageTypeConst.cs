@@ -31,8 +31,6 @@ namespace EMChat2.Model.Enum
         #region 不可见消息同时不入库
         public const string Event = "event";
         #endregion
-
-        public static string[] AllowSavedMessageTypes = new string[] { Text, Emotion, Image, Voice, Video, Link, File, Mixed, Shared };
     }
 
     /// <summary>

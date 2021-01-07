@@ -32,42 +32,85 @@ namespace EMChat2.Service.PipeFilter.SendMessage
 
             MessageModel message = arg.InArg as MessageModel;
 
-            if (MessageTypeConst.AllowSavedMessageTypes.Contains(message.Type))
+            switch (message.Type)
             {
-                if (!ApiTools.AddMessage(message, out string error, out string messageId))
-                {
-                    this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                case MessageTypeConst.Text:
+                case MessageTypeConst.Emotion:
+                case MessageTypeConst.Image:
+                case MessageTypeConst.Voice:
+                case MessageTypeConst.Video:
+                case MessageTypeConst.Link:
+                case MessageTypeConst.File:
+                case MessageTypeConst.Mixed:
+                case MessageTypeConst.Shared:
                     {
-                        BalloonTip = new BalloonTipInfo
+                        if (AddMessage(message))
                         {
-                            Title = "消息保存失败",
-                            Content = error,
-                            Icon = BalloonIcon.Error
+                            arg.OutArg = message;
                         }
-                    });
-
-                    message.State = MessageStateEnum.SendFailure;
-                    this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                        else
+                        {
+                            arg.Cancel = true;
+                        }
+                    }
+                    break;
+                case MessageTypeConst.Tips:
                     {
-                        ChatId = message.ChatId,
-                        MessageId = message.Id,
-                        MessageState = MessageStateEnum.SendFailure
-                    });
-                    arg.Cancel = true;
-                    return;
-                }
-                else
-                {
-                    this.eventAggregator.PublishAsync<MessageIdChangedEventArgs>(new MessageIdChangedEventArgs()
+                        arg.Cancel = true;
+                    }
+                    break;
+                case MessageTypeConst.Event:
                     {
-                        ChatId = message.ChatId,
-                        MessageId = message.Id,
-                        NewMessageId = messageId
-                    });
-                    message.Id = messageId;
-                }
+                        arg.OutArg = message;
+                    }
+                    break;
+                default:
+                    {
+                        arg.Cancel = true;
+                    }
+                    break;
             }
-            arg.OutArg = message;
+        }
+
+        protected virtual bool AddMessage(MessageModel message)
+        {
+            if (!ApiTools.AddMessage(message, out string error, out string messageId))
+            {
+                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "消息保存失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+
+                message.State = MessageStateEnum.SendFailure;
+                this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                {
+                    ChatId = message.ChatId,
+                    MessageId = message.Id,
+                    MessageState = MessageStateEnum.SendFailure
+                });
+                return false;
+            }
+            else
+            {
+                this.eventAggregator.PublishAsync<MessageIdChangedEventArgs>(new MessageIdChangedEventArgs()
+                {
+                    ChatId = message.ChatId,
+                    MessageId = message.Id,
+                    NewMessageId = messageId
+                });
+                message.Id = messageId;
+                return true;
+            }
+        }
+
+        protected virtual void UpdateMessage(string messageId, MessageStateEnum state)
+        {
+
         }
     }
 }

@@ -99,19 +99,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.StaffDetailAreaViewModel);
             }
         }
-        private CustomerDetailAreaViewModel customerDetailAreaViewModel;
-        public CustomerDetailAreaViewModel CustomerDetailAreaViewModel
-        {
-            get
-            {
-                return this.customerDetailAreaViewModel;
-            }
-            set
-            {
-                this.customerDetailAreaViewModel = value;
-                this.NotifyPropertyChange(() => this.CustomerDetailAreaViewModel);
-            }
-        }
         #endregion
 
         #region 事件处理
@@ -137,7 +124,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
-            this.CustomerDetailAreaViewModel.Customer = null;
             this.Type = null;
         }
 
@@ -145,7 +131,6 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
-            this.CustomerDetailAreaViewModel.Customer = null;
             this.Type = null;
         }
         #endregion

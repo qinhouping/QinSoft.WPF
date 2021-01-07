@@ -80,7 +80,8 @@ namespace EMChat2.View
                     if (chat == null || message == null) return null;
                     if (message.State == MessageStateEnum.Revoked)
                         return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name);
-                    return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
+                    else
+                        return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
                 });
             }
         }
