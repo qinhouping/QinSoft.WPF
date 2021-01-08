@@ -30,7 +30,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 标签
         /// </summary>
-        [JsonIgnore]
         public TagApiModel Tag { get; set; }
     }
 }

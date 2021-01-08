@@ -1,6 +1,8 @@
-﻿using QinSoft.WPF.Core;
+﻿using EMChat2.Common;
+using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace EMChat2.Model.BaseInfo
     {
         public SettingModel()
         {
-            this.businessSettings = new List<BusinessSettingModel>();
+            this.businessSettings = new ObservableCollection<BusinessSettingModel>();
         }
 
         /// <summary>
@@ -72,8 +74,8 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 业务相关配置信息
         /// </summary>
-        private IList<BusinessSettingModel> businessSettings;
-        public IList<BusinessSettingModel> BusinessSettings
+        private ObservableCollection<BusinessSettingModel> businessSettings;
+        public ObservableCollection<BusinessSettingModel> BusinessSettings
         {
             get
             {
@@ -88,12 +90,9 @@ namespace EMChat2.Model.BaseInfo
 
         public object Clone()
         {
-            return new SettingModel()
-            {
-                AutoStartup = this.AutoStartup,
-                IsCloseApplication = this.IsCloseApplication,
-                BusinessSettings = this.BusinessSettings?.Select(u => u.Clone() as BusinessSettingModel).ToList()
-            };
+            SettingModel setting = this.CloneObject();
+            setting.businessSettings = new ObservableCollection<BusinessSettingModel>(this.BusinessSettings?.Select(u => u.Clone() as BusinessSettingModel));
+            return setting;
         }
     }
 }

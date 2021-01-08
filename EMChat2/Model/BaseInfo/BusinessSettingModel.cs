@@ -1,4 +1,5 @@
-﻿using EMChat2.Model.Enum;
+﻿using EMChat2.Common;
+using EMChat2.Model.Enum;
 using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
@@ -171,18 +172,8 @@ namespace EMChat2.Model.BaseInfo
 
         public object Clone()
         {
-            return new BusinessSettingModel()
-            {
-                Business = this.Business,
-                AllowSendMessage = this.AllowSendMessage,
-                AllowInputText = this.AllowInputText,
-                AllowCaptureScreen = this.AllowCaptureScreen,
-                AllowSelectImage = this.AllowSelectImage,
-                AllowSelectFile = this.AllowSelectFile,
-                AllowRevokeMessage = this.AllowRevokeMessage,
-                MaxRollbackMessageTotalMinutes = this.MaxRollbackMessageTotalMinutes,
-                AllowSelectQuickReply = this.AllowSelectQuickReply
-            };
+            BusinessSettingModel businessSetting = this.CloneObject();
+            return businessSetting;
         }
     }
 }

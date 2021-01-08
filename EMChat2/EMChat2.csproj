@@ -183,7 +183,7 @@
     <Compile Include="Common\Cef\ChatInfoCefJsObject.cs" />
     <Compile Include="Common\Cef\ComputerInfoCefJsObject.cs" />
     <Compile Include="Common\ChineseCharactorTools.cs" />
-    <Compile Include="Common\ConverterTools.cs" />
+    <Compile Include="Common\ConvertTools.cs" />
     <Compile Include="Common\DrawTools.cs" />
     <Compile Include="Common\EncryptTools.cs" />
     <Compile Include="Common\ExecuteTools.cs" />

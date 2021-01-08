@@ -47,7 +47,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 业务列表
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<UserBusinessApiModel> UserBusinesses { get; set; }
     }
 }

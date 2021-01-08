@@ -18,11 +18,11 @@ namespace EMChat2.Model.BaseInfo
     /// <summary>
     /// 消息内容
     /// </summary>
-    public class MessageContent : PropertyChangedBase, ICloneable
+    public abstract class MessageContent : PropertyChangedBase, ICloneable
     {
         public virtual object Clone()
         {
-            return new MessageContent();
+            return this.CloneObject();
         }
     }
 
@@ -61,6 +61,7 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
+        [AssignIgnore]
         [JsonProperty("Content")]
         public string ContentString
         {
@@ -71,18 +72,16 @@ namespace EMChat2.Model.BaseInfo
             set
             {
                 this.content = MessageTools.DeserializeMessageContent(this.type, value);
-                this.NotifyPropertyChange(() => this.ContentString);
                 this.NotifyPropertyChange(() => this.Content);
+                this.NotifyPropertyChange(() => this.ContentString);
             }
         }
 
         public virtual object Clone()
         {
-            return new MessageContentModel()
-            {
-                Type = this.Type,
-                Content = this.Content?.Clone() as MessageContent
-            };
+            MessageContentModel messageContent = this.CloneObject();
+            messageContent.Content = this.Content?.Clone() as MessageContent;
+            return messageContent;
         }
     }
 
@@ -164,8 +163,8 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 接收者列表
         /// </summary>
-        private UserModel[] toUsers;
-        public UserModel[] ToUsers
+        private ObservableCollection<UserModel> toUsers;
+        public ObservableCollection<UserModel> ToUsers
         {
             get
             {
@@ -194,6 +193,7 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.State);
             }
         }
+
         #endregion
 
         #region 方法
@@ -205,21 +205,6 @@ namespace EMChat2.Model.BaseInfo
         public override bool Equals(object obj)
         {
             return this.id.Equals((obj as MessageModel)?.id);
-        }
-
-        public override object Clone()
-        {
-            return new MessageModel()
-            {
-                Id = this.Id,
-                Time = this.Time,
-                ChatId = this.ChatId,
-                FromUser = this.FromUser,
-                ToUsers = this.ToUsers,
-                State = this.State,
-                Type = this.Type,
-                Content = this.Content?.Clone() as MessageContent
-            };
         }
         #endregion
     }
@@ -244,14 +229,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Content);
             }
         }
-
-        public override object Clone()
-        {
-            return new TextMessageContent()
-            {
-                Content = this.Content
-            };
-        }
     }
 
     /// <summary>
@@ -271,14 +248,6 @@ namespace EMChat2.Model.BaseInfo
                 this.url = value;
                 this.NotifyPropertyChange(() => this.Url);
             }
-        }
-
-        public override object Clone()
-        {
-            return new ImageMessageContent()
-            {
-                Url = this.Url
-            };
         }
     }
 
@@ -327,16 +296,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.IsGif);
             }
         }
-
-        public override object Clone()
-        {
-            return new EmotionMessageContent()
-            {
-                Url = this.Url,
-                Name = this.Name,
-                IsGif = this.IsGif
-            };
-        }
     }
 
     /// <summary>
@@ -382,16 +341,6 @@ namespace EMChat2.Model.BaseInfo
                 this.extension = value;
                 this.NotifyPropertyChange(() => this.Extension);
             }
-        }
-
-        public override object Clone()
-        {
-            return new FileMessageContent()
-            {
-                Url = this.Url,
-                Name = this.Name,
-                Extension = this.Extension
-            };
         }
     }
 
@@ -455,17 +404,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Description);
             }
         }
-
-        public override object Clone()
-        {
-            return new LinkMessageContent()
-            {
-                Url = this.Url,
-                ThumbUrl = this.ThumbUrl,
-                Title = this.Title,
-                Description = this.Description
-            };
-        }
     }
 
     /// <summary>
@@ -473,8 +411,8 @@ namespace EMChat2.Model.BaseInfo
     /// </summary>
     public class MixedMessageContent : MessageContent
     {
-        private MessageContentModel[] items;
-        public MessageContentModel[] Items
+        private ObservableCollection<MessageContentModel> items;
+        public ObservableCollection<MessageContentModel> Items
         {
             get
             {
@@ -489,10 +427,9 @@ namespace EMChat2.Model.BaseInfo
 
         public override object Clone()
         {
-            return new MixedMessageContent()
-            {
-                Items = this.Items?.Select(u => u.Clone() as MessageContentModel).ToArray()
-            };
+            MixedMessageContent mixedMessageContent = base.Clone() as MixedMessageContent;
+            mixedMessageContent.Items = new ObservableCollection<MessageContentModel>(this.Items?.Select(u => u.Clone() as MessageContentModel));
+            return mixedMessageContent;
         }
     }
 
@@ -515,8 +452,8 @@ namespace EMChat2.Model.BaseInfo
             }
         }
 
-        private string[] messageIds;
-        public string[] MessageIds
+        private ObservableCollection<string> messageIds;
+        public ObservableCollection<string> MessageIds
         {
             get
             {
@@ -527,14 +464,6 @@ namespace EMChat2.Model.BaseInfo
                 this.messageIds = value;
                 this.NotifyPropertyChange(() => this.MessageIds);
             }
-        }
-        public override object Clone()
-        {
-            return new ShareMessageContent()
-            {
-                ChatId = this.ChatId,
-                MessageIds = this.MessageIds?.Select(u => u).ToArray()
-            };
         }
     }
 
@@ -555,14 +484,6 @@ namespace EMChat2.Model.BaseInfo
                 this.content = value;
                 this.NotifyPropertyChange(() => this.Content);
             }
-        }
-
-        public override object Clone()
-        {
-            return new TipsMessageContent()
-            {
-                Content = this.Content
-            };
         }
     }
 
@@ -587,14 +508,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.Event);
             }
         }
-
-        public override object Clone()
-        {
-            return new EventMessageContent()
-            {
-                Event = this.Event
-            };
-        }
     }
 
     public class RecvMessageEventMessageContent : EventMessageContent
@@ -617,15 +530,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.MessageId);
             }
         }
-
-        public override object Clone()
-        {
-            return new RecvMessageEventMessageContent()
-            {
-                Event = this.Event,
-                MessageId = this.MessageId
-            };
-        }
     }
 
     public class ReadMessageEventMessageContent : EventMessageContent
@@ -635,9 +539,9 @@ namespace EMChat2.Model.BaseInfo
             this.Event = EventMessageTypeConst.ReadMessage;
         }
 
-        private string[] messageIds;
+        private ObservableCollection<string> messageIds;
 
-        public string[] MessageIds
+        public ObservableCollection<string> MessageIds
         {
             get
             {
@@ -648,15 +552,6 @@ namespace EMChat2.Model.BaseInfo
                 this.messageIds = value;
                 this.NotifyPropertyChange(() => this.MessageIds);
             }
-        }
-
-        public override object Clone()
-        {
-            return new ReadMessageEventMessageContent()
-            {
-                Event = this.Event,
-                messageIds = this.messageIds?.Select(u => u).ToArray()
-            };
         }
     }
 
@@ -680,15 +575,6 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.MessageId);
             }
         }
-
-        public override object Clone()
-        {
-            return new RefuseMessageEventMessageContent()
-            {
-                Event = this.Event,
-                MessageId = this.MessageId
-            };
-        }
     }
 
     public class RevokeMessageEventMessageContent : EventMessageContent
@@ -710,15 +596,6 @@ namespace EMChat2.Model.BaseInfo
                 this.messageId = value;
                 this.NotifyPropertyChange(() => this.MessageId);
             }
-        }
-
-        public override object Clone()
-        {
-            return new RevokeMessageEventMessageContent()
-            {
-                Event = this.Event,
-                MessageId = this.MessageId
-            };
         }
     }
 
@@ -755,15 +632,6 @@ namespace EMChat2.Model.BaseInfo
                 this.chatId = value;
                 this.NotifyPropertyChange(() => this.ChatId);
             }
-        }
-        public override object Clone()
-        {
-            return new InputMessageEventMessageContent()
-            {
-                Event = this.Event,
-                ChatId = this.ChatId,
-                IsInputing = this.IsInputing
-            };
         }
     }
     #endregion

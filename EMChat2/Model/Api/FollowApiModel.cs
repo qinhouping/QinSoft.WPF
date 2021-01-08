@@ -46,7 +46,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 对方用户信息字符串
         /// </summary>
-        [JsonIgnore]
         public string OppositeUserInfo { get; set; }
 
         /// <summary>
@@ -67,7 +66,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 好友标签
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<FollowTagApiModel> FollowTags { get; set; }
     }
 }

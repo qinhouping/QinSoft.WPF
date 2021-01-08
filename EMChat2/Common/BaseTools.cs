@@ -314,7 +314,7 @@ namespace EMChat2.Common
     }
 
     /// <summary>
-    /// Assign方法忽略
+    /// Assign,Clone方法忽略
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class AssignIgnoreAttribute : Attribute

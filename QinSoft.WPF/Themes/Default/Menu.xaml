@@ -84,7 +84,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30"></ColumnDefinition>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="30"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
                                     <ContentPresenter x:Name="PART_Icon" ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.FontStyle="{TemplateBinding FontStyle}" TextBlock.FontStretch="{TemplateBinding FontStretch}" ></ContentPresenter>

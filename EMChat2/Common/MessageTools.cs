@@ -3,6 +3,7 @@ using EMChat2.Model.Enum;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -91,7 +92,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Mixed,
                 Content = new MixedMessageContent()
                 {
-                    Items = messageContents.ToArray()
+                    Items = new ObservableCollection<MessageContentModel>(messageContents)
                 }
             };
         }
@@ -162,7 +163,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Mixed,
                 Content = new MixedMessageContent()
                 {
-                    Items = items
+                    Items = new ObservableCollection<MessageContentModel>(items)
                 }
             };
         }
@@ -201,7 +202,7 @@ namespace EMChat2.Common
                 Type = MessageTypeConst.Event,
                 Content = new ReadMessageEventMessageContent()
                 {
-                    MessageIds = messages.Select(u => u.Id).ToArray()
+                    MessageIds = new ObservableCollection<string>(messages.Select(u => u.Id).ToArray())
                 }
             };
         }
@@ -278,7 +279,7 @@ namespace EMChat2.Common
                 ChatId = chat.Id,
                 Time = DateTime.Now,
                 FromUser = staff,
-                ToUsers = chat.ChatUsers.Where(u => !staff.Equals(u)).ToArray(),
+                ToUsers = new ObservableCollection<UserModel>(chat.ChatUsers.Where(u => !staff.Equals(u))),
                 State = state,
                 Type = messageContent.Type,
                 Content = messageContent.Content

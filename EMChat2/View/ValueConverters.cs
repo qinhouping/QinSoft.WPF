@@ -319,7 +319,7 @@ namespace EMChat2.View
                     MessageModel message = values[0] as MessageModel;
                     ChatModel chat = values[1] as ChatModel;
                     if (message == null || chat == null) return null;
-                    return string.Format("\"{0}\"撤回了一条消息", chat.ChatAllUsers.FirstOrDefault(u => u.ImUserId.Equals(message.FromUser))?.Name);
+                    return string.Format("\"{0}\"撤回了一条消息", chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name);
                 });
             }
         }

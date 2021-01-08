@@ -31,7 +31,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 用户信息字符串
         /// </summary>
-        [JsonIgnore]
         public string UserInfo { get; set; }
 
         /// <summary>

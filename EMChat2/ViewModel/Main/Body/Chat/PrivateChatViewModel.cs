@@ -93,7 +93,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 if (this.Messages.Contains(message)) return false;
             }
-            if (ModifyMessageState(message, MessageStateEnum.Received))
+            if (CanModifyMessageState(message, MessageStateEnum.Received))
             {
                 new Action(() =>
                 {
@@ -112,7 +112,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public override int ReadMessage()
         {
             if (!IsSelected || !ApplicationContextViewModel.IsActived) return 0;
-            MessageModel[] messages = NotReadMessages.Where(u => ModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
+            MessageModel[] messages = NotReadMessages.Where(u => CanModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
             if (messages.Count() == 0) return 0;
             int count = 10;
             for (int i = 0; i < Math.Ceiling(messages.Count() / (double)count); i++)

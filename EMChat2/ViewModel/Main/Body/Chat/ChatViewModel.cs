@@ -417,7 +417,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<MessageModel>((oldMessage) =>
                 {
-                    if (ModifyMessageState(oldMessage, MessageStateEnum.Revoked))
+                    if (CanModifyMessageState(oldMessage, MessageStateEnum.Revoked))
                     {
                         MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
                         this.chatService.SendMessage(revokeMessageEvent);
@@ -670,13 +670,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         protected virtual bool ModifyMessageState(MessageModel message, MessageStateEnum state)
         {
             if (message == null) return false;
-            if (state > message.State)
+            if (CanModifyMessageState(message, state))
             {
                 message.State = state;
                 this.NoticeMessagesChange();
                 return true;
             }
             return false;
+        }
+
+        protected virtual bool CanModifyMessageState(MessageModel message, MessageStateEnum state)
+        {
+            if (message == null) return false;
+            return state > message.State;
         }
 
         public override bool Equals(object obj)
@@ -696,7 +702,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 事件处理
-        public void Handle(SettingChangedEventArgs Message)
+        public void Handle(SettingChangedEventArgs arg)
         {
             this.NotifyPropertyChange(() => this.BusinessSetting);
             this.NotifyPropertyChange(() => this.AllowInputText);

@@ -25,7 +25,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 会话信息
         /// </summary>
-        [JsonIgnore]
         public ChatApiModel Chat { get; set; }
         /// <summary>
         /// 是否置顶

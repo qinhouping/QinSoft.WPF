@@ -38,12 +38,20 @@ namespace EMChat2.Service
         #region 方法
         public virtual async void Login(LoginInfoModel loginInfo)
         {
+            string error = null;
+            StaffModel staff = null;
+            IMServerModel imServer = null;
+            IMUserModel imUser = null;
+
+            bool isSuccess = await new Func<bool>(() => ApiTools.LoginStaff(loginInfo.UserName, loginInfo.Password, out error, out staff, out imServer, out imUser)).ExecuteInTask();
+
             await this.eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
-                IsSuccess = true,
-                IMServer = TestData.TestIMServer,
-                Staff = TestData.Current.TestStaff,
-                IMUser = TestData.Current.TestIMUser
+                IsSuccess = isSuccess,
+                Message = error,
+                Staff = staff,
+                IMServer = imServer,
+                IMUser = imUser
             });
         }
 

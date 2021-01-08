@@ -42,7 +42,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 标签
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<TagApiModel> Tags { get; set; }
     }
 }

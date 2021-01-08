@@ -30,13 +30,11 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 下级部门
         /// </summary>
-        [JsonIgnore]
         public virtual IEnumerable<DepartmentApiModel> Departments { get; set; }
 
         /// <summary>
         /// 部门员工
         /// </summary>
-        [JsonIgnore]
         public virtual IEnumerable<DepartmentStaffApiModel> DepartmentStaffs { get; }
     }
 }

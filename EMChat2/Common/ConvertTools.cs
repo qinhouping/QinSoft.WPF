@@ -1,17 +1,19 @@
-﻿using EMChat2.Model.Api;
+﻿using DotLiquid.Util;
+using EMChat2.Model.Api;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Enum;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EMChat2.Common
 {
-    public static class ConverterTools
+    public static class ConvertTools
     {
-        public static UserModel CreateUser(string userId, UserTypeEnum userType)
+        public static UserModel Convert(string userId, UserTypeEnum userType)
         {
             switch (userType)
             {
@@ -23,7 +25,7 @@ namespace EMChat2.Common
 
         }
 
-        public static MessageApiModel MessageToApiModel(this MessageModel message)
+        public static MessageApiModel Convert(this MessageModel message)
         {
             if (message == null) return null;
             MessageApiModel apiMessage = new MessageApiModel();
@@ -44,19 +46,42 @@ namespace EMChat2.Common
             return apiMessage;
         }
 
-        public static MessageModel MessageToModel(this MessageApiModel apiMessage)
+        public static MessageModel Convert(this MessageApiModel apiMessage)
         {
             if (apiMessage == null) return null;
             MessageModel message = new MessageModel();
             message.Id = apiMessage.Id;
             message.Time = apiMessage.Time;
             message.ChatId = apiMessage.ChatId;
-            message.FromUser = CreateUser(apiMessage.FromUserId, apiMessage.FromUserType);
+            message.FromUser = Convert(apiMessage.FromUserId, apiMessage.FromUserType);
             message.ToUsers = null;
             message.State = apiMessage.State;
             message.Type = apiMessage.Type;
             message.ContentString = apiMessage.Content;
             return message;
+        }
+
+        public static UpdateMessageApiModel Convert(string messageId, MessageStateEnum state)
+        {
+            if (string.IsNullOrEmpty(messageId)) return null;
+            UpdateMessageApiModel apiUpdateMessage = new UpdateMessageApiModel();
+            apiUpdateMessage.Id = messageId;
+            apiUpdateMessage.State = state;
+            return apiUpdateMessage;
+        }
+
+        public static StaffModel Convert(this StaffApiModel apiStaff)
+        {
+            if (apiStaff == null) return null;
+            StaffModel staff = new StaffModel();
+            staff.Id = apiStaff.Id;
+            staff.ImUserId = apiStaff.ImUserId;
+            staff.Name = apiStaff.Name;
+            staff.HeaderImageUrl = apiStaff.HeaderImageUrl;
+            staff.WorkCode = apiStaff.WorkCode;
+            staff.Sex = apiStaff.Sex;
+            staff.BusinessList = new ObservableCollection<BusinessEnum>() { BusinessEnum.Inside };
+            return staff;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 员工信息
         /// </summary>
-        [JsonIgnore]
         public StaffApiModel Staff { get; }
 
         /// <summary>

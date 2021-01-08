@@ -1,4 +1,5 @@
-﻿using EMChat2.Common;
+﻿using DotLiquid.Tags;
+using EMChat2.Common;
 using EMChat2.Common.PipeFilter;
 using EMChat2.Event;
 using EMChat2.Model.Api;
@@ -61,7 +62,79 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                     break;
                 case MessageTypeConst.Event:
                     {
-                        arg.OutArg = message;
+                        EventMessageContent eventMessageContent = message.Content as EventMessageContent;
+                        switch (eventMessageContent.Event)
+                        {
+                            case EventMessageTypeConst.RecvMessage:
+                                {
+                                    if (this.UpdateMessage((eventMessageContent as RecvMessageEventMessageContent).MessageId, MessageStateEnum.Received))
+                                    {
+                                        this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                                        {
+                                            ChatId = message.ChatId,
+                                            MessageId = (eventMessageContent as RecvMessageEventMessageContent).MessageId,
+                                            MessageState = MessageStateEnum.Received
+                                        });
+                                        arg.OutArg = message;
+                                    }
+                                    else
+                                    {
+                                        arg.Cancel = true;
+                                    }
+                                }
+                                break;
+                            case EventMessageTypeConst.ReadMessage:
+                                {
+                                    arg.OutArg = message;
+                                }
+                                break;
+                            case EventMessageTypeConst.RefuseMessage:
+                                {
+                                    if (this.UpdateMessage((eventMessageContent as RefuseMessageEventMessageContent).MessageId, MessageStateEnum.Refused))
+                                    {
+                                        this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                                        {
+                                            ChatId = message.ChatId,
+                                            MessageId = (eventMessageContent as RefuseMessageEventMessageContent).MessageId,
+                                            MessageState = MessageStateEnum.Refused
+                                        });
+                                        arg.OutArg = message;
+                                    }
+                                    else
+                                    {
+                                        arg.Cancel = true;
+                                    }
+                                }
+                                break;
+                            case EventMessageTypeConst.RevokeMessage:
+                                {
+                                    if (this.UpdateMessage((eventMessageContent as RevokeMessageEventMessageContent).MessageId, MessageStateEnum.Revoked))
+                                    {
+                                        this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                                        {
+                                            ChatId = message.ChatId,
+                                            MessageId = (eventMessageContent as RevokeMessageEventMessageContent).MessageId,
+                                            MessageState = MessageStateEnum.Revoked
+                                        });
+                                        arg.OutArg = message;
+                                    }
+                                    else
+                                    {
+                                        arg.Cancel = true;
+                                    }
+                                }
+                                break;
+                            case EventMessageTypeConst.InputMessage:
+                                {
+                                    arg.OutArg = message;
+                                }
+                                break;
+                            default:
+                                {
+                                    arg.OutArg = message;
+                                }
+                                break;
+                        }
                     }
                     break;
                 default:
@@ -91,7 +164,7 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                 {
                     ChatId = message.ChatId,
                     MessageId = message.Id,
-                    MessageState = MessageStateEnum.SendFailure
+                    MessageState = message.State
                 });
                 return false;
             }
@@ -108,9 +181,26 @@ namespace EMChat2.Service.PipeFilter.SendMessage
             }
         }
 
-        protected virtual void UpdateMessage(string messageId, MessageStateEnum state)
+        protected virtual bool UpdateMessage(string messageId, MessageStateEnum state)
         {
+            if (!ApiTools.ModifyMessage(messageId, state, out string error))
+            {
+                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "消息更新失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
 
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -25,7 +25,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 业务信息
         /// </summary>
-        [JsonIgnore]
         public BusinessApiModel Business { get; set; }
     }
 }

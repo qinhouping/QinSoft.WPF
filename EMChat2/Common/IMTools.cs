@@ -103,10 +103,12 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="message">消息</param>
         /// <returns>发送结果</returns>
-        public static bool Send(MessageModel message)
+        public static bool Send(MessageModel message, out string error)
         {
+            error = null;
+            string tmpError = null;
             int result = 0;
-            MessageApiModel sendMessage = message.MessageToApiModel();
+            MessageApiModel sendMessage = message.Convert();
             string messageString = sendMessage.ObjectToJson();
 
             Semaphore semaphore = new Semaphore(0, message.ToUsers.Count());
@@ -116,6 +118,7 @@ namespace EMChat2.Common
                 socketClient.SendToUser(message.FromUser.ImUserId, toUser.ImUserId, messageString, 0, (code, msg) =>
                 {
                     result += code;
+                    tmpError += msg;
                     semaphore.Release();
                 });
             }
@@ -124,7 +127,15 @@ namespace EMChat2.Common
             {
                 semaphore.WaitOne();
             }
-            return result == 0;
+            if (result == 0)
+            {
+                return true;
+            }
+            else
+            {
+                error = tmpError;
+                return false;
+            }
         }
 
         /// <summary>
@@ -132,18 +143,18 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns>上传结果</returns>
-        public static IMFileInfo UploadFile(FileInfo file, out string message)
+        public static IMFileInfo UploadFile(FileInfo file, out string error)
         {
             try
             {
                 string content = FileServerClient.Current.UploadFile(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
                 IMUploadResponse<IMFileInfo> response = content.JsonToObject<IMUploadResponse<IMFileInfo>>();
-                message = response.Message;
+                error = response.Message;
                 return response.Data;
             }
             catch (Exception e)
             {
-                message = e.Message;
+                error = e.Message;
                 return null;
             }
         }
@@ -153,18 +164,18 @@ namespace EMChat2.Common
         /// </summary>
         /// <param name="file">图片文件</param>
         /// <returns>上传结果</returns>
-        public static IMImageInfo UploadImage(FileInfo file, out string message)
+        public static IMImageInfo UploadImage(FileInfo file, out string error)
         {
             try
             {
                 string content = FileServerClient.Current.UploadImage(file.FullName, imServer.ApiUrl, imUser.Id, imUser.Token);
                 IMUploadResponse<IMImageInfo> response = content.JsonToObject<IMUploadResponse<IMImageInfo>>();
-                message = response.Message;
+                error = response.Message;
                 return response.Data;
             }
             catch (Exception e)
             {
-                message = e.Message;
+                error = e.Message;
                 return null;
             }
         }
@@ -252,7 +263,7 @@ namespace EMChat2.Common
             {
                 string messageString = privateMessage.Content;
                 MessageApiModel recvMessage = messageString.JsonToObject<MessageApiModel>();
-                MessageModel message = recvMessage.MessageToModel();
+                MessageModel message = recvMessage.Convert();
                 OnReceiveMessage?.Invoke(client, message);
                 socketClient.SendPrivateMessageReceipt(privateMessage.MsgID, privateMessage.SenderID, IM_ReceiptType.Receive, null);
             }

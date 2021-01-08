@@ -43,7 +43,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 快捷回复
         /// </summary>
-        [JsonIgnore]
         public IEnumerable<QuickReplyApiModel> QuickReplies { get; set; }
     }
 }
