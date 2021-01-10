@@ -19,7 +19,7 @@
                     <Image Source="{Binding ThumbUrl}" ToolTip="{Binding Name}"></Image>
                 </DataTemplate>
             </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
+            <TabControl.ContentTemplate> 
                 <DataTemplate>
                     <Grid>
                         <ListBox Style="{StaticResource IM-EmotionPicker-List}" ItemContainerStyle="{StaticResource IM-EmotionPicker-ListItem}" ItemsSource="{Binding Emotions}">

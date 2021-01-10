@@ -18,7 +18,7 @@
             <ListBox.ItemsSource>
                 <MultiBinding Converter="{x:Static view:ValueConverters.TagGroupFilterConverter}">
                     <Binding Path="TagGroups"></Binding>
-                    <Binding Path="Business" ElementName="_this"></Binding>
+                    <Binding Path="BusinessId" ElementName="_this"></Binding>
                 </MultiBinding>
             </ListBox.ItemsSource>
             

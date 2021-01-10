@@ -79,9 +79,22 @@ namespace EMChat2.Common
             staff.Name = apiStaff.Name;
             staff.HeaderImageUrl = apiStaff.HeaderImageUrl;
             staff.WorkCode = apiStaff.WorkCode;
+            staff.Remark = null;
+            staff.Description = null;
             staff.Sex = apiStaff.Sex;
-            staff.BusinessList = new ObservableCollection<BusinessEnum>() { BusinessEnum.Inside };
+            staff.Businesses = new ObservableCollection<BusinessModel>(apiStaff.UserBusinesses.Select(u => Convert(u.Business)));
             return staff;
+        }
+
+        public static BusinessModel Convert(this BusinessApiModel apiBusiness)
+        {
+            if (apiBusiness == null) return null;
+            BusinessModel businessModel = new BusinessModel();
+            businessModel.Id = apiBusiness.Id;
+            businessModel.Name = apiBusiness.Name;
+            businessModel.Description = apiBusiness.Description;
+            businessModel.Outside = apiBusiness.Outside;
+            return businessModel;
         }
     }
 }

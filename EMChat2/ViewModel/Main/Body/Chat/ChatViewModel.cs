@@ -37,7 +37,23 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
-            this.Messages = new ObservableCollection<MessageModel>();
+
+            this.NoticeMessagesChange();
+            this.Chat.Messages.CollectionChanged += (s, e) =>
+            {
+                lock (this)
+                {
+                    this.NoticeMessagesChange();
+                    this.ReadMessage();
+                }
+            };
+
+            lock (this.Chat.Messages)
+            {
+                ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.Chat.Messages);
+                collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
+                this.MessagesCollectionView = collectionView;
+            }
         }
         #endregion
 
@@ -85,35 +101,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.EmotionPickerAreaViewModel);
             }
         }
-        private ObservableCollection<MessageModel> messages;
-        public ObservableCollection<MessageModel> Messages
-        {
-            get
-            {
-                return this.messages;
-            }
-            set
-            {
-                this.messages = value;
-                this.NotifyPropertyChange(() => this.Messages);
-                this.NoticeMessagesChange();
-                this.messages.CollectionChanged += (s, e) =>
-                {
-                    lock (this)
-                    {
-                        this.NoticeMessagesChange();
-                        this.ReadMessage();
-                    }
-                };
 
-                lock (this.messages)
-                {
-                    ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.messages);
-                    collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
-                    this.MessagesCollectionView = collectionView;
-                }
-            }
-        }
         private ICollectionView messagesCollectionView;
         public ICollectionView MessagesCollectionView
         {
@@ -160,9 +148,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                lock (this.messages)
+                lock (this.Chat.Messages)
                 {
-                    return this.messages.Where(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received)).ToArray();
+                    return this.Chat.Messages.Where(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received)).ToArray();
                 }
             }
         }
@@ -177,7 +165,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                lock (this.messages)
+                lock (this.Chat.Messages)
                 {
                     this.messagesCollectionView.MoveCurrentToLast();
                     return this.messagesCollectionView.CurrentItem as MessageModel;
@@ -201,7 +189,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                BusinessSettingModel value = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.Business == chat.Business);
+                BusinessSettingModel value = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.BusinessId == chat.BusinessId);
                 if (value == null)
                 {
                     value = new BusinessSettingModel();
@@ -209,14 +197,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return value;
             }
         }
-        public bool AllowInputText
+        private bool isSelected;
+        public bool IsSelected
         {
             get
             {
-                return BusinessSetting.AllowInputText;
+                return this.isSelected;
+            }
+            set
+            {
+                this.isSelected = value;
+                this.NotifyPropertyChange(() => this.IsSelected);
             }
         }
-        public bool IsSelected { get; set; }
 
         #region 排序属性
         public bool IsTopSort
@@ -374,9 +367,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     new Action(() =>
                     {
                         this.InputMessageContent = null;
-                        lock (this.Messages)
+                        lock (this.Chat.Messages)
                         {
-                            this.Messages.Add(message);
+                            this.Chat.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
                     chatService.SendMessage(message);
@@ -397,10 +390,10 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     if (message == null) return;
                     new Action(() =>
                     {
-                        lock (this.Messages)
+                        lock (this.Chat.Messages)
                         {
-                            this.Messages.Remove(oldMessage);
-                            this.Messages.Add(message);
+                            this.Chat.Messages.Remove(oldMessage);
+                            this.Chat.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
                     chatService.SendMessage(message);
@@ -647,9 +640,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public virtual bool UpdateMessage(string messageId, MessageStateEnum state)
         {
             if (messageId == null) return false;
-            lock (this.Messages)
+            lock (this.Chat.Messages)
             {
-                MessageModel message = this.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
+                MessageModel message = this.Chat.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
                 if (message == null) return false;
                 return ModifyMessageState(message, state);
             }
@@ -658,9 +651,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public virtual bool UpdateMessage(string messageId, string newMessageId)
         {
             if (messageId == null || newMessageId == null) return false;
-            lock (this.Messages)
+            lock (this.Chat.Messages)
             {
-                MessageModel message = this.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
+                MessageModel message = this.Chat.Messages.FirstOrDefault(u => u.Id.Equals(messageId));
                 if (message == null) return false;
                 message.Id = newMessageId;
                 return true;
@@ -705,7 +698,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public void Handle(SettingChangedEventArgs arg)
         {
             this.NotifyPropertyChange(() => this.BusinessSetting);
-            this.NotifyPropertyChange(() => this.AllowInputText);
         }
         #endregion
     }

@@ -166,21 +166,22 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 方法
-        private ChatModel CreatePrivateChat(UserModel user, BusinessEnum business = BusinessEnum.Inside)
+        private ChatModel CreatePrivateChat(string businessId, UserModel user)
         {
             if (ApplicationContextViewModel.CurrentStaff == null || user == null) return null;
-            List<string> ids = new List<string>() { ApplicationContextViewModel.CurrentStaff.Id, user.Id, business.ToString() };
+            List<string> ids = new List<string>() { businessId, ApplicationContextViewModel.CurrentStaff.Id, user.Id };
             ids.Sort();
             ChatModel chat = new ChatModel();
             chat.Id = string.Join("_", ids).MD5();
-            chat.Business = business;
+            chat.BusinessId = businessId;
             chat.Type = ChatTypeEnum.Private;
-            chat.Name = user.Name;
-            chat.HeaderImageUrl = user.HeaderImageUrl;
+            chat.Name = user.NickName;
+            chat.HeaderImageUrl = user.HeaderImage;
             chat.IsTop = false;
             chat.IsInform = true;
             chat.ChatUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat.ChatAllUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
+            chat.Messages = new ObservableCollection<MessageModel>();
             chat.CreateTime = DateTime.Now;
             return chat;
         }
@@ -234,17 +235,6 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-
-            //TODO 测试数据
-            new Action(() =>
-            {
-                lock (this.ChatItems)
-                {
-                    this.ChatItems.Clear();
-                    ChatModel chat = this.CreatePrivateChat(TestData.Opposite.TestStaff);
-                    if (chat != null) this.ChatItems.Add(this.CreatePrivateChatViewModel(chat));
-                }
-            }).ExecuteInUIThread();
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
@@ -319,8 +309,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                                 if (chatItem.Chat.ChatUsers.Contains(arg.User))
                                 {
                                     chatItem.Chat.ChatUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
-                                    chatItem.Chat.Name = arg.User.Name;
-                                    chatItem.Chat.HeaderImageUrl = arg.User.HeaderImageUrl;
+                                    chatItem.Chat.Name = arg.User.NickName;
+                                    chatItem.Chat.HeaderImageUrl = arg.User.HeaderImage;
                                     new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();
                                 }
                             }
@@ -341,13 +331,13 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 if (arg.ChatUser is CustomerModel)
                 {
                     CustomerModel customer = arg.ChatUser as CustomerModel;
-                    ChatModel chat = this.CreatePrivateChat(customer, customer.Business);
+                    ChatModel chat = this.CreatePrivateChat(customer.BusinessId, customer);
                     if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
                 }
                 else if (arg.ChatUser is StaffModel)
                 {
                     StaffModel staff = arg.ChatUser as StaffModel;
-                    ChatModel chat = this.CreatePrivateChat(staff);
+                    ChatModel chat = this.CreatePrivateChat(staff.BusinessId, staff);
                     if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
                 }
                 else if (arg.ChatUser is SystemUserModel)

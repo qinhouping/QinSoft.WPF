@@ -20,7 +20,7 @@
         <TabControl Style="{StaticResource IM-ChatSlider-Tab}">
             <!--快捷回复-->
             <TabItem Style="{StaticResource IM-ChatSlider-TabItem}" Header="快捷回复" IsSelected="True">
-                <chat:QuickReplyAreaView DataContext="{Binding QuickReplyAreaViewModel}" Business="{Binding Data.Chat.Business, Source={StaticResource chatSliderData}}"></chat:QuickReplyAreaView>
+                <chat:QuickReplyAreaView DataContext="{Binding QuickReplyAreaViewModel}" BusinessId="{Binding Data.Chat.BusinessId, Source={StaticResource chatSliderData}}"></chat:QuickReplyAreaView>
             </TabItem>
 
             <!--详情页-->

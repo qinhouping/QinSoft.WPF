@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:EMChat2.View.Main.Body.User"
+             xmlns:view="clr-namespace:EMChat2.View"
              xmlns:enum="clr-namespace:EMChat2.Model.Enum"
              xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
@@ -30,7 +31,14 @@
                 <!--名称相关-->
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" >
                     <TextBlock Text="我的客户" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}"></TextBlock>
-                    <Label Content="{Binding Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0" ></Label>
+                    <Label Style="{StaticResource IM-Chip}" Margin="10,0" >
+                        <Label.Content>
+                            <MultiBinding Converter="{x:Static view:ValueConverters.BusinessToStringConverter}">
+                                <Binding Path="BusinessId"></Binding>
+                                <Binding Path="Data.ApplicationContextViewModel.CurrentStaff.Businesses" Source="{StaticResource customerListData}"></Binding>
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
@@ -44,7 +52,7 @@
 
         <Border Grid.Row="1">
             <!--标签组列表-->
-            <user:CustomerTagAreaView DataContext="{Binding CustomerTagAreaViewModel}" Business="{Binding Data.Business, Source={StaticResource customerListData}}"></user:CustomerTagAreaView>
+            <user:CustomerTagAreaView DataContext="{Binding CustomerTagAreaViewModel}" BusinessId="{Binding Data.BusinessId, Source={StaticResource customerListData}}"></user:CustomerTagAreaView>
         </Border>
         <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="2" Grid.ZIndex="1" ></GridSplitter>
 
@@ -79,7 +87,7 @@
                                         <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
 
                                         <!--客户名称-->
-                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Name}" Grid.Column="1" Margin="10,0"></TextBlock>
+                                        <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding NickName}" Grid.Column="1" Margin="10,0"></TextBlock>
 
                                         <!--客户在线状态-->
                                         <Grid Grid.Column="2" Width="8" Height="8">

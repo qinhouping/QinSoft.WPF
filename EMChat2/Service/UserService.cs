@@ -74,11 +74,11 @@ namespace EMChat2.Service
             //TODO 测试数据
             SettingModel setting = new SettingModel();
 
-            foreach (BusinessEnum business in staff.BusinessList)
+            foreach (BusinessModel business in staff.Businesses)
             {
                 setting.BusinessSettings.Add(new BusinessSettingModel()
                 {
-                    Business = business,
+                    BusinessId = business.Id,
                     AllowSendMessage = true,
                     AllowInputText = true,
                     AllowCaptureScreen = true,

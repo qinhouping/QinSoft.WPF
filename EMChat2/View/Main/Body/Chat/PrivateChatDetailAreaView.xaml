@@ -5,9 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:chat="clr-namespace:EMChat2.View.Main.Body.Chat"
              xmlns:enum="clr-namespace:EMChat2.Model.Enum"
+             xmlns:view="clr-namespace:EMChat2.View"
+             xmlns:common="clr-namespace:EMChat2.Common"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="privateChatData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -25,7 +32,14 @@
                 <!--会话名称-->
                 <TextBlock Text="{Binding Chat.Name}" VerticalAlignment="Bottom" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Style="{StaticResource BaseTextBlock}" MaxWidth="200"></TextBlock>
                 <!--业务名称-->
-                <Label Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" Margin="10,0"></Label>
+                <Label Style="{StaticResource IM-Chip}" Margin="10,0">
+                    <Label.Content>
+                        <MultiBinding Converter="{x:Static view:ValueConverters.BusinessToStringConverter}">
+                            <Binding Path="Data.Chat.BusinessId" Source="{StaticResource privateChatData}"></Binding>
+                            <Binding Path="Data.ApplicationContextViewModel.CurrentStaff.Businesses" Source="{StaticResource privateChatData}"></Binding>
+                        </MultiBinding>
+                    </Label.Content>
+                </Label>
             </StackPanel>
         </Border>
 

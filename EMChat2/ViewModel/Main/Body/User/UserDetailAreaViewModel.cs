@@ -109,7 +109,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             switch (arg.Type)
             {
                 case UserDetailType.CustomerList:
-                    this.CustomerListAreaViewModel.Business = (BusinessEnum)arg.Data;
+                    this.CustomerListAreaViewModel.BusinessId = (arg.Data as BusinessModel).Id;
                     break;
                 case UserDetailType.Department:
                     this.DepartmentDetailAreaViewModel.Department = arg.Data as DepartmentModel;
@@ -122,6 +122,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(LogoutCallbackEventArgs arg)
         {
+            this.CustomerListAreaViewModel.BusinessId = null;
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
             this.Type = null;
@@ -129,6 +130,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(ExitCallbackEventArgs arg)
         {
+            this.CustomerListAreaViewModel.BusinessId = null;
             this.DepartmentDetailAreaViewModel.Department = null;
             this.StaffDetailAreaViewModel.Staff = null;
             this.Type = null;

@@ -22,17 +22,17 @@ namespace EMChat2.View.Main.Body.Chat
     /// </summary>
     public partial class QuickReplyAreaView : UserControl
     {
-        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum), typeof(QuickReplyAreaView));
+        public static readonly DependencyProperty BusinessIdProperty = DependencyProperty.Register("BusinessId", typeof(string), typeof(QuickReplyAreaView));
 
-        public BusinessEnum Business
+        public string BusinessId
         {
             get
             {
-                return (BusinessEnum)this.GetValue(BusinessProperty);
+                return (string)this.GetValue(BusinessIdProperty);
             }
             set
             {
-                this.SetValue(BusinessProperty, value);
+                this.SetValue(BusinessIdProperty, value);
             }
         }
 

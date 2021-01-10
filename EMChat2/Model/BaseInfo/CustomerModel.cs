@@ -23,6 +23,23 @@ namespace EMChat2.Model.BaseInfo
         #endregion
 
         #region 属性
+        public override string NickName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(remark)) return this.name;
+                else return this.remark;
+            }
+        }
+
+        public override string HeaderImage
+        {
+            get
+            {
+                return this.headerImageUrl;
+            }
+        }
+
         /// <summary>
         /// 通信证id
         /// </summary>
@@ -42,73 +59,43 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 备注
+        /// 客户名称
         /// </summary>
-        private string remark;
-
-        public string Remark
+        private string name;
+        public string Name
         {
             get
             {
-                return this.remark;
+                return this.name;
             }
             set
             {
-                this.remark = value;
-                this.NotifyPropertyChange(() => this.Remark);
+                this.name = value;
                 this.NotifyPropertyChange(() => this.Name);
+                this.NotifyPropertyChange(() => this.NickName);
             }
         }
 
         /// <summary>
-        /// 重写获取Name逻辑
+        /// 客户头像
         /// </summary>
-        [AssignIgnore]
-        public override string Name
+        private string headerImageUrl;
+        public virtual string HeaderImageUrl
         {
             get
             {
-                if (string.IsNullOrEmpty(remark)) return base.Name;
-                else return this.remark;
+                return this.headerImageUrl;
             }
             set
             {
-                base.Name = value;
-                this.NotifyPropertyChange(() => this.Name);
-                this.NotifyPropertyChange(() => this.OriName);
+                this.headerImageUrl = value;
+                this.NotifyPropertyChange(() => this.HeaderImageUrl);
+                this.NotifyPropertyChange(() => this.HeaderImage);
             }
         }
 
         /// <summary>
-        /// 原始名称
-        /// </summary>
-        public string OriName
-        {
-            get
-            {
-                return base.Name;
-            }
-        }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        private string description;
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-            set
-            {
-                this.description = value;
-                this.NotifyPropertyChange(() => this.Description);
-            }
-        }
-
-        /// <summary>
-        /// 性别
+        /// 客户性别
         /// </summary>
         private SexEnum sex;
         public SexEnum Sex
@@ -125,24 +112,43 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 业务
+        /// 客户备注
         /// </summary>
-        private BusinessEnum business;
-        public BusinessEnum Business
+        private string remark;
+
+        public string Remark
         {
             get
             {
-                return this.business;
+                return this.remark;
             }
             set
             {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.business);
+                this.remark = value;
+                this.NotifyPropertyChange(() => this.Remark);
+                this.NotifyPropertyChange(() => this.NickName);
             }
         }
 
         /// <summary>
-        /// 添加好友时间
+        /// 客户描述
+        /// </summary>
+        private string description;
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+                this.NotifyPropertyChange(() => this.Description);
+            }
+        }
+
+        /// <summary>
+        /// 添加客户时间
         /// </summary>
         private DateTime followTime;
         public DateTime FollowTime
@@ -159,19 +165,53 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 客户标签列表
+        /// 客户标签ID列表
         /// </summary>
-        private ObservableCollection<TagModel> tags;
-        public ObservableCollection<TagModel> Tags
+        private ObservableCollection<string> tagIds;
+        public ObservableCollection<string> TagIds
         {
             get
             {
-                return this.tags ?? new ObservableCollection<TagModel>();
+                return this.tagIds;
             }
             set
             {
-                this.tags = value;
-                this.NotifyPropertyChange(() => this.Tags);
+                this.tagIds = value;
+                this.NotifyPropertyChange(() => this.TagIds);
+            }
+        }
+
+        /// <summary>
+        /// 客户业务ID
+        /// </summary>
+        private string businessId;
+        public string BusinessId
+        {
+            get
+            {
+                return this.businessId;
+            }
+            set
+            {
+                this.businessId = value;
+                this.NotifyPropertyChange(() => this.BusinessId);
+            }
+        }
+
+        /// <summary>
+        /// 员工状态
+        /// </summary>
+        private UserStateEnum state;
+        public UserStateEnum State
+        {
+            get
+            {
+                return this.state;
+            }
+            set
+            {
+                this.state = value;
+                this.NotifyPropertyChange(() => this.State);
             }
         }
         #endregion
@@ -179,12 +219,12 @@ namespace EMChat2.Model.BaseInfo
         #region 方法
         public override int GetHashCode()
         {
-            return (this.Id + this.Business).GetHashCode();
+            return (this.Id + this.BusinessId).GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.Id.Equals((obj as CustomerModel)?.Id) && this.Business.Equals((obj as CustomerModel)?.Business);
+            return this.Id.Equals((obj as CustomerModel)?.Id) && this.BusinessId.Equals((obj as CustomerModel)?.BusinessId);
         }
         #endregion
     }

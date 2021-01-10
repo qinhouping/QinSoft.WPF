@@ -77,6 +77,7 @@ namespace EMChat2
         {
             try
             {
+                
                 if (error == null) return;
                 IWindowManager windowManager = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<WindowManagerImp>();
                 EventAggregator eventAggregator = ApplicationBooter.Current.IocApplicationContext.ObjectContainer.Get<QinSoft.WPF.Core.EventAggregatorImp>();

@@ -16,6 +16,23 @@ namespace EMChat2.Model.BaseInfo
     {
         #region 属性
         /// <summary>
+        /// 用户类型
+        /// </summary>
+        private UserTypeEnum type;
+        public virtual UserTypeEnum Type
+        {
+            get
+            {
+                return this.type;
+            }
+            protected set
+            {
+                this.type = value;
+                this.NotifyPropertyChange(() => this.Type);
+            }
+        }
+
+        /// <summary>
         /// 用户id
         /// </summary>
         private string id;
@@ -50,72 +67,19 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 用户名称
+        /// 用户昵称
         /// </summary>
-        private string name;
-        public virtual string Name
+        public abstract string NickName
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-                this.NotifyPropertyChange(() => this.Name);
-            }
+            get;
         }
 
         /// <summary>
         /// 用户头像
         /// </summary>
-        private string headerImageUrl;
-        public virtual string HeaderImageUrl
+        public abstract string HeaderImage
         {
-            get
-            {
-                return this.headerImageUrl;
-            }
-            set
-            {
-                this.headerImageUrl = value;
-                this.NotifyPropertyChange(() => this.HeaderImageUrl);
-            }
-        }
-
-        /// <summary>
-        /// 用户状态
-        /// </summary>
-        private UserStateEnum state;
-        [AssignIgnore]
-        public virtual UserStateEnum State
-        {
-            get
-            {
-                return this.state;
-            }
-            set
-            {
-                this.state = value;
-                this.NotifyPropertyChange(() => this.State);
-            }
-        }
-
-        /// <summary>
-        /// 用户类型
-        /// </summary>
-        private UserTypeEnum type;
-        public virtual UserTypeEnum Type
-        {
-            get
-            {
-                return this.type;
-            }
-            protected set
-            {
-                this.type = value;
-                this.NotifyPropertyChange(() => this.Type);
-            }
+            get;
         }
         #endregion
 

@@ -76,12 +76,13 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     ChatViewModel chat = value as ChatViewModel;
+                    if (chat == null) return null;
                     MessageModel message = chat.LastMessage;
-                    if (chat == null || message == null) return null;
+                    if (message == null) return null;
                     if (message.State == MessageStateEnum.Revoked)
-                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name);
+                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName);
                     else
-                        return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name, MessageTools.GetMessageContentMark(message));
+                        return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName, MessageTools.GetMessageContentMark(message));
                 });
             }
         }
@@ -94,6 +95,7 @@ namespace EMChat2.View
                 {
                     MessageModel message = values[0] as MessageModel;
                     StaffModel staff = values[1] as StaffModel;
+                    if (message == null || staff == null) return HorizontalAlignment.Left;
                     if (message.IsSendFrom(staff)) return HorizontalAlignment.Right;
                     else return HorizontalAlignment.Left;
                 });
@@ -109,7 +111,7 @@ namespace EMChat2.View
                     MessageModel message = values[0] as MessageModel;
                     ChatModel chat = values[1] as ChatModel;
                     if (message == null || chat == null) return null;
-                    return chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name;
+                    return chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName;
                 });
             }
         }
@@ -300,12 +302,9 @@ namespace EMChat2.View
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
                     MessageModel message = value as MessageModel;
-                    if (message != null && message.Type == MessageTypeConst.Tips)
-                    {
-                        TipsMessageContent tipsMessageContent = message.Content as TipsMessageContent;
-                        return tipsMessageContent.Content;
-                    }
-                    return null;
+                    if (message == null || message.Type != MessageTypeConst.Tips) return null;
+                    TipsMessageContent tipsMessageContent = message.Content as TipsMessageContent;
+                    return tipsMessageContent.Content;
                 });
             }
         }
@@ -319,7 +318,7 @@ namespace EMChat2.View
                     MessageModel message = values[0] as MessageModel;
                     ChatModel chat = values[1] as ChatModel;
                     if (message == null || chat == null) return null;
-                    return string.Format("\"{0}\"撤回了一条消息", chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.Name);
+                    return string.Format("\"{0}\"撤回了一条消息", chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName);
                 });
             }
         }
@@ -353,13 +352,13 @@ namespace EMChat2.View
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
                     ObservableCollection<QuickReplyGroupModel> quickReplyGroups = values[0] as ObservableCollection<QuickReplyGroupModel>;
-                    BusinessEnum business = (BusinessEnum)values[1];
+                    string businessId = (string)values[1];
+                    if (quickReplyGroups == null) return null;
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyGroups);
-                    if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
                         QuickReplyGroupModel quickReplyGroup = item as QuickReplyGroupModel;
-                        return quickReplyGroup.Business == business;
+                        return quickReplyGroup.BusinessId == businessId;
                     };
                     return collectionView;
                 });
@@ -373,9 +372,9 @@ namespace EMChat2.View
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
                     ObservableCollection<QuickReplyModel> quickReplyInfos = values[0] as ObservableCollection<QuickReplyModel>;
+                    if (quickReplyInfos == null) return null;
                     string condition = values[1] as string;
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(quickReplyInfos);
-                    if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
                         QuickReplyModel quickReply = item as QuickReplyModel;
@@ -404,13 +403,13 @@ namespace EMChat2.View
                 return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
                 {
                     ObservableCollection<TagGroupModel> tagGroups = values[0] as ObservableCollection<TagGroupModel>;
-                    BusinessEnum business = (BusinessEnum)values[1];
+                    string businessId = (string)values[1];
+                    if (tagGroups == null || string.IsNullOrEmpty(businessId)) return null;
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(tagGroups);
-                    if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
                         TagGroupModel tagGroup = item as TagGroupModel;
-                        return tagGroup.Business == business;
+                        return tagGroup.BusinessId == businessId;
                     };
                     return collectionView;
                 });
@@ -442,18 +441,29 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    ObservableCollection<BusinessEnum> businesses = value as ObservableCollection<BusinessEnum>;
+                    ObservableCollection<BusinessModel> businesses = value as ObservableCollection<BusinessModel>;
                     if (businesses == null) return null;
                     ICollectionView collectionView = CollectionViewSource.GetDefaultView(businesses);
                     if (collectionView == null) return null;
                     collectionView.Filter = (item) =>
                     {
-                        BusinessEnum business = (BusinessEnum)item;
-                        FieldInfo finfo = business.GetType().GetField(business.ToString());
-                        OutSideBussinessAttribute outSide = finfo.GetCustomAttribute(typeof(OutSideBussinessAttribute)) as OutSideBussinessAttribute;
-                        return outSide != null;
+                        BusinessModel business = item as BusinessModel;
+                        return business.Outside;
                     };
                     return collectionView;
+                });
+            }
+        }
+
+        public static IMultiValueConverter BusinessToStringConverter
+        {
+            get
+            {
+                return new DelegateMultiValueConverter((values, targetType, parameter, cultInfo) =>
+                {
+                    string businessId = values[0] as string;
+                    ObservableCollection<BusinessModel> businesses = values[1] as ObservableCollection<BusinessModel>;
+                    return businesses?.FirstOrDefault(u => u.Id == businessId)?.Name ?? businessId;
                 });
             }
         }

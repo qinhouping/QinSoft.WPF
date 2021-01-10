@@ -15,6 +15,41 @@ namespace EMChat2.Model.BaseInfo
     {
         #region 属性
         /// <summary>
+        /// 部门ID
+        /// </summary>
+        private string id;
+        public string Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+                this.NotifyPropertyChange(() => this.Id);
+            }
+        }
+
+        /// <summary>
+        /// 部门名称
+        /// </summary>
+        private string name;
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+                this.NotifyPropertyChange(() => this.Name);
+            }
+        }
+
+        /// <summary>
         /// 子部门信息
         /// </summary>
         private ObservableCollection<DepartmentModel> departments;
@@ -47,41 +82,6 @@ namespace EMChat2.Model.BaseInfo
                 this.staffs = value;
                 this.NotifyPropertyChange(() => this.Staffs);
                 this.NotifyPropertyChange(() => this.AllStaffs);
-            }
-        }
-
-        /// <summary>
-        /// 部门ID
-        /// </summary>
-        private string id;
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-                this.NotifyPropertyChange(() => this.Id);
-            }
-        }
-
-        /// <summary>
-        /// 部门名称
-        /// </summary>
-        private string name;
-
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-                this.NotifyPropertyChange(() => this.Name);
             }
         }
 

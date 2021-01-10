@@ -33,19 +33,19 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 业务
+        /// 业务ID
         /// </summary>
-        private BusinessEnum business;
-        public BusinessEnum Business
+        private string businessId;
+        public string BusinessId
         {
             get
             {
-                return this.business;
+                return this.businessId;
             }
             set
             {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.business);
+                this.businessId = value;
+                this.NotifyPropertyChange(() => this.businessId);
             }
         }
 
@@ -160,12 +160,29 @@ namespace EMChat2.Model.BaseInfo
         {
             get
             {
-                return this.chatAllUsers ?? new ObservableCollection<UserModel>();
+                return this.chatAllUsers;
             }
             set
             {
                 this.chatAllUsers = value;
                 this.NotifyPropertyChange(() => this.ChatAllUsers);
+            }
+        }
+
+        /// <summary>
+        /// 会话消息
+        /// </summary>
+        private ObservableCollection<MessageModel> messages;
+        public ObservableCollection<MessageModel> Messages
+        {
+            get
+            {
+                return this.messages;
+            }
+            set
+            {
+                this.messages = value;
+                this.NotifyPropertyChange(() => this.Messages);
             }
         }
 

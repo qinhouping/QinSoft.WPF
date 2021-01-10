@@ -227,7 +227,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         {
             get
             {
-                return new RelayCommand<BusinessEnum>((business) =>
+                return new RelayCommand<string>((businessId) =>
                 {
                     this.IsAddingQuickReplyGroup = false;
                     this.TemporaryAddQuickReplyGroup = new QuickReplyGroupModel()
@@ -235,7 +235,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Level = QuickReplyGroupLevelEnum.User,
-                        Business = business,
+                        BusinessId = businessId,
                         QuickReplys = new ObservableCollection<QuickReplyModel>()
                     };
                     this.IsAddingQuickReplyGroup = true;
@@ -459,7 +459,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
                 }, (quickReply) =>
                 {
-                    BusinessSettingModel businessSetting = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.Business == this.SelectedQuickReplyGroup.Business);
+                    BusinessSettingModel businessSetting = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.BusinessId == this.SelectedQuickReplyGroup.BusinessId);
                     if (businessSetting != null)
                     {
                         return businessSetting.AllowSelectQuickReply;
@@ -475,43 +475,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
-            // TODO 测试数据
-            new Action(() =>
-            {
-                this.QuickReplyGroups.Clear();
-                this.QuickReplyGroups.Add(new QuickReplyGroupModel()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevelEnum.System,
-                    Name = "系统默认分组",
-                    Business = BusinessEnum.Advisor,
-                    QuickReplys = new ObservableCollection<QuickReplyModel>()
-                    {
-                        new QuickReplyModel()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name="问候",
-                            Content=MessageTools.CreateTextMessageContent("测试快捷回复")
-                        }
-                    }
-                });
-                this.QuickReplyGroups.Add(new QuickReplyGroupModel()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Level = QuickReplyGroupLevelEnum.User,
-                    Name = "个人默认分组",
-                    Business = BusinessEnum.Advisor,
-                    QuickReplys = new ObservableCollection<QuickReplyModel>()
-                    {
-                        new QuickReplyModel()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name="问候",
-                            Content=MessageTools.CreateTextMessageContent("百度（纳斯达克：BIDU）是全球最大的中文搜索引擎，中国最大的以信息和知识为核心的互联网综合服务公司，全球领先的人工智能平台型公司。百度愿景是：成为最懂用户，并能帮助人们成长的全球顶级高科技公司。")
-                        }
-                    }
-                });
-            }).ExecuteInUIThread();
         }
 
         public void Handle(LogoutCallbackEventArgs arg)

@@ -127,11 +127,11 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 {
                     this.IsEditingCustomer = false;
                     this.TemporaryEditCustomer = this.Customer.CloneObject();
-                    IEnumerable<TagGroupModel> tagGroups = this.CustomerTagAreaViewModel.TagGroups.Where(u => u.Business == this.Customer.Business).CloneArray();
+                    IEnumerable<TagGroupModel> tagGroups = this.CustomerTagAreaViewModel.TagGroups.Where(u => u.BusinessId == this.Customer.BusinessId).CloneArray();
                     foreach (TagGroupModel tagGroup in tagGroups)
                     {
                         tagGroup.Tags = new ObservableCollection<TagModel>(tagGroup.Tags.CloneArray());
-                        tagGroup.Tags.ToList().ForEach(u => u.IsSelected = this.TemporaryEditCustomer.Tags.Contains(u));
+                        tagGroup.Tags.ToList().ForEach(u => u.IsSelected = this.TemporaryEditCustomer.TagIds.Contains(u.Id));
                     }
                     this.TemporaryTagGroups = new ObservableCollection<TagGroupModel>(tagGroups);
                     this.IsEditingCustomer = true;
@@ -148,7 +148,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
-                    this.TemporaryEditCustomer.Tags = new ObservableCollection<TagModel>(this.TemporaryTagGroups.SelectMany(u => u.Tags).Where(u => u.IsSelected));
+                    this.TemporaryEditCustomer.TagIds = new ObservableCollection<string>(this.TemporaryTagGroups.SelectMany(u => u.Tags).Where(u => u.IsSelected).Select(u => u.Id));
                     this.Customer.Assign(this.TemporaryEditCustomer);
                     if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditCustomer });
                     this.IsEditingCustomer = false;

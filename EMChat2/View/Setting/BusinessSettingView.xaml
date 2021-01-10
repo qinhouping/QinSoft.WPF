@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:common="clr-namespace:EMChat2.Common"
+             xmlns:view="clr-namespace:EMChat2.View"
              xmlns:wpf="clr-namespace:QinSoft.WPF;assembly=QinSoft.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="620">
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="settingData" Data="{Binding}"></common:BindingProxy>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
@@ -23,7 +28,19 @@
         <TabControl Grid.Row="1" Style="{StaticResource IM-Setting-Business-Tab}" ItemContainerStyle="{StaticResource IM-Setting-Business-TabItem}" ItemsSource="{Binding Setting.BusinessSettings}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Business, Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}"></TextBlock>
+                    <Grid>
+                        <Grid.Resources>
+                            <common:BindingProxy x:Key="businessSettingData" Data="{Binding}"></common:BindingProxy>
+                        </Grid.Resources>
+                        <TextBlock Style="{StaticResource BaseTextBlock}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{x:Static view:ValueConverters.BusinessToStringConverter}">
+                                    <Binding Path="Data.BusinessId" Source="{StaticResource businessSettingData}"></Binding>
+                                    <Binding Path="Data.ApplicationContextViewModel.CurrentStaff.Businesses" Source="{StaticResource settingData}"></Binding>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ItemTemplate>
 

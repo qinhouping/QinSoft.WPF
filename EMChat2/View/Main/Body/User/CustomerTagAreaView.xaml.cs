@@ -22,17 +22,17 @@ namespace EMChat2.View.Main.Body.User
     /// </summary>
     public partial class CustomerTagAreaView : UserControl
     {
-        public static readonly DependencyProperty BusinessProperty = DependencyProperty.Register("Business", typeof(BusinessEnum), typeof(CustomerTagAreaView));
+        public static readonly DependencyProperty BusinessIdProperty = DependencyProperty.Register("BusinessId", typeof(string), typeof(CustomerTagAreaView));
 
-        public BusinessEnum Business
+        public string BusinessId
         {
             get
             {
-                return (BusinessEnum)this.GetValue(BusinessProperty);
+                return (string)this.GetValue(BusinessIdProperty);
             }
             set
             {
-                this.SetValue(BusinessProperty, value);
+                this.SetValue(BusinessIdProperty, value);
             }
         }
         public CustomerTagAreaView()

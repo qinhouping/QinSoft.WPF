@@ -1,9 +1,6 @@
-﻿using EMChat2.Model.Enum;
-using QinSoft.WPF.Core;
+﻿using QinSoft.WPF.Core;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +8,12 @@ using System.Threading.Tasks;
 namespace EMChat2.Model.BaseInfo
 {
     /// <summary>
-    /// 标签组信息模型
+    /// 业务模型
     /// </summary>
-    public class TagGroupModel : PropertyChangedBase
+    public class BusinessModel : PropertyChangedBase
     {
-        #region 属性
         /// <summary>
-        /// 标签组ID
+        /// 业务ID
         /// </summary>
         private string id;
         public string Id
@@ -34,7 +30,7 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 标签组名称
+        /// 业务名称
         /// </summary>
         private string name;
         public string Name
@@ -51,57 +47,38 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 标签级别
+        /// 业务描述
         /// </summary>
-
-        private TagGroupLevelEnum level;
-        public TagGroupLevelEnum Level
+        private string description;
+        public string Description
         {
             get
             {
-                return this.level;
+                return this.description;
             }
             set
             {
-                this.level = value;
-                this.NotifyPropertyChange(() => this.Level);
+                this.description = value;
+                this.NotifyPropertyChange(() => this.Description);
             }
         }
 
         /// <summary>
-        /// 业务类型
+        /// 是否是外部业务
         /// </summary>
-        private string businessId;
-        public string BusinessId
+        private bool outside;
+        public bool Outside
         {
             get
             {
-                return this.businessId;
+                return this.outside;
             }
             set
             {
-                this.businessId = value;
-                this.NotifyPropertyChange(() => this.BusinessId);
+                this.outside = value;
+                this.NotifyPropertyChange(() => this.Outside);
             }
         }
-
-        /// <summary>
-        /// 标签列表
-        /// </summary>
-        private ObservableCollection<TagModel> tags;
-        public ObservableCollection<TagModel> Tags
-        {
-            get
-            {
-                return this.tags ?? new ObservableCollection<TagModel>();
-            }
-            set
-            {
-                this.tags = value;
-                this.NotifyPropertyChange(() => this.Tags);
-            }
-        }
-        #endregion
 
         #region 方法
         public override int GetHashCode()
@@ -111,7 +88,7 @@ namespace EMChat2.Model.BaseInfo
 
         public override bool Equals(object obj)
         {
-            return this.id.Equals((obj as TagGroupModel)?.id);
+            return this.id.Equals((obj as BusinessModel)?.id);
         }
         #endregion
     }

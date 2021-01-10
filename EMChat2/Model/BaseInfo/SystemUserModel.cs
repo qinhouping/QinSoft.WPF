@@ -18,5 +18,57 @@ namespace EMChat2.Model.BaseInfo
             this.Type = UserTypeEnum.SystemUser;
         }
         #endregion
+
+        #region 属性
+        public override string NickName
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+
+        public override string HeaderImage
+        {
+            get
+            {
+                return this.headerImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// 系统账号名称
+        /// </summary>
+        private string name;
+        public virtual string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+                this.NotifyPropertyChange(() => this.Name);
+            }
+        }
+
+        /// <summary>
+        /// 系统账号头像
+        /// </summary>
+        private string headerImageUrl;
+        public string HeaderImageUrl
+        {
+            get
+            {
+                return this.headerImageUrl;
+            }
+            set
+            {
+                this.headerImageUrl = value;
+                this.NotifyPropertyChange(() => this.HeaderImageUrl);
+            }
+        }
+        #endregion
     }
 }

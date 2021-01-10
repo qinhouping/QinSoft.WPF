@@ -194,7 +194,6 @@
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
-    <Compile Include="Common\TestData.cs" />
     <Compile Include="Event\InputMessageChangedEventArgs.cs" />
     <Compile Include="Event\MessageIdChangedEventArgs.cs" />
     <Compile Include="Event\SettingChangedEventArgs.cs" />
@@ -226,6 +225,7 @@
     <Compile Include="Model\Api\UpdateMessageApiModel.cs" />
     <Compile Include="Model\Api\UserBusinessApiModel.cs" />
     <Compile Include="Model\Api\UserChatApiModel.cs" />
+    <Compile Include="Model\BaseInfo\BusinessModel.cs" />
     <Compile Include="Model\BaseInfo\BusinessSettingModel.cs" />
     <Compile Include="Model\Enum\MessageTypeConst.cs" />
     <Compile Include="Model\Enum\CaptureScreenTypeEnum.cs" />
@@ -337,7 +337,6 @@
       <DependentUpon>CommonSettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueConverters.cs" />
-    <Compile Include="Model\Enum\BusinessEnum.cs" />
     <Compile Include="Model\BaseInfo\ChatModel.cs" />
     <Compile Include="Model\BaseInfo\CustomerModel.cs" />
     <Compile Include="Model\BaseInfo\EmotionModel.cs" />

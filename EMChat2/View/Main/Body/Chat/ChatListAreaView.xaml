@@ -34,6 +34,9 @@
                                         <Setter Property="Content">
                                             <Setter.Value>
                                                 <Grid>
+                                                    <Grid.Resources>
+                                                        <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
+                                                    </Grid.Resources>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -81,7 +84,14 @@
                                                         <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding Chat.Name}" VerticalAlignment="Bottom" Margin="5,2"></TextBlock>
 
                                                         <!--业务名称-->
-                                                        <Label Grid.Column="1" Margin="2" Content="{Binding Chat.Business,Converter={x:Static wpf:ValueConverters.EnumToDescriptionConverter}}" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom"></Label>
+                                                        <Label Grid.Column="1" Margin="2" Style="{StaticResource IM-Chip}" VerticalAlignment="Bottom">
+                                                            <Label.Content>
+                                                                <MultiBinding Converter="{x:Static view:ValueConverters.BusinessToStringConverter}">
+                                                                    <Binding Path="Data.Chat.BusinessId" Source="{StaticResource chatData}"></Binding>
+                                                                    <Binding Path="Data.ApplicationContextViewModel.CurrentStaff.Businesses" Source="{StaticResource chatListData}"></Binding>
+                                                                </MultiBinding>
+                                                            </Label.Content>
+                                                        </Label>
                                                     </Grid>
 
                                                     <Grid Grid.Column="1" Grid.Row="1" Margin="0">

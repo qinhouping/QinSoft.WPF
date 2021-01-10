@@ -89,17 +89,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         public override bool RecvMessage(MessageModel message)
         {
-            lock (this.Messages)
+            lock (this.Chat.Messages)
             {
-                if (this.Messages.Contains(message)) return false;
+                if (this.Chat.Messages.Contains(message)) return false;
             }
             if (CanModifyMessageState(message, MessageStateEnum.Received))
             {
                 new Action(() =>
                 {
-                    lock (this.Messages)
+                    lock (this.Chat.Messages)
                     {
-                        this.Messages.Add(message);
+                        this.Chat.Messages.Add(message);
                     }
                 }).ExecuteInUIThread();
                 MessageModel recvMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));

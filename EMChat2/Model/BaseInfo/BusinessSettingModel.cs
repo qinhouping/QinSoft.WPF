@@ -15,20 +15,20 @@ namespace EMChat2.Model.BaseInfo
     public class BusinessSettingModel : PropertyChangedBase, ICloneable
     {
         /// <summary>
-        /// 业务类型
+        /// 业务类型ID
         /// </summary>
-        private BusinessEnum business;
+        private string businessId;
 
-        public BusinessEnum Business
+        public string BusinessId
         {
             get
             {
-                return this.business;
+                return this.businessId;
             }
             set
             {
-                this.business = value;
-                this.NotifyPropertyChange(() => Business);
+                this.businessId = value;
+                this.NotifyPropertyChange(() => BusinessId);
             }
         }
 

@@ -37,7 +37,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
                         <!--客户名称-->
-                        <TextBlock Text="{Binding Customer.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2,5" MaxWidth="200"></TextBlock>
+                        <TextBlock Text="{Binding Customer.NickName}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2,5" MaxWidth="200"></TextBlock>
                         <!--客户性别-->
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,5">
                             <TextBlock.Style>
@@ -61,14 +61,14 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--原名称-->
-                        <TextBlock Text="{Binding Customer.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,5" MaxWidth="200">
+                        <TextBlock Text="{Binding Customer.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,5" MaxWidth="200">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
                                     <Setter Property="Visibility">
                                         <Setter.Value>
                                             <MultiBinding Converter="{x:Static wpf:ValueConverters.NotEqualsToVisibilityMultiConverter}">
-                                                <Binding Path="Customer.OriName"></Binding>
-                                                <Binding Path="Customer.Name"></Binding>
+                                                <Binding Path="Data.Customer.NickName" Source="{StaticResource customerDetailData}"></Binding>
+                                                <Binding Path="Data.Customer.Name" Source="{StaticResource customerDetailData}"></Binding>
                                             </MultiBinding>
                                         </Setter.Value>
                                     </Setter>

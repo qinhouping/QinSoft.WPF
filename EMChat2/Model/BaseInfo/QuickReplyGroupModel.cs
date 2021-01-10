@@ -67,19 +67,19 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 快捷回复组所属业务
+        /// 快捷回复组所属业务ID
         /// </summary>
-        private BusinessEnum business;
-        public BusinessEnum Business
+        private string businessId;
+        public string BusinessId
         {
             get
             {
-                return this.business;
+                return this.businessId;
             }
             set
             {
-                this.business = value;
-                this.NotifyPropertyChange(() => this.Business);
+                this.businessId = value;
+                this.NotifyPropertyChange(() => this.BusinessId);
             }
         }
 

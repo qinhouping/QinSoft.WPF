@@ -20,6 +20,7 @@ namespace EMChat2.Model.BaseInfo
             this.businessSettings = new ObservableCollection<BusinessSettingModel>();
         }
 
+        #region 通用设置
         /// <summary>
         /// 开机自动启动
         /// </summary>
@@ -70,7 +71,9 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => this.IsInform);
             }
         }
+        #endregion
 
+        #region 业务配置
         /// <summary>
         /// 业务相关配置信息
         /// </summary>
@@ -87,7 +90,7 @@ namespace EMChat2.Model.BaseInfo
                 this.NotifyPropertyChange(() => BusinessSettings);
             }
         }
-
+        #endregion
         public object Clone()
         {
             SettingModel setting = this.CloneObject();

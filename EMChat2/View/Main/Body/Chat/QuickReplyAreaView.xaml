@@ -36,7 +36,7 @@
                     <ListBox.ItemsSource>
                         <MultiBinding Converter="{x:Static view:ValueConverters.QuickReplyGroupFilterConverter}">
                             <Binding Path="QuickReplyGroups"></Binding>
-                            <Binding Path="Business" ElementName="_this"></Binding>
+                            <Binding Path="BusinessId" ElementName="_this"></Binding>
                         </MultiBinding>
                     </ListBox.ItemsSource>
 

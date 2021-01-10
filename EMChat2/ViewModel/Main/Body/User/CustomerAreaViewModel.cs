@@ -49,7 +49,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         {
             get
             {
-                return new RelayCommand<BusinessEnum>((business) =>
+                return new RelayCommand<BusinessModel>((business) =>
                 {
                     this.eventAggregator.PublishAsync(new SelectUseDetailEventArgs()
                     {

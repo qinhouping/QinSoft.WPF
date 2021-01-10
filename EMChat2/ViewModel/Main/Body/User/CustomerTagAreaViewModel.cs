@@ -121,7 +121,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         {
             get
             {
-                return new RelayCommand<BusinessEnum>((business) =>
+                return new RelayCommand<string>((businessId) =>
                 {
                     this.IsAddingTagGroup = false;
                     this.TemporaryAddTagGroup = new TagGroupModel()
@@ -129,7 +129,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                         Id = Guid.NewGuid().ToString(),
                         Name = null,
                         Level = TagGroupLevelEnum.User,
-                        Business = business,
+                        BusinessId = businessId,
                         Tags = new ObservableCollection<TagModel>()
                     };
                     this.IsAddingTagGroup = true;
@@ -251,61 +251,12 @@ namespace EMChat2.ViewModel.Main.Body.User
         #endregion
 
         #region 事件处理
-        public void Handle(LoginCallbackEventArgs Message)
+        public void Handle(LoginCallbackEventArgs arg)
         {
-            //TODO 测试数据
-            new Action(() =>
-            {
-                this.TagGroups.Clear();
-                this.TagGroups.Add(new TagGroupModel()
-                {
-                    Id = "1",
-                    Name = "客户类型",
-                    Level = TagGroupLevelEnum.System,
-                    Business = BusinessEnum.Advisor,
-                    Tags = new ObservableCollection<TagModel>(){
-                            new TagModel(){ Id="0", Name="决策版" },
-                            new TagModel(){ Id="1", Name="领航版" },
-                            new TagModel(){ Id="2", Name="大师版" },
-                            new TagModel(){ Id="3", Name="先锋版" },
-                            new TagModel(){ Id="4", Name="经典版" }}
-                });
-                this.TagGroups.Add(new TagGroupModel()
-                {
-                    Id = "2",
-                    Name = "成交类型",
-                    Level = TagGroupLevelEnum.System,
-                    Business = BusinessEnum.Advisor,
-                    Tags = new ObservableCollection<TagModel>(){
-                            new TagModel(){ Id="11", Name="首次" },
-                            new TagModel(){ Id="12", Name="升级" },
-                            new TagModel(){ Id="13", Name="续费" }}
-                });
-                this.TagGroups.Add(new TagGroupModel()
-                {
-                    Id = "3",
-                    Name = "是否到期",
-                    Level = TagGroupLevelEnum.System,
-                    Business = BusinessEnum.PreSale,
-                    Tags = new ObservableCollection<TagModel>(){
-                            new TagModel(){ Id="21", Name="已到期" },
-                            new TagModel(){ Id="22", Name="未到期" }}
-                });
-                this.TagGroups.Add(new TagGroupModel()
-                {
-                    Id = "4",
-                    Name = "是否有意向",
-                    Level = TagGroupLevelEnum.User,
-                    Business = BusinessEnum.PreSale,
-                    Tags = new ObservableCollection<TagModel>(){
-                            new TagModel(){ Id="31", Name="有意向" },
-                            new TagModel(){ Id="32", Name="无意向" }}
-                });
-
-            }).ExecuteInUIThread();
+            if (!arg.IsSuccess) return;
         }
 
-        public void Handle(LogoutCallbackEventArgs Message)
+        public void Handle(LogoutCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -313,7 +264,7 @@ namespace EMChat2.ViewModel.Main.Body.User
             }).ExecuteInUIThread();
         }
 
-        public void Handle(ExitCallbackEventArgs Message)
+        public void Handle(ExitCallbackEventArgs arg)
         {
             new Action(() =>
             {
@@ -323,11 +274,11 @@ namespace EMChat2.ViewModel.Main.Body.User
         #endregion
 
         #region 方法
-        public IEnumerable<TagModel> GetSelectedTags(BusinessEnum business)
+        public IEnumerable<TagModel> GetSelectedTags(string businessId)
         {
             lock (this.tagGroups)
             {
-                return this.tagGroups.Where(u => u.Business == business).SelectMany(u => u.Tags).Where(u => u.IsSelected);
+                return this.tagGroups.Where(u => u.BusinessId == businessId).SelectMany(u => u.Tags).Where(u => u.IsSelected);
             }
         }
         #endregion

@@ -35,7 +35,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
                         <!--员工名称-->
-                        <TextBlock x:Name="staffName" Text="{Binding Staff.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2" MaxWidth="200"></TextBlock>
+                        <TextBlock x:Name="staffName" Text="{Binding Staff.NickName}" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource BaseTextBlock}" FontSize="{StaticResource BigFontSize}" FontWeight="Bold" Margin="2" MaxWidth="200"></TextBlock>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource IconUser}">
@@ -58,14 +58,14 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--原名称-->
-                        <TextBlock x:Name="staffOriName" Text="{Binding Staff.OriName}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" MaxWidth="200">
+                        <TextBlock x:Name="staffOriName" Text="{Binding Staff.Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" MaxWidth="200">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
                                     <Setter Property="Visibility">
                                         <Setter.Value>
                                             <MultiBinding Converter="{x:Static wpf:ValueConverters.NotEqualsToVisibilityMultiConverter}">
-                                                <Binding Path="Text" ElementName="staffName"></Binding>
-                                                <Binding Path="Text" ElementName="staffOriName" ></Binding>
+                                                <Binding Path="Data.Staff.NickName" Source="{StaticResource staffDetailData}"></Binding>
+                                                <Binding Path="Data.Staff.Name" Source="{StaticResource staffDetailData}" ></Binding>
                                             </MultiBinding>
                                         </Setter.Value>
                                     </Setter>

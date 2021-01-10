@@ -24,9 +24,25 @@ namespace EMChat2.Model.BaseInfo
         #endregion
 
         #region 属性
+        public override string NickName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(remark)) return this.name;
+                else return this.remark;
+            }
+        }
+
+        public override string HeaderImage
+        {
+            get
+            {
+                return this.headerImageUrl;
+            }
+        }
 
         /// <summary>
-        /// 工号
+        /// 员工工号
         /// </summary>
         private string workCode;
         public string WorkCode
@@ -43,73 +59,43 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 备注
+        /// 员工名称
         /// </summary>
-        private string remark;
-
-        public string Remark
+        private string name;
+        public string Name
         {
             get
             {
-                return this.remark;
+                return this.name;
             }
             set
             {
-                this.remark = value;
-                this.NotifyPropertyChange(() => this.Remark);
+                this.name = value;
                 this.NotifyPropertyChange(() => this.Name);
+                this.NotifyPropertyChange(() => this.NickName);
             }
         }
 
         /// <summary>
-        /// 重新Name获取逻辑
+        /// 员工头像
         /// </summary>
-        [AssignIgnore]
-        public override string Name
+        private string headerImageUrl;
+        public virtual string HeaderImageUrl
         {
             get
             {
-                if (string.IsNullOrEmpty(remark)) return base.Name;
-                else return this.remark;
+                return this.headerImageUrl;
             }
             set
             {
-                base.Name = value;
-                this.NotifyPropertyChange(() => this.Name);
-                this.NotifyPropertyChange(() => this.OriName);
+                this.headerImageUrl = value;
+                this.NotifyPropertyChange(() => this.HeaderImageUrl);
+                this.NotifyPropertyChange(() => this.HeaderImage);
             }
         }
 
         /// <summary>
-        /// 原始名称
-        /// </summary>
-        public string OriName
-        {
-            get
-            {
-                return base.Name;
-            }
-        }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        private string description;
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-            set
-            {
-                this.description = value;
-                this.NotifyPropertyChange(() => this.Description);
-            }
-        }
-
-        /// <summary>
-        /// 性别
+        /// 员工性别
         /// </summary>
         private SexEnum sex;
         public SexEnum Sex
@@ -126,19 +112,89 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
-        /// 业务列表
+        /// 员工备注
         /// </summary>
-        private ObservableCollection<BusinessEnum> businessList;
-        public ObservableCollection<BusinessEnum> BusinessList
+        private string remark;
+
+        public string Remark
         {
             get
             {
-                return this.businessList ?? new ObservableCollection<BusinessEnum>();
+                return this.remark;
             }
             set
             {
-                this.businessList = value;
-                this.NotifyPropertyChange(() => this.BusinessList);
+                this.remark = value;
+                this.NotifyPropertyChange(() => this.Remark);
+                this.NotifyPropertyChange(() => this.NickName);
+            }
+        }
+
+        /// <summary>
+        /// 员工描述
+        /// </summary>
+        private string description;
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+                this.NotifyPropertyChange(() => this.Description);
+            }
+        }
+
+        /// <summary>
+        /// 员工业务列表
+        /// </summary>
+        private ObservableCollection<BusinessModel> businesses;
+        public ObservableCollection<BusinessModel> Businesses
+        {
+            get
+            {
+                return this.businesses;
+            }
+            set
+            {
+                this.businesses = value;
+                this.NotifyPropertyChange(() => this.Businesses);
+            }
+        }
+
+        /// <summary>
+        /// 员工业务ID
+        /// </summary>
+        private string businessId;
+        public string BusinessId
+        {
+            get
+            {
+                return this.businessId;
+            }
+            set
+            {
+                this.businessId = value;
+                this.NotifyPropertyChange(() => this.BusinessId);
+            }
+        }
+
+        /// <summary>
+        /// 员工状态
+        /// </summary>
+        private UserStateEnum state;
+        public UserStateEnum State
+        {
+            get
+            {
+                return this.state;
+            }
+            set
+            {
+                this.state = value;
+                this.NotifyPropertyChange(() => this.State);
             }
         }
         #endregion
