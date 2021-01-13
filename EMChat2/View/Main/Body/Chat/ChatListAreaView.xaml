@@ -37,6 +37,7 @@
                                                     <Grid.Resources>
                                                         <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
                                                     </Grid.Resources>
+                                                    
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>

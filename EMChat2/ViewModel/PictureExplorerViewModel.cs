@@ -256,7 +256,7 @@ namespace EMChat2.ViewModel
             {
                 Stream stream = await HttpTools.DownloadAsync(this.CurrentSource, null, null);
                 await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
-                systemService.StoreUrlMapping(new UrlMappingModel() { Url = this.CurrentSource, LocalFilePath = filePath });
+                systemService.SaveUrlMapping(new UrlMappingModel() { Url = this.CurrentSource, LocalFilePath = filePath });
                 await this.eventAggregator.PublishAsync(new ShowBalloonTipEventArgs() { BalloonTip = new BalloonTipInfo() { Content = string.Format("图片[" + this.CurrentSource + "]下载完成") } });
             }
             catch (Exception e)

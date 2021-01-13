@@ -10,7 +10,7 @@ namespace EMChat2.Model.Api
     /// <summary>
     /// 用户部门员工模型
     /// </summary>
-    public class DepartmentStaffViewModel
+    public class DepartmentStaffViewApiModel
     {
         /// <summary>
         /// 部门ID
@@ -25,7 +25,7 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 员工信息
         /// </summary>
-        public StaffApiModel Staff { get; }
+        public StaffApiModel Staff { get; set; }
 
         /// <summary>
         /// 当前用户ID

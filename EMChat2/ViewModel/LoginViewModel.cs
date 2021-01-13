@@ -32,7 +32,7 @@ namespace EMChat2.ViewModel
             this.userService = userService;
             this.systemService = systemService;
 
-            LoadLoginInfo();
+            GetLoginInfo();
         }
         #endregion
 
@@ -97,9 +97,9 @@ namespace EMChat2.ViewModel
         #endregion
 
         #region 方法
-        private async void LoadLoginInfo()
+        private async void GetLoginInfo()
         {
-            this.LoginInfo = await this.systemService.LoadLoginInfo();
+            this.LoginInfo = await this.systemService.GetLoginInfo();
             this.oldLoginInfo = this.LoginInfo.CloneObject();
             this.LoginInfo.PropertyChanged += (s, e) =>
             {
@@ -173,7 +173,7 @@ namespace EMChat2.ViewModel
             {
                 this.LoginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
                 this.oldLoginInfo.HeaderImageUrl = arg.Staff.HeaderImageUrl;
-                this.systemService.StoreLoginInfo(this.LoginInfo);
+                this.systemService.SaveLoginInfo(this.LoginInfo);
                 new Action(() => this.windowManager.HideWindow(this)).ExecuteInUIThread();
             }
             else

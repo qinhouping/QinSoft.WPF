@@ -124,7 +124,7 @@ namespace EMChat2.Service
             {
                 Stream stream = await HttpTools.DownloadAsync(url, null, null);
                 await new Action(() => stream.StreamToFile(filePath)).ExecuteInTask();
-                systemService.StoreUrlMapping(new UrlMappingModel()
+                systemService.SaveUrlMapping(new UrlMappingModel()
                 {
                     Url = url,
                     LocalFilePath = filePath

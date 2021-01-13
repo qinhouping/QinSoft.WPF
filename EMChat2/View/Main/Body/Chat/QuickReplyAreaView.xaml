@@ -63,7 +63,7 @@
                 <!--增加快捷回复分组按钮-->
                 <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Gray3Brush}">
                     <Grid>
-                        <Button x:Name="addQuickReplyGroupBtn" Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding AddQuickReplyGroupCommand}" CommandParameter="{Binding Business,ElementName=_this}">
+                        <Button x:Name="addQuickReplyGroupBtn" Margin="2" Style="{StaticResource IM-Icon-Button}" Command="{Binding AddQuickReplyGroupCommand}" CommandParameter="{Binding BusinessId,ElementName=_this}">
                             <TextBlock Style="{StaticResource BaseTextBlock}" Text="增加分组" Foreground="{StaticResource DeepPurpleBrush}"></TextBlock>
                         </Button>
                     </Grid>

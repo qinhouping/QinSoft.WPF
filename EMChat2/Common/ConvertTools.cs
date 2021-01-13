@@ -54,7 +54,8 @@ namespace EMChat2.Common
             message.Time = apiMessage.Time;
             message.ChatId = apiMessage.ChatId;
             message.FromUser = Convert(apiMessage.FromUserId, apiMessage.FromUserType);
-            message.ToUsers = null;
+            if (apiMessage.ToUsers != null)
+                message.ToUsers = new ObservableCollection<UserModel>(apiMessage.ToUsers.Select(u => Convert(u.ToUserId, u.ToUserType)));
             message.State = apiMessage.State;
             message.Type = apiMessage.Type;
             message.ContentString = apiMessage.Content;
@@ -82,19 +83,45 @@ namespace EMChat2.Common
             staff.Remark = null;
             staff.Description = null;
             staff.Sex = apiStaff.Sex;
+            staff.State = UserStateEnum.Online;
             staff.Businesses = new ObservableCollection<BusinessModel>(apiStaff.UserBusinesses.Select(u => Convert(u.Business)));
+            return staff;
+        }
+
+        public static StaffModel Convert(this DepartmentStaffViewApiModel apiStaff)
+        {
+            if (apiStaff == null || apiStaff.Staff == null) return null;
+            StaffModel staff = apiStaff.Staff.Convert();
+            staff.BusinessId = apiStaff.BusinessId;
+            if (apiStaff.Follow != null)
+            {
+                staff.FollowId = apiStaff.Follow?.Id;
+                staff.Remark = apiStaff.Follow.Remark;
+                staff.Description = apiStaff.Follow.Description;
+            }
             return staff;
         }
 
         public static BusinessModel Convert(this BusinessApiModel apiBusiness)
         {
             if (apiBusiness == null) return null;
-            BusinessModel businessModel = new BusinessModel();
-            businessModel.Id = apiBusiness.Id;
-            businessModel.Name = apiBusiness.Name;
-            businessModel.Description = apiBusiness.Description;
-            businessModel.Outside = apiBusiness.Outside;
-            return businessModel;
+            BusinessModel business = new BusinessModel();
+            business.Id = apiBusiness.Id;
+            business.Name = apiBusiness.Name;
+            business.Description = apiBusiness.Description;
+            business.Outside = apiBusiness.Outside;
+            return business;
+        }
+
+        public static DepartmentModel Convert(this DepartmentViewApiModel apiDepartment)
+        {
+            if (apiDepartment == null) return null;
+            DepartmentModel department = new DepartmentModel();
+            department.Id = apiDepartment.Id;
+            department.Name = apiDepartment.Name;
+            department.Departments = new ObservableCollection<DepartmentModel>(apiDepartment.Departments.Select(u => u.Convert()));
+            department.Staffs = new ObservableCollection<StaffModel>(apiDepartment.DepartmentStaffs.Select(u => u.Convert()));
+            return department;
         }
     }
 }

@@ -207,7 +207,7 @@
     <Compile Include="Model\Api\CustomerApiModel.cs" />
     <Compile Include="Model\Api\DepartmentApiModel.cs" />
     <Compile Include="Model\Api\DepartmentStaffApiModel.cs" />
-    <Compile Include="Model\Api\DepartmentStaffViewModel.cs" />
+    <Compile Include="Model\Api\DepartmentStaffViewApiModel.cs" />
     <Compile Include="Model\Api\DepartmentViewApiModel.cs" />
     <Compile Include="Model\Api\FollowApiModel.cs" />
     <Compile Include="Model\Api\FollowTagApiModel.cs" />

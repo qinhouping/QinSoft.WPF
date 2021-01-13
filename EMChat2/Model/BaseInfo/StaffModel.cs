@@ -112,6 +112,23 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
+        /// 好友关系ID
+        /// </summary>
+        private string followId;
+        public string FollowId
+        {
+            get
+            {
+                return this.followId;
+            }
+            set
+            {
+                this.followId = value;
+                this.NotifyPropertyChange(() => this.FollowId);
+            }
+        }
+
+        /// <summary>
         /// 员工备注
         /// </summary>
         private string remark;

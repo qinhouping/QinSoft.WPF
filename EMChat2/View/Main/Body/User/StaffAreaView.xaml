@@ -46,7 +46,7 @@
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <!--员工头像-->
-                                    <Image Source="{Binding HeaderImageUrl}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
+                                    <Image Source="{Binding HeaderImage}" Style="{StaticResource IM-Small-Header-Image}" VerticalAlignment="Center"></Image>
 
                                     <!--员工名称-->
                                     <TextBlock Style="{StaticResource BaseTextBlock}" VerticalAlignment="Center" Text="{Binding NickName}" Grid.Column="1" Margin="10,0"></TextBlock>

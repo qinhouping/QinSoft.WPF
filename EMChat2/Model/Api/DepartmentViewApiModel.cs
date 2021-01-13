@@ -44,6 +44,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 部门员工
         /// </summary>
-        public IEnumerable<DepartmentStaffViewModel> DepartmentStaffs { get; set; }
+        public IEnumerable<DepartmentStaffViewApiModel> DepartmentStaffs { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EMChat2.Common;
 using EMChat2.Model.Enum;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace EMChat2.Service
 {
@@ -95,6 +96,33 @@ namespace EMChat2.Service
         public virtual async void StoreSetting(SettingModel setting)
         {
             await Task.Delay(1000);
+        }
+
+        public virtual async Task<IEnumerable<DepartmentModel>> GetDepartments(StaffModel staff)
+        {
+            if (staff == null) return null;
+            BusinessModel business = staff.Businesses.FirstOrDefault(u => !u.Outside);
+            if (business == null) return null;
+            else
+            {
+                if (ApiTools.GetDepartments(business.Id, staff.Id, out string error, out IEnumerable<DepartmentModel> departments))
+                {
+                    return departments;
+                }
+                else
+                {
+                    await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                    {
+                        BalloonTip = new BalloonTipInfo
+                        {
+                            Title = "获取部门失败",
+                            Content = error,
+                            Icon = BalloonIcon.Error
+                        }
+                    });
+                    return null;
+                }
+            }
         }
         #endregion
     }

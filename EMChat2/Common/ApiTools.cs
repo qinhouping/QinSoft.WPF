@@ -103,5 +103,35 @@ namespace EMChat2.Service
                 return false;
             }
         }
+
+        public static bool GetDepartments(string businessId, string userId, out string error, out IEnumerable<DepartmentModel> departments)
+        {
+            error = null;
+            departments = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "businessId", businessId },
+                    { "userId", userId }
+                };
+                ApiResponse<IEnumerable<DepartmentViewApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<DepartmentViewApiModel>>>(ApiUrl + "/api/Department/GetDepartmentViews?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    departments = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
     }
 }

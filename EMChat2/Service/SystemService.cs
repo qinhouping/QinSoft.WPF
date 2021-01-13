@@ -28,7 +28,7 @@ namespace EMChat2.Service
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             urlMappingInfos = new List<UrlMappingModel>();
-            LoadUrlMapping();
+            GetUrlMapping();
         }
         #endregion
         private IWindowManager windowManager;
@@ -38,7 +38,7 @@ namespace EMChat2.Service
         private IList<UrlMappingModel> urlMappingInfos;
 
         #region 方法
-        public virtual async Task<LoginInfoModel> LoadLoginInfo()
+        public virtual async Task<LoginInfoModel> GetLoginInfo()
         {
             LoginInfoModel loginInfo = null;
             await new Action(() =>
@@ -49,7 +49,7 @@ namespace EMChat2.Service
             return loginInfo.CloneObject();
         }
 
-        public virtual async void StoreLoginInfo(LoginInfoModel loginInfo)
+        public virtual async void SaveLoginInfo(LoginInfoModel loginInfo)
         {
             loginInfo = loginInfo.CloneObject();
             if (loginInfo.IsRememberPassword) loginInfo.Password = loginInfo.Password.Base64();
@@ -60,7 +60,7 @@ namespace EMChat2.Service
             }).ExecuteInTask();
         }
 
-        protected virtual async void LoadUrlMapping()
+        protected virtual async void GetUrlMapping()
         {
             this.urlMappingInfos = await new Func<IList<UrlMappingModel>>(() =>
             {
@@ -88,7 +88,7 @@ namespace EMChat2.Service
             }
         }
 
-        public virtual async void StoreUrlMapping(UrlMappingModel urlMappingInfo)
+        public virtual async void SaveUrlMapping(UrlMappingModel urlMappingInfo)
         {
             urlMappingInfo.Url = HttpUtility.UrlDecode(urlMappingInfo.Url);
             await new Action(() =>
