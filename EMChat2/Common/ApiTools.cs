@@ -317,5 +317,112 @@ namespace EMChat2.Service
                 return false;
             }
         }
+
+        public static bool GetTagGroups(string userId, out string error, out IEnumerable<TagGroupModel> tagGroups)
+        {
+            error = null;
+            tagGroups = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId }
+                };
+                ApiResponse<IEnumerable<TagGroupApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<TagGroupApiModel>>>(ApiUrl + "api/Tag/GetAllTagGroups?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    tagGroups = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool AddTagGroup(string userId, TagGroupModel TagGroup, out string error, out string TagGroupId)
+        {
+            error = null;
+            TagGroupId = null;
+            try
+            {
+                TagGroupApiModel apiTagGroup = TagGroup.Convert(userId);
+                ApiResponse<string> response = HttpTools.Post<ApiResponse<string>>(ApiUrl + "api/Tag/AddUserTagGroup", Headers, null, apiTagGroup);
+                if (response.Success)
+                {
+                    TagGroupId = response.Data;
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool ModifyTagGroup(string userId, TagGroupModel TagGroup, out string error)
+        {
+            error = null;
+            try
+            {
+                TagGroupApiModel apiTagGroup = TagGroup.Convert(userId);
+                ApiResponse<string> response = HttpTools.Put<ApiResponse<string>>(ApiUrl + "api/Tag/ModifyUserTagGroup", Headers, null, apiTagGroup);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool RemoveTagGroup(string userId, string TagGroupId, out string error)
+        {
+            error = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId },
+                    { "TagGroupId", TagGroupId }
+                };
+                ApiResponse response = HttpTools.Delete<ApiResponse>(ApiUrl + "api/Tag/RemoveUserTagGroup?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
     }
 }

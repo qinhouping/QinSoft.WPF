@@ -42,7 +42,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
-                    <Grid  ToolTip="新建自定义标签组">
+                    <Grid ToolTip="新建自定义标签组">
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding CustomerTagAreaViewModel.AddTagGroupCommand}"></MouseBinding>
+                        </Grid.InputBindings>
                         <TextBlock Style="{StaticResource IconPlus}" Foreground="{StaticResource DeepPurpleBrush}" FontSize="{StaticResource MoreSmallIconFontSize}" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBlock>
                         <TextBlock Style="{StaticResource IconTags}" Foreground="{StaticResource DeepPurpleBrush}" VerticalAlignment="Center" Margin="5,5,0,0"></TextBlock>
                     </Grid>

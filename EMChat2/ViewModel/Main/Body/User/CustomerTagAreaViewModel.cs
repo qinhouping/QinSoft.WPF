@@ -3,6 +3,7 @@ using EMChat2.Common;
 using EMChat2.Event;
 using EMChat2.Model.BaseInfo;
 using EMChat2.Model.Enum;
+using EMChat2.Service;
 using QinSoft.Event;
 using QinSoft.Ioc.Attribute;
 using QinSoft.WPF.Core;
@@ -20,13 +21,14 @@ namespace EMChat2.ViewModel.Main.Body.User
     public class CustomerTagAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
-        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
+        public CustomerTagAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.tagGroups = new ObservableCollection<TagGroupModel>();
+            this.userService = userService;
         }
         #endregion
 
@@ -113,6 +115,65 @@ namespace EMChat2.ViewModel.Main.Body.User
                 this.NotifyPropertyChange(() => this.TemporaryEditTagGroup);
             }
         }
+        private UserService userService;
+        #endregion
+
+        #region 方法
+        private async void GetTagGroups(StaffModel staff)
+        {
+            IEnumerable<TagGroupModel> tagGroups = await userService.GetTagGroups(staff);
+            if (tagGroups == null) return;
+            new Action(() =>
+            {
+                lock (this.TagGroups)
+                {
+                    this.TagGroups.Clear();
+                    foreach (TagGroupModel tagGroup in tagGroups)
+                    {
+                        this.TagGroups.Add(tagGroup);
+                    }
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async void AddTagGroup(StaffModel staff, TagGroupModel tagGroup)
+        {
+            bool res = await userService.AddTagGroup(staff, tagGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.TagGroups)
+                {
+                    this.TagGroups.Add(tagGroup);
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async void EditTagGroup(StaffModel staff, TagGroupModel tagGroup)
+        {
+            bool res = await userService.ModifyTagGroup(staff, tagGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.TagGroups)
+                {
+                    this.TagGroups.FirstOrDefault(u => u.Equals(tagGroup)).Assign(tagGroup);
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async void RemoveTagGroup(StaffModel staff, TagGroupModel tagGroup)
+        {
+            bool res = await userService.RemoveTagGroup(staff, tagGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.TagGroups)
+                {
+                    this.TagGroups.Remove(tagGroup);
+                }
+            }).ExecuteInUIThread();
+        }
         #endregion
 
         #region 命令
@@ -126,7 +187,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                     this.IsAddingTagGroup = false;
                     this.TemporaryAddTagGroup = new TagGroupModel()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = null,
                         Name = null,
                         Level = TagGroupLevelEnum.User,
                         BusinessId = businessId,
@@ -136,16 +197,14 @@ namespace EMChat2.ViewModel.Main.Body.User
                 });
             }
         }
+
         public ICommand ConfirmAddTagGroupCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    lock (this.TagGroups)
-                    {
-                        this.TagGroups.Add(this.TemporaryAddTagGroup);
-                    }
+                    this.AddTagGroup(ApplicationContextViewModel.CurrentStaff, this.TemporaryAddTagGroup);
                     this.IsAddingTagGroup = false;
                 }, () =>
                 {
@@ -153,6 +212,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                 });
             }
         }
+
         public ICommand CancelAddTagGroupCommand
         {
             get
@@ -179,6 +239,7 @@ namespace EMChat2.ViewModel.Main.Body.User
                 });
             }
         }
+
         public ICommand ConfirmEditTagGroupCommand
         {
             get
@@ -187,12 +248,13 @@ namespace EMChat2.ViewModel.Main.Body.User
                 {
                     lock (this.TagGroups)
                     {
-                        this.TagGroups.FirstOrDefault(u => u.Equals(this.TemporaryEditTagGroup)).Assign(this.TemporaryEditTagGroup);
+                        this.EditTagGroup(ApplicationContextViewModel.CurrentStaff, this.TemporaryEditTagGroup);
                     }
                     this.IsAddingTagGroup = false;
                 });
             }
         }
+
         public ICommand CancelEditTagGroupCommand
         {
             get
@@ -203,16 +265,14 @@ namespace EMChat2.ViewModel.Main.Body.User
                 });
             }
         }
+
         public ICommand RemoveTagGroupCommand
         {
             get
             {
                 return new RelayCommand<TagGroupModel>((tagGroup) =>
                 {
-                    lock (this.TagGroups)
-                    {
-                        this.TagGroups.Remove(tagGroup);
-                    }
+                    this.RemoveTagGroup(ApplicationContextViewModel.CurrentStaff, tagGroup);
                 }, (tagGroup) =>
                 {
                     return tagGroup != null && tagGroup.Level == TagGroupLevelEnum.User && tagGroup.Tags.Count == 0;
@@ -254,6 +314,7 @@ namespace EMChat2.ViewModel.Main.Body.User
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
+            GetTagGroups(arg.Staff);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)

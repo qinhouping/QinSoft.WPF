@@ -185,7 +185,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.IsDragMessageContent);
             }
         }
-        private BusinessSettingModel BusinessSetting
+        public BusinessSettingModel BusinessSetting
         {
             get
             {

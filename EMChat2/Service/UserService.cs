@@ -278,6 +278,95 @@ namespace EMChat2.Service
                 return false;
             }
         }
+
+        public virtual async Task<IEnumerable<TagGroupModel>> GetTagGroups(StaffModel staff)
+        {
+            if (staff == null) return null;
+            if (ApiTools.GetTagGroups(staff.Id, out string error, out IEnumerable<TagGroupModel> tagGroups))
+            {
+                return tagGroups;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "获取标签失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<bool> AddTagGroup(StaffModel staff, TagGroupModel TagGroup)
+        {
+            if (staff == null || TagGroup == null) return false;
+            if (ApiTools.AddTagGroup(staff.Id, TagGroup, out string error, out string id))
+            {
+                TagGroup.Id = id;
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "增加标签组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> ModifyTagGroup(StaffModel staff, TagGroupModel TagGroup)
+        {
+            if (staff == null || TagGroup == null) return false;
+            if (ApiTools.ModifyTagGroup(staff.Id, TagGroup, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改标签组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> RemoveTagGroup(StaffModel staff, TagGroupModel TagGroup)
+        {
+            if (staff == null || TagGroup == null) return false;
+            if (ApiTools.RemoveTagGroup(staff.Id, TagGroup.Id, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "移除标签组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
         #endregion
     }
 }

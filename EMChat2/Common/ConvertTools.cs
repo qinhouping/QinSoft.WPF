@@ -178,5 +178,38 @@ namespace EMChat2.Common
             apiQuickReplyGroup.Level = quickReplyGroup.Level;
             return apiQuickReplyGroup;
         }
+
+        public static TagModel Convert(this TagApiModel apiTag)
+        {
+            if (apiTag == null) return null;
+            TagModel tag = new TagModel();
+            tag.Id = apiTag.Id;
+            tag.Name = apiTag.Name;
+            return tag;
+        }
+
+        public static TagGroupApiModel Convert(this TagGroupModel tagGroup, string userId)
+        {
+            if (tagGroup == null) return null;
+            TagGroupApiModel apiTagGroup = new TagGroupApiModel();
+            apiTagGroup.UserId = userId;
+            apiTagGroup.Id = tagGroup.Id;
+            apiTagGroup.Name = tagGroup.Name;
+            apiTagGroup.BusinessId = tagGroup.BusinessId;
+            apiTagGroup.Level = tagGroup.Level;
+            return apiTagGroup;
+        }
+
+        public static TagGroupModel Convert(this TagGroupApiModel apiTagGroup)
+        {
+            if (apiTagGroup == null) return null;
+            TagGroupModel tagGroup = new TagGroupModel();
+            tagGroup.Id = apiTagGroup.Id;
+            tagGroup.Name = apiTagGroup.Name;
+            tagGroup.BusinessId = apiTagGroup.BusinessId;
+            tagGroup.Level = apiTagGroup.Level;
+            tagGroup.Tags = new ObservableCollection<TagModel>(apiTagGroup.Tags.Select(u => u.Convert()));
+            return tagGroup;
+        }
     }
 }

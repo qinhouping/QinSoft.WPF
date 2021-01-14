@@ -237,6 +237,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }).ExecuteInUIThread();
         }
+
         private async void AddQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             bool res = await userService.AddQuickReplyGroup(staff, quickReplyGroup);
@@ -249,6 +250,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }).ExecuteInUIThread();
         }
+
         private async void EditQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             bool res = await userService.ModifyQuickReplyGroup(staff, quickReplyGroup);
@@ -261,6 +263,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }).ExecuteInUIThread();
         }
+
         private async void RemoveQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             bool res = await userService.RemoveQuickReplyGroup(staff, quickReplyGroup);
@@ -273,6 +276,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 }
             }).ExecuteInUIThread();
         }
+
         private async void AddQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReplyModel)
         {
             bool res = await userService.AddQuickReply(quickReplyGroup, quickReplyModel);
