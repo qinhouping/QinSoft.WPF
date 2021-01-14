@@ -103,25 +103,179 @@ namespace EMChat2.Service
             if (staff == null) return null;
             BusinessModel business = staff.Businesses.FirstOrDefault(u => !u.Outside);
             if (business == null) return null;
+
+            if (ApiTools.GetDepartments(business.Id, staff.Id, out string error, out IEnumerable<DepartmentModel> departments))
+            {
+                return departments;
+            }
             else
             {
-                if (ApiTools.GetDepartments(business.Id, staff.Id, out string error, out IEnumerable<DepartmentModel> departments))
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
                 {
-                    return departments;
-                }
-                else
-                {
-                    await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                    BalloonTip = new BalloonTipInfo
                     {
-                        BalloonTip = new BalloonTipInfo
-                        {
-                            Title = "获取部门失败",
-                            Content = error,
-                            Icon = BalloonIcon.Error
-                        }
-                    });
-                    return null;
-                }
+                        Title = "获取部门失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<IEnumerable<QuickReplyGroupModel>> GetQuickReplyGroups(StaffModel staff)
+        {
+            if (staff == null) return null;
+            if (ApiTools.GetQuickReplyGroups(staff.Id, out string error, out IEnumerable<QuickReplyGroupModel> quickReplyGroups))
+            {
+                return quickReplyGroups;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "获取快捷回复失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<bool> AddQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            if (staff == null || quickReplyGroup == null) return false;
+            if (ApiTools.AddQuickReplyGroup(staff.Id, quickReplyGroup, out string error, out string id))
+            {
+                quickReplyGroup.Id = id;
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "增加快捷回复组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> ModifyQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            if (staff == null || quickReplyGroup == null) return false;
+            if (ApiTools.ModifyQuickReplyGroup(staff.Id, quickReplyGroup, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改快捷回复组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> RemoveQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            if (staff == null || quickReplyGroup == null) return false;
+            if (ApiTools.RemoveQuickReplyGroup(staff.Id, quickReplyGroup.Id, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "移除快捷回复组失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> AddQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
+        {
+            if (quickReplyGroup == null || quickReply == null) return false;
+            if (ApiTools.AddQuickReply(quickReplyGroup.Id, quickReply, out string error, out string id))
+            {
+                quickReply.Id = id;
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "增加快捷回复失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> ModifyQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
+        {
+            if (quickReplyGroup == null || quickReply == null) return false;
+            if (ApiTools.ModifyQuickReply(quickReplyGroup.Id, quickReply, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改快捷回复失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> RemoveQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
+        {
+            if (quickReplyGroup == null || quickReplyGroup == null) return false;
+            if (ApiTools.RemoveQuickReply(quickReplyGroup.Id, quickReply.Id, out string error))
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "移除快捷回复失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
             }
         }
         #endregion

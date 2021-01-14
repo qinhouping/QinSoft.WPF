@@ -91,20 +91,18 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         private async void GetDepartments(StaffModel staff)
         {
             IEnumerable<DepartmentModel> departments = await this.uesrService.GetDepartments(staff);
-            if (departments != null)
+            if (departments == null) return;
+            new Action(() =>
             {
-                new Action(() =>
+                lock (this.Departments)
                 {
-                    lock (this.Departments)
+                    this.Departments.Clear();
+                    foreach (DepartmentModel department in departments)
                     {
-                        this.Departments.Clear();
-                        foreach (DepartmentModel department in departments)
-                        {
-                            this.Departments.Add(department);
-                        }
+                        this.Departments.Add(department);
                     }
-                }).ExecuteInUIThread();
-            }
+                }
+            }).ExecuteInUIThread();
         }
         #endregion
 

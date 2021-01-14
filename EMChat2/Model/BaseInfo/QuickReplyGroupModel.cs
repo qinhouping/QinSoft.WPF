@@ -86,17 +86,17 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 快捷回复组明细
         /// </summary>
-        private ObservableCollection<QuickReplyModel> quickReplys;
-        public ObservableCollection<QuickReplyModel> QuickReplys
+        private ObservableCollection<QuickReplyModel> quickReplies;
+        public ObservableCollection<QuickReplyModel> QuickReplies
         {
             get
             {
-                return this.quickReplys;
+                return this.quickReplies;
             }
             set
             {
-                this.quickReplys = value;
-                this.NotifyPropertyChange(() => this.QuickReplys);
+                this.quickReplies = value;
+                this.NotifyPropertyChange(() => this.QuickReplies);
             }
         }
         #endregion

@@ -115,10 +115,194 @@ namespace EMChat2.Service
                     { "businessId", businessId },
                     { "userId", userId }
                 };
-                ApiResponse<IEnumerable<DepartmentViewApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<DepartmentViewApiModel>>>(ApiUrl + "/api/Department/GetDepartmentViews?" + HttpTools.UrlEncode(request), Headers, null);
+                ApiResponse<IEnumerable<DepartmentViewApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<DepartmentViewApiModel>>>(ApiUrl + "api/Department/GetDepartmentViews?" + HttpTools.UrlEncode(request), Headers, null);
                 if (response.Success)
                 {
                     departments = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool GetQuickReplyGroups(string userId, out string error, out IEnumerable<QuickReplyGroupModel> quickReplyGroups)
+        {
+            error = null;
+            quickReplyGroups = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId }
+                };
+                ApiResponse<IEnumerable<QuickReplyGroupApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<QuickReplyGroupApiModel>>>(ApiUrl + "api/QuickReply/GetAllQuickReplyGroups?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    quickReplyGroups = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool AddQuickReplyGroup(string userId, QuickReplyGroupModel quickReplyGroup, out string error, out string quickReplyGroupId)
+        {
+            error = null;
+            quickReplyGroupId = null;
+            try
+            {
+                QuickReplyGroupApiModel apiQuickReplyGroup = quickReplyGroup.Convert(userId);
+                ApiResponse<string> response = HttpTools.Post<ApiResponse<string>>(ApiUrl + "api/QuickReply/AddUserQuickReplyGroup", Headers, null, apiQuickReplyGroup);
+                if (response.Success)
+                {
+                    quickReplyGroupId = response.Data;
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool ModifyQuickReplyGroup(string userId, QuickReplyGroupModel quickReplyGroup, out string error)
+        {
+            error = null;
+            try
+            {
+                QuickReplyGroupApiModel apiQuickReplyGroup = quickReplyGroup.Convert(userId);
+                ApiResponse<string> response = HttpTools.Put<ApiResponse<string>>(ApiUrl + "api/QuickReply/ModifyUserQuickReplyGroup", Headers, null, apiQuickReplyGroup);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool RemoveQuickReplyGroup(string userId, string quickReplyGroupId, out string error)
+        {
+            error = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId },
+                    { "quickReplyGroupId", quickReplyGroupId }
+                };
+                ApiResponse response = HttpTools.Delete<ApiResponse>(ApiUrl + "api/QuickReply/RemoveUserQuickReplyGroup?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool AddQuickReply(string quickReplyGroupId, QuickReplyModel quickReply, out string error, out string quickReplyId)
+        {
+            error = null;
+            quickReplyId = null;
+            try
+            {
+                QuickReplyApiModel apiQuickReply = quickReply.Convert(quickReplyGroupId);
+                ApiResponse<string> response = HttpTools.Post<ApiResponse<string>>(ApiUrl + "api/QuickReply/AddQuickReply", Headers, null, apiQuickReply);
+                if (response.Success)
+                {
+                    quickReplyId = response.Data;
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+        public static bool ModifyQuickReply(string quickReplyGroupId, QuickReplyModel quickReply, out string error)
+        {
+            error = null;
+            try
+            {
+                QuickReplyApiModel apiQuickReply = quickReply.Convert(quickReplyGroupId);
+                ApiResponse response = HttpTools.Put<ApiResponse>(ApiUrl + "api/QuickReply/ModifyQuickReply", Headers, null, apiQuickReply);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool RemoveQuickReply(string quickReplyGroupId, string quickReplyId, out string error)
+        {
+            error = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "quickReplyGroupId", quickReplyGroupId },
+                    { "quickReplyId", quickReplyId }
+                };
+                ApiResponse response = HttpTools.Delete<ApiResponse>(ApiUrl + "api/QuickReply/RemoveQuickReply?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
                     return true;
                 }
                 else

@@ -25,6 +25,15 @@ namespace EMChat2.Common
 
         }
 
+        public static MessageContentModel Convert(string type, string content)
+        {
+            if (string.IsNullOrEmpty(type) || string.IsNullOrEmpty(content)) return null;
+            MessageContentModel messageContent = new MessageContentModel();
+            messageContent.Type = type;
+            messageContent.ContentString = content;
+            return messageContent;
+        }
+
         public static MessageApiModel Convert(this MessageModel message)
         {
             if (message == null) return null;
@@ -122,6 +131,52 @@ namespace EMChat2.Common
             department.Departments = new ObservableCollection<DepartmentModel>(apiDepartment.Departments.Select(u => u.Convert()));
             department.Staffs = new ObservableCollection<StaffModel>(apiDepartment.DepartmentStaffs.Select(u => u.Convert()));
             return department;
+        }
+
+        public static QuickReplyModel Convert(this QuickReplyApiModel apiQuickReply)
+        {
+            if (apiQuickReply == null) return null;
+            QuickReplyModel quickReply = new QuickReplyModel();
+            quickReply.Id = apiQuickReply.Id;
+            quickReply.Name = apiQuickReply.Name;
+            quickReply.Content = Convert(apiQuickReply.Type, apiQuickReply.Content);
+            return quickReply;
+        }
+
+        public static QuickReplyApiModel Convert(this QuickReplyModel quickReply, string quickReplyGroupId)
+        {
+            if (quickReply == null) return null;
+            QuickReplyApiModel apiQuickReply = new QuickReplyApiModel();
+            apiQuickReply.QuickReplyGroupId = quickReplyGroupId;
+            apiQuickReply.Id = quickReply.Id;
+            apiQuickReply.Name = quickReply.Name;
+            apiQuickReply.Type = quickReply.Content.Type;
+            apiQuickReply.Content = quickReply.Content.ContentString;
+            return apiQuickReply;
+        }
+
+        public static QuickReplyGroupModel Convert(this QuickReplyGroupApiModel apiQuickReplyGroup)
+        {
+            if (apiQuickReplyGroup == null) return null;
+            QuickReplyGroupModel quickReplyGroup = new QuickReplyGroupModel();
+            quickReplyGroup.Id = apiQuickReplyGroup.Id;
+            quickReplyGroup.Name = apiQuickReplyGroup.Name;
+            quickReplyGroup.Level = apiQuickReplyGroup.Level;
+            quickReplyGroup.BusinessId = apiQuickReplyGroup.BusinessId;
+            quickReplyGroup.QuickReplies = new ObservableCollection<QuickReplyModel>(apiQuickReplyGroup.QuickReplies.Select(u => u.Convert()));
+            return quickReplyGroup;
+        }
+
+        public static QuickReplyGroupApiModel Convert(this QuickReplyGroupModel quickReplyGroup, string userId)
+        {
+            if (quickReplyGroup == null || string.IsNullOrEmpty(userId)) return null;
+            QuickReplyGroupApiModel apiQuickReplyGroup = new QuickReplyGroupApiModel();
+            apiQuickReplyGroup.UserId = userId;
+            apiQuickReplyGroup.Id = quickReplyGroup.Id;
+            apiQuickReplyGroup.Name = quickReplyGroup.Name;
+            apiQuickReplyGroup.BusinessId = quickReplyGroup.BusinessId;
+            apiQuickReplyGroup.Level = quickReplyGroup.Level;
+            return apiQuickReplyGroup;
         }
     }
 }

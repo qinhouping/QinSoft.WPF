@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using EMChat2.Model.Enum;
+using EMChat2.Service;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -21,13 +22,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class QuickReplyAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region  构造函数   
-        public QuickReplyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel)
+        public QuickReplyAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.QuickReplyGroups = new ObservableCollection<QuickReplyGroupModel>();
+            this.userService = userService;
         }
         #endregion
 
@@ -215,10 +217,99 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.TemporaryEditQuickReply);
             }
         }
+        private UserService userService;
         #endregion
 
         #region 方法
+        private async void GetQuickReplyGroups(StaffModel staff)
+        {
+            IEnumerable<QuickReplyGroupModel> quickReplyGroups = await userService.GetQuickReplyGroups(staff);
+            if (quickReplyGroups == null) return;
+            new Action(() =>
+            {
+                lock (this.QuickReplyGroups)
+                {
+                    this.QuickReplyGroups.Clear();
+                    foreach (QuickReplyGroupModel quickReplyGroup in quickReplyGroups)
+                    {
+                        this.QuickReplyGroups.Add(quickReplyGroup);
+                    }
+                }
+            }).ExecuteInUIThread();
+        }
+        private async void AddQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            bool res = await userService.AddQuickReplyGroup(staff, quickReplyGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.QuickReplyGroups)
+                {
+                    this.QuickReplyGroups.Add(quickReplyGroup);
+                }
+            }).ExecuteInUIThread();
+        }
+        private async void EditQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            bool res = await userService.ModifyQuickReplyGroup(staff, quickReplyGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.QuickReplyGroups)
+                {
+                    this.QuickReplyGroups.FirstOrDefault(u => u.Equals(quickReplyGroup)).Assign(quickReplyGroup);
+                }
+            }).ExecuteInUIThread();
+        }
+        private async void RemoveQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
+        {
+            bool res = await userService.RemoveQuickReplyGroup(staff, quickReplyGroup);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.QuickReplyGroups)
+                {
+                    this.QuickReplyGroups.Remove(quickReplyGroup);
+                }
+            }).ExecuteInUIThread();
+        }
+        private async void AddQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReplyModel)
+        {
+            bool res = await userService.AddQuickReply(quickReplyGroup, quickReplyModel);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (quickReplyGroup.QuickReplies)
+                {
+                    quickReplyGroup.QuickReplies.Add(quickReplyModel);
+                }
+            }).ExecuteInUIThread();
+        }
 
+        private async void EditQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReplyModel)
+        {
+            bool res = await userService.ModifyQuickReply(quickReplyGroup, quickReplyModel);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (quickReplyGroup.QuickReplies)
+                {
+                    quickReplyGroup.QuickReplies.FirstOrDefault(u => u.Equals(quickReplyModel)).Assign(quickReplyModel);
+                }
+            }).ExecuteInUIThread();
+        }
+        private async void RemoveQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReplyModel)
+        {
+            bool res = await userService.RemoveQuickReply(quickReplyGroup, quickReplyModel);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (quickReplyGroup.QuickReplies)
+                {
+                    quickReplyGroup.QuickReplies.Remove(quickReplyModel);
+                }
+            }).ExecuteInUIThread();
+        }
         #endregion
 
         #region 命令
@@ -232,11 +323,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.IsAddingQuickReplyGroup = false;
                     this.TemporaryAddQuickReplyGroup = new QuickReplyGroupModel()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = null,
                         Name = null,
                         Level = QuickReplyGroupLevelEnum.User,
                         BusinessId = businessId,
-                        QuickReplys = new ObservableCollection<QuickReplyModel>()
+                        QuickReplies = new ObservableCollection<QuickReplyModel>()
                     };
                     this.IsAddingQuickReplyGroup = true;
                 });
@@ -249,10 +340,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    lock (this.QuickReplyGroups)
-                    {
-                        this.QuickReplyGroups.Add(this.TemporaryAddQuickReplyGroup);
-                    }
+                    this.AddQuickReplyGroup(ApplicationContextViewModel.CurrentStaff, this.TemporaryAddQuickReplyGroup);
                     this.IsAddingQuickReplyGroup = false;
                 }, () =>
                 {
@@ -294,10 +382,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    lock (this.QuickReplyGroups)
-                    {
-                        this.QuickReplyGroups.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReplyGroup)).Assign(this.TemporaryEditQuickReplyGroup);
-                    }
+                    this.EditQuickReplyGroup(applicationContextViewModel.CurrentStaff, this.TemporaryEditQuickReplyGroup);
                     this.IsEditingQuickReplyGroup = false;
                 }, () =>
                 {
@@ -323,10 +408,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyGroupModel>((quickReplyGroup) =>
                 {
-                    lock (this.QuickReplyGroups)
-                    {
-                        this.QuickReplyGroups.Remove(quickReplyGroup);
-                    }
+                    this.RemoveQuickReplyGroup(ApplicationContextViewModel.CurrentStaff, quickReplyGroup);
                 }, (quickReplyGroup) =>
                 {
                     return quickReplyGroup != null && quickReplyGroup.Level == QuickReplyGroupLevelEnum.User;
@@ -346,7 +428,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.TemporaryQuickReplyGroup = this.SelectedQuickReplyGroup;
                     this.TemporaryAddQuickReply = new QuickReplyModel()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = null,
                         Name = null,
                         Content = null
                     };
@@ -364,10 +446,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    lock (this.TemporaryQuickReplyGroup.QuickReplys)
-                    {
-                        this.TemporaryQuickReplyGroup.QuickReplys.Add(this.TemporaryAddQuickReply);
-                    }
+                    this.AddQuickReply(this.TemporaryQuickReplyGroup, this.TemporaryAddQuickReply);
                     this.IsAddingQuickReply = false;
                 }, () =>
                 {
@@ -410,10 +489,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    lock (this.TemporaryQuickReplyGroup2.QuickReplys)
-                    {
-                        this.TemporaryQuickReplyGroup2.QuickReplys.FirstOrDefault(u => u.Equals(this.TemporaryEditQuickReply)).Assign(this.TemporaryEditQuickReply);
-                    }
+                    this.EditQuickReply(this.TemporaryQuickReplyGroup2, this.TemporaryEditQuickReply);
                     this.IsEditingQuickReply = false;
                 }, () =>
                 {
@@ -439,10 +515,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand<QuickReplyModel>((quickReply) =>
                 {
-                    lock (this.SelectedQuickReplyGroup.QuickReplys)
-                    {
-                        this.SelectedQuickReplyGroup.QuickReplys.Remove(quickReply);
-                    }
+                    this.RemoveQuickReply(this.SelectedQuickReplyGroup, quickReply);
                 }, (quickReply) =>
                 {
                     return this.SelectedQuickReplyGroup != null && this.SelectedQuickReplyGroup.Level == QuickReplyGroupLevelEnum.User && quickReply != null;
@@ -459,6 +532,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = quickReply.Content });
                 }, (quickReply) =>
                 {
+                    if (SelectedQuickReplyGroup == null) return false;
                     BusinessSettingModel businessSetting = ApplicationContextViewModel.Setting?.BusinessSettings.FirstOrDefault(u => u.BusinessId == this.SelectedQuickReplyGroup.BusinessId);
                     if (businessSetting != null)
                     {
@@ -475,6 +549,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
+            GetQuickReplyGroups(arg.Staff);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
