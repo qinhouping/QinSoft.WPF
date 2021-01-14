@@ -44,11 +44,11 @@ namespace EMChat2.Service
             IMServerModel imServer = null;
             IMUserModel imUser = null;
 
-            bool isSuccess = await new Func<bool>(() => ApiTools.LoginStaff(loginInfo.UserName, loginInfo.Password, out error, out staff, out imServer, out imUser)).ExecuteInTask();
+            bool success = await new Func<bool>(() => ApiTools.LoginStaff(loginInfo.UserName, loginInfo.Password, out error, out staff, out imServer, out imUser)).ExecuteInTask();
 
             await this.eventAggregator.PublishAsync(new LoginCallbackEventArgs()
             {
-                IsSuccess = isSuccess,
+                IsSuccess = success,
                 Message = error,
                 Staff = staff,
                 IMServer = imServer,
@@ -103,8 +103,10 @@ namespace EMChat2.Service
             if (staff == null) return null;
             BusinessModel business = staff.Businesses.FirstOrDefault(u => !u.Outside);
             if (business == null) return null;
-
-            if (ApiTools.GetDepartments(business.Id, staff.Id, out string error, out IEnumerable<DepartmentModel> departments))
+            string error = null;
+            IEnumerable<DepartmentModel> departments = null;
+            bool success = await new Func<bool>(() => ApiTools.GetDepartments(business.Id, staff.Id, out error, out departments)).ExecuteInTask();
+            if (success)
             {
                 return departments;
             }
@@ -126,7 +128,10 @@ namespace EMChat2.Service
         public virtual async Task<IEnumerable<QuickReplyGroupModel>> GetQuickReplyGroups(StaffModel staff)
         {
             if (staff == null) return null;
-            if (ApiTools.GetQuickReplyGroups(staff.Id, out string error, out IEnumerable<QuickReplyGroupModel> quickReplyGroups))
+            string error = null;
+            IEnumerable<QuickReplyGroupModel> quickReplyGroups = null;
+            bool success = await new Func<bool>(() => ApiTools.GetQuickReplyGroups(staff.Id, out error, out quickReplyGroups)).ExecuteInTask();
+            if (success)
             {
                 return quickReplyGroups;
             }
@@ -148,9 +153,12 @@ namespace EMChat2.Service
         public virtual async Task<bool> AddQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             if (staff == null || quickReplyGroup == null) return false;
-            if (ApiTools.AddQuickReplyGroup(staff.Id, quickReplyGroup, out string error, out string id))
+            string error = null;
+            string quickReplyGroupId = null;
+            bool success = await new Func<bool>(() => ApiTools.AddQuickReplyGroup(staff.Id, quickReplyGroup, out error, out quickReplyGroupId)).ExecuteInTask();
+            if (success)
             {
-                quickReplyGroup.Id = id;
+                quickReplyGroup.Id = quickReplyGroupId;
                 return true;
             }
             else
@@ -171,7 +179,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> ModifyQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             if (staff == null || quickReplyGroup == null) return false;
-            if (ApiTools.ModifyQuickReplyGroup(staff.Id, quickReplyGroup, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.ModifyQuickReplyGroup(staff.Id, quickReplyGroup, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
@@ -193,7 +203,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> RemoveQuickReplyGroup(StaffModel staff, QuickReplyGroupModel quickReplyGroup)
         {
             if (staff == null || quickReplyGroup == null) return false;
-            if (ApiTools.RemoveQuickReplyGroup(staff.Id, quickReplyGroup.Id, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.RemoveQuickReplyGroup(staff.Id, quickReplyGroup.Id, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
@@ -215,9 +227,12 @@ namespace EMChat2.Service
         public virtual async Task<bool> AddQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
         {
             if (quickReplyGroup == null || quickReply == null) return false;
-            if (ApiTools.AddQuickReply(quickReplyGroup.Id, quickReply, out string error, out string id))
+            string error = null;
+            string quickReplyId = null;
+            bool success = await new Func<bool>(() => ApiTools.AddQuickReply(quickReplyGroup.Id, quickReply, out error, out quickReplyId)).ExecuteInTask();
+            if (success)
             {
-                quickReply.Id = id;
+                quickReply.Id = quickReplyId;
                 return true;
             }
             else
@@ -238,7 +253,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> ModifyQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
         {
             if (quickReplyGroup == null || quickReply == null) return false;
-            if (ApiTools.ModifyQuickReply(quickReplyGroup.Id, quickReply, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.ModifyQuickReply(quickReplyGroup.Id, quickReply, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
@@ -260,7 +277,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> RemoveQuickReply(QuickReplyGroupModel quickReplyGroup, QuickReplyModel quickReply)
         {
             if (quickReplyGroup == null || quickReplyGroup == null) return false;
-            if (ApiTools.RemoveQuickReply(quickReplyGroup.Id, quickReply.Id, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.RemoveQuickReply(quickReplyGroup.Id, quickReply.Id, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
@@ -282,7 +301,10 @@ namespace EMChat2.Service
         public virtual async Task<IEnumerable<TagGroupModel>> GetTagGroups(StaffModel staff)
         {
             if (staff == null) return null;
-            if (ApiTools.GetTagGroups(staff.Id, out string error, out IEnumerable<TagGroupModel> tagGroups))
+            string error = null;
+            IEnumerable<TagGroupModel> tagGroups = null;
+            bool success = await new Func<bool>(() => ApiTools.GetTagGroups(staff.Id, out error, out tagGroups)).ExecuteInTask();
+            if (success)
             {
                 return tagGroups;
             }
@@ -304,9 +326,12 @@ namespace EMChat2.Service
         public virtual async Task<bool> AddTagGroup(StaffModel staff, TagGroupModel TagGroup)
         {
             if (staff == null || TagGroup == null) return false;
-            if (ApiTools.AddTagGroup(staff.Id, TagGroup, out string error, out string id))
+            string error = null;
+            string tagGroupId = null;
+            bool success = await new Func<bool>(() => ApiTools.AddTagGroup(staff.Id, TagGroup, out error, out tagGroupId)).ExecuteInTask();
+            if (success)
             {
-                TagGroup.Id = id;
+                TagGroup.Id = tagGroupId;
                 return true;
             }
             else
@@ -327,7 +352,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> ModifyTagGroup(StaffModel staff, TagGroupModel TagGroup)
         {
             if (staff == null || TagGroup == null) return false;
-            if (ApiTools.ModifyTagGroup(staff.Id, TagGroup, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.ModifyTagGroup(staff.Id, TagGroup, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
@@ -349,7 +376,9 @@ namespace EMChat2.Service
         public virtual async Task<bool> RemoveTagGroup(StaffModel staff, TagGroupModel TagGroup)
         {
             if (staff == null || TagGroup == null) return false;
-            if (ApiTools.RemoveTagGroup(staff.Id, TagGroup.Id, out string error))
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.RemoveTagGroup(staff.Id, TagGroup.Id, out error)).ExecuteInTask();
+            if (success)
             {
                 return true;
             }
