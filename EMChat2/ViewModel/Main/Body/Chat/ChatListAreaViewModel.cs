@@ -24,7 +24,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
     public class ChatListAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<NotReadMessageCountChangedEventArgs>, IEventHandle<TemporaryInputMessagContentChangedEventArgs>, IEventHandle<RefreshChatsEventArgs>, IEventHandle<UserInfoChangedEventArgs>, IEventHandle<OpenPrivateChatEventArgs>, IEventHandle<MessageStateChangedEventArgs>, IEventHandle<MessageIdChangedEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>, IEventHandle<InputMessageChangedEventArgs>
     {
         #region 构造函数
-        public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatService chatService, SystemService systemService)
+        public ChatListAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatService chatService, SystemService systemService, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -36,6 +36,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             this.ChatItems = new ObservableCollection<ChatViewModel>();
             this.chatService = chatService;
             this.systemService = systemService;
+            this.userService = userService;
         }
         #endregion
 
@@ -152,6 +153,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         }
         private ChatService chatService;
         private SystemService systemService;
+        private UserService userService;
         public int TotalNotReadMessageCount
         {
             get
@@ -166,24 +168,79 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         #endregion
 
         #region 方法
-        private ChatModel CreatePrivateChat(string businessId, UserModel user)
+        private ChatViewModel CreateChat(ChatModel chat)
         {
-            if (ApplicationContextViewModel.CurrentStaff == null || user == null) return null;
-            List<string> ids = new List<string>() { businessId, ApplicationContextViewModel.CurrentStaff.Id, user.Id };
-            ids.Sort();
+            switch (chat.Type)
+            {
+                case ChatTypeEnum.Private:
+                    {
+
+                        return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, this.CustomerTagAreaViewModel, chat, this.chatService, this.systemService);
+                    }
+                default: return null;
+            }
+        }
+
+        private async void GetChats(StaffModel staff)
+        {
+            IEnumerable<ChatModel> chats = await userService.GetChats(staff);
+            if (chats == null) return;
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    this.ChatItems.Clear();
+                    foreach (ChatModel chat in chats)
+                    {
+                        ChatViewModel chatModel = CreateChat(chat);
+                        if (!this.ChatItems.Contains(chatModel))
+                            this.ChatItems.Add(chatModel);
+                    }
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async Task OpenChat(StaffModel staff, string chatId)
+        {
+            ChatModel chat = await userService.OpenChat(staff, chatId);
+            if (chat == null) return;
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    ChatViewModel chatModel = CreateChat(chat);
+                    if (!this.ChatItems.Contains(chatModel))
+                        this.ChatItems.Add(chatModel);
+                    else
+                        this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(chatModel));
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async void CreatePrivateChat(StaffModel staff, string businessId, UserModel user)
+        {
             ChatModel chat = new ChatModel();
-            chat.Id = string.Join("_", ids).MD5();
+            chat.Id = null;
             chat.BusinessId = businessId;
             chat.Type = ChatTypeEnum.Private;
-            chat.Name = user.NickName;
-            chat.HeaderImageUrl = user.HeaderImage;
+            chat.Name = null;
+            chat.HeaderImage = null;
             chat.IsTop = false;
             chat.IsInform = true;
             chat.ChatUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
-            chat.ChatAllUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
-            chat.Messages = new ObservableCollection<MessageModel>();
-            chat.CreateTime = DateTime.Now;
-            return chat;
+            chat = await userService.CreateChat(staff, chat);
+            if (chat == null) return;
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    ChatViewModel chatModel = CreateChat(chat);
+                    if (!this.ChatItems.Contains(chatModel))
+                        this.ChatItems.Add(chatModel);
+                    else
+                        this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(chatModel));
+                }
+            }).ExecuteInUIThread();
         }
 
         private PrivateChatViewModel CreatePrivateChatViewModel(ChatModel chat)
@@ -206,6 +263,19 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                         this.SelectedChatItem = this.ChatItemsCollectionView.CurrentItem as ChatViewModel;
                     }
                 }
+            }
+        }
+
+        private async void OnRecvMessage(ReceiveMessageEventArgs arg)
+        {
+            ChatViewModel chat = null;
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            if (chat == null) await this.OpenChat(ApplicationContextViewModel.CurrentStaff, arg.Message.ChatId);
+            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            if (chat == null) return;
+            if (chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
+            {
+                arg.IsInform = true;
             }
         }
         #endregion
@@ -235,6 +305,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         public void Handle(LoginCallbackEventArgs arg)
         {
             if (!arg.IsSuccess) return;
+            this.GetChats(arg.Staff);
         }
 
         public void Handle(LogoutCallbackEventArgs arg)
@@ -288,7 +359,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 {
                     lock (this.ChatItems)
                     {
-                        this.ChatItemsCollectionView.Refresh();
+                        //this.ChatItemsCollectionView.Refresh();
                     }
                 }).ExecuteInUIThread();
 
@@ -310,7 +381,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                                 {
                                     chatItem.Chat.ChatUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
                                     chatItem.Chat.Name = arg.User.NickName;
-                                    chatItem.Chat.HeaderImageUrl = arg.User.HeaderImage;
+                                    chatItem.Chat.HeaderImage = arg.User.HeaderImage;
                                     new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();
                                 }
                             }
@@ -327,27 +398,19 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         {
             new Action(() =>
             {
-                PrivateChatViewModel privateChatViewModel = null;
                 if (arg.ChatUser is CustomerModel)
                 {
                     CustomerModel customer = arg.ChatUser as CustomerModel;
-                    ChatModel chat = this.CreatePrivateChat(customer.BusinessId, customer);
-                    if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
+                    this.CreatePrivateChat(ApplicationContextViewModel.CurrentStaff, customer.BusinessId, customer);
                 }
                 else if (arg.ChatUser is StaffModel)
                 {
                     StaffModel staff = arg.ChatUser as StaffModel;
-                    ChatModel chat = this.CreatePrivateChat(staff.BusinessId, staff);
-                    if (chat != null) privateChatViewModel = CreatePrivateChatViewModel(chat);
+                    this.CreatePrivateChat(ApplicationContextViewModel.CurrentStaff, staff.BusinessId, staff);
                 }
                 else if (arg.ChatUser is SystemUserModel)
                 {
                     return;
-                }
-                lock (this.ChatItems)
-                {
-                    if (privateChatViewModel != null && !this.ChatItems.Contains(privateChatViewModel)) this.ChatItems.Add(privateChatViewModel);
-                    if (arg.IsActive) this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(privateChatViewModel));
                 }
             }).ExecuteInUIThread();
         }
@@ -370,13 +433,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
 
         public void Handle(ReceiveMessageEventArgs arg)
         {
-            ChatViewModel chat = null;
-            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
-            if (chat == null) return;
-            if (chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
-            {
-                arg.IsInform = true;
-            }
+            OnRecvMessage(arg);
         }
 
         public void Handle(ActiveApplicationEventArgs arg)

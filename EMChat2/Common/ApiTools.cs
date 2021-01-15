@@ -424,5 +424,93 @@ namespace EMChat2.Service
                 return false;
             }
         }
+
+        public static bool GetChats(string userId, out string error, out IEnumerable<ChatModel> chats)
+        {
+            error = null;
+            chats = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId }
+                };
+                ApiResponse<IEnumerable<UserChatApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<UserChatApiModel>>>(ApiUrl + "api/Chat/GetUserChats?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    chats = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool OpenChat(string userId, string chatId, out string error, out ChatModel chat)
+        {
+            error = null;
+            chat = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId },
+                    { "chatId", chatId }
+                };
+                ApiResponse<UserChatApiModel> response = HttpTools.Get<ApiResponse<UserChatApiModel>>(ApiUrl + "api/Chat/OpenUserChat?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    chat = response.Data.Convert();
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool CreateChat(string userId, ref ChatModel chat, out string error)
+        {
+            error = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId }
+                };
+                ChatApiModel apiChat = chat.Convert();
+                ApiResponse<UserChatApiModel> response = HttpTools.Post<ApiResponse<UserChatApiModel>>(ApiUrl + "api/Chat/CreateUserChat?" + HttpTools.UrlEncode(request), Headers, null, apiChat);
+                if (response.Success)
+                {
+                    chat = response.Data.Convert();
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
     }
 }

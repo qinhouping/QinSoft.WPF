@@ -75,14 +75,12 @@ namespace EMChat2.View
             {
                 return new DelegateValueConverter((value, targetType, parameter, cultInfo) =>
                 {
-                    ChatViewModel chat = value as ChatViewModel;
-                    if (chat == null) return null;
-                    MessageModel message = chat.LastMessage;
+                    MessageModel message = value as MessageModel;
                     if (message == null) return null;
                     if (message.State == MessageStateEnum.Revoked)
-                        return string.Format("\"{0}\"撤回了一条消息", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName);
+                        return "一条消息被撤回";
                     else
-                        return string.Format("{0}:{1}", chat.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(message.FromUser))?.NickName, MessageTools.GetMessageContentMark(message));
+                        return MessageTools.GetMessageContentMark(message);
                 });
             }
         }

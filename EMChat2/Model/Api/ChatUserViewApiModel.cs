@@ -56,7 +56,6 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 好友关系
         /// </summary>
-        [JsonIgnore]
         public FollowApiModel Follow { get; set; }
     }
 }

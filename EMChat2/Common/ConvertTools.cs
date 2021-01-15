@@ -211,5 +211,81 @@ namespace EMChat2.Common
             tagGroup.Tags = new ObservableCollection<TagModel>(apiTagGroup.Tags.Select(u => u.Convert()));
             return tagGroup;
         }
+
+        public static ChatModel Convert(this ChatViewApiModel apiChat)
+        {
+            if (apiChat == null) return null;
+            ChatModel chat = new ChatModel();
+            chat.Id = apiChat.Id;
+            chat.BusinessId = apiChat.BusinessId;
+            chat.Name = apiChat.Name;
+            chat.Type = apiChat.Type;
+            chat.HeaderImage = apiChat.HeaderImageUrl;
+            chat.CreateTime = apiChat.CreateTime;
+            return chat;
+        }
+
+        public static UserModel Convert(this ChatUserViewApiModel apiChatUser)
+        {
+            if (apiChatUser == null) return null;
+            if (apiChatUser.UserType == UserTypeEnum.Staff)
+            {
+                StaffApiModel apiStaff = apiChatUser.UserInfo.JsonToObject<StaffApiModel>();
+                StaffModel staff = apiStaff.Convert();
+                staff.BusinessId = apiChatUser.BusinessId;
+                if (apiChatUser.Follow != null)
+                {
+                    staff.FollowId = apiChatUser.Follow?.Id;
+                    staff.Remark = apiChatUser.Follow.Remark;
+                    staff.Description = apiChatUser.Follow.Description;
+                }
+                return staff;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static ChatModel Convert(this UserChatApiModel apiUserChat)
+        {
+            if (apiUserChat == null) return null;
+            ChatModel chat = Convert(apiUserChat.Chat);
+            if (chat == null) return null;
+            chat.IsTop = apiUserChat.IsTop;
+            chat.IsInform = apiUserChat.IsInform;
+            chat.ChatAllUsers = new ObservableCollection<UserModel>(apiUserChat.Chat.ChatUsres.Select(u => u.Convert()));
+            chat.ChatUsers = new ObservableCollection<UserModel>(apiUserChat.Chat.ChatUsres.Where(u => !u.Exited).Select(u => u.Convert()));
+            chat.Messages = new ObservableCollection<MessageModel>();
+            chat.Name = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.NickName;
+            chat.HeaderImage = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.HeaderImage;
+            return chat;
+        }
+
+        public static ChatUserApiModel Convert(this UserModel user)
+        {
+            if (user == null) return null;
+            ChatUserApiModel chatUser = new ChatUserApiModel();
+            chatUser.ChatId = null;
+            chatUser.UserId = user.Id;
+            chatUser.UserType = user.Type;
+            chatUser.Name = null;
+            chatUser.Exited = false;
+            return chatUser;
+        }
+
+        public static ChatApiModel Convert(this ChatModel chat)
+        {
+            if (chat == null) return null;
+            ChatApiModel apiChat = new ChatApiModel();
+            apiChat.Id = chat.Id;
+            apiChat.BusinessId = chat.BusinessId;
+            apiChat.CreateTime = chat.CreateTime;
+            apiChat.Type = chat.Type;
+            apiChat.Name = chat.Name;
+            apiChat.HeaderImageUrl = chat.HeaderImage;
+            apiChat.ChatUsres = chat.ChatUsers.Select(u => u.Convert());
+            return apiChat;
+        }
     }
 }

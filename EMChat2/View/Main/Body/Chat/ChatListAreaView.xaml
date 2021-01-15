@@ -37,7 +37,7 @@
                                                     <Grid.Resources>
                                                         <common:BindingProxy x:Key="chatData" Data="{Binding}"></common:BindingProxy>
                                                     </Grid.Resources>
-                                                    
+
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -51,7 +51,7 @@
                                                     <!--会话头像-->
                                                     <Grid Grid.Column="0" Grid.RowSpan="2" >
                                                         <!--头像-->
-                                                        <Image Margin="10" Style="{StaticResource IM-Header-Image}" Source="{Binding Chat.HeaderImageUrl}"></Image>
+                                                        <Image Margin="10" Style="{StaticResource IM-Header-Image}" Source="{Binding Chat.HeaderImage}"></Image>
 
                                                         <!--置顶标示-->
                                                         <TextBlock ToolTip="置顶" Style="{StaticResource IconThumbTack}" FontSize="{StaticResource SmallIconFontSize}" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource OrangeBrush}" Visibility="{Binding Chat.IsTop, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}" RenderTransformOrigin="0.5,0.5">
@@ -97,7 +97,7 @@
 
                                                     <Grid Grid.Column="1" Grid.Row="1" Margin="0">
                                                         <!--最后一条消息内容-->
-                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding ., Converter={x:Static view:ValueConverters.ChatLastMessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="{StaticResource Gray7Brush}"></TextBlock>
+                                                        <TextBlock Style="{StaticResource BaseTextBlock}" Text="{Binding LastMessage, Converter={x:Static view:ValueConverters.ChatLastMessageToContentMarkConverter}}" VerticalAlignment="Top" Margin="5,2" Foreground="{StaticResource Gray7Brush}"></TextBlock>
                                                     </Grid>
 
                                                     <Grid Grid.Column="2" Grid.Row="0">

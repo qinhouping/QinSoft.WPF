@@ -17,7 +17,7 @@ using EMChat2.Service;
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     [Component]
-    public class StaffAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
+    public class StaffAreaViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<UserInfoChangedEventArgs>
     {
         #region 构造函数
         public StaffAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, UserService userService)
@@ -104,6 +104,15 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 }
             }).ExecuteInUIThread();
         }
+
+        private void UpdateDepartmentStaff(DepartmentModel department, UserModel user)
+        {
+            department.Staffs.FirstOrDefault(u => u.Equals(user)).Assign(user);
+            foreach (DepartmentModel department1 in department.Departments)
+            {
+                UpdateDepartmentStaff(department1, user);
+            }
+        }
         #endregion
 
         #region 事件处理
@@ -133,6 +142,17 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                     this.Departments.Clear();
                 }
             }).ExecuteInUIThread();
+        }
+
+        public void Handle(UserInfoChangedEventArgs arg)
+        {
+            lock (this.Departments)
+            {
+                foreach (DepartmentModel department in this.Departments)
+                {
+                    this.UpdateDepartmentStaff(department, arg.User);
+                }
+            }
         }
         #endregion
     }

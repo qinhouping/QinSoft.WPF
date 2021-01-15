@@ -86,17 +86,17 @@ namespace EMChat2.Model.BaseInfo
         /// <summary>
         /// 会话头像
         /// </summary>
-        private string headerImageUrl;
-        public string HeaderImageUrl
+        private string headerImage;
+        public string HeaderImage
         {
             get
             {
-                return this.headerImageUrl;
+                return this.headerImage;
             }
             set
             {
-                this.headerImageUrl = value;
-                this.NotifyPropertyChange(() => this.HeaderImageUrl);
+                this.headerImage = value;
+                this.NotifyPropertyChange(() => this.HeaderImage);
             }
         }
 

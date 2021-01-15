@@ -396,6 +396,80 @@ namespace EMChat2.Service
                 return false;
             }
         }
+
+        public virtual async Task<IEnumerable<ChatModel>> GetChats(StaffModel staff)
+        {
+            if (staff == null) return null;
+            string error = null;
+            IEnumerable<ChatModel> chats = null;
+            bool success = await new Func<bool>(() => ApiTools.GetChats(staff.Id, out error, out chats)).ExecuteInTask();
+            if (success)
+            {
+                return chats;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "获取会话列表失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<ChatModel> OpenChat(StaffModel staff, string chatId)
+        {
+            if (staff == null || string.IsNullOrEmpty(chatId)) return null;
+            string error = null;
+            ChatModel chat = null;
+            bool success = await new Func<bool>(() => ApiTools.OpenChat(staff.Id, chatId, out error, out chat)).ExecuteInTask();
+            if (success)
+            {
+                return chat;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "打开会话失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<ChatModel> CreateChat(StaffModel staff, ChatModel chat)
+        {
+            if (staff == null || chat == null) return null;
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.CreateChat(staff.Id, ref chat, out error)).ExecuteInTask();
+            if (success)
+            {
+                return chat;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "打开会话失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
         #endregion
     }
 }

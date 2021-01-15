@@ -143,7 +143,8 @@ namespace EMChat2.ViewModel.Main.Tabs.User
 
         public void Handle(UserInfoChangedEventArgs arg)
         {
-            this.Customers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
+            lock (this.Customers)
+                this.Customers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
         }
         #endregion
     }
