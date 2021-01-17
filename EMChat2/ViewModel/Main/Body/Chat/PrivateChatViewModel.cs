@@ -21,7 +21,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatViewModel : ChatViewModel, IDisposable
     {
         #region 构造函数
-        public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService)
+        public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService, UserService userService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService, userService)
         {
             if (this.Chat.Type != ChatTypeEnum.Private) throw new ArgumentOutOfRangeException("is not private chat");
             this.PrivateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, customerTagAreaViewModel, chat);

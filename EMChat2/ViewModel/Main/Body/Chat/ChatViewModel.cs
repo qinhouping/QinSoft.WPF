@@ -27,7 +27,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public abstract class ChatViewModel : PropertyChangedBase, IDisposable, ISelectable, IEventHandle<SettingChangedEventArgs>
     {
         #region 构造函数
-        public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService)
+        public ChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -37,6 +37,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.chat = chat;
             this.chatService = chatService;
             this.systemService = systemService;
+            this.userService = userService;
 
             this.NoticeMessagesChange();
             this.Chat.Messages.CollectionChanged += (s, e) =>
@@ -62,6 +63,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         protected EventAggregator eventAggregator;
         protected ChatService chatService;
         protected SystemService systemService;
+        protected UserService userService;
         private ChatModel chat;
         public ChatModel Chat
         {
@@ -244,9 +246,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    this.Chat.IsTop = !this.Chat.IsTop;
-                    this.NotifyPropertyChange(() => this.IsTopSort);
-                    this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+                    this.ToggleChatIsTop(ApplicationContextViewModel.CurrentStaff, this.Chat);
                 });
             }
         }
@@ -257,7 +257,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 return new RelayCommand(() =>
                 {
-                    this.Chat.IsInform = !this.Chat.IsInform;
+                    this.ToggleChatIsInform(ApplicationContextViewModel.CurrentStaff, this.Chat);
                 });
             }
         }
@@ -584,6 +584,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         #region 方法
 
+        private async void ToggleChatIsTop(StaffModel staff, ChatModel chat)
+        {
+            ChatModel newChat = chat.CloneObject();
+            newChat.IsTop = !newChat.IsTop;
+            bool res = await this.userService.ModifyChat(staff, newChat);
+            if (!res) return;
+            chat.Assign(newChat);
+            this.NotifyPropertyChange(() => this.IsTopSort);
+            await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+        }
+
+        private async void ToggleChatIsInform(StaffModel staff, ChatModel chat)
+        {
+            ChatModel newChat = chat.CloneObject();
+            newChat.IsInform = !newChat.IsInform;
+            bool res = await this.userService.ModifyChat(staff, newChat);
+            if (!res) return;
+            chat.Assign(newChat);
+        }
+
         private async void InputTextMessageContent(string text)
         {
             if (string.IsNullOrEmpty(text)) return;
@@ -630,7 +650,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.NotifyPropertyChange(() => this.LastMessage);
             this.NotifyPropertyChange(() => this.LastMessageTimeSort);
             await this.eventAggregator.PublishAsync(new NotReadMessageCountChangedEventArgs());
-            await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
+            //await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
         public abstract bool RecvMessage(MessageModel message);

@@ -129,6 +129,24 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
+        /// 好友关系ID
+        /// </summary>
+        private DateTime? followTime;
+        public DateTime? FollowTime
+        {
+            get
+            {
+                return this.followTime;
+            }
+            set
+            {
+                this.followTime = value;
+                this.NotifyPropertyChange(() => this.FollowTime);
+            }
+        }
+
+
+        /// <summary>
         /// 员工备注
         /// </summary>
         private string remark;

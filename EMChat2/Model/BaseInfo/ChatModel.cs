@@ -135,6 +135,23 @@ namespace EMChat2.Model.BaseInfo
         }
 
         /// <summary>
+        /// 打开会话时间
+        /// </summary>
+        private DateTime openTime;
+        public DateTime OpenTime
+        {
+            get
+            {
+                return this.openTime;
+            }
+            set
+            {
+                this.openTime = value;
+                this.NotifyPropertyChange(() => this.OpenTime);
+            }
+        }
+
+        /// <summary>
         /// 当前参与会话用户（用于确定消息的发送范围）
         /// </summary>
         private ObservableCollection<UserModel> chatUsers;

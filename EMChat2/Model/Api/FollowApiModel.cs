@@ -19,7 +19,7 @@ namespace EMChat2.Model.Api
         public string Id { get; set; }
 
         /// <summary>
-        /// 业务ID
+        /// 业务ID 
         /// </summary>
         public string BusinessId { get; set; }
 
@@ -51,7 +51,7 @@ namespace EMChat2.Model.Api
         /// <summary>
         /// 添加好友时间
         /// </summary>
-        public DateTime? FollowTime { get; set; }
+        public DateTime FollowTime { get; set; }
 
         /// <summary>
         /// 好友备注

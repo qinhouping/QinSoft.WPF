@@ -104,7 +104,8 @@ namespace EMChat2.Common
             staff.BusinessId = apiStaff.BusinessId;
             if (apiStaff.Follow != null)
             {
-                staff.FollowId = apiStaff.Follow?.Id;
+                staff.FollowId = apiStaff.Follow.Id;
+                staff.FollowTime = apiStaff.Follow.FollowTime;
                 staff.Remark = apiStaff.Follow.Remark;
                 staff.Description = apiStaff.Follow.Description;
             }
@@ -250,15 +251,19 @@ namespace EMChat2.Common
         public static ChatModel Convert(this UserChatApiModel apiUserChat)
         {
             if (apiUserChat == null) return null;
-            ChatModel chat = Convert(apiUserChat.Chat);
+            ChatModel chat = apiUserChat.Chat.Convert();
             if (chat == null) return null;
             chat.IsTop = apiUserChat.IsTop;
             chat.IsInform = apiUserChat.IsInform;
+            chat.OpenTime = apiUserChat.OpenTime;
             chat.ChatAllUsers = new ObservableCollection<UserModel>(apiUserChat.Chat.ChatUsres.Select(u => u.Convert()));
             chat.ChatUsers = new ObservableCollection<UserModel>(apiUserChat.Chat.ChatUsres.Where(u => !u.Exited).Select(u => u.Convert()));
             chat.Messages = new ObservableCollection<MessageModel>();
-            chat.Name = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.NickName;
-            chat.HeaderImage = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.HeaderImage;
+            if (chat.Type == ChatTypeEnum.Private)
+            {
+                chat.Name = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.NickName;
+                chat.HeaderImage = chat.ChatAllUsers.FirstOrDefault(u => u.Id != apiUserChat.UserId)?.HeaderImage;
+            }
             return chat;
         }
 
@@ -286,6 +291,43 @@ namespace EMChat2.Common
             apiChat.HeaderImageUrl = chat.HeaderImage;
             apiChat.ChatUsres = chat.ChatUsers.Select(u => u.Convert());
             return apiChat;
+        }
+
+        public static UserChatApiModel Convert(this ChatModel chat, string userId)
+        {
+            if (chat == null || string.IsNullOrEmpty(userId)) return null;
+            UserChatApiModel apiUserChat = new UserChatApiModel();
+            apiUserChat.UserId = userId;
+            apiUserChat.ChatId = chat.Id;
+            apiUserChat.IsTop = chat.IsTop;
+            apiUserChat.IsInform = chat.IsInform;
+            apiUserChat.OpenTime = chat.OpenTime;
+            return apiUserChat;
+        }
+
+        public static FollowApiModel Convert(this UserModel user, string userId, UserTypeEnum userType)
+        {
+            if (user == null || string.IsNullOrEmpty(userId)) return null;
+            FollowApiModel follow = new FollowApiModel();
+            follow.CurrentUserId = userId;
+            follow.CurrentUserType = userType;
+            if (user.Type == UserTypeEnum.Staff)
+            {
+                StaffModel staff = user as StaffModel;
+                follow.Id = staff.FollowId;
+                follow.BusinessId = staff.BusinessId;
+                follow.OppositeUserId = staff.Id;
+                follow.OppositeUserType = staff.Type;
+                follow.FollowTime = staff.FollowTime.Value;
+                follow.Remark = staff.Remark;
+                follow.Description = staff.Description;
+                follow.FollowTags = null;
+            }
+            else
+            {
+                return null;
+            }
+            return follow;
         }
     }
 }

@@ -484,6 +484,34 @@ namespace EMChat2.Service
             }
         }
 
+        public static bool CloseChat(string userId, string chatId, out string error)
+        {
+            error = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "userId", userId },
+                    { "chatId", chatId }
+                };
+                ApiResponse response = HttpTools.Delete<ApiResponse>(ApiUrl + "api/Chat/RemoveUserChat?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
         public static bool CreateChat(string userId, ref ChatModel chat, out string error)
         {
             error = null;
@@ -498,6 +526,80 @@ namespace EMChat2.Service
                 if (response.Success)
                 {
                     chat = response.Data.Convert();
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool ModifyChat(string userId, ChatModel chat, out string error)
+        {
+            error = null;
+            try
+            {
+                UserChatApiModel apiUserChat = chat.Convert(userId);
+                ApiResponse response = HttpTools.Put<ApiResponse>(ApiUrl + "api/Chat/ModifyUserChat", Headers, null, apiUserChat);
+                if (response.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool AddFollow(string userId, UserTypeEnum userType, UserModel oUser, out string error, out string id)
+        {
+            error = null;
+            id = null;
+            try
+            {
+                FollowApiModel apiFollow = oUser.Convert(userId, userType);
+                ApiResponse<string> response = HttpTools.Post<ApiResponse<string>>(ApiUrl + "api/Follow/AddFollow", Headers, null, apiFollow);
+                if (response.Success)
+                {
+                    id = response.Data;
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
+        public static bool ModifyFollow(string userId, UserTypeEnum userType, UserModel oUser, out string error)
+        {
+            error = null;
+            try
+            {
+                FollowApiModel apiFollow = oUser.Convert(userId, userType);
+                ApiResponse response = HttpTools.Put<ApiResponse>(ApiUrl + "api/Follow/ModifyFollow", Headers, null, apiFollow);
+                if (response.Success)
+                {
                     return true;
                 }
                 else

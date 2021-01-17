@@ -447,6 +447,31 @@ namespace EMChat2.Service
             }
         }
 
+        public virtual async Task<bool> CloseChat(StaffModel staff, ChatModel chat)
+        {
+
+            if (staff == null || chat == null) return false;
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.CloseChat(staff.Id, chat.Id, out error)).ExecuteInTask();
+            if (success)
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "关闭会话失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
         public virtual async Task<ChatModel> CreateChat(StaffModel staff, ChatModel chat)
         {
             if (staff == null || chat == null) return null;
@@ -468,6 +493,80 @@ namespace EMChat2.Service
                     }
                 });
                 return null;
+            }
+        }
+
+        public virtual async Task<bool> ModifyChat(StaffModel staff, ChatModel chat)
+        {
+            if (staff == null || chat == null) return false;
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.ModifyChat(staff.Id, chat, out error)).ExecuteInTask();
+            if (success)
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改会话失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
+            }
+        }
+
+
+        public virtual async Task<string> AddFollow(StaffModel staff, UserModel user)
+        {
+            if (staff == null || user == null) return null;
+            string error = null;
+            string followId = null;
+            bool success = await new Func<bool>(() => ApiTools.AddFollow(staff.Id, staff.Type, user, out error, out followId)).ExecuteInTask();
+            if (success)
+            {
+                return followId;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改好友关系失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+        }
+
+        public virtual async Task<bool> ModifyFollow(StaffModel staff, UserModel user)
+        {
+            if (staff == null || user == null) return false;
+            string error = null;
+            bool success = await new Func<bool>(() => ApiTools.ModifyFollow(staff.Id, staff.Type, user, out error)).ExecuteInTask();
+            if (success)
+            {
+                return true;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "修改好友关系失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return false;
             }
         }
         #endregion

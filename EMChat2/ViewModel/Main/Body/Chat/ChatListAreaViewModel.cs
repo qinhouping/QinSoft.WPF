@@ -175,7 +175,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 case ChatTypeEnum.Private:
                     {
 
-                        return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, this.CustomerTagAreaViewModel, chat, this.chatService, this.systemService);
+                        return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, this.CustomerTagAreaViewModel, chat, this.chatService, this.systemService, this.userService);
                     }
                 default: return null;
             }
@@ -243,9 +243,18 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }).ExecuteInUIThread();
         }
 
-        private PrivateChatViewModel CreatePrivateChatViewModel(ChatModel chat)
+        private async void CloseChat(StaffModel staff, ChatViewModel chat)
         {
-            return new PrivateChatViewModel(this.windowManager, this.eventAggregator, this.ApplicationContextViewModel, this.EmotionPickerAreaViewModel, this.QuickReplyAreaViewModel, this.CustomerTagAreaViewModel, chat, this.chatService, this.systemService);
+            bool res = await userService.CloseChat(staff, chat.Chat);
+            if (!res) return;
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    this.ChatItems.Remove(chat);
+                    chat.Dispose();
+                }
+            }).ExecuteInUIThread();
         }
 
         protected async void NoticeChatItemsChange()
@@ -288,11 +297,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 return new RelayCommand<ChatViewModel>((chat) =>
                 {
-                    lock (this.ChatItems)
-                    {
-                        this.ChatItems.Remove(chat);
-                        chat.Dispose();
-                    }
+                    this.CloseChat(ApplicationContextViewModel.CurrentStaff, chat);
                 }, (chat) =>
                 {
                     return chat != null;
@@ -359,7 +364,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 {
                     lock (this.ChatItems)
                     {
-                        //this.ChatItemsCollectionView.Refresh();
+                        this.ChatItemsCollectionView.Refresh();
                     }
                 }).ExecuteInUIThread();
 
