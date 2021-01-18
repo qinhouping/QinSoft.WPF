@@ -496,16 +496,11 @@ namespace EMChat2.Service
             }
         }
 
-        public virtual async Task<IEnumerable<MessageModel>> GetMessages(ChatModel chat, int count)
+        public virtual async Task<IEnumerable<MessageModel>> GetMessages(ChatModel chat, DateTime? maxTime, int count)
         {
             if (chat == null || count <= 0) return null;
             string error = null;
             IEnumerable<MessageModel> messages = null;
-            DateTime? maxTime = null;
-            lock (chat.Messages)
-            {
-                maxTime = chat.Messages.OrderBy(u => u.Time).FirstOrDefault()?.Time;
-            }
             bool success = await new Func<bool>(() => ApiTools.GetMessages(chat.Id, maxTime, count, out error, out messages)).ExecuteInTask();
             if (success)
             {

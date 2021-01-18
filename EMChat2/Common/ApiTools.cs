@@ -104,6 +104,30 @@ namespace EMChat2.Service
             }
         }
 
+        public static int BatchModifyMessage(IEnumerable<KeyValuePair<string, MessageStateEnum>> messages, out string error)
+        {
+            error = null;
+            try
+            {
+                IEnumerable<UpdateMessageApiModel> apiUpdateMessages = messages.Select(u => ConvertTools.Convert(u.Key, u.Value));
+                ApiResponse<int> response = HttpTools.Put<ApiResponse<int>>(ApiUrl + "api/Message/BatchModifyMessage", Headers, null, apiUpdateMessages);
+                if (response.Success)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    error = response.Message;
+                    return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return -1;
+            }
+        }
+
         public static bool GetDepartments(string businessId, string userId, out string error, out IEnumerable<DepartmentModel> departments)
         {
             error = null;

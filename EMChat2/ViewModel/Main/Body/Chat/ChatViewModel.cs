@@ -62,7 +62,31 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         #region 属性
         protected bool canLoadMessages = true;
+        public bool CanLoadMessages
+        {
+            get
+            {
+                return this.canLoadMessages;
+            }
+            set
+            {
+                this.canLoadMessages = value;
+                this.NotifyPropertyChange(() => this.CanLoadMessages);
+            }
+        }
         protected bool isLoadingMessages = false;
+        public bool IsLoadingMessages
+        {
+            get
+            {
+                return this.isLoadingMessages;
+            }
+            set
+            {
+                this.isLoadingMessages = value;
+                this.NotifyPropertyChange(() => this.IsLoadingMessages);
+            }
+        }
         protected DateTime? lastLoadTime = null;
         protected IWindowManager windowManager;
         protected EventAggregator eventAggregator;
@@ -157,7 +181,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             {
                 lock (this.Chat.Messages)
                 {
-                    return this.Chat.Messages.Where(u => !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received)).ToArray();
+                    return this.Chat.Messages.Where(u => u.Type != MessageTypeConst.Tips && !u.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && u.State.Equals(MessageStateEnum.Received)).ToArray();
                 }
             }
         }
@@ -166,6 +190,17 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             get
             {
                 return NotReadMessages.Count();
+            }
+        }
+        public MessageModel FirstMessage
+        {
+            get
+            {
+                lock (this.Chat.Messages)
+                {
+                    this.messagesCollectionView.MoveCurrentToFirst();
+                    return this.messagesCollectionView.CurrentItem as MessageModel;
+                }
             }
         }
         public MessageModel LastMessage
@@ -370,7 +405,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     this.LoadMessages();
                 }, () =>
                 {
-                    return canLoadMessages && !isLoadingMessages && (lastLoadTime == null || (DateTime.Now - lastLoadTime.Value).TotalSeconds >= 1);
+                    return CanLoadMessages && !IsLoadingMessages && (lastLoadTime == null || (DateTime.Now - lastLoadTime.Value).TotalSeconds >= 1);
                 });
             }
         }
@@ -674,17 +709,22 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         protected virtual async void LoadMessages()
         {
-            isLoadingMessages = true;
-            IEnumerable<MessageModel> messages = await this.userService.GetMessages(this.Chat, 10);
+            IsLoadingMessages = true;
+            IEnumerable<MessageModel> messages = await this.userService.GetMessages(this.Chat, this.FirstMessage?.Time, 10);
             if (messages != null)
             {
-                if (messages.Count() == 0) canLoadMessages = false;
+                if (messages.Count() == 0)
+                {
+                    CanLoadMessages = false;
+                    MessageModel message = MessageTools.CreateTipsMessage(this.Chat, "已无更多消息", this.FirstMessage?.Time, MessageStateEnum.Received);
+                    await this.RecvMessage(message);
+                }
                 foreach (MessageModel message in messages)
                 {
                     await this.RecvMessage(message);
                 }
             }
-            isLoadingMessages = false;
+            IsLoadingMessages = false;
             lastLoadTime = DateTime.Now;
         }
 

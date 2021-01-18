@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -17,7 +16,6 @@ namespace QinSoft.WPF.Control
 {
     public class AutoScrollListBox : ListBox
     {
-        private bool scrollLoading = false;
         public static readonly DependencyProperty LoadProperty = DependencyProperty.Register("Load", typeof(ICommand), typeof(AutoScrollListBox));
 
         public ICommand Load
@@ -34,12 +32,6 @@ namespace QinSoft.WPF.Control
         public AutoScrollListBox()
         {
             this.Loaded += AutoScrollListBox_Loaded;
-            this.MouseMove += AutoScrollListBox_MouseMove;
-        }
-
-        private void AutoScrollListBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            scrollLoading = false;
         }
 
         #region 滚动加载
@@ -56,6 +48,7 @@ namespace QinSoft.WPF.Control
             if (scrollViewer.VerticalOffset == 0)
             {
                 if (Load != null && Load.CanExecute(null)) Load.Execute(null);
+                scrollViewer.ScrollToVerticalOffset(1);
             }
         }
         #endregion

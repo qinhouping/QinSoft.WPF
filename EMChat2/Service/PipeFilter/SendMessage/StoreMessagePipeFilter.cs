@@ -85,6 +85,23 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                                 break;
                             case EventMessageTypeConst.ReadMessage:
                                 {
+                                    if (this.BatchUpdateMessage((eventMessageContent as ReadMessageEventMessageContent).MessageIds, MessageStateEnum.Readed))
+                                    {
+                                        foreach (string messageId in (eventMessageContent as ReadMessageEventMessageContent).MessageIds)
+                                        {
+                                            this.eventAggregator.PublishAsync<MessageStateChangedEventArgs>(new MessageStateChangedEventArgs()
+                                            {
+                                                ChatId = message.ChatId,
+                                                MessageId = messageId,
+                                                MessageState = MessageStateEnum.Readed
+                                            });
+                                        }
+                                        arg.OutArg = message;
+                                    }
+                                    else
+                                    {
+                                        arg.Cancel = true;
+                                    }
                                     arg.OutArg = message;
                                 }
                                 break;
@@ -190,6 +207,29 @@ namespace EMChat2.Service.PipeFilter.SendMessage
                     BalloonTip = new BalloonTipInfo
                     {
                         Title = "消息更新失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        protected virtual bool BatchUpdateMessage(IEnumerable<string> messageIds, MessageStateEnum state)
+        {
+            IEnumerable<KeyValuePair<string, MessageStateEnum>> param = messageIds?.Select(u => new KeyValuePair<string, MessageStateEnum>(u, state));
+            if (ApiTools.BatchModifyMessage(param, out string error) <= 0)
+            {
+                this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "消息批量更新失败",
                         Content = error,
                         Icon = BalloonIcon.Error
                     }

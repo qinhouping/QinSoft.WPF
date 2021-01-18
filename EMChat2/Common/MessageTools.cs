@@ -168,6 +168,19 @@ namespace EMChat2.Common
             };
         }
 
+        public static MessageContentModel CreateTipsMessageContent(string content)
+        {
+            if (string.IsNullOrEmpty(content)) return null;
+            return new MessageContentModel()
+            {
+                Type = MessageTypeConst.Tips,
+                Content = new TipsMessageContent()
+                {
+                    Content = content
+                }
+            };
+        }
+
         public static MessageContentModel CreateRecvMessageEventMessageContent(MessageModel message)
         {
             if (message == null) return null;
@@ -284,14 +297,31 @@ namespace EMChat2.Common
                 Type = messageContent.Type,
                 Content = messageContent.Content
             };
-            if (message.ToUsers.Count() == 0) return null;
-            else return message;
+            return message;
+        }
+
+        public static MessageModel CreateTipsMessage(ChatModel chat, string content, DateTime? time, MessageStateEnum state = MessageStateEnum.Sending)
+        {
+            if (chat == null || string.IsNullOrEmpty(content)) return null;
+            MessageContentModel messageContent = CreateTipsMessageContent(content);
+            MessageModel message = new MessageModel()
+            {
+                Id = Guid.NewGuid().ToString(),
+                ChatId = chat.Id,
+                Time = (time ?? DateTime.Now).AddTicks(-1),
+                FromUser = null,
+                ToUsers = null,
+                State = state,
+                Type = messageContent.Type,
+                Content = messageContent.Content
+            };
+            return message;
         }
 
         public static bool IsSendFrom(this MessageModel message, UserModel user)
         {
             if (message == null || user == null) return false;
-            return message.FromUser.Equals(user);
+            return user.Equals(message.FromUser);
         }
 
         public static bool IsTimeValid(this MessageModel message, int seconds = 30)

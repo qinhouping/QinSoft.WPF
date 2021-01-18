@@ -247,6 +247,33 @@
                     </DataTemplate>
                 </wpfControl:AutoScrollListBox.ItemTemplate>
             </wpfControl:AutoScrollListBox>
+
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5">
+                <TextBlock RenderTransformOrigin="0.5,0.5" Margin="2" ToolTip="加载消息中..." Visibility="{Binding IsLoadingMessages, Converter={x:Static wpf:ValueConverters.BooleanToVisibilityConverter}}">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="0"/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource IconSpinner}">
+                            <Setter Property="Foreground" Value="Gray"></Setter>
+                            <Setter Property="FontSize" Value="{StaticResource DefaultIconFontSize}"></Setter>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" From="0" To="360" BeginTime="0:0:0" Duration="0:0:1" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
