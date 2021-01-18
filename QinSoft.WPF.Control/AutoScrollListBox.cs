@@ -10,16 +10,57 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace QinSoft.WPF.Control
 {
     public class AutoScrollListBox : ListBox
     {
+        private bool scrollLoading = false;
+        public static readonly DependencyProperty LoadProperty = DependencyProperty.Register("Load", typeof(ICommand), typeof(AutoScrollListBox));
+
+        public ICommand Load
+        {
+            get
+            {
+                return this.GetValue(LoadProperty) as ICommand;
+            }
+            set
+            {
+                this.SetValue(LoadProperty, value);
+            }
+        }
         public AutoScrollListBox()
         {
+            this.Loaded += AutoScrollListBox_Loaded;
+            this.MouseMove += AutoScrollListBox_MouseMove;
         }
 
+        private void AutoScrollListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            scrollLoading = false;
+        }
+
+        #region 滚动加载
+        private void AutoScrollListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            ScrollViewer scrollViewer = GetScrollViewerChild();
+            if (scrollViewer == null) return;
+            scrollViewer.ScrollChanged += ScrollViewer_ScrollChanged;
+        }
+
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ScrollViewer scrollViewer = sender as ScrollViewer;
+            if (scrollViewer.VerticalOffset == 0)
+            {
+                if (Load != null && Load.CanExecute(null)) Load.Execute(null);
+            }
+        }
+        #endregion
+
+        #region 自动滚动
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             if (!this.IsMouseOver)
@@ -47,5 +88,6 @@ namespace QinSoft.WPF.Control
                 }
             });
         }
+        #endregion
     }
 }

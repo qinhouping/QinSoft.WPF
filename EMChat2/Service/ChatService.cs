@@ -150,23 +150,11 @@ namespace EMChat2.Service
         /// 发送消息
         /// </summary>
         /// <param name="message"></param>
-        public virtual async void SendMessage(MessageModel message)
+        public virtual async Task SendMessage(MessageModel message)
         {
-            await OnSendMessage(message);
-        }
-
-        protected virtual async Task OnSendMessage(MessageModel message)
-        {
-            await Task.Delay(50);
             if (message == null) return;
+            await Task.Delay(50);
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
-        }
-
-        protected virtual async void OnRecvMessage(MessageModel message)
-        {
-            await Task.Delay(50);
-            if (message == null) return;
-            await new Action(() => recvMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
         #endregion
 
@@ -267,7 +255,7 @@ namespace EMChat2.Service
 
         private void IMTools_OnReceiveMessage(object sender, MessageModel e)
         {
-            OnRecvMessage(e);
+            new Action(() => recvMessageBeginPipeFilter.Begin(e)).ExecuteInTask();
         }
 
         private void IMTools_OnLog(object sender, string e)

@@ -89,9 +89,12 @@ namespace EMChat2.Common
             staff.Name = apiStaff.Name;
             staff.HeaderImageUrl = apiStaff.HeaderImageUrl;
             staff.WorkCode = apiStaff.WorkCode;
+            staff.Sex = apiStaff.Sex;
+            staff.BusinessId = null;
+            staff.FollowId = null;
+            staff.FollowTime = null;
             staff.Remark = null;
             staff.Description = null;
-            staff.Sex = apiStaff.Sex;
             staff.State = UserStateEnum.Online;
             staff.Businesses = new ObservableCollection<BusinessModel>(apiStaff.UserBusinesses.Select(u => Convert(u.Business)));
             return staff;
@@ -99,8 +102,9 @@ namespace EMChat2.Common
 
         public static StaffModel Convert(this DepartmentStaffViewApiModel apiStaff)
         {
-            if (apiStaff == null || apiStaff.Staff == null) return null;
+            if (apiStaff == null) return null;
             StaffModel staff = apiStaff.Staff.Convert();
+            if (staff == null) return null;
             staff.BusinessId = apiStaff.BusinessId;
             if (apiStaff.Follow != null)
             {
@@ -236,7 +240,8 @@ namespace EMChat2.Common
                 staff.BusinessId = apiChatUser.BusinessId;
                 if (apiChatUser.Follow != null)
                 {
-                    staff.FollowId = apiChatUser.Follow?.Id;
+                    staff.FollowId = apiChatUser.Follow.Id;
+                    staff.FollowTime = apiChatUser.Follow.FollowTime;
                     staff.Remark = apiChatUser.Follow.Remark;
                     staff.Description = apiChatUser.Follow.Description;
                 }
@@ -314,11 +319,14 @@ namespace EMChat2.Common
             if (user.Type == UserTypeEnum.Staff)
             {
                 StaffModel staff = user as StaffModel;
-                follow.Id = staff.FollowId;
+                if (!string.IsNullOrEmpty(staff.FollowId))
+                {
+                    follow.Id = staff.FollowId;
+                    follow.FollowTime = staff.FollowTime.Value;
+                }
                 follow.BusinessId = staff.BusinessId;
                 follow.OppositeUserId = staff.Id;
                 follow.OppositeUserType = staff.Type;
-                follow.FollowTime = staff.FollowTime.Value;
                 follow.Remark = staff.Remark;
                 follow.Description = staff.Description;
                 follow.FollowTags = null;

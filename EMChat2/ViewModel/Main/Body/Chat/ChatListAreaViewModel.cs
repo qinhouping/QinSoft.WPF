@@ -118,6 +118,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.chatItems);
                 collectionView.SortDescriptions.Add(new SortDescription("IsTopSort", ListSortDirection.Descending));
                 collectionView.SortDescriptions.Add(new SortDescription("LastMessageTimeSort", ListSortDirection.Descending));
+                collectionView.SortDescriptions.Add(new SortDescription("OpenTimeSort", ListSortDirection.Descending));
                 this.ChatItemsCollectionView = collectionView;
             }
         }
@@ -282,7 +283,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             if (chat == null) await this.OpenChat(ApplicationContextViewModel.CurrentStaff, arg.Message.ChatId);
             lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
             if (chat == null) return;
-            if (chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
+            if (await chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
             {
                 arg.IsInform = true;
             }

@@ -37,7 +37,7 @@ namespace EMChat2.Common
             if (balloonTipInfo == null) taskbarIcon.HideBalloonTip();
             else
             {
-                if (balloonTipInfo.Content.Length > 20)
+                if (balloonTipInfo.Content != null && balloonTipInfo.Content.Length > 20)
                 {
                     balloonTipInfo.Content = balloonTipInfo.Content.Substring(0, 20) + "...";
                 }

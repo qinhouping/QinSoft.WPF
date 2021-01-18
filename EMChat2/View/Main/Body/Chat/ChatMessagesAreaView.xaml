@@ -19,14 +19,14 @@
     </UserControl.Resources>
     <Grid>
         <Grid>
-            <wpfControl:AutoScrollListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding MessagesCollectionView}">
+            <wpfControl:AutoScrollListBox Style="{StaticResource IM-Messsage-List}" ItemContainerStyle="{StaticResource IM-Messsage-ListItem}" ItemsSource="{Binding MessagesCollectionView}" Load="{Binding LoadMessagesCommand}">
                 <wpfControl:AutoScrollListBox.ItemTemplate>
                     <DataTemplate>
                         <ContentControl Focusable="False">
                             <ContentControl.Resources>
                                 <common:BindingProxy x:Key="messageData" Data="{Binding}"></common:BindingProxy>
                             </ContentControl.Resources>
-                            
+
                             <ContentControl.Style>
                                 <Style TargetType="{x:Type ContentControl}">
                                     <Setter Property="Content">

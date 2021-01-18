@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EMChat2.Model.Enum;
+using EMChat2.Service;
 
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
@@ -19,15 +20,16 @@ namespace EMChat2.ViewModel.Main.Tabs.User
     public class UserDetailAreaViewModel : PropertyChangedBase, IEventHandle<SelectUseDetailEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>
     {
         #region 构造函数
-        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerListAreaViewModel customerListAreaViewModel)
+        public UserDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, CustomerListAreaViewModel customerListAreaViewModel, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
             this.customerListAreaViewModel = customerListAreaViewModel;
+            this.userService = userService;
             this.departmentDetailAreaViewModel = new DepartmentDetailAreaViewModel(this.windowManager, this.eventAggregator);
-            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel);
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(this.windowManager, this.eventAggregator, this.applicationContextViewModel, this.userService);
         }
         #endregion
 
@@ -99,6 +101,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
                 this.NotifyPropertyChange(() => this.StaffDetailAreaViewModel);
             }
         }
+        private UserService userService;
         #endregion
 
         #region 事件处理

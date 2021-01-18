@@ -1,6 +1,7 @@
 ﻿using EMChat2.Common;
 using EMChat2.Common.Cef;
 using EMChat2.Model.BaseInfo;
+using EMChat2.Service;
 using EMChat2.ViewModel.Main.Body.User;
 using EMChat2.ViewModel.Main.Tabs.User;
 using QinSoft.Event;
@@ -18,7 +19,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
     public class PrivateChatSliderAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat)
+        public PrivateChatSliderAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat, UserService userService)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
@@ -27,8 +28,9 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.quickReplyAreaViewModel = quickReplyAreaViewModel;
             this.customerTagAreaViewModel = customerTagAreaViewModel;
             this.chat = chat;
+            this.userService = userService;
             this.customerDetailAreaViewModel = new CustomerDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel, this.customerTagAreaViewModel);
-            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel);
+            this.staffDetailAreaViewModel = new StaffDetailAreaViewModel(windowManager, eventAggregator, this.applicationContextViewModel, this.userService);
             this.computerInfoCefJsObject = new ComputerInfoCefJsObject();
             this.chatInfoCefJsObject = new ChatInfoCefJsObject(ApplicationContextViewModel.CurrentStaff, this.chat);
             this.address = this.chatInfoCefJsObject.AppendToken(Path.Combine(Directory.GetCurrentDirectory(), "emchat.html") + "?state=emchat2#target=staff");
@@ -169,7 +171,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.NotifyPropertyChange(() => this.StaffDetailAreaViewModel);
             }
         }
-
+        private UserService userService;
         #endregion
 
         public void Dispose()

@@ -24,7 +24,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         public PrivateChatViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, EmotionPickerAreaViewModel emotionPickerAreaViewModel, QuickReplyAreaViewModel quickReplyAreaViewModel, CustomerTagAreaViewModel customerTagAreaViewModel, ChatModel chat, ChatService chatService, SystemService systemService, UserService userService) : base(windowManager, eventAggregator, applicationContextViewModel, emotionPickerAreaViewModel, chat, chatService, systemService, userService)
         {
             if (this.Chat.Type != ChatTypeEnum.Private) throw new ArgumentOutOfRangeException("is not private chat");
-            this.PrivateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, customerTagAreaViewModel, chat);
+            this.PrivateChatSliderAreaViewModel = new PrivateChatSliderAreaViewModel(this.windowManager, this.eventAggregator, applicationContextViewModel, quickReplyAreaViewModel, customerTagAreaViewModel, chat, this.userService);
         }
         #endregion
 
@@ -86,30 +86,28 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 方法
-
-        public override bool RecvMessage(MessageModel message)
+        public override async Task<bool> RecvMessage(MessageModel message)
         {
             lock (this.Chat.Messages)
             {
                 if (this.Chat.Messages.Contains(message)) return false;
             }
+            new Action(() =>
+            {
+                lock (this.Chat.Messages)
+                {
+                    this.Chat.Messages.Add(message);
+                }
+            }).ExecuteInUIThread();
             if (CanModifyMessageState(message, MessageStateEnum.Received))
             {
-                new Action(() =>
-                {
-                    lock (this.Chat.Messages)
-                    {
-                        this.Chat.Messages.Add(message);
-                    }
-                }).ExecuteInUIThread();
                 MessageModel recvMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
-                this.chatService.SendMessage(recvMessageEvent);
-                return true;
+                await this.chatService.SendMessage(recvMessageEvent);
             }
-            return false;
+            return true;
         }
 
-        public override int ReadMessage()
+        public override async Task<int> ReadMessage()
         {
             if (!IsSelected || !ApplicationContextViewModel.IsActived) return 0;
             MessageModel[] messages = NotReadMessages.Where(u => CanModifyMessageState(u, MessageStateEnum.Readed)).ToArray();
@@ -118,15 +116,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             for (int i = 0; i < Math.Ceiling(messages.Count() / (double)count); i++)
             {
                 MessageModel readMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateReadMessageEventMessageContent(messages.Skip(i * count).Take(count).ToArray()));
-                this.chatService.SendMessage(readMessageEvent);
+                await this.chatService.SendMessage(readMessageEvent);
             }
             return messages.Count();
         }
 
-        public virtual void SendInputState(bool isInputing)
+        public virtual async void SendInputState(bool isInputing)
         {
             MessageModel inputMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateInputMessageEventMessageContent(this.Chat, isInputing));
-            this.chatService.SendMessage(inputMessageEvent);
+            await this.chatService.SendMessage(inputMessageEvent);
         }
 
         public override void Dispose()
@@ -137,7 +135,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #endregion
 
         #region 事件处理
-
         #endregion
     }
 }

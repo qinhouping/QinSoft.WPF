@@ -55,10 +55,15 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 collectionView.SortDescriptions.Add(new SortDescription("Time", ListSortDirection.Ascending));
                 this.MessagesCollectionView = collectionView;
             }
+
+            this.LoadMessagesCommand.ActiveExecute();
         }
         #endregion
 
         #region 属性
+        protected bool canLoadMessages = true;
+        protected bool isLoadingMessages = false;
+        protected DateTime? lastLoadTime = null;
         protected IWindowManager windowManager;
         protected EventAggregator eventAggregator;
         protected ChatService chatService;
@@ -229,11 +234,11 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
-        public DateTime CreateTimeSort
+        public DateTime OpenTimeSort
         {
             get
             {
-                return this.chat.CreateTime;
+                return this.chat.OpenTime;
             }
         }
         #endregion
@@ -356,6 +361,20 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        public ICommand LoadMessagesCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    this.LoadMessages();
+                }, () =>
+                {
+                    return canLoadMessages && !isLoadingMessages && (lastLoadTime == null || (DateTime.Now - lastLoadTime.Value).TotalSeconds >= 1);
+                });
+            }
+        }
+
         public ICommand SendMessageCommand
         {
             get
@@ -372,7 +391,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Chat.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
-                    chatService.SendMessage(message);
+                    this.SendMessage(message);
                 }, () =>
                 {
                     return BusinessSetting.AllowSendMessage && this.InputMessageContent != null;
@@ -396,7 +415,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                             this.Chat.Messages.Add(message);
                         }
                     }).ExecuteInUIThread();
-                    chatService.SendMessage(message);
+                    this.SendMessage(message);
                 }, (oldMessage) =>
                 {
                     return oldMessage != null && BusinessSetting.AllowSendMessage && oldMessage.IsSendFrom(ApplicationContextViewModel.CurrentStaff) && (oldMessage.State == MessageStateEnum.SendFailure || oldMessage.State == MessageStateEnum.Refused);
@@ -413,7 +432,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                     if (CanModifyMessageState(oldMessage, MessageStateEnum.Revoked))
                     {
                         MessageModel revokeMessageEvent = MessageTools.CreateMessage(applicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRevokeMessageEventMessageContent(oldMessage));
-                        this.chatService.SendMessage(revokeMessageEvent);
+                        this.SendMessage(revokeMessageEvent);
                     }
                 }, (oldMessage) =>
                 {
@@ -584,7 +603,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
 
         #region 方法
 
-        private async void ToggleChatIsTop(StaffModel staff, ChatModel chat)
+        protected virtual async void ToggleChatIsTop(StaffModel staff, ChatModel chat)
         {
             ChatModel newChat = chat.CloneObject();
             newChat.IsTop = !newChat.IsTop;
@@ -595,7 +614,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
-        private async void ToggleChatIsInform(StaffModel staff, ChatModel chat)
+        protected virtual async void ToggleChatIsInform(StaffModel staff, ChatModel chat)
         {
             ChatModel newChat = chat.CloneObject();
             newChat.IsInform = !newChat.IsInform;
@@ -604,26 +623,26 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             chat.Assign(newChat);
         }
 
-        private async void InputTextMessageContent(string text)
+        protected virtual async void InputTextMessageContent(string text)
         {
             if (string.IsNullOrEmpty(text)) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateTextMessageContent(text) });
         }
 
-        private async void InputHtmlMessageContent(string html)
+        protected virtual async void InputHtmlMessageContent(string html)
         {
             if (string.IsNullOrEmpty(html)) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateHtmlMessageContent(html) });
         }
 
-        private async void InputImageMessageContent(FileInfo file, bool isSync = false)
+        protected virtual async void InputImageMessageContent(FileInfo file, bool isSync = false)
         {
             if (file == null) return;
             if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
             else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(file) });
         }
 
-        private async void InputImageMessageContent(Image image)
+        protected virtual async void InputImageMessageContent(Image image)
         {
             if (image == null) return;
             string filePath = Path.Combine(Path.GetTempPath(), AppTools.AppName, Guid.NewGuid().ToString() + ".png");
@@ -631,14 +650,14 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateImageMessageContent(new FileInfo(filePath)) });
         }
 
-        private async void InputFileMessageContent(FileInfo file, bool isSync = false)
+        protected virtual async void InputFileMessageContent(FileInfo file, bool isSync = false)
         {
             if (file == null) return;
             if (isSync) this.eventAggregator.Publish(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
             else await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = MessageTools.CreateFileMessageContent(file) });
         }
 
-        private async void InputObjectMessageContent(MessageContentModel messageContent)
+        protected virtual async void InputObjectMessageContent(MessageContentModel messageContent)
         {
             if (messageContent == null) return;
             await this.eventAggregator.PublishAsync(new TemporaryInputMessagContentChangedEventArgs() { MessageContent = messageContent });
@@ -653,9 +672,30 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             //await this.eventAggregator.PublishAsync(new RefreshChatsEventArgs());
         }
 
-        public abstract bool RecvMessage(MessageModel message);
+        protected virtual async void LoadMessages()
+        {
+            isLoadingMessages = true;
+            IEnumerable<MessageModel> messages = await this.userService.GetMessages(this.Chat, 10);
+            if (messages != null)
+            {
+                if (messages.Count() == 0) canLoadMessages = false;
+                foreach (MessageModel message in messages)
+                {
+                    await this.RecvMessage(message);
+                }
+            }
+            isLoadingMessages = false;
+            lastLoadTime = DateTime.Now;
+        }
 
-        public abstract int ReadMessage();
+        public virtual async void SendMessage(MessageModel message)
+        {
+            await this.chatService.SendMessage(message);
+        }
+
+        public abstract Task<bool> RecvMessage(MessageModel message);
+
+        public abstract Task<int> ReadMessage();
 
         public virtual bool UpdateMessage(string messageId, MessageStateEnum state)
         {
@@ -680,6 +720,12 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             }
         }
 
+        protected virtual bool CanModifyMessageState(MessageModel message, MessageStateEnum state)
+        {
+            if (message == null) return false;
+            return state > message.State;
+        }
+
         protected virtual bool ModifyMessageState(MessageModel message, MessageStateEnum state)
         {
             if (message == null) return false;
@@ -690,12 +736,6 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 return true;
             }
             return false;
-        }
-
-        protected virtual bool CanModifyMessageState(MessageModel message, MessageStateEnum state)
-        {
-            if (message == null) return false;
-            return state > message.State;
         }
 
         public override bool Equals(object obj)

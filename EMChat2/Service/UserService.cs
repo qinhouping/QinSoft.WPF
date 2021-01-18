@@ -314,7 +314,7 @@ namespace EMChat2.Service
                 {
                     BalloonTip = new BalloonTipInfo
                     {
-                        Title = "获取标签失败",
+                        Title = "获取标签组失败",
                         Content = error,
                         Icon = BalloonIcon.Error
                     }
@@ -496,6 +496,37 @@ namespace EMChat2.Service
             }
         }
 
+        public virtual async Task<IEnumerable<MessageModel>> GetMessages(ChatModel chat, int count)
+        {
+            if (chat == null || count <= 0) return null;
+            string error = null;
+            IEnumerable<MessageModel> messages = null;
+            DateTime? maxTime = null;
+            lock (chat.Messages)
+            {
+                maxTime = chat.Messages.OrderBy(u => u.Time).FirstOrDefault()?.Time;
+            }
+            bool success = await new Func<bool>(() => ApiTools.GetMessages(chat.Id, maxTime, count, out error, out messages)).ExecuteInTask();
+            if (success)
+            {
+                return messages;
+            }
+            else
+            {
+                await this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
+                {
+                    BalloonTip = new BalloonTipInfo
+                    {
+                        Title = "获取消息失败",
+                        Content = error,
+                        Icon = BalloonIcon.Error
+                    }
+                });
+                return null;
+            }
+
+        }
+
         public virtual async Task<bool> ModifyChat(StaffModel staff, ChatModel chat)
         {
             if (staff == null || chat == null) return false;
@@ -537,7 +568,7 @@ namespace EMChat2.Service
                 {
                     BalloonTip = new BalloonTipInfo
                     {
-                        Title = "修改好友关系失败",
+                        Title = "增加好友关系失败",
                         Content = error,
                         Icon = BalloonIcon.Error
                     }

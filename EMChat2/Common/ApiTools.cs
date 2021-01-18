@@ -541,6 +541,37 @@ namespace EMChat2.Service
             }
         }
 
+        public static bool GetMessages(string chatId, DateTime? maxTime, int count, out string error, out IEnumerable<MessageModel> messages)
+        {
+            error = null;
+            messages = null;
+            try
+            {
+                IDictionary<string, object> request = new Dictionary<string, object>()
+                {
+                    { "chatId", chatId },
+                    { "maxTime", maxTime },
+                    { "count", count }
+                };
+                ApiResponse<IEnumerable<MessageApiModel>> response = HttpTools.Get<ApiResponse<IEnumerable<MessageApiModel>>>(ApiUrl + "api/Message/GetMessages?" + HttpTools.UrlEncode(request), Headers, null);
+                if (response.Success)
+                {
+                    messages = response.Data.Select(u => u.Convert());
+                    return true;
+                }
+                else
+                {
+                    error = response.Message;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+        }
+
         public static bool ModifyChat(string userId, ChatModel chat, out string error)
         {
             error = null;

@@ -9,18 +9,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using EMChat2.Service;
 
 namespace EMChat2.ViewModel.Main.Tabs.User
 {
     public class StaffDetailAreaViewModel : PropertyChangedBase, IDisposable
     {
         #region 构造函数
-        public StaffDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, bool isInform = true)
+        public StaffDetailAreaViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, UserService userService, bool isInform = true)
         {
             this.windowManager = windowManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.Subscribe(this);
             this.applicationContextViewModel = applicationContextViewModel;
+            this.userService = userService;
             this.isInform = isInform;
         }
         #endregion
@@ -30,6 +32,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         private IWindowManager windowManager;
         private EventAggregator eventAggregator;
         private ApplicationContextViewModel applicationContextViewModel;
+        private UserService userService;
         public ApplicationContextViewModel ApplicationContextViewModel
         {
             get
@@ -111,9 +114,7 @@ namespace EMChat2.ViewModel.Main.Tabs.User
             {
                 return new RelayCommand(() =>
                 {
-                    this.Staff.Assign(this.TemporaryEditStaff);
-                    if (isInform) this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = this.TemporaryEditStaff });
-                    this.IsEditingStaff = false;
+                    this.SaveStaff(this.ApplicationContextViewModel.CurrentStaff, this.TemporaryEditStaff);
                 });
             }
         }
@@ -145,6 +146,33 @@ namespace EMChat2.ViewModel.Main.Tabs.User
         #endregion
 
         #region 方法
+        private async void SaveStaff(StaffModel staff, StaffModel user)
+        {
+            bool res = false;
+            if (string.IsNullOrEmpty(user.FollowId))
+            {
+                string followId = await this.userService.AddFollow(staff, user);
+                if (string.IsNullOrEmpty(followId))
+                {
+                    res = false;
+                }
+                else
+                {
+                    user.FollowId = followId;
+                    user.FollowTime = DateTime.Now;
+                    res = true;
+                }
+            }
+            else
+            {
+                res = await this.userService.ModifyFollow(staff, user);
+            }
+            if (!res) return;
+            this.Staff.Assign(user);
+            if (isInform) await this.eventAggregator.PublishAsync(new UserInfoChangedEventArgs() { User = user });
+            this.IsEditingStaff = false;
+        }
+
         public void Dispose()
         {
             this.Staff = null;
