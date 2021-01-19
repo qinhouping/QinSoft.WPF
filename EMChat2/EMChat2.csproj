@@ -194,6 +194,7 @@
     <Compile Include="Common\PasswordBoxAttach.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterBase.cs" />
     <Compile Include="Common\PipeFilter\PipeFilterEventArgs.cs" />
+    <Compile Include="Event\InformReceiveMessageEventArgs.cs" />
     <Compile Include="Event\InputMessageChangedEventArgs.cs" />
     <Compile Include="Event\MessageIdChangedEventArgs.cs" />
     <Compile Include="Event\SettingChangedEventArgs.cs" />

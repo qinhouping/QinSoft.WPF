@@ -285,8 +285,10 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             if (chat == null) return;
             if (await chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
             {
-                arg.IsInform = true;
+                await this.eventAggregator.PublishAsync<InformReceiveMessageEventArgs>(new InformReceiveMessageEventArgs() { Message = arg.Message });
             }
+
+
         }
         #endregion
 
@@ -385,7 +387,10 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                             {
                                 if (chatItem.Chat.ChatUsers.Contains(arg.User))
                                 {
-                                    chatItem.Chat.ChatUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
+                                    lock (chatItem.Chat.ChatUsers)
+                                        chatItem.Chat.ChatUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
+                                    lock (chatItem.Chat.ChatAllUsers)
+                                        chatItem.Chat.ChatAllUsers.FirstOrDefault(u => u.Equals(arg.User)).Assign(arg.User);
                                     chatItem.Chat.Name = arg.User.NickName;
                                     chatItem.Chat.HeaderImage = arg.User.HeaderImage;
                                     new Action(() => chatItem.MessagesCollectionView.Refresh()).ExecuteInUIThread();

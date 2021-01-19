@@ -19,7 +19,7 @@ using System.Windows.Input;
 namespace EMChat2.ViewModel
 {
     [Component]
-    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>, IEventHandle<ReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>
+    public class MainViewModel : PropertyChangedBase, IEventHandle<LoginCallbackEventArgs>, IEventHandle<LogoutCallbackEventArgs>, IEventHandle<ExitCallbackEventArgs>, IEventHandle<CaptureScreenEventArgs>, IEventHandle<ShowBalloonTipEventArgs>, IEventHandle<InformReceiveMessageEventArgs>, IEventHandle<ActiveApplicationEventArgs>
     {
         #region 构造函数
         public MainViewModel(IWindowManager windowManager, EventAggregator eventAggregator, ApplicationContextViewModel applicationContextViewModel, TopAreaViewModel topAreaViewModel, BodyAreaViewModel bodyAreaViewModel, BottomAreaViewModel bottomAreaViewModel, UserService userService)
@@ -224,9 +224,9 @@ namespace EMChat2.ViewModel
             this.BalloonTip = arg.BalloonTip;
         }
 
-        public void Handle(ReceiveMessageEventArgs arg)
+        public void Handle(InformReceiveMessageEventArgs arg)
         {
-            if (applicationContextViewModel.Setting?.IsInform == true && arg.IsInform && !ApplicationContextViewModel.IsActived)
+            if (ApplicationContextViewModel.Setting?.IsInform == true && !ApplicationContextViewModel.IsActived)
             {
                 this.IsFlash = true;
                 this.eventAggregator.PublishAsync<ShowBalloonTipEventArgs>(new ShowBalloonTipEventArgs()
