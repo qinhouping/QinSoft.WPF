@@ -201,23 +201,6 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             }).ExecuteInUIThread();
         }
 
-        private async Task OpenChat(StaffModel staff, string chatId)
-        {
-            ChatModel chat = await userService.OpenChat(staff, chatId);
-            if (chat == null) return;
-            new Action(() =>
-            {
-                lock (this.ChatItems)
-                {
-                    ChatViewModel chatModel = CreateChat(chat);
-                    if (!this.ChatItems.Contains(chatModel))
-                        this.ChatItems.Add(chatModel);
-                    else
-                        this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(chatModel));
-                }
-            }).ExecuteInUIThread();
-        }
-
         private async void CreatePrivateChat(StaffModel staff, string businessId, UserModel user)
         {
             ChatModel chat = new ChatModel();
@@ -231,15 +214,28 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             chat.ChatUsers = new ObservableCollection<UserModel>(new UserModel[] { applicationContextViewModel.CurrentStaff, user });
             chat = await userService.CreateChat(staff, chat);
             if (chat == null) return;
+            ChatViewModel chatModel = CreateChat(chat);
             new Action(() =>
             {
                 lock (this.ChatItems)
                 {
-                    ChatViewModel chatModel = CreateChat(chat);
                     if (!this.ChatItems.Contains(chatModel))
                         this.ChatItems.Add(chatModel);
-                    else
-                        this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(chatModel));
+                    this.SelectedChatItem = this.ChatItems.FirstOrDefault(u => u.Equals(chatModel));
+                }
+            }).ExecuteInUIThread();
+        }
+
+        private async Task OpenChat(StaffModel staff, string chatId)
+        {
+            ChatModel chat = await userService.OpenChat(staff, chatId);
+            if (chat == null) return;
+            ChatViewModel chatModel = CreateChat(chat);
+            new Action(() =>
+            {
+                lock (this.ChatItems)
+                {
+                    if (!this.ChatItems.Contains(chatModel)) this.ChatItems.Add(chatModel);
                 }
             }).ExecuteInUIThread();
         }
@@ -280,15 +276,16 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         {
             ChatViewModel chat = null;
             lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
-            if (chat == null) await this.OpenChat(ApplicationContextViewModel.CurrentStaff, arg.Message.ChatId);
-            lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            if (chat == null)
+            {
+                await this.OpenChat(ApplicationContextViewModel.CurrentStaff, arg.Message.ChatId);
+                lock (this.ChatItems) chat = this.ChatItems.FirstOrDefault(u => u.Chat.Id.Equals(arg.Message.ChatId));
+            }
             if (chat == null) return;
             if (await chat.RecvMessage(arg.Message) && chat.Chat.IsInform)
             {
                 await this.eventAggregator.PublishAsync<InformReceiveMessageEventArgs>(new InformReceiveMessageEventArgs() { Message = arg.Message });
             }
-
-
         }
         #endregion
 

@@ -30,14 +30,17 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
             MessageModel message = arg.InArg as MessageModel;
             if (message.Type == MessageTypeConst.Event)
             {
-                EventMessageContent eventMessage = message.Content as EventMessageContent;
-                switch (eventMessage.Event)
+                if (message.IsTimeValid())
                 {
-                    case EventMessageTypeConst.RecvMessage: HandleRecvMessageEvent(message, eventMessage as RecvMessageEventMessageContent); break;
-                    case EventMessageTypeConst.ReadMessage: HandleReadMessageEvent(message, eventMessage as ReadMessageEventMessageContent); break;
-                    case EventMessageTypeConst.RefuseMessage: HandleRefuseMessageEvent(message, eventMessage as RefuseMessageEventMessageContent); break;
-                    case EventMessageTypeConst.RevokeMessage: HandleRevokeMessageEvent(message, eventMessage as RevokeMessageEventMessageContent); break;
-                    case EventMessageTypeConst.InputMessage: HandleInputMessageEvent(message, eventMessage as InputMessageEventMessageContent); break;
+                    EventMessageContent eventMessage = message.Content as EventMessageContent;
+                    switch (eventMessage.Event)
+                    {
+                        case EventMessageTypeConst.RecvMessage: HandleRecvMessageEvent(message, eventMessage as RecvMessageEventMessageContent); break;
+                        case EventMessageTypeConst.ReadMessage: HandleReadMessageEvent(message, eventMessage as ReadMessageEventMessageContent); break;
+                        case EventMessageTypeConst.RefuseMessage: HandleRefuseMessageEvent(message, eventMessage as RefuseMessageEventMessageContent); break;
+                        case EventMessageTypeConst.RevokeMessage: HandleRevokeMessageEvent(message, eventMessage as RevokeMessageEventMessageContent); break;
+                        case EventMessageTypeConst.InputMessage: HandleInputMessageEvent(message, eventMessage as InputMessageEventMessageContent); break;
+                    }
                 }
                 arg.Cancel = true;
             }
@@ -72,7 +75,6 @@ namespace EMChat2.Service.PipeFilter.RecvMessage
 
         protected virtual void HandleInputMessageEvent(MessageModel message, InputMessageEventMessageContent messageContent)
         {
-            if (!message.IsTimeValid()) return;
             this.eventAggregator.PublishAsync<InputMessageChangedEventArgs>(new InputMessageChangedEventArgs() { ChatId = messageContent.ChatId, IsInputing = messageContent.IsInputing });
         }
 

@@ -88,18 +88,19 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
         #region 方法
         public override async Task<bool> RecvMessage(MessageModel message)
         {
-            lock (this.Chat.Messages)
-            {
-                if (this.Chat.Messages.Contains(message)) return false;
-            }
+            bool res = false;
             new Action(() =>
             {
                 lock (this.Chat.Messages)
                 {
-                    this.Chat.Messages.Add(message);
+                    if (!this.Chat.Messages.Contains(message))
+                    {
+                        res = true;
+                        this.Chat.Messages.Add(message);
+                    }
                 }
             }).ExecuteInUIThread();
-            if (CanModifyMessageState(message, MessageStateEnum.Received))
+            if (res && CanModifyMessageState(message, MessageStateEnum.Received))
             {
                 MessageModel recvMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
                 await this.chatService.SendMessage(recvMessageEvent);
