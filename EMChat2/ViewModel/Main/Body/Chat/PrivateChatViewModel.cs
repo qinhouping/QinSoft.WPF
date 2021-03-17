@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Timers;
 using EMChat2.ViewModel.Main.Body.User;
 using EMChat2.Model.Enum;
+using QinSoft.Log;
 
 namespace EMChat2.ViewModel.Main.Tabs.Chat
 {
@@ -95,8 +96,8 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 {
                     if (!this.Chat.Messages.Contains(message))
                     {
-                        res = true;
                         this.Chat.Messages.Add(message);
+                        res = true;
                     }
                 }
             }).ExecuteInUIThread();
@@ -105,7 +106,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 MessageModel recvMessageEvent = MessageTools.CreateMessage(ApplicationContextViewModel.CurrentStaff, this.Chat, MessageTools.CreateRecvMessageEventMessageContent(message));
                 await this.chatService.SendMessage(recvMessageEvent);
             }
-            return true;
+            return res;
         }
 
         public override async Task<int> ReadMessage()

@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QinSoft.Log;
 using QinSoft.Log.Core;
+using System.Threading;
 
 namespace EMChat2.Service
 {
@@ -153,7 +154,6 @@ namespace EMChat2.Service
         public virtual async Task SendMessage(MessageModel message)
         {
             if (message == null) return;
-            await Task.Delay(50);
             await new Action(() => sendMessageBeginPipeFilter.Begin(message.Clone())).ExecuteInTask();
         }
         #endregion

@@ -28,6 +28,7 @@ namespace EMChat2.Common
         private static IMUserModel imUser;
         private static bool canRefreshToken;
         private static TimeSpan refreshTokenInterval;
+        private static bool isDisconnected;
 
         #region 对外事件
         public static event EventHandler OnSocketConnected;
@@ -62,6 +63,7 @@ namespace EMChat2.Common
                 OnLog?.Invoke(socketClient, msg);
             };
             socketClient.Start(imServer.IP, imServer.Port);
+            isDisconnected = false;
             canRefreshToken = true;
             new Action(() =>
             {
@@ -203,20 +205,27 @@ namespace EMChat2.Common
         /// </summary>
         private static void RefreshToken()
         {
-            new Action(() =>
+            try
             {
-                HttpAPIClient apiClient = new HttpAPIClient(imServer.ApiUrl, imUser.Id, imUser.Token, null);
-                JsonResult<IMToken> result = apiClient.RefreshToken(imUser.RefreshToken, imUser.Token);
-                if (result.data != null)
+                new Action(() =>
                 {
-                    imUser.Token = result.data.Token;
-                    imUser.RefreshToken = result.data.RefreshToken;
-                }
-                else
-                {
-                    throw new Exception("refresh token failed");
-                }
-            }).Retry();
+                    HttpAPIClient apiClient = new HttpAPIClient(imServer.ApiUrl, imUser.Id, imUser.Token, null);
+                    JsonResult<IMToken> result = apiClient.RefreshToken(imUser.RefreshToken, imUser.Token);
+                    if (result != null && result.data != null)
+                    {
+                        imUser.Token = result.data.Token;
+                        imUser.RefreshToken = result.data.RefreshToken;
+                    }
+                    else
+                    {
+                        throw new Exception("refresh token failed");
+                    }
+                }).Retry();
+            }
+            catch (Exception e)
+            {
+                OnLog?.Invoke(socketClient, e.Message);
+            }
         }
 
         #region 私有方法
@@ -226,6 +235,12 @@ namespace EMChat2.Common
         /// <param name="client"></param>
         private static void SocketClient_OnSocketConnected(SimpleSocketClient client)
         {
+            //重连后强制刷新token
+            if (isDisconnected)
+            {
+                RefreshToken();
+                isDisconnected = false;
+            }
             OnSocketConnected.Invoke(client, null);
             Login((arg1, arg2) =>
             {
@@ -240,6 +255,7 @@ namespace EMChat2.Common
         /// <param name="client"></param>
         private static void SocketClient_OnSocketDisconnected(SimpleSocketClient client)
         {
+            isDisconnected = true;
             OnSocketDisconnected?.Invoke(client, null);
         }
 

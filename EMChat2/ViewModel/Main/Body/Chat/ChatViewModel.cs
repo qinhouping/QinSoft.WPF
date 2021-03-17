@@ -39,7 +39,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
             this.systemService = systemService;
             this.userService = userService;
 
-            this.NoticeMessagesChange();
+            BindingOperations.EnableCollectionSynchronization(this.Chat.Messages, this.Chat.Messages);
             this.Chat.Messages.CollectionChanged += (s, e) =>
             {
                 lock (this)
@@ -56,6 +56,7 @@ namespace EMChat2.ViewModel.Main.Tabs.Chat
                 this.MessagesCollectionView = collectionView;
             }
 
+            this.NoticeMessagesChange();
             this.LoadMessagesCommand.ActiveExecute();
         }
         #endregion

@@ -106,7 +106,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
             {
                 this.chatItems = value;
                 this.NotifyPropertyChange(() => this.ChatItems);
-                this.NoticeChatItemsChange();
+                BindingOperations.EnableCollectionSynchronization(this.chatItems, this.chatItems);
                 this.chatItems.CollectionChanged += (s, e) =>
                 {
                     lock (this)
@@ -120,6 +120,8 @@ namespace EMChat2.ViewModel.Main.Body.Chat
                 collectionView.SortDescriptions.Add(new SortDescription("LastMessageTimeSort", ListSortDirection.Descending));
                 collectionView.SortDescriptions.Add(new SortDescription("OpenTimeSort", ListSortDirection.Descending));
                 this.ChatItemsCollectionView = collectionView;
+
+                this.NoticeChatItemsChange();
             }
         }
         private ICollectionView chatItemsCollectionView;
@@ -258,7 +260,7 @@ namespace EMChat2.ViewModel.Main.Body.Chat
         {
             this.NotifyPropertyChange(() => this.TotalNotReadMessageCount);
 
-            await Task.Delay(50); //TODO 通过延迟滚动来解决不能自动选择的bug
+            await Task.Delay(100); //TODO 通过延迟滚动来解决不能自动选择的bug
             if (this.SelectedChatItem == null)
             {
                 lock (this.ChatItems)
